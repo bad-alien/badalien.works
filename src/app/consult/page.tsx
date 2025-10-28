@@ -151,7 +151,7 @@ export default function ConsultPage() {
           
           <div className="flex flex-col sm:flex-row gap-4 mt-8">
             <button className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-colors">
-              Let's Talk
+              Let&apos;s Talk
             </button>
             <button className="px-6 py-3 border border-white/30 hover:border-purple-400 text-white hover:text-purple-400 rounded-lg font-medium transition-colors">
               Learn More
