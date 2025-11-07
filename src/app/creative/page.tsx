@@ -1,0 +1,259 @@
+'use client'
+
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+
+const photos = [
+  { id: 1, src: '/web/badalien-web.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 2, src: '/web/badalien-web-1.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 3, src: '/web/badalien-web-2.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 4, src: '/web/badalien-web-3.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 5, src: '/web/badalien-web-4.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 6, src: '/web/badalien-web-5.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 7, src: '/web/badalien-web-6.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 8, src: '/web/badalien-web-7.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 9, src: '/web/badalien-web-8.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 10, src: '/web/badalien-web-9.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+  { id: 11, src: '/web/badalien-web-10.jpg', width: 1600, height: 1200, alt: 'Bad Alien Creative Work' },
+]
+
+export default function CreativePage() {
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null)
+  const [clickedPhotoId, setClickedPhotoId] = useState<number | null>(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  const handlePhotoClick = (photoId: number) => {
+    setClickedPhotoId(photoId)
+    setSelectedPhoto(photoId)
+  }
+
+  const handleClose = () => {
+    setSelectedPhoto(null)
+    setClickedPhotoId(null)
+  }
+
+  const handlePrevious = () => {
+    if (selectedPhoto !== null) {
+      const currentIndex = photos.findIndex(p => p.id === selectedPhoto)
+      const prevIndex = currentIndex === 0 ? photos.length - 1 : currentIndex - 1
+      setSelectedPhoto(photos[prevIndex].id)
+    }
+  }
+
+  const handleNext = () => {
+    if (selectedPhoto !== null) {
+      const currentIndex = photos.findIndex(p => p.id === selectedPhoto)
+      const nextIndex = currentIndex === photos.length - 1 ? 0 : currentIndex + 1
+      setSelectedPhoto(photos[nextIndex].id)
+    }
+  }
+
+  const selectedPhotoData = selectedPhoto !== null
+    ? photos.find(p => p.id === selectedPhoto)
+    : null
+
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <style jsx>{`
+        @keyframes lift {
+          0% {
+            transform: scale(1) translateY(0);
+            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+          }
+          100% {
+            transform: scale(1.05) translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+          }
+        }
+
+        @keyframes zoomToCenter {
+          0% {
+            transform: scale(1.05) translateY(-10px);
+          }
+          100% {
+            transform: scale(2) translate(var(--tx), var(--ty));
+            opacity: 0;
+          }
+        }
+
+        @keyframes slideLeft {
+          0% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(-100vw);
+            opacity: 0;
+          }
+        }
+
+        @keyframes slideRight {
+          0% {
+            transform: translateX(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateX(100vw);
+            opacity: 0;
+          }
+        }
+
+        .photo-lift {
+          animation: lift 0.375s ease-out forwards;
+        }
+
+        .photo-zoom-center {
+          animation: zoomToCenter 0.5s ease-in-out forwards;
+        }
+
+        .photo-slide-left {
+          animation: slideLeft 0.5s ease-in-out forwards;
+        }
+
+        .photo-slide-right {
+          animation: slideRight 0.5s ease-in-out forwards;
+        }
+      `}</style>
+
+      {/* Header */}
+      <header
+        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-black/80 backdrop-blur-md py-3'
+            : 'bg-transparent py-6'
+        }`}
+      >
+        <div className="container mx-auto px-6 flex items-center justify-center relative">
+          <Link href="/" className="hover:opacity-80 transition-opacity">
+            <Image
+              src="/logos/ba-logo-trans-white.png"
+              alt="Bad Alien"
+              width={64}
+              height={64}
+              className={`transition-all duration-300 ${
+                isScrolled ? 'h-12' : 'h-16'
+              } w-auto`}
+            />
+          </Link>
+
+          <Link
+            href="/consult"
+            className="absolute right-6 text-sm font-light tracking-wider hover:text-gray-400 transition-colors"
+          >
+            CONTACT
+          </Link>
+        </div>
+      </header>
+
+      {/* Photo Grid */}
+      <main className="container mx-auto px-6 pt-32 pb-16">
+        <h1 className="text-5xl font-light mb-12 tracking-wide">Creative Work</h1>
+
+        <div className="columns-1 sm:columns-2 lg:columns-2 xl:columns-3 gap-6 space-y-6">
+          {photos.map((photo, index) => {
+            const isClicked = clickedPhotoId === photo.id
+            const isSelected = selectedPhoto === photo.id
+            const shouldSlide = clickedPhotoId !== null && !isSelected
+
+            // Determine slide direction based on position relative to clicked photo
+            const clickedIndex = photos.findIndex(p => p.id === clickedPhotoId)
+            const shouldSlideLeft = shouldSlide && index < clickedIndex
+            const shouldSlideRight = shouldSlide && index > clickedIndex
+
+            return (
+              <div
+                key={photo.id}
+                className={`break-inside-avoid cursor-pointer ${
+                  isClicked && !isSelected ? 'photo-lift' : ''
+                } ${
+                  isSelected ? 'photo-zoom-center' : ''
+                } ${
+                  shouldSlideLeft ? 'photo-slide-left' : ''
+                } ${
+                  shouldSlideRight ? 'photo-slide-right' : ''
+                }`}
+                onClick={() => handlePhotoClick(photo.id)}
+                style={{
+                  ...(isSelected && {
+                    '--tx': '0',
+                    '--ty': '0',
+                  } as React.CSSProperties)
+                }}
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  width={photo.width}
+                  height={photo.height}
+                  className="w-full h-auto"
+                />
+              </div>
+            )
+          })}
+        </div>
+      </main>
+
+      {/* Lightbox */}
+      {selectedPhoto !== null && selectedPhotoData && (
+        <div
+          className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+          onClick={handleClose}
+        >
+          {/* Close button */}
+          <button
+            className="absolute top-8 right-8 text-white text-4xl hover:text-gray-400 transition-colors z-10"
+            onClick={handleClose}
+          >
+            ×
+          </button>
+
+          {/* Previous arrow */}
+          <button
+            className="absolute left-8 text-white text-5xl hover:text-gray-400 transition-colors z-10"
+            onClick={(e) => {
+              e.stopPropagation()
+              handlePrevious()
+            }}
+          >
+            ‹
+          </button>
+
+          {/* Photo */}
+          <div
+            className="relative max-w-[90vw] max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={selectedPhotoData.src}
+              alt={selectedPhotoData.alt}
+              width={selectedPhotoData.width}
+              height={selectedPhotoData.height}
+              className="max-w-full max-h-[90vh] w-auto h-auto object-contain"
+            />
+          </div>
+
+          {/* Next arrow */}
+          <button
+            className="absolute right-8 text-white text-5xl hover:text-gray-400 transition-colors z-10"
+            onClick={(e) => {
+              e.stopPropagation()
+              handleNext()
+            }}
+          >
+            ›
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}

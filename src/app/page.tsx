@@ -73,21 +73,21 @@ export default function Home() {
               <div className="flex flex-row gap-12 justify-center items-center transition-opacity duration-1000 delay-[1000ms] opacity-0 animate-[fadeIn_0.5s_ease-in-out_1s_forwards]">
                 <Link 
                   href="/creative"
-                  className="text-white hover:text-purple-400 transition-colors duration-300 ease-in-out text-lg font-medium"
+                  className="text-white hover:text-purple-400 transition-colors duration-300 ease-in-out text-xl font-medium tracking-wide"
                 >
                   creative
                 </Link>
 
                 <Link 
                   href="/consult"
-                  className="text-white hover:text-blue-400 transition-colors duration-300 ease-in-out text-xl font-bold"
+                  className="text-white hover:text-blue-400 transition-colors duration-300 ease-in-out text-2xl font-bold tracking-wide"
                 >
                   consult
                 </Link>
 
                 <Link 
                   href="/about"
-                  className="text-white hover:text-slate-400 transition-colors duration-300 ease-in-out text-lg font-medium"
+                  className="text-white hover:text-slate-400 transition-colors duration-300 ease-in-out text-xl font-medium tracking-wide"
                 >
                   about
                 </Link>
