@@ -21,7 +21,6 @@ const photos = [
 export default function CreativePage() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [selectedPhoto, setSelectedPhoto] = useState<number | null>(null)
-  const [clickedPhotoId, setClickedPhotoId] = useState<number | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,13 +32,11 @@ export default function CreativePage() {
   }, [])
 
   const handlePhotoClick = (photoId: number) => {
-    setClickedPhotoId(photoId)
     setSelectedPhoto(photoId)
   }
 
   const handleClose = () => {
     setSelectedPhoto(null)
-    setClickedPhotoId(null)
   }
 
   const handlePrevious = () => {
@@ -65,63 +62,17 @@ export default function CreativePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <style jsx>{`
-        @keyframes lift {
-          0% {
-            transform: scale(1) translateY(0);
-            box-shadow: 0 0 0 rgba(0, 0, 0, 0);
-          }
-          100% {
-            transform: scale(1.05) translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-          }
-        }
-
-        @keyframes zoomToCenter {
-          0% {
-            transform: scale(1.05) translateY(-10px);
-          }
-          100% {
-            transform: scale(2) translate(var(--tx), var(--ty));
+        @keyframes fadeIn {
+          from {
             opacity: 0;
           }
-        }
-
-        @keyframes slideLeft {
-          0% {
-            transform: translateX(0);
+          to {
             opacity: 1;
           }
-          100% {
-            transform: translateX(-100vw);
-            opacity: 0;
-          }
         }
 
-        @keyframes slideRight {
-          0% {
-            transform: translateX(0);
-            opacity: 1;
-          }
-          100% {
-            transform: translateX(100vw);
-            opacity: 0;
-          }
-        }
-
-        .photo-lift {
-          animation: lift 0.375s ease-out forwards;
-        }
-
-        .photo-zoom-center {
-          animation: zoomToCenter 0.5s ease-in-out forwards;
-        }
-
-        .photo-slide-left {
-          animation: slideLeft 0.5s ease-in-out forwards;
-        }
-
-        .photo-slide-right {
-          animation: slideRight 0.5s ease-in-out forwards;
+        .lightbox-fade-in {
+          animation: fadeIn 0.3s ease-in-out;
         }
       `}</style>
 
@@ -156,57 +107,30 @@ export default function CreativePage() {
       </header>
 
       {/* Photo Grid */}
-      <main className="container mx-auto px-6 pt-32 pb-16">
-        <h1 className="text-5xl font-light mb-12 tracking-wide">Creative Work</h1>
-
+      <main className="container mx-auto px-6 pt-24 pb-16">
         <div className="columns-1 sm:columns-2 lg:columns-2 xl:columns-3 gap-6 space-y-6">
-          {photos.map((photo, index) => {
-            const isClicked = clickedPhotoId === photo.id
-            const isSelected = selectedPhoto === photo.id
-            const shouldSlide = clickedPhotoId !== null && !isSelected
-
-            // Determine slide direction based on position relative to clicked photo
-            const clickedIndex = photos.findIndex(p => p.id === clickedPhotoId)
-            const shouldSlideLeft = shouldSlide && index < clickedIndex
-            const shouldSlideRight = shouldSlide && index > clickedIndex
-
-            return (
-              <div
-                key={photo.id}
-                className={`break-inside-avoid cursor-pointer ${
-                  isClicked && !isSelected ? 'photo-lift' : ''
-                } ${
-                  isSelected ? 'photo-zoom-center' : ''
-                } ${
-                  shouldSlideLeft ? 'photo-slide-left' : ''
-                } ${
-                  shouldSlideRight ? 'photo-slide-right' : ''
-                }`}
-                onClick={() => handlePhotoClick(photo.id)}
-                style={{
-                  ...(isSelected && {
-                    '--tx': '0',
-                    '--ty': '0',
-                  } as React.CSSProperties)
-                }}
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  width={photo.width}
-                  height={photo.height}
-                  className="w-full h-auto"
-                />
-              </div>
-            )
-          })}
+          {photos.map((photo) => (
+            <div
+              key={photo.id}
+              className="break-inside-avoid cursor-pointer hover:opacity-90 transition-opacity"
+              onClick={() => handlePhotoClick(photo.id)}
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.width}
+                height={photo.height}
+                className="w-full h-auto"
+              />
+            </div>
+          ))}
         </div>
       </main>
 
       {/* Lightbox */}
       {selectedPhoto !== null && selectedPhotoData && (
         <div
-          className="fixed inset-0 z-50 bg-black flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center lightbox-fade-in"
           onClick={handleClose}
         >
           {/* Close button */}
