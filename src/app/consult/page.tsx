@@ -24,28 +24,23 @@ export default function ConsultPage() {
   };
 
   return (
-    <div className="h-screen w-screen bg-black overflow-hidden flex flex-col">
-      {/* Navigation */}
-      <nav className="w-full z-50">
-        <div className="max-w-6xl mx-auto px-6 py-6">
-          <div className="flex items-center justify-center">
-            <Link href="/" className="hover:opacity-80 transition-opacity">
-              <img
-                src="/logos/ba-logo-trans-white.png"
-                alt="Bad Alien Logo"
-                className="h-16 w-auto"
-              />
-            </Link>
-          </div>
-        </div>
-      </nav>
-
+    <div className="h-screen w-screen bg-black overflow-hidden flex items-center justify-center">
       {/* Contact Form */}
-      <div className="flex-1 flex items-center justify-center px-6">
-        <div className="w-full max-w-md">
-          <h1 className="text-4xl font-bold text-white mb-3 text-center">
-            Initiate Contact
-          </h1>
+      <div className="w-full max-w-md px-6">
+        {/* Logo */}
+        <div className="flex justify-center mb-8">
+          <Link href="/" className="hover:opacity-80 transition-opacity">
+            <img
+              src="/logos/ba-logo-trans-white.png"
+              alt="Bad Alien Logo"
+              className="h-32 w-auto"
+            />
+          </Link>
+        </div>
+
+        <h1 className="text-4xl font-bold text-white mb-3 text-center">
+          Transmit to Bad Alien
+        </h1>
           <p className="text-gray-400 text-center mb-8">
             Business, Creative, Networking - Bad Alien receives all frequencies.
           </p>
@@ -103,7 +98,6 @@ export default function ConsultPage() {
               Send Message
             </button>
           </form>
-        </div>
       </div>
     </div>
   );
