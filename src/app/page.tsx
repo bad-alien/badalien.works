@@ -96,10 +96,8 @@ export default function Home() {
           )}
         </div>
 
-        {/* Subdomain info - shown when nav is visible */}
-        <div className={`mt-12 text-sm text-slate-500 dark:text-slate-400 transition-all duration-700 ${
-          showNav ? 'opacity-100' : 'opacity-0'
-        }`}>
+        {/* Subdomain info - hidden */}
+        <div className="mt-12 text-sm text-slate-500 dark:text-slate-400 opacity-0 pointer-events-none">
           <p>creative.badalien.works • consult.badalien.works • badalien.works/about</p>
         </div>
       </div>
