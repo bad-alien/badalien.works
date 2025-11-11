@@ -12,7 +12,11 @@ export const metadata: Metadata = {
   title: "Bad Alien",
   description: "Bad Alien - Creative and Consulting Services",
   icons: {
-    icon: "/logos/ba-logo-trans-white.png",
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
 };
 
