@@ -9,11 +9,35 @@ export default function ConsultPage() {
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // TODO: Add form submission logic
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -93,10 +117,23 @@ export default function ConsultPage() {
 
             <button
               type="submit"
-              className="w-full px-6 py-3 bg-[#007878] hover:bg-[#006666] text-white rounded-lg font-medium transition-colors"
+              disabled={isSubmitting}
+              className="w-full px-6 py-3 bg-[#007878] hover:bg-[#006666] text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Send Message
+              {isSubmitting ? 'Transmitting...' : 'Send Message'}
             </button>
+
+            {submitStatus === 'success' && (
+              <div className="p-4 bg-green-900/30 border border-green-500/50 rounded-lg text-green-300 text-center">
+                Message transmitted successfully! Bad Alien will respond soon.
+              </div>
+            )}
+
+            {submitStatus === 'error' && (
+              <div className="p-4 bg-red-900/30 border border-red-500/50 rounded-lg text-red-300 text-center">
+                Transmission failed. Please try again or email directly at bad.alien.biz@gmail.com
+              </div>
+            )}
           </form>
       </div>
     </div>
