@@ -7,14 +7,24 @@ export default function Home() {
   const [showNav, setShowNav] = useState(false);
   const [currentLogo, setCurrentLogo] = useState(1);
   const [keepCycling, setKeepCycling] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(true);
   
+  // Initial fade-in animation
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitialLoad(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Cycle through logos 1-7
   useEffect(() => {
     if (keepCycling) {
       const interval = setInterval(() => {
         setCurrentLogo(prev => prev === 7 ? 1 : prev + 1);
       }, 200); // Change every 200ms
-      
+
       return () => clearInterval(interval);
     }
   }, [keepCycling]);
@@ -39,9 +49,9 @@ export default function Home() {
           className="cursor-pointer transition-all duration-400 ease-in-out"
           onClick={handleClick}
         >
-          {/* Large cycling SVG logos - fade out gradually */}
-          <div className={`relative h-96 md:h-screen w-full max-w-6xl mx-auto flex items-center justify-center transition-opacity duration-1000 ease-in-out ${
-            showNav ? 'opacity-0' : 'opacity-100'
+          {/* Large cycling SVG logos - fade in on load, fade out when nav shown */}
+          <div className={`relative h-96 md:h-screen w-full max-w-6xl mx-auto flex items-center justify-center transition-opacity duration-[800ms] ease-in-out ${
+            showNav ? 'opacity-0' : isInitialLoad ? 'opacity-0' : 'opacity-100'
           }`}>
             {[1, 2, 3, 4, 5, 6, 7].map((logoNum) => (
               <img
