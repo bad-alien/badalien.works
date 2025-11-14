@@ -137,26 +137,34 @@ export default function CreativePage() {
       </header>
 
       {/* Filter Bar */}
-      <div className="container mx-auto px-6 pt-24 pb-6">
-        <div className="flex flex-wrap gap-3 justify-center">
-          {['All', '35mm', '120mm', 'B/W', 'Multi'].map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-6 py-2 font-light tracking-wider text-sm transition-all duration-300 ${
-                activeFilter === filter
-                  ? 'bg-white text-black'
-                  : 'bg-transparent text-white border border-white/30 hover:border-white/60 hover:bg-white/10'
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
+      <div
+        className={`sticky z-30 bg-transparent transition-all duration-300 ${
+          isScrolled
+            ? 'top-[72px] py-4'
+            : 'top-[112px] py-6'
+        }`}
+      >
+        <div className="container mx-auto px-6">
+          <div className="flex flex-wrap gap-3 justify-center">
+            {['All', '35mm', '120mm', 'B/W', 'Multi'].map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-6 py-2 font-light tracking-wider text-sm rounded-md backdrop-blur-md transition-all duration-300 ${
+                  activeFilter === filter
+                    ? 'bg-white text-black'
+                    : 'bg-black/80 text-white border border-white/30 hover:border-white/60 hover:bg-white/10'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
 
       {/* Photo Grid */}
-      <main className="container mx-auto px-6 pb-16">
+      <main className="container mx-auto px-6 pt-32 pb-16">
         <div className="columns-1 sm:columns-2 lg:columns-2 xl:columns-3 gap-6 space-y-6">
           {filteredPhotos.map((photo) => (
             <div
