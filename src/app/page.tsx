@@ -63,11 +63,6 @@ export default function Home() {
                 }`}
               />
             ))}
-            
-            {/* Explore text */}
-            <p className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-xs text-slate-400 animate-pulse">
-              explore
-            </p>
           </div>
 
           {/* Compact main logo when nav is shown - fade in slowly */}
