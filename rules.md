@@ -47,7 +47,7 @@
     
 - **4.2 Formatting:** All code will be automatically formatted by **Prettier** on save.
     
-- **4.3 Git Commits:** Use conventional commit messages (e.g., `feat: add contact form`, `fix: navbar responsive bug`, `docs: update roadmap`).
+- **4.3 Git Commits:** Use conventional commit messages (e.g., `feat: add contact form`, `fix: navbar responsive bug`, `docs: update roadmap`). If I provide text to comment, you must take whatever I provide and use that, nothing else.
     
 
 ## 5.0 AI Collaboration Protocol
