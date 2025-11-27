@@ -67,6 +67,7 @@ export async function generateCompletion(
 
   // PRODUCTION MODE: Call actual LLM backend
   const startTime = Date.now();
+  const modelName = process.env.LLM_MODEL_NAME || 'closex/neuraldaredevil-8b-abliterated';
 
   try {
     const response = await fetch(LLM_API_URL, {
@@ -75,11 +76,11 @@ export async function generateCompletion(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        model: modelName,
         messages: messages,
         max_tokens: max_new_tokens,
         temperature: temperature,
         top_p: top_p,
-        top_k: top_k,
       }),
     });
 
@@ -97,15 +98,18 @@ export async function generateCompletion(
 
     const data = await response.json();
 
+    // Parse OpenAI-compatible response format
+    const reply = data.choices?.[0]?.message?.content || '';
+
     // Log metadata only
     console.log('[LLM Success]', {
       latency_ms: latency,
-      response_length: data.reply?.length || 0,
+      response_length: reply.length,
       timestamp: new Date().toISOString(),
     });
 
     return {
-      reply: data.reply || data.content || '',
+      reply: reply,
       usage: data.usage,
     };
   } catch (error) {
