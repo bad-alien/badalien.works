@@ -23,12 +23,12 @@ export default function LandingView({ onEnter }: LandingViewProps) {
     // Wait for button to fade out before showing lines
     setTimeout(() => {
       setShowLines(true);
-    }, 800); // Match the button exit duration
+    }, 400); // Match the button exit duration (50% faster)
 
     // Transition to chat after lines have been shown
     setTimeout(() => {
       onEnter();
-    }, 5000); // 800ms delay + 4200ms for lines (3 lines * 1s each + 1.2s buffer)
+    }, 2500); // 400ms delay + 2100ms for lines (3 lines * 0.5s each + 0.6s buffer) - 50% faster
   };
 
   return (
@@ -58,7 +58,7 @@ export default function LandingView({ onEnter }: LandingViewProps) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={handleClick}
@@ -80,8 +80,8 @@ export default function LandingView({ onEnter }: LandingViewProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{
-                duration: 0.6,
-                delay: index * 1.0,
+                duration: 0.3,
+                delay: index * 0.5,
               }}
               className="text-2xl font-mono text-void-green tracking-wide"
             >

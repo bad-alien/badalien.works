@@ -153,34 +153,31 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.8 }}
-        className="fixed top-0 left-0 right-0 z-20 flex items-center justify-center pt-8 pb-4 px-4"
+        className="fixed top-0 left-0 right-0 z-20 flex items-center justify-center pt-4 pb-3 px-4 bg-black/40 backdrop-blur-md"
       >
         {/* Escape Button */}
         <motion.button
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.6 }}
-          whileHover={{
-            scale: 1.05,
-            boxShadow: '0 0 30px rgba(255, 107, 53, 0.5), 0 0 60px rgba(255, 107, 53, 0.3)'
-          }}
+          whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={onEscape}
-          className="absolute left-12 top-8 px-4 py-1.5 rounded-lg bg-transparent border-2 border-void-orange text-void-orange tracking-wider uppercase transition-all duration-300 hover:border-void-orange-light"
+          className="absolute left-8 top-1/2 -translate-y-1/2 text-void-orange hover:text-void-orange-light transition-colors duration-300 tracking-wider uppercase"
           style={{
             fontFamily: 'var(--font-gemunu-libre), monospace',
             fontSize: '0.75rem',
-            boxShadow: '0 0 20px rgba(255, 107, 53, 0.3)',
+            textShadow: '0 0 8px currentColor',
           }}
         >
-          ESCAPE
+          escape
         </motion.button>
 
         <div className="flex items-center justify-center">
           <img
             src="/logos/ba-logo-trans-white.png"
             alt="Bad Alien"
-            className="h-16 w-auto object-contain"
+            className="h-10 w-auto object-contain"
           />
         </div>
       </motion.header>
@@ -188,7 +185,7 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}
-        className="flex-1 overflow-y-auto pt-28 pb-32 px-6 md:px-12 lg:px-24"
+        className="flex-1 overflow-y-auto pt-20 pb-32 px-6 md:px-12 lg:px-24"
         style={{
           scrollbarGutter: 'stable',
           scrollbarWidth: 'thin',
@@ -206,7 +203,7 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
                 onMouseEnter={() => handleMessageMouseEnter(message.id)}
                 onMouseLeave={handleMessageMouseLeave}
                 className={`py-6 relative group ${
-                  message.role === 'user' ? 'text-right' : 'text-left'
+                  message.role === 'user' ? 'flex justify-end' : 'flex justify-start'
                 }`}
                 style={{
                   paddingLeft: message.role === 'assistant' ? '3rem' : '0',
@@ -236,13 +233,20 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
                 )}
 
                 <div
-                  className="inline-block max-w-[85%] md:max-w-[75%] text-void-orange markdown-content"
+                  className={`text-void-orange markdown-content ${
+                    message.role === 'user'
+                      ? 'max-w-[85%] md:max-w-[75%] px-4 py-3 rounded-xl bg-void-orange/5 backdrop-blur-sm border border-void-orange/20'
+                      : 'w-full'
+                  }`}
                   style={{
                     fontFamily: 'var(--font-gemunu-libre), monospace',
                     fontSize: message.role === 'user' ? '1.125rem' : '1.25rem',
                     lineHeight: '1.6',
                     letterSpacing: '0.025em',
                     textShadow: '0 0 8px rgba(255, 107, 53, 0.4)',
+                    ...(message.role === 'user' && {
+                      boxShadow: '0 0 20px rgba(255, 107, 53, 0.15), 0 0 40px rgba(255, 107, 53, 0.08)',
+                    }),
                   }}
                 >
                   <ReactMarkdown
@@ -253,7 +257,7 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
                       h2: ({node, ...props}) => <h2 className="text-xl md:text-2xl font-bold mb-3 mt-5" {...props} />,
                       h3: ({node, ...props}) => <h3 className="text-lg md:text-xl font-bold mb-2 mt-4" {...props} />,
                       // Paragraphs
-                      p: ({node, ...props}) => <p className="mb-3" {...props} />,
+                      p: ({node, ...props}) => <p className="mb-3 last:mb-0" {...props} />,
                       // Lists
                       ul: ({node, ...props}) => <ul className="list-disc list-inside mb-3 space-y-1 ml-2" {...props} />,
                       ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-3 space-y-1 ml-2" {...props} />,
