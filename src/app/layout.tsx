@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 import { Gemunu_Libre } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 
 const gemunuLibre = Gemunu_Libre({
   variable: "--font-gemunu-libre",
   subsets: ["latin"],
   weight: ["200", "300", "400", "500", "600", "700", "800"],
+});
+
+const scienceGothic = localFont({
+  src: "../../public/fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf",
+  variable: "--font-science-gothic",
+  weight: "100 900",
 });
 
 export const metadata: Metadata = {
@@ -28,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${gemunuLibre.variable} antialiased`}
+        className={`${gemunuLibre.variable} ${scienceGothic.variable} antialiased`}
         style={{ fontFamily: 'var(--font-gemunu-libre)' }}
       >
         {children}

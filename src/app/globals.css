@@ -9,6 +9,20 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-gemunu-libre);
+
+  /* Void Design Tokens */
+  --color-void-black: #000000;
+  --color-void-bg-input: rgba(0, 0, 0, 0.4);
+  --color-void-title: #E0E0E0;
+  --color-void-orange: #FF6B35;
+  --color-void-orange-light: #FF8C5A;
+  --color-void-green: #00FF00;
+  --color-void-gray: #5A5A5A;
+  --color-void-teal: #007878;
+
+  /* Void Fonts */
+  --font-science: var(--font-science-gothic);
+  --font-gemunu: var(--font-gemunu-libre);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,9 +33,13 @@
 }
 
 body {
-  background: var(--background);
+  background: #000000;
   color: var(--foreground);
   font-family: var(--font-gemunu-libre), sans-serif;
+}
+
+html {
+  background: #000000;
 }
 
 @keyframes fadeIn {
