@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { generateCompletion } from '@/app/void/llmClient';
 
 // Types matching the API spec
 type ChatMessage = {
@@ -25,23 +26,6 @@ type ChatResponse = {
   session_id?: string;
 };
 
-type LlmRequest = {
-  messages: ChatMessage[];
-  max_new_tokens: number;
-  temperature: number;
-  top_p: number;
-  top_k?: number;
-};
-
-type LlmResponse = {
-  reply: string;
-  usage?: {
-    prompt_tokens?: number;
-    completion_tokens?: number;
-    total_tokens?: number;
-  };
-};
-
 // Rate limiting (in-memory, per IP)
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
 const RATE_LIMIT_MAX = parseInt(process.env.RATE_LIMIT_MAX || '30', 10);
@@ -64,67 +48,6 @@ function checkRateLimit(ip: string): boolean {
   return true;
 }
 
-// LLM Backend Adapter
-async function generateCompletion(req: LlmRequest): Promise<LlmResponse> {
-  const LLM_API_URL = process.env.LLM_API_URL;
-
-  if (!LLM_API_URL) {
-    throw new Error('LLM_API_URL not configured');
-  }
-
-  const startTime = Date.now();
-
-  try {
-    const response = await fetch(LLM_API_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        messages: req.messages,
-        max_tokens: req.max_new_tokens,
-        temperature: req.temperature,
-        top_p: req.top_p,
-        top_k: req.top_k,
-      }),
-    });
-
-    const latency = Date.now() - startTime;
-
-    if (!response.ok) {
-      // Log metadata only (no content)
-      console.error('[LLM Error]', {
-        status: response.status,
-        latency_ms: latency,
-        timestamp: new Date().toISOString(),
-      });
-      throw new Error(`LLM API returned ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    // Log metadata only
-    console.log('[LLM Success]', {
-      latency_ms: latency,
-      response_length: data.reply?.length || 0,
-      timestamp: new Date().toISOString(),
-    });
-
-    return {
-      reply: data.reply || data.content || '',
-      usage: data.usage,
-    };
-  } catch (error) {
-    const latency = Date.now() - startTime;
-    // Log error metadata only (no content)
-    console.error('[LLM Connection Error]', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      latency_ms: latency,
-      timestamp: new Date().toISOString(),
-    });
-    throw error;
-  }
-}
 
 // Validation
 function validateRequest(body: unknown): { valid: boolean; error?: string } {
