@@ -28,7 +28,7 @@ export default function LandingView({ onEnter }: LandingViewProps) {
     // Transition to chat after lines have been shown
     setTimeout(() => {
       onEnter();
-    }, 2500); // 400ms delay + 2100ms for lines (3 lines * 0.5s each + 0.6s buffer) - 50% faster
+    }, 3125); // 400ms delay + 2625ms for lines (3 lines * 0.625s each + 0.75s buffer) - 25% slower
   };
 
   return (
@@ -80,8 +80,8 @@ export default function LandingView({ onEnter }: LandingViewProps) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{
-                duration: 0.3,
-                delay: index * 0.5,
+                duration: 0.375,
+                delay: index * 0.625,
               }}
               className="text-2xl font-mono text-void-green tracking-wide"
             >
