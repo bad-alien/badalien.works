@@ -189,5 +189,5 @@ function generateStubResponse(messages: ChatMessage[]): string {
   }
 
   // Default stub response
-  return 'I hear your words echoing through the void. They resonate briefly, then fade into silence. What meaning do you seek?';
+  return 'The Void is silent... Try again later.';
 }
