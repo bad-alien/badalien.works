@@ -253,30 +253,31 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
                     remarkPlugins={[remarkGfm]}
                     components={{
                       // Headings
-                      h1: ({node, ...props}) => <h1 className="text-2xl md:text-3xl font-bold mb-4 mt-6" {...props} />,
-                      h2: ({node, ...props}) => <h2 className="text-xl md:text-2xl font-bold mb-3 mt-5" {...props} />,
-                      h3: ({node, ...props}) => <h3 className="text-lg md:text-xl font-bold mb-2 mt-4" {...props} />,
+                      h1: ({...props}) => <h1 className="text-2xl md:text-3xl font-bold mb-4 mt-6" {...props} />,
+                      h2: ({...props}) => <h2 className="text-xl md:text-2xl font-bold mb-3 mt-5" {...props} />,
+                      h3: ({...props}) => <h3 className="text-lg md:text-xl font-bold mb-2 mt-4" {...props} />,
                       // Paragraphs
-                      p: ({node, ...props}) => <p className="mb-3 last:mb-0" {...props} />,
+                      p: ({...props}) => <p className="mb-3 last:mb-0" {...props} />,
                       // Lists
-                      ul: ({node, ...props}) => <ul className="list-disc list-inside mb-3 space-y-1 ml-2" {...props} />,
-                      ol: ({node, ...props}) => <ol className="list-decimal list-inside mb-3 space-y-1 ml-2" {...props} />,
-                      li: ({node, ...props}) => <li className="ml-2" {...props} />,
+                      ul: ({...props}) => <ul className="list-disc list-inside mb-3 space-y-1 ml-2" {...props} />,
+                      ol: ({...props}) => <ol className="list-decimal list-inside mb-3 space-y-1 ml-2" {...props} />,
+                      li: ({...props}) => <li className="ml-2" {...props} />,
                       // Code
-                      code: ({node, inline, ...props}: any) =>
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                      code: ({inline, ...props}: any) =>
                         inline
                           ? <code className="bg-void-orange/10 px-1.5 py-0.5 rounded text-void-orange-light font-mono text-sm" {...props} />
                           : <code className="block bg-void-orange/10 p-3 rounded my-2 text-void-orange-light font-mono text-sm overflow-x-auto" {...props} />,
-                      pre: ({node, ...props}) => <pre className="my-2" {...props} />,
+                      pre: ({...props}) => <pre className="my-2" {...props} />,
                       // Links
-                      a: ({node, ...props}) => <a className="text-void-orange-light underline hover:text-white transition-colors" {...props} />,
+                      a: ({...props}) => <a className="text-void-orange-light underline hover:text-white transition-colors" {...props} />,
                       // Emphasis
-                      strong: ({node, ...props}) => <strong className="font-bold text-void-orange-light" {...props} />,
-                      em: ({node, ...props}) => <em className="italic" {...props} />,
+                      strong: ({...props}) => <strong className="font-bold text-void-orange-light" {...props} />,
+                      em: ({...props}) => <em className="italic" {...props} />,
                       // Blockquotes
-                      blockquote: ({node, ...props}) => <blockquote className="border-l-4 border-void-orange/50 pl-4 italic my-3" {...props} />,
+                      blockquote: ({...props}) => <blockquote className="border-l-4 border-void-orange/50 pl-4 italic my-3" {...props} />,
                       // Horizontal rule
-                      hr: ({node, ...props}) => <hr className="border-void-orange/30 my-4" {...props} />,
+                      hr: ({...props}) => <hr className="border-void-orange/30 my-4" {...props} />,
                     }}
                   >
                     {message.content}

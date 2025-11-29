@@ -67,7 +67,7 @@ export async function generateCompletion(
   const max_new_tokens = req.max_new_tokens ?? 256;
   const temperature = req.temperature ?? 0.8;
   const top_p = req.top_p ?? 0.9;
-  const top_k = req.top_k ?? 50;
+  // const top_k = req.top_k ?? 50; // Not used in OpenAI-compatible API
 
   // STUB MODE: No LLM configured, return mock response
   if (!LLM_API_URL || LLM_API_URL === '') {
