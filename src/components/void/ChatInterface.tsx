@@ -18,7 +18,7 @@ type Message = {
   timestamp: number;
 };
 
-export default function ChatInterface({ onEscape }: ChatInterfaceProps): JSX.Element {
+export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'initial',

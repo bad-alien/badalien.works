@@ -3,8 +3,8 @@ import { PhotoTag } from '@/data/photos';
 
 interface FilterBarProps {
   filters: (PhotoTag | 'All')[];
-  activeFilter: string;
-  onFilterChange: (filter: string) => void;
+  activeFilter: PhotoTag | 'All';
+  onFilterChange: (filter: PhotoTag | 'All') => void;
   isScrolled: boolean;
 }
 

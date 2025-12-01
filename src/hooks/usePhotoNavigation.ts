@@ -1,5 +1,4 @@
 import { useState, useCallback, useMemo } from 'react';
-import { Photo } from '@/data/photos';
 
 interface UsePhotoNavigationReturn<T> {
   /**

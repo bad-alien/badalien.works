@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import Logo from '@/components/shared/Logo';
 import { useLogoCycle } from '@/hooks/useLogoCycle';
 
-export default function Home(): JSX.Element {
+export default function Home() {
   const [showNav, setShowNav] = useState(false);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
   const { currentLogo, stopCycling, startCycling } = useLogoCycle({

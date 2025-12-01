@@ -7,17 +7,17 @@ import Logo from '@/components/shared/Logo'
 import FilterBar from '@/components/creative/FilterBar'
 import PhotoCard from '@/components/creative/PhotoCard'
 import Lightbox from '@/components/creative/Lightbox'
-import { photos, photoFilters } from '@/data/photos'
+import { photos, photoFilters, type PhotoTag } from '@/data/photos'
 import { useScrollState } from '@/hooks/useScrollState'
 import { usePhotoNavigation } from '@/hooks/usePhotoNavigation'
 
-export default function CreativePage(): JSX.Element {
+export default function CreativePage() {
   const isScrolled = useScrollState(50)
-  const [activeFilter, setActiveFilter] = useState<string>('All')
+  const [activeFilter, setActiveFilter] = useState<PhotoTag | 'All'>('All')
   const { selectedPhoto, selectPhoto, clearSelection, goToPrevious, goToNext } = usePhotoNavigation(photos)
 
   const filteredPhotos = useMemo(
-    () => (activeFilter === 'All' ? photos : photos.filter(photo => photo.tags.includes(activeFilter))),
+    () => (activeFilter === 'All' ? photos : photos.filter(photo => photo.tags.includes(activeFilter as PhotoTag))),
     [activeFilter]
   )
 

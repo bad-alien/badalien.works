@@ -13,7 +13,7 @@ const philosophicalLines = [
   "Be good, human",
 ];
 
-export default function LandingView({ onEnter }: LandingViewProps): JSX.Element {
+export default function LandingView({ onEnter }: LandingViewProps) {
   const [showButton, setShowButton] = useState(true);
   const [showLines, setShowLines] = useState(false);
 

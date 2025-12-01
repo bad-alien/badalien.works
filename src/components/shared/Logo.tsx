@@ -40,7 +40,7 @@ export default function Logo({
   linkToHome = true,
   className = '',
   onClick,
-}: LogoProps): JSX.Element {
+}: LogoProps) {
   const logoPath = '/logos/ba-logo-trans-white.png';
   const sizeClass = sizeClasses[size];
   const baseClasses = `${sizeClass} w-auto`;

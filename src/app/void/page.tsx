@@ -7,7 +7,7 @@ import ChatInterface from '@/components/void/ChatInterface';
 
 type ViewMode = 'landing' | 'chat';
 
-export default function VoidPage(): JSX.Element {
+export default function VoidPage() {
   const [mode, setMode] = useState<ViewMode>('landing');
 
   // Handle Escape key to return to landing

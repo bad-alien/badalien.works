@@ -2,7 +2,7 @@
 
 import Logo from '@/components/shared/Logo';
 
-export default function TechPage(): JSX.Element {
+export default function TechPage() {
   return (
     <div className="h-screen w-screen bg-black overflow-hidden flex items-center justify-center">
       <div className="w-full max-w-md px-6">
