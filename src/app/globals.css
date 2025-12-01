@@ -16,9 +16,11 @@
   --color-void-title: #E0E0E0;
   --color-void-orange: #FF6B35;
   --color-void-orange-light: #FF8C5A;
+  --color-void-orange-rgb: 255, 107, 53;
   --color-void-green: #00FF00;
   --color-void-gray: #5A5A5A;
   --color-void-teal: #007878;
+  --color-void-teal-dark: #006666;
 
   /* Void Fonts */
   --font-science: var(--font-science-gothic);

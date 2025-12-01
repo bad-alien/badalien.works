@@ -1,20 +1,14 @@
 'use client';
 
-import Link from 'next/link';
+import Logo from '@/components/shared/Logo';
 
-export default function AboutPage() {
+export default function TechPage(): JSX.Element {
   return (
     <div className="h-screen w-screen bg-black overflow-hidden flex items-center justify-center">
       <div className="w-full max-w-md px-6">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <Link href="/" className="hover:opacity-80 transition-opacity">
-            <img
-              src="/logos/ba-logo-trans-white.png"
-              alt="Bad Alien Logo"
-              className="h-32 w-auto"
-            />
-          </Link>
+          <Logo size="lg" />
         </div>
 
         {/* Coming Soon Message */}

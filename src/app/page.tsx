@@ -1,14 +1,20 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import Logo from '@/components/shared/Logo';
+import { useLogoCycle } from '@/hooks/useLogoCycle';
 
-export default function Home() {
+export default function Home(): JSX.Element {
   const [showNav, setShowNav] = useState(false);
-  const [currentLogo, setCurrentLogo] = useState(1);
-  const [keepCycling, setKeepCycling] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(true);
-  
+  const { currentLogo, stopCycling, startCycling } = useLogoCycle({
+    logoCount: 7,
+    interval: 200,
+    autoStart: true,
+  });
+
   // Initial fade-in animation
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -18,26 +24,15 @@ export default function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Cycle through logos 1-7
-  useEffect(() => {
-    if (keepCycling) {
-      const interval = setInterval(() => {
-        setCurrentLogo(prev => prev === 7 ? 1 : prev + 1);
-      }, 200); // Change every 200ms
-
-      return () => clearInterval(interval);
-    }
-  }, [keepCycling]);
-
   // Handle click - delay stopping the logo cycling
   const handleClick = () => {
     setShowNav(!showNav);
     if (!showNav) {
       // Keep cycling for 800ms while main content fades in
-      setTimeout(() => setKeepCycling(false), 800);
+      setTimeout(() => stopCycling(), 800);
     } else {
       // Resume cycling when closing nav
-      setKeepCycling(true);
+      startCycling();
     }
   };
 
@@ -54,10 +49,13 @@ export default function Home() {
             showNav ? 'opacity-0' : isInitialLoad ? 'opacity-0' : 'opacity-100'
           }`}>
             {[1, 2, 3, 4, 5, 6, 7].map((logoNum) => (
-              <img
+              <Image
                 key={logoNum}
                 src={`/logos/ba-logo-${logoNum}.svg`}
                 alt={`Bad Alien Logo ${logoNum}`}
+                width={1200}
+                height={1200}
+                priority={logoNum <= 2}
                 className={`absolute inset-0 w-full h-full object-contain transition-opacity duration-500 ease-in-out select-none filter invert ${
                   currentLogo === logoNum ? 'opacity-40' : 'opacity-0'
                 }`}
@@ -68,10 +66,10 @@ export default function Home() {
           {/* Compact main logo when nav is shown - fade in slowly */}
           {showNav && (
             <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center animate-in fade-in duration-1000 ease-in-out">
-              <img 
-                src="/logos/ba-logo-trans-white.png" 
-                alt="Bad Alien Logo" 
-                className="h-32 md:h-48 w-auto hover:scale-105 transition-all duration-700 ease-in-out select-none mb-8"
+              <Logo
+                size="xl"
+                linkToHome={false}
+                className="hover:scale-105 transition-all duration-700 ease-in-out select-none mb-8"
               />
               
               {/* Navigation Buttons - directly below main logo */}

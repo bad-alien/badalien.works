@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Send, HelpCircle, Copy } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Logo from '@/components/shared/Logo';
 
 interface ChatInterfaceProps {
   onEscape: () => void;
@@ -17,7 +18,7 @@ type Message = {
   timestamp: number;
 };
 
-export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
+export default function ChatInterface({ onEscape }: ChatInterfaceProps): JSX.Element {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'initial',
@@ -174,11 +175,7 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
         </motion.button>
 
         <div className="flex items-center justify-center">
-          <img
-            src="/logos/ba-logo-trans-white.png"
-            alt="Bad Alien"
-            className="h-10 w-auto object-contain"
-          />
+          <Logo size="xs" linkToHome={false} className="object-contain" />
         </div>
       </motion.header>
 
@@ -189,7 +186,7 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
         style={{
           scrollbarGutter: 'stable',
           scrollbarWidth: 'thin',
-          scrollbarColor: '#FF6B35 transparent',
+          scrollbarColor: 'var(--color-void-orange) transparent',
         }}
       >
         <div className="max-w-4xl mx-auto">
@@ -243,9 +240,9 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
                     fontSize: message.role === 'user' ? '1.125rem' : '1.25rem',
                     lineHeight: '1.6',
                     letterSpacing: '0.025em',
-                    textShadow: '0 0 8px rgba(255, 107, 53, 0.4)',
+                    textShadow: '0 0 8px rgba(var(--color-void-orange-rgb), 0.4)',
                     ...(message.role === 'user' && {
-                      boxShadow: '0 0 20px rgba(255, 107, 53, 0.15), 0 0 40px rgba(255, 107, 53, 0.08)',
+                      boxShadow: '0 0 20px rgba(var(--color-void-orange-rgb), 0.15), 0 0 40px rgba(var(--color-void-orange-rgb), 0.08)',
                     }),
                   }}
                 >
@@ -308,7 +305,7 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
                       delay: i * 0.2,
                     }}
                     className="w-1.5 h-1.5 rounded-full bg-void-orange"
-                    style={{ filter: 'drop-shadow(0 0 4px rgba(255, 107, 53, 0.6))' }}
+                    style={{ filter: 'drop-shadow(0 0 4px rgba(var(--color-void-orange-rgb), 0.6))' }}
                   />
                 ))}
               </div>
@@ -334,8 +331,8 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
                 className="absolute bottom-0 left-0 right-0 h-[1px] bg-black transition-all duration-500"
                 style={{
                   boxShadow: input.length > 0 || isFocused
-                    ? '0 0 20px rgba(255, 107, 53, 0.6), 0 0 40px rgba(255, 107, 53, 0.3)'
-                    : '0 0 15px rgba(255, 107, 53, 0.4), 0 0 30px rgba(255, 107, 53, 0.2)'
+                    ? '0 0 20px rgba(var(--color-void-orange-rgb), 0.6), 0 0 40px rgba(var(--color-void-orange-rgb), 0.3)'
+                    : '0 0 15px rgba(var(--color-void-orange-rgb), 0.4), 0 0 30px rgba(var(--color-void-orange-rgb), 0.2)'
                 }}
               />
               <input
@@ -352,8 +349,8 @@ export default function ChatInterface({ onEscape }: ChatInterfaceProps) {
                 style={{
                   fontFamily: 'var(--font-gemunu-libre), monospace',
                   fontSize: '1rem',
-                  caretColor: '#FF6B35',
-                  textShadow: '0 0 8px rgba(255, 107, 53, 0.4)',
+                  caretColor: 'var(--color-void-orange)',
+                  textShadow: '0 0 8px rgba(var(--color-void-orange-rgb), 0.4)',
                 }}
                 maxLength={8000}
               />

@@ -1,18 +1,27 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
+import Logo from '@/components/shared/Logo';
+import type { InputChangeHandler } from '@/types/common';
 
-export default function ConsultPage() {
-  const [formData, setFormData] = useState({
+interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+type SubmitStatus = 'idle' | 'success' | 'error';
+
+export default function ContactPage(): JSX.Element {
+  const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+  const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
@@ -40,7 +49,7 @@ export default function ConsultPage() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange: InputChangeHandler = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -53,13 +62,7 @@ export default function ConsultPage() {
       <div className="w-full max-w-md px-6">
         {/* Logo */}
         <div className="flex justify-center mb-8">
-          <Link href="/" className="hover:opacity-80 transition-opacity">
-            <img
-              src="/logos/ba-logo-trans-white.png"
-              alt="Bad Alien Logo"
-              className="h-32 w-auto"
-            />
-          </Link>
+          <Logo size="lg" />
         </div>
 
         <h1 className="text-4xl font-bold text-white mb-3 text-center">
@@ -81,7 +84,7 @@ export default function ConsultPage() {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#007878]"
+                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-void-teal"
               />
             </div>
 
@@ -96,7 +99,7 @@ export default function ConsultPage() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#007878]"
+                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-void-teal"
               />
             </div>
 
@@ -118,7 +121,7 @@ export default function ConsultPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full px-6 py-3 bg-[#007878] hover:bg-[#006666] text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full px-6 py-3 bg-void-teal hover:bg-void-teal-dark text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? 'Transmitting...' : 'Send Message'}
             </button>
