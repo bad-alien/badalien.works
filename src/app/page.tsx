@@ -76,25 +76,25 @@ export default function Home() {
               
               {/* Navigation Buttons - directly below main logo */}
               <div className="flex flex-row gap-12 justify-center items-center transition-opacity duration-1000 delay-[1000ms] opacity-0 animate-[fadeIn_0.5s_ease-in-out_1s_forwards]">
-                <Link 
+                <Link
                   href="/creative"
                   className="text-white hover:text-purple-400 transition-colors duration-300 ease-in-out text-xl font-medium tracking-wide"
                 >
                   creative
                 </Link>
 
-                <Link 
-                  href="/consult"
+                <Link
+                  href="/contact"
                   className="text-white hover:text-blue-400 transition-colors duration-300 ease-in-out text-2xl font-bold tracking-wide"
                 >
-                  consult
+                  contact
                 </Link>
 
-                <Link 
-                  href="/about"
-                  className="text-white hover:text-slate-400 transition-colors duration-300 ease-in-out text-xl font-medium tracking-wide"
+                <Link
+                  href="/tech"
+                  className="text-white hover:text-emerald-400 transition-colors duration-300 ease-in-out text-xl font-medium tracking-wide"
                 >
-                  about
+                  tech
                 </Link>
               </div>
             </div>
