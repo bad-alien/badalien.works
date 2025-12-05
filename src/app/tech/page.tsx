@@ -134,14 +134,14 @@ export default function TechPage() {
       {/* Header */}
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled
+          isScrolled || activeFilter !== 'All'
             ? 'bg-black/80 backdrop-blur-md py-3'
             : 'bg-transparent py-6'
         }`}
       >
         <div className="container mx-auto px-6 flex items-center justify-center relative">
           <Logo
-            size={isScrolled ? 'sm' : 'md'}
+            size={isScrolled || activeFilter !== 'All' ? 'sm' : 'md'}
             className="transition-all duration-300"
           />
 
@@ -157,7 +157,7 @@ export default function TechPage() {
       {/* Filter Bar */}
       <div
         className={`sticky z-30 bg-transparent transition-all duration-500 ${
-          isScrolled
+          isScrolled || activeFilter !== 'All'
             ? 'top-[72px] py-4 opacity-100 translate-y-0'
             : 'top-[72px] py-4 opacity-0 -translate-y-full pointer-events-none'
         }`}
@@ -181,24 +181,28 @@ export default function TechPage() {
         </div>
       </div>
 
-      {/* Banner Image */}
-      <div className={`container mx-auto px-6 transition-all duration-500 ${
-        isScrolled ? 'pt-32' : 'pt-24'
-      }`}>
-        <div className="relative w-full max-w-4xl mx-auto">
-          <Image
-            src="/assets/ba_knows_ai.png"
-            alt="Bad Alien Knows AI"
-            width={1920}
-            height={1080}
-            className="w-full h-auto"
-            priority
-          />
+      {/* Banner Image - Only show when "All" filter is active */}
+      {activeFilter === 'All' && (
+        <div className={`container mx-auto px-6 transition-all duration-500 ${
+          isScrolled ? 'pt-32' : 'pt-24'
+        }`}>
+          <div className="relative w-full max-w-4xl mx-auto">
+            <Image
+              src="/assets/ba_knows_ai.png"
+              alt="Bad Alien Knows AI"
+              width={1920}
+              height={1080}
+              className="w-full h-auto"
+              priority
+            />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 pb-16 pt-12">
+      <main className={`container mx-auto px-6 pb-16 transition-all duration-500 ${
+        activeFilter === 'All' ? 'pt-12' : 'pt-32'
+      }`}>
         {/* Project Cards */}
         <div className="max-w-6xl mx-auto space-y-8">
           {projects

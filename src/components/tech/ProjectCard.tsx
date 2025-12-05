@@ -34,7 +34,7 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
       className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden cursor-pointer hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.02]"
     >
       {/* Status Badge */}
-      <div className="absolute top-4 right-4 z-10">
+      <div className={`absolute top-4 z-10 ${isReversed ? 'right-4' : 'left-4'}`}>
         <span
           className={`px-3 py-1 text-xs font-light tracking-wider rounded-full border backdrop-blur-md ${statusStyle.className}`}
         >
