@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateCompletion } from '@/app/void/llmClient';
+import { generateCompletion } from '@/lib/llmClient';
 
 // Types matching the API spec
 type ChatMessage = {
