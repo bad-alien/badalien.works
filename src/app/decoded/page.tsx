@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import decodedData from './data/decoded_data.json';
 import HorizontalSection from './components/HorizontalSection';
 import ProgressBar from './components/ProgressBar';
@@ -12,6 +12,34 @@ import { ArrowLeft } from 'lucide-react';
 
 export default function DecodedPage() {
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const handleWheel = (e: WheelEvent) => {
+      // Logic:
+      // 1. If deltaX is dominant (trackpad swipe), let native horizontal scroll happen.
+      // 2. If deltaY is dominant (mouse wheel), translate it to horizontal scroll.
+      
+      const isVertical = Math.abs(e.deltaY) > Math.abs(e.deltaX);
+
+      if (isVertical) {
+        // Scroll the container horizontally using the vertical delta
+        container.scrollLeft += e.deltaY;
+        
+        // Prevent the default vertical scroll of the body
+        e.preventDefault();
+      }
+    };
+
+    // Attach to window to capture all scroll attempts on the page
+    window.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
     <>

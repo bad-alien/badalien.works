@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import {
   AreaChart,
   Area,
@@ -48,6 +49,23 @@ const CustomTooltip = ({ active, payload, label }: CustomTooltipProps) => {
 };
 
 export default function InteractiveChart({ type, data, dataKey, xAxisKey, color = "#FF6B35", title }: ChartProps) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
+        {title && (
+          <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>
+        )}
+        <div className="w-full h-[400px] bg-neutral-900/20 rounded-xl border border-neutral-800 p-4 md:p-8 backdrop-blur-sm animate-pulse" />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
       {title && (
