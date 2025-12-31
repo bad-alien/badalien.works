@@ -53,26 +53,24 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
           damping: 12
         }}
         className={cn(
-          "flex flex-col items-center gap-6 relative shrink-0",
-          isCenter ? "z-20" : "z-10",
-          position === 'left' && "-mr-[18%] md:-mr-[80px]",
-          position === 'right' && "-ml-[18%] md:-ml-[80px]",
+          "flex flex-col items-center gap-4 relative shrink-0",
+          isCenter ? "z-20 mx-8" : "z-10",
         )}
         style={{
-           transform: isCenter ? 'scale(1.3) translateY(-40px)' : 'scale(0.85)',
+           transform: isCenter ? 'translateY(-20px)' : 'translateY(20px)',
         }}
       >
         {/* Poster - Rank Badge Removed */}
-        <div 
+        <div
           className={cn(
             "relative rounded-2xl overflow-hidden border transition-all duration-700 group hover:shadow-2xl",
-            isCenter 
-              ? "shadow-[0_0_80px_rgba(255,107,53,0.5)] border-void-orange/50 scale-105" 
-              : "shadow-xl border-neutral-800 opacity-60 hover:opacity-100"
+            isCenter
+              ? "shadow-[0_0_60px_rgba(255,107,53,0.4)] border-void-orange/50"
+              : "shadow-xl border-neutral-800 opacity-70 hover:opacity-100"
           )}
           style={{
-            width: '240px',
-            height: '360px',
+            width: isCenter ? '280px' : '200px',
+            height: isCenter ? '420px' : '300px',
           }}
         >
           <Image
@@ -92,20 +90,20 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
           </div>
         </div>
 
-        {/* Text Label - Larger for center */}
+        {/* Text Label */}
         <div className={cn(
           "text-center transition-all duration-500",
-          isCenter ? "max-w-[350px] scale-110" : "max-w-[200px]"
+          isCenter ? "max-w-[300px]" : "max-w-[180px]"
         )}>
           <h3 className={cn(
-            "font-black leading-none tracking-tighter mb-2",
-            isCenter ? "text-4xl md:text-5xl text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]" : "text-xl text-neutral-400"
+            "font-black leading-tight tracking-tight mb-1",
+            isCenter ? "text-2xl md:text-3xl text-white" : "text-base text-neutral-400"
           )}>
             {item.title}
           </h3>
           <p className={cn(
-            "font-mono tracking-widest uppercase",
-            isCenter ? "text-void-orange text-sm font-bold" : "text-neutral-600 text-[10px]"
+            "font-mono tracking-wider uppercase",
+            isCenter ? "text-void-orange text-xs font-bold" : "text-neutral-600 text-[10px]"
           )}>
             {item.description}
           </p>
@@ -125,8 +123,8 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
         {title}
       </motion.h2>
 
-      {/* Podium Container - Scale down on mobile to fit width */}
-      <div className="flex items-center justify-center w-full origin-top scale-[0.6] md:scale-100 transition-transform duration-300">
+      {/* Podium Container */}
+      <div className="flex items-end justify-center gap-4 md:gap-8 w-full">
         {renderCard(rank2, 'left')}
         {renderCard(rank1, 'center')}
         {renderCard(rank3, 'right')}
