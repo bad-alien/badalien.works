@@ -6,7 +6,7 @@ import HorizontalSection from './components/HorizontalSection';
 import ProgressBar from './components/ProgressBar';
 import InteractiveChart from './components/InteractiveChart';
 import WeeklyPatternChart from './components/WeeklyPatternChart';
-import AwardSlide from './components/AwardSlide';
+import AwardGroup from './components/AwardGroup';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -45,6 +45,62 @@ interface AwardsSection extends BaseSection {
 }
 
 type Section = IntroSection | ChartSection | AwardsSection;
+
+interface WeeklyPatternItem {
+  day: string;
+  hour: number;
+  value: number;
+}
+
+interface WeeklyPatternConfig {
+  color: string;
+  unit?: string;
+}
+
+interface InteractiveChartConfig {
+  xaxis_key: string;
+  series: { key: string; label: string; color: string }[];
+  unit?: string;
+}
+
+// Helper to process awards into groups
+const processAwards = (items: AwardItem[]) => {
+  const groups: Record<string, { title: string; items: (AwardItem & { rank: number })[] }> = {
+    movies: { title: "Top Movies", items: [] },
+    tv: { title: "Top TV Shows", items: [] },
+    artists: { title: "Top Artists", items: [] },
+    users: { title: "Top Users", items: [] },
+  };
+
+  items.forEach(item => {
+    let rank = 0;
+    const rankMatch = item.category.match(/^#(\d+)/);
+    if (rankMatch) {
+      rank = parseInt(rankMatch[1], 10);
+    }
+
+    const awardItem = { ...item, rank };
+    const lowerCat = item.category.toLowerCase();
+
+    if (lowerCat.includes('movie')) {
+      groups.movies.items.push(awardItem);
+    } else if (lowerCat.includes('tv show')) {
+      groups.tv.items.push(awardItem);
+    } else if (lowerCat.includes('artist')) {
+      groups.artists.items.push(awardItem);
+    } else if (lowerCat.includes('user')) {
+      groups.users.items.push(awardItem);
+    }
+  });
+
+  // Filter out empty groups and sort items by rank
+  return Object.values(groups)
+    .filter(g => g.items.length > 0)
+    .map(g => ({
+      ...g,
+      items: g.items.sort((a, b) => a.rank - b.rank)
+    }));
+};
 
 export default function DecodedPage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -128,25 +184,6 @@ export default function DecodedPage() {
           // SECTION: CHART (InteractiveChart or WeeklyPatternChart)
           if (section.type === 'chart') {
             const chart = section as ChartSection;
-interface WeeklyPatternItem {
-  day: string;
-  hour: number;
-  value: number;
-}
-
-interface WeeklyPatternConfig {
-  color: string;
-  unit?: string;
-}
-
-interface InteractiveChartConfig {
-  xaxis_key: string;
-  series: { key: string; label: string; color: string }[];
-  unit?: string;
-}
-
-// ... existing code ...
-
             const isHeatmap = chart.chart_type === 'heatmap';
             
             return (
@@ -172,16 +209,17 @@ interface InteractiveChartConfig {
             );
           }
 
-          // SECTION: AWARDS (Iterate through items)
+          // SECTION: AWARDS (Grouped by Category)
           if (section.type === 'awards') {
             const awards = section as AwardsSection;
-            return awards.items.map((item, i) => (
-              <HorizontalSection key={`${awards.id}-${i}`} className="bg-black border-l border-neutral-900">
-                <AwardSlide 
-                  category={item.category}
-                  title={item.title}
-                  imagePath={`/decoded/assets/${decodedManifest.meta.year}/${item.image_asset_name}`}
-                  description={item.description}
+            const groups = processAwards(awards.items);
+            
+            return groups.map((group, i) => (
+              <HorizontalSection key={`${section.id}-group-${i}`} className="bg-black border-l border-neutral-900">
+                <AwardGroup 
+                  title={group.title}
+                  items={group.items}
+                  year={decodedManifest.meta.year}
                 />
               </HorizontalSection>
             ));
@@ -192,7 +230,7 @@ interface InteractiveChartConfig {
 
         {/* SECTION FINAL: OUTRO */}
         <HorizontalSection className="bg-black relative overflow-hidden border-l border-neutral-900">
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 pointer-events-none" />
+          <div className="absolute inset-0 bg-neutral-900/20 opacity-20 pointer-events-none" />
           <div className="text-center z-10">
             <h2 className="text-5xl md:text-8xl font-bold mb-8 text-white">
               END OF LINE
