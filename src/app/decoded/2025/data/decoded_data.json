@@ -1,0 +1,48 @@
+{
+  "title": "Blackbox Decoded 2025",
+  "stats": {
+    "library_growth": [
+      { "month": "Jan", "movies": 120, "tv_shows": 45 },
+      { "month": "Feb", "movies": 135, "tv_shows": 52 },
+      { "month": "Mar", "movies": 150, "tv_shows": 60 },
+      { "month": "Apr", "movies": 180, "tv_shows": 75 },
+      { "month": "May", "movies": 200, "tv_shows": 85 },
+      { "month": "Jun", "movies": 230, "tv_shows": 100 },
+      { "month": "Jul", "movies": 250, "tv_shows": 115 },
+      { "month": "Aug", "movies": 280, "tv_shows": 130 },
+      { "month": "Sep", "movies": 300, "tv_shows": 145 },
+      { "month": "Oct", "movies": 320, "tv_shows": 160 },
+      { "month": "Nov", "movies": 350, "tv_shows": 180 },
+      { "month": "Dec", "movies": 380, "tv_shows": 200 }
+    ],
+    "server_density": [
+      { "time": "00:00", "usage": 15 },
+      { "time": "04:00", "usage": 5 },
+      { "time": "08:00", "usage": 10 },
+      { "time": "12:00", "usage": 45 },
+      { "time": "16:00", "usage": 60 },
+      { "time": "20:00", "usage": 95 },
+      { "time": "23:59", "usage": 80 }
+    ],
+    "awards": [
+      {
+        "category": "Most Watched Movie",
+        "title": "Dune: Part Two",
+        "image_path": "/decoded/assets/dune-poster.svg",
+        "description": "A visual masterpiece that dominated the screen time in 2025."
+      },
+      {
+        "category": "Binge Champion",
+        "title": "Severance",
+        "image_path": "/decoded/assets/severance-poster.svg",
+        "description": "The most consecutive hours streamed in a single weekend."
+      },
+      {
+        "category": "Hidden Gem",
+        "title": "Scavengers Reign",
+        "image_path": "/decoded/assets/scavengers-poster.svg",
+        "description": "Discovered late but loved intensely by the core crew."
+      }
+    ]
+  }
+}

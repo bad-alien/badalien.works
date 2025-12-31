@@ -1,1 +1,1 @@
-git add . && git commit -m "fix: deployment issues with refined codebase" && git push
+git add . && git commit -m "tweak: filtered project display and status tag position" && git push

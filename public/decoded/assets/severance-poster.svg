@@ -1,0 +1,6 @@
+<svg width="400" height="600" viewBox="0 0 400 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="600" fill="#0A0A0A"/>
+  <rect x="20" y="20" width="360" height="560" stroke="#00FF00" stroke-width="2"/>
+  <text x="200" y="300" text-anchor="middle" font-family="monospace" font-size="24" fill="#00FF00">SEVERANCE</text>
+  <rect x="150" y="150" width="100" height="100" fill="#00FF00" opacity="0.2"/>
+</svg>
