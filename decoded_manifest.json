@@ -1,0 +1,1008 @@
+{
+  "meta": {
+    "year": "2025",
+    "theme_color": "#FF6B35",
+    "last_updated": "2025-12-31T04:58:11Z"
+  },
+  "sections": [
+    {
+      "type": "intro",
+      "id": "cover",
+      "title": "DECODED",
+      "subtitle": "2025",
+      "description": "Scroll right to explore the year in data."
+    },
+    {
+      "type": "chart",
+      "id": "library-growth",
+      "title": "Library Expansion",
+      "chart_type": "area",
+      "config": {
+        "xaxis_key": "date",
+        "series": [
+          {
+            "key": "movies",
+            "label": "Movies",
+            "color": "#e74c3c"
+          },
+          {
+            "key": "seasons",
+            "label": "TV Seasons",
+            "color": "#3498db"
+          },
+          {
+            "key": "albums",
+            "label": "Albums",
+            "color": "#2ecc71"
+          }
+        ]
+      },
+      "data": [
+        {
+          "date": "Jan",
+          "movies": 186,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Feb",
+          "movies": 266,
+          "seasons": 55,
+          "albums": 186
+        },
+        {
+          "date": "Mar",
+          "movies": 348,
+          "seasons": 93,
+          "albums": 356
+        },
+        {
+          "date": "Apr",
+          "movies": 580,
+          "seasons": 163,
+          "albums": 408
+        },
+        {
+          "date": "May",
+          "movies": 647,
+          "seasons": 274,
+          "albums": 490
+        },
+        {
+          "date": "Jun",
+          "movies": 893,
+          "seasons": 427,
+          "albums": 598
+        },
+        {
+          "date": "Jul",
+          "movies": 925,
+          "seasons": 450,
+          "albums": 626
+        },
+        {
+          "date": "Aug",
+          "movies": 949,
+          "seasons": 463,
+          "albums": 683
+        },
+        {
+          "date": "Sep",
+          "movies": 970,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Oct",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Nov",
+          "movies": 987,
+          "seasons": 499,
+          "albums": 740
+        },
+        {
+          "date": "Dec",
+          "movies": 1023,
+          "seasons": 595,
+          "albums": 1023
+        }
+      ]
+    },
+    {
+      "type": "chart",
+      "id": "weekly-pattern",
+      "title": "The Pulse of the System",
+      "chart_type": "heatmap",
+      "config": {
+        "color": "#FF6B35",
+        "unit": "minutes"
+      },
+      "data": [
+        {
+          "day": "Sun",
+          "hour": 0,
+          "value": 1624
+        },
+        {
+          "day": "Sun",
+          "hour": 1,
+          "value": 867
+        },
+        {
+          "day": "Sun",
+          "hour": 2,
+          "value": 642
+        },
+        {
+          "day": "Sun",
+          "hour": 3,
+          "value": 218
+        },
+        {
+          "day": "Sun",
+          "hour": 4,
+          "value": 171
+        },
+        {
+          "day": "Sun",
+          "hour": 5,
+          "value": 24
+        },
+        {
+          "day": "Sun",
+          "hour": 6,
+          "value": 53
+        },
+        {
+          "day": "Sun",
+          "hour": 7,
+          "value": 20
+        },
+        {
+          "day": "Sun",
+          "hour": 8,
+          "value": 106
+        },
+        {
+          "day": "Sun",
+          "hour": 9,
+          "value": 106
+        },
+        {
+          "day": "Sun",
+          "hour": 10,
+          "value": 187
+        },
+        {
+          "day": "Sun",
+          "hour": 11,
+          "value": 558
+        },
+        {
+          "day": "Sun",
+          "hour": 12,
+          "value": 442
+        },
+        {
+          "day": "Sun",
+          "hour": 13,
+          "value": 366
+        },
+        {
+          "day": "Sun",
+          "hour": 14,
+          "value": 691
+        },
+        {
+          "day": "Sun",
+          "hour": 15,
+          "value": 1078
+        },
+        {
+          "day": "Sun",
+          "hour": 16,
+          "value": 593
+        },
+        {
+          "day": "Sun",
+          "hour": 17,
+          "value": 427
+        },
+        {
+          "day": "Sun",
+          "hour": 18,
+          "value": 1272
+        },
+        {
+          "day": "Sun",
+          "hour": 19,
+          "value": 1773
+        },
+        {
+          "day": "Sun",
+          "hour": 20,
+          "value": 2108
+        },
+        {
+          "day": "Sun",
+          "hour": 21,
+          "value": 2681
+        },
+        {
+          "day": "Sun",
+          "hour": 22,
+          "value": 3081
+        },
+        {
+          "day": "Sun",
+          "hour": 23,
+          "value": 1226
+        },
+        {
+          "day": "Mon",
+          "hour": 0,
+          "value": 1294
+        },
+        {
+          "day": "Mon",
+          "hour": 1,
+          "value": 358
+        },
+        {
+          "day": "Mon",
+          "hour": 2,
+          "value": 99
+        },
+        {
+          "day": "Mon",
+          "hour": 3,
+          "value": 70
+        },
+        {
+          "day": "Mon",
+          "hour": 5,
+          "value": 20
+        },
+        {
+          "day": "Mon",
+          "hour": 6,
+          "value": 51
+        },
+        {
+          "day": "Mon",
+          "hour": 7,
+          "value": 206
+        },
+        {
+          "day": "Mon",
+          "hour": 8,
+          "value": 69
+        },
+        {
+          "day": "Mon",
+          "hour": 9,
+          "value": 163
+        },
+        {
+          "day": "Mon",
+          "hour": 10,
+          "value": 520
+        },
+        {
+          "day": "Mon",
+          "hour": 11,
+          "value": 442
+        },
+        {
+          "day": "Mon",
+          "hour": 12,
+          "value": 1267
+        },
+        {
+          "day": "Mon",
+          "hour": 13,
+          "value": 875
+        },
+        {
+          "day": "Mon",
+          "hour": 14,
+          "value": 849
+        },
+        {
+          "day": "Mon",
+          "hour": 15,
+          "value": 5341
+        },
+        {
+          "day": "Mon",
+          "hour": 16,
+          "value": 851
+        },
+        {
+          "day": "Mon",
+          "hour": 17,
+          "value": 1296
+        },
+        {
+          "day": "Mon",
+          "hour": 18,
+          "value": 1063
+        },
+        {
+          "day": "Mon",
+          "hour": 19,
+          "value": 881
+        },
+        {
+          "day": "Mon",
+          "hour": 20,
+          "value": 1756
+        },
+        {
+          "day": "Mon",
+          "hour": 21,
+          "value": 1786
+        },
+        {
+          "day": "Mon",
+          "hour": 22,
+          "value": 2983
+        },
+        {
+          "day": "Mon",
+          "hour": 23,
+          "value": 2205
+        },
+        {
+          "day": "Tue",
+          "hour": 0,
+          "value": 1117
+        },
+        {
+          "day": "Tue",
+          "hour": 1,
+          "value": 432
+        },
+        {
+          "day": "Tue",
+          "hour": 2,
+          "value": 131
+        },
+        {
+          "day": "Tue",
+          "hour": 3,
+          "value": 36
+        },
+        {
+          "day": "Tue",
+          "hour": 4,
+          "value": 62
+        },
+        {
+          "day": "Tue",
+          "hour": 5,
+          "value": 58
+        },
+        {
+          "day": "Tue",
+          "hour": 6,
+          "value": 88
+        },
+        {
+          "day": "Tue",
+          "hour": 7,
+          "value": 170
+        },
+        {
+          "day": "Tue",
+          "hour": 8,
+          "value": 123
+        },
+        {
+          "day": "Tue",
+          "hour": 9,
+          "value": 354
+        },
+        {
+          "day": "Tue",
+          "hour": 10,
+          "value": 320
+        },
+        {
+          "day": "Tue",
+          "hour": 11,
+          "value": 462
+        },
+        {
+          "day": "Tue",
+          "hour": 12,
+          "value": 626
+        },
+        {
+          "day": "Tue",
+          "hour": 13,
+          "value": 641
+        },
+        {
+          "day": "Tue",
+          "hour": 14,
+          "value": 916
+        },
+        {
+          "day": "Tue",
+          "hour": 15,
+          "value": 896
+        },
+        {
+          "day": "Tue",
+          "hour": 16,
+          "value": 691
+        },
+        {
+          "day": "Tue",
+          "hour": 17,
+          "value": 1387
+        },
+        {
+          "day": "Tue",
+          "hour": 18,
+          "value": 916
+        },
+        {
+          "day": "Tue",
+          "hour": 19,
+          "value": 793
+        },
+        {
+          "day": "Tue",
+          "hour": 20,
+          "value": 1717
+        },
+        {
+          "day": "Tue",
+          "hour": 21,
+          "value": 1513
+        },
+        {
+          "day": "Tue",
+          "hour": 22,
+          "value": 2548
+        },
+        {
+          "day": "Tue",
+          "hour": 23,
+          "value": 2063
+        },
+        {
+          "day": "Wed",
+          "hour": 0,
+          "value": 712
+        },
+        {
+          "day": "Wed",
+          "hour": 1,
+          "value": 186
+        },
+        {
+          "day": "Wed",
+          "hour": 2,
+          "value": 119
+        },
+        {
+          "day": "Wed",
+          "hour": 3,
+          "value": 34
+        },
+        {
+          "day": "Wed",
+          "hour": 5,
+          "value": 63
+        },
+        {
+          "day": "Wed",
+          "hour": 6,
+          "value": 49
+        },
+        {
+          "day": "Wed",
+          "hour": 7,
+          "value": 12
+        },
+        {
+          "day": "Wed",
+          "hour": 8,
+          "value": 5
+        },
+        {
+          "day": "Wed",
+          "hour": 9,
+          "value": 323
+        },
+        {
+          "day": "Wed",
+          "hour": 10,
+          "value": 393
+        },
+        {
+          "day": "Wed",
+          "hour": 11,
+          "value": 484
+        },
+        {
+          "day": "Wed",
+          "hour": 12,
+          "value": 539
+        },
+        {
+          "day": "Wed",
+          "hour": 13,
+          "value": 763
+        },
+        {
+          "day": "Wed",
+          "hour": 14,
+          "value": 968
+        },
+        {
+          "day": "Wed",
+          "hour": 15,
+          "value": 511
+        },
+        {
+          "day": "Wed",
+          "hour": 16,
+          "value": 1092
+        },
+        {
+          "day": "Wed",
+          "hour": 17,
+          "value": 644
+        },
+        {
+          "day": "Wed",
+          "hour": 18,
+          "value": 728
+        },
+        {
+          "day": "Wed",
+          "hour": 19,
+          "value": 696
+        },
+        {
+          "day": "Wed",
+          "hour": 20,
+          "value": 1646
+        },
+        {
+          "day": "Wed",
+          "hour": 21,
+          "value": 1487
+        },
+        {
+          "day": "Wed",
+          "hour": 22,
+          "value": 2240
+        },
+        {
+          "day": "Wed",
+          "hour": 23,
+          "value": 1319
+        },
+        {
+          "day": "Thu",
+          "hour": 0,
+          "value": 897
+        },
+        {
+          "day": "Thu",
+          "hour": 1,
+          "value": 89
+        },
+        {
+          "day": "Thu",
+          "hour": 2,
+          "value": 67
+        },
+        {
+          "day": "Thu",
+          "hour": 9,
+          "value": 50
+        },
+        {
+          "day": "Thu",
+          "hour": 10,
+          "value": 235
+        },
+        {
+          "day": "Thu",
+          "hour": 11,
+          "value": 233
+        },
+        {
+          "day": "Thu",
+          "hour": 12,
+          "value": 363
+        },
+        {
+          "day": "Thu",
+          "hour": 13,
+          "value": 148
+        },
+        {
+          "day": "Thu",
+          "hour": 14,
+          "value": 539
+        },
+        {
+          "day": "Thu",
+          "hour": 15,
+          "value": 921
+        },
+        {
+          "day": "Thu",
+          "hour": 16,
+          "value": 712
+        },
+        {
+          "day": "Thu",
+          "hour": 17,
+          "value": 716
+        },
+        {
+          "day": "Thu",
+          "hour": 18,
+          "value": 1152
+        },
+        {
+          "day": "Thu",
+          "hour": 19,
+          "value": 788
+        },
+        {
+          "day": "Thu",
+          "hour": 20,
+          "value": 1241
+        },
+        {
+          "day": "Thu",
+          "hour": 21,
+          "value": 1566
+        },
+        {
+          "day": "Thu",
+          "hour": 22,
+          "value": 1817
+        },
+        {
+          "day": "Thu",
+          "hour": 23,
+          "value": 668
+        },
+        {
+          "day": "Fri",
+          "hour": 0,
+          "value": 1583
+        },
+        {
+          "day": "Fri",
+          "hour": 1,
+          "value": 1017
+        },
+        {
+          "day": "Fri",
+          "hour": 2,
+          "value": 454
+        },
+        {
+          "day": "Fri",
+          "hour": 3,
+          "value": 116
+        },
+        {
+          "day": "Fri",
+          "hour": 4,
+          "value": 165
+        },
+        {
+          "day": "Fri",
+          "hour": 5,
+          "value": 123
+        },
+        {
+          "day": "Fri",
+          "hour": 6,
+          "value": 153
+        },
+        {
+          "day": "Fri",
+          "hour": 7,
+          "value": 90
+        },
+        {
+          "day": "Fri",
+          "hour": 8,
+          "value": 110
+        },
+        {
+          "day": "Fri",
+          "hour": 9,
+          "value": 351
+        },
+        {
+          "day": "Fri",
+          "hour": 10,
+          "value": 565
+        },
+        {
+          "day": "Fri",
+          "hour": 11,
+          "value": 645
+        },
+        {
+          "day": "Fri",
+          "hour": 12,
+          "value": 357
+        },
+        {
+          "day": "Fri",
+          "hour": 13,
+          "value": 664
+        },
+        {
+          "day": "Fri",
+          "hour": 14,
+          "value": 1013
+        },
+        {
+          "day": "Fri",
+          "hour": 15,
+          "value": 1280
+        },
+        {
+          "day": "Fri",
+          "hour": 16,
+          "value": 538
+        },
+        {
+          "day": "Fri",
+          "hour": 17,
+          "value": 954
+        },
+        {
+          "day": "Fri",
+          "hour": 18,
+          "value": 812
+        },
+        {
+          "day": "Fri",
+          "hour": 19,
+          "value": 910
+        },
+        {
+          "day": "Fri",
+          "hour": 20,
+          "value": 1227
+        },
+        {
+          "day": "Fri",
+          "hour": 21,
+          "value": 949
+        },
+        {
+          "day": "Fri",
+          "hour": 22,
+          "value": 1651
+        },
+        {
+          "day": "Fri",
+          "hour": 23,
+          "value": 1787
+        },
+        {
+          "day": "Sat",
+          "hour": 0,
+          "value": 1281
+        },
+        {
+          "day": "Sat",
+          "hour": 1,
+          "value": 1045
+        },
+        {
+          "day": "Sat",
+          "hour": 2,
+          "value": 397
+        },
+        {
+          "day": "Sat",
+          "hour": 3,
+          "value": 442
+        },
+        {
+          "day": "Sat",
+          "hour": 4,
+          "value": 103
+        },
+        {
+          "day": "Sat",
+          "hour": 5,
+          "value": 91
+        },
+        {
+          "day": "Sat",
+          "hour": 6,
+          "value": 47
+        },
+        {
+          "day": "Sat",
+          "hour": 8,
+          "value": 137
+        },
+        {
+          "day": "Sat",
+          "hour": 9,
+          "value": 315
+        },
+        {
+          "day": "Sat",
+          "hour": 10,
+          "value": 210
+        },
+        {
+          "day": "Sat",
+          "hour": 11,
+          "value": 281
+        },
+        {
+          "day": "Sat",
+          "hour": 12,
+          "value": 602
+        },
+        {
+          "day": "Sat",
+          "hour": 13,
+          "value": 706
+        },
+        {
+          "day": "Sat",
+          "hour": 14,
+          "value": 13464
+        },
+        {
+          "day": "Sat",
+          "hour": 15,
+          "value": 936
+        },
+        {
+          "day": "Sat",
+          "hour": 16,
+          "value": 602
+        },
+        {
+          "day": "Sat",
+          "hour": 17,
+          "value": 704
+        },
+        {
+          "day": "Sat",
+          "hour": 18,
+          "value": 871
+        },
+        {
+          "day": "Sat",
+          "hour": 19,
+          "value": 1063
+        },
+        {
+          "day": "Sat",
+          "hour": 20,
+          "value": 608
+        },
+        {
+          "day": "Sat",
+          "hour": 21,
+          "value": 984
+        },
+        {
+          "day": "Sat",
+          "hour": 22,
+          "value": 1512
+        },
+        {
+          "day": "Sat",
+          "hour": 23,
+          "value": 1890
+        }
+      ]
+    },
+    {
+      "type": "awards",
+      "id": "top-picks",
+      "title": "Year in Review",
+      "items": [
+        {
+          "category": "#1 Most Watched Movie",
+          "title": "Eddington",
+          "description": "Watched by 5 users",
+          "image_asset_name": "eddington.jpg"
+        },
+        {
+          "category": "#2 Most Watched Movie",
+          "title": "Friendship",
+          "description": "Watched by 4 users",
+          "image_asset_name": "friendship.jpg"
+        },
+        {
+          "category": "#3 Most Watched Movie",
+          "title": "Shaun of the Dead",
+          "description": "Watched by 3 users",
+          "image_asset_name": "shaun-of-the-dead.jpg"
+        },
+        {
+          "category": "#1 Most Watched TV Show",
+          "title": "Jeopardy!",
+          "description": "Watched by 6 users",
+          "image_asset_name": "jeopardy.jpg"
+        },
+        {
+          "category": "#2 Most Watched TV Show",
+          "title": "The Paper",
+          "description": "Watched by 5 users",
+          "image_asset_name": "the-paper.jpg"
+        },
+        {
+          "category": "#3 Most Watched TV Show",
+          "title": "The Rehearsal",
+          "description": "Watched by 5 users",
+          "image_asset_name": "the-rehearsal.jpg"
+        },
+        {
+          "category": "#1 Most Played Artist",
+          "title": "Comps",
+          "description": "Listened by 8 users",
+          "image_asset_name": "comps.jpg"
+        },
+        {
+          "category": "#2 Most Played Artist",
+          "title": "Aphex Twin",
+          "description": "Listened by 7 users",
+          "image_asset_name": "aphex-twin.jpg"
+        },
+        {
+          "category": "#3 Most Played Artist",
+          "title": "Nine Inch Nails",
+          "description": "Listened by 7 users",
+          "image_asset_name": "nine-inch-nails.jpg"
+        },
+        {
+          "category": "#1 Top User",
+          "title": "jac7k",
+          "description": "445h 19m",
+          "image_asset_name": "user-jac7k.jpg"
+        },
+        {
+          "category": "#2 Top User",
+          "title": "caseystewart73",
+          "description": "260 hours",
+          "image_asset_name": "user-caseystewart73.jpg"
+        },
+        {
+          "category": "#3 Top User",
+          "title": "hannahwhelan8",
+          "description": "259h 30m",
+          "image_asset_name": "user-hannahwhelan8.jpg"
+        },
+        {
+          "category": "#4 Top User",
+          "title": "rakbarut",
+          "description": "256h 5m",
+          "image_asset_name": "user-rakbarut.jpg"
+        }
+      ]
+    }
+  ]
+}

@@ -1,14 +1,50 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
-import decodedData from './data/decoded_data.json';
+import decodedManifest from '../../../decoded_manifest.json';
 import HorizontalSection from './components/HorizontalSection';
 import ProgressBar from './components/ProgressBar';
 import InteractiveChart from './components/InteractiveChart';
+import WeeklyPatternChart from './components/WeeklyPatternChart';
 import AwardSlide from './components/AwardSlide';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
+
+// Types for the Manifest
+interface BaseSection {
+  type: string;
+  id?: string;
+}
+
+interface IntroSection extends BaseSection {
+  type: 'intro';
+  title: string;
+  subtitle: string;
+  description: string;
+}
+
+interface ChartSection extends BaseSection {
+  type: 'chart';
+  title?: string;
+  chart_type: 'area' | 'bar' | 'heatmap';
+  config: Record<string, unknown>;
+  data: Record<string, string | number>[];
+}
+
+interface AwardItem {
+  category: string;
+  title: string;
+  description: string;
+  image_asset_name: string;
+}
+
+interface AwardsSection extends BaseSection {
+  type: 'awards';
+  items: AwardItem[];
+}
+
+type Section = IntroSection | ChartSection | AwardsSection;
 
 export default function DecodedPage() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -17,25 +53,16 @@ export default function DecodedPage() {
     const container = containerRef.current;
     if (!container) return;
 
+    // Use window listener for global wheel capture
     const handleWheel = (e: WheelEvent) => {
-      // Logic:
-      // 1. If deltaX is dominant (trackpad swipe), let native horizontal scroll happen.
-      // 2. If deltaY is dominant (mouse wheel), translate it to horizontal scroll.
-      
       const isVertical = Math.abs(e.deltaY) > Math.abs(e.deltaX);
-
       if (isVertical) {
-        // Scroll the container horizontally using the vertical delta
         container.scrollLeft += e.deltaY;
-        
-        // Prevent the default vertical scroll of the body
         e.preventDefault();
       }
     };
 
-    // Attach to window to capture all scroll attempts on the page
     window.addEventListener('wheel', handleWheel, { passive: false });
-
     return () => {
       window.removeEventListener('wheel', handleWheel);
     };
@@ -58,79 +85,113 @@ export default function DecodedPage() {
         className="flex overflow-x-auto snap-x snap-mandatory h-screen w-screen overflow-y-hidden scrollbar-hide bg-black"
         style={{ scrollBehavior: 'smooth' }}
       >
-        {/* SECTION 1: INTRO */}
-        <HorizontalSection className="bg-gradient-to-br from-black via-neutral-900 to-black">
-          <div className="text-center space-y-8">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1 }}
-            >
-              <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-600 mb-4">
-                DECODED
-              </h1>
-              <p className="text-2xl md:text-4xl font-mono text-void-orange tracking-widest">
-                2025
-              </p>
-            </motion.div>
-            <motion.p 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-              className="text-neutral-400 max-w-xl mx-auto text-lg"
-            >
-              Scroll right to explore the year in data.
-            </motion.p>
-            <motion.div 
-              className="animate-bounce text-neutral-600 mt-12"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: 1 }}
-            >
-              →
-            </motion.div>
-          </div>
-        </HorizontalSection>
+        {(decodedManifest.sections as Section[]).map((section, index) => {
+          // SECTION: INTRO
+          if (section.type === 'intro') {
+            const intro = section as IntroSection;
+            return (
+              <HorizontalSection key={intro.id || index} className="bg-gradient-to-br from-black via-neutral-900 to-black">
+                <div className="text-center space-y-8">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1 }}
+                  >
+                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-600 mb-4">
+                      {intro.title}
+                    </h1>
+                    <p className="text-2xl md:text-4xl font-mono text-void-orange tracking-widest">
+                      {intro.subtitle}
+                    </p>
+                  </motion.div>
+                  <motion.p 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="text-neutral-400 max-w-xl mx-auto text-lg"
+                  >
+                    {intro.description}
+                  </motion.p>
+                  <motion.div 
+                    className="animate-bounce text-neutral-600 mt-12"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    transition={{ delay: 1 }}
+                  >
+                    →
+                  </motion.div>
+                </div>
+              </HorizontalSection>
+            );
+          }
 
-        {/* SECTION 2: LIBRARY GROWTH */}
-        <HorizontalSection className="bg-black relative">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,53,0.05),transparent_70%)]" />
-          <InteractiveChart 
-            type="area" 
-            data={decodedData.stats.library_growth} 
-            dataKey="movies" 
-            xAxisKey="month"
-            title="Library Expansion"
-            color="#FF6B35"
-          />
-        </HorizontalSection>
+          // SECTION: CHART (InteractiveChart or WeeklyPatternChart)
+          if (section.type === 'chart') {
+            const chart = section as ChartSection;
+interface WeeklyPatternItem {
+  day: string;
+  hour: number;
+  value: number;
+}
 
-        {/* SECTION 3: SERVER DENSITY */}
-        <HorizontalSection className="bg-neutral-950">
-          <InteractiveChart 
-            type="bar" 
-            data={decodedData.stats.server_density} 
-            dataKey="usage" 
-            xAxisKey="time"
-            title="Server Load Distribution"
-            color="#00FF00"
-          />
-        </HorizontalSection>
+interface WeeklyPatternConfig {
+  color: string;
+  unit?: string;
+}
 
-        {/* SECTION 4+: AWARDS */}
-        {decodedData.stats.awards.map((award, index) => (
-          <HorizontalSection key={index} className="bg-black border-l border-neutral-900">
-            <AwardSlide 
-              category={award.category}
-              title={award.title}
-              imagePath={award.image_path}
-              description={award.description}
-            />
-          </HorizontalSection>
-        ))}
+interface InteractiveChartConfig {
+  xaxis_key: string;
+  series: { key: string; label: string; color: string }[];
+  unit?: string;
+}
+
+// ... existing code ...
+
+            const isHeatmap = chart.chart_type === 'heatmap';
+            
+            return (
+              <HorizontalSection key={chart.id || index} className="bg-black relative border-l border-neutral-900">
+                {isHeatmap ? (
+                  <WeeklyPatternChart 
+                    data={chart.data as unknown as WeeklyPatternItem[]}
+                    config={chart.config as unknown as WeeklyPatternConfig}
+                    title={chart.title}
+                  />
+                ) : (
+                  <>
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,53,0.05),transparent_70%)] pointer-events-none" />
+                    <InteractiveChart 
+                      type={chart.chart_type as 'area' | 'bar'}
+                      data={chart.data}
+                      config={chart.config as unknown as InteractiveChartConfig}
+                      title={chart.title}
+                    />
+                  </>
+                )}
+              </HorizontalSection>
+            );
+          }
+
+          // SECTION: AWARDS (Iterate through items)
+          if (section.type === 'awards') {
+            const awards = section as AwardsSection;
+            return awards.items.map((item, i) => (
+              <HorizontalSection key={`${awards.id}-${i}`} className="bg-black border-l border-neutral-900">
+                <AwardSlide 
+                  category={item.category}
+                  title={item.title}
+                  imagePath={`/decoded/assets/${decodedManifest.meta.year}/${item.image_asset_name}`}
+                  description={item.description}
+                />
+              </HorizontalSection>
+            ));
+          }
+
+          return null;
+        })}
 
         {/* SECTION FINAL: OUTRO */}
-        <HorizontalSection className="bg-black relative overflow-hidden">
+        <HorizontalSection className="bg-black relative overflow-hidden border-l border-neutral-900">
           <div className="absolute inset-0 bg-[url('/noise.png')] opacity-20 pointer-events-none" />
           <div className="text-center z-10">
             <h2 className="text-5xl md:text-8xl font-bold mb-8 text-white">
