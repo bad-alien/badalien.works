@@ -2,7 +2,7 @@
   "meta": {
     "year": "2025",
     "theme_color": "#FF6B35",
-    "last_updated": "2025-12-31T04:58:11Z"
+    "last_updated": "2025-12-31T06:57:57Z"
   },
   "sections": [
     {
@@ -15,7 +15,7 @@
     {
       "type": "chart",
       "id": "library-growth",
-      "title": "Library Expansion",
+      "title": "New Things! New People!",
       "chart_type": "area",
       "config": {
         "xaxis_key": "date",
@@ -39,76 +39,2276 @@
       },
       "data": [
         {
-          "date": "Jan",
+          "date": "Jan 1",
+          "movies": 3,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 2",
+          "movies": 3,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 3",
+          "movies": 13,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 4",
+          "movies": 16,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 5",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 6",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 7",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 8",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 9",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 10",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 11",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 12",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 13",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 14",
+          "movies": 17,
+          "seasons": 0,
+          "albums": 0
+        },
+        {
+          "date": "Jan 15",
+          "movies": 17,
+          "seasons": 13,
+          "albums": 0
+        },
+        {
+          "date": "Jan 16",
+          "movies": 22,
+          "seasons": 13,
+          "albums": 126
+        },
+        {
+          "date": "Jan 17",
+          "movies": 22,
+          "seasons": 13,
+          "albums": 126
+        },
+        {
+          "date": "Jan 18",
+          "movies": 24,
+          "seasons": 13,
+          "albums": 126
+        },
+        {
+          "date": "Jan 19",
+          "movies": 24,
+          "seasons": 16,
+          "albums": 127
+        },
+        {
+          "date": "Jan 20",
+          "movies": 24,
+          "seasons": 19,
+          "albums": 127
+        },
+        {
+          "date": "Jan 21",
+          "movies": 24,
+          "seasons": 24,
+          "albums": 127
+        },
+        {
+          "date": "Jan 22",
+          "movies": 143,
+          "seasons": 36,
+          "albums": 127
+        },
+        {
+          "date": "Jan 23",
+          "movies": 171,
+          "seasons": 37,
+          "albums": 127
+        },
+        {
+          "date": "Jan 24",
+          "movies": 171,
+          "seasons": 37,
+          "albums": 127
+        },
+        {
+          "date": "Jan 25",
+          "movies": 172,
+          "seasons": 37,
+          "albums": 127
+        },
+        {
+          "date": "Jan 26",
+          "movies": 179,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Jan 27",
+          "movies": 180,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Jan 28",
+          "movies": 182,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Jan 29",
           "movies": 186,
           "seasons": 37,
           "albums": 130
         },
         {
-          "date": "Feb",
+          "date": "Jan 30",
+          "movies": 186,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Jan 31",
+          "movies": 186,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Feb 1",
+          "movies": 187,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Feb 2",
+          "movies": 187,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Feb 3",
+          "movies": 187,
+          "seasons": 37,
+          "albums": 130
+        },
+        {
+          "date": "Feb 4",
+          "movies": 187,
+          "seasons": 37,
+          "albums": 132
+        },
+        {
+          "date": "Feb 5",
+          "movies": 189,
+          "seasons": 37,
+          "albums": 133
+        },
+        {
+          "date": "Feb 6",
+          "movies": 189,
+          "seasons": 37,
+          "albums": 136
+        },
+        {
+          "date": "Feb 7",
+          "movies": 190,
+          "seasons": 37,
+          "albums": 148
+        },
+        {
+          "date": "Feb 8",
+          "movies": 193,
+          "seasons": 37,
+          "albums": 149
+        },
+        {
+          "date": "Feb 9",
+          "movies": 193,
+          "seasons": 37,
+          "albums": 158
+        },
+        {
+          "date": "Feb 10",
+          "movies": 198,
+          "seasons": 38,
+          "albums": 162
+        },
+        {
+          "date": "Feb 11",
+          "movies": 201,
+          "seasons": 38,
+          "albums": 162
+        },
+        {
+          "date": "Feb 12",
+          "movies": 205,
+          "seasons": 38,
+          "albums": 162
+        },
+        {
+          "date": "Feb 13",
+          "movies": 208,
+          "seasons": 38,
+          "albums": 165
+        },
+        {
+          "date": "Feb 14",
+          "movies": 212,
+          "seasons": 38,
+          "albums": 165
+        },
+        {
+          "date": "Feb 15",
+          "movies": 213,
+          "seasons": 39,
+          "albums": 165
+        },
+        {
+          "date": "Feb 16",
+          "movies": 216,
+          "seasons": 39,
+          "albums": 165
+        },
+        {
+          "date": "Feb 17",
+          "movies": 220,
+          "seasons": 41,
+          "albums": 165
+        },
+        {
+          "date": "Feb 18",
+          "movies": 224,
+          "seasons": 41,
+          "albums": 165
+        },
+        {
+          "date": "Feb 19",
+          "movies": 229,
+          "seasons": 41,
+          "albums": 165
+        },
+        {
+          "date": "Feb 20",
+          "movies": 233,
+          "seasons": 42,
+          "albums": 165
+        },
+        {
+          "date": "Feb 21",
+          "movies": 234,
+          "seasons": 47,
+          "albums": 165
+        },
+        {
+          "date": "Feb 22",
+          "movies": 235,
+          "seasons": 48,
+          "albums": 165
+        },
+        {
+          "date": "Feb 23",
+          "movies": 235,
+          "seasons": 49,
+          "albums": 165
+        },
+        {
+          "date": "Feb 24",
+          "movies": 251,
+          "seasons": 49,
+          "albums": 165
+        },
+        {
+          "date": "Feb 25",
+          "movies": 258,
+          "seasons": 50,
+          "albums": 170
+        },
+        {
+          "date": "Feb 26",
+          "movies": 259,
+          "seasons": 53,
+          "albums": 174
+        },
+        {
+          "date": "Feb 27",
+          "movies": 261,
+          "seasons": 53,
+          "albums": 175
+        },
+        {
+          "date": "Feb 28",
           "movies": 266,
           "seasons": 55,
           "albums": 186
         },
         {
-          "date": "Mar",
+          "date": "Mar 1",
+          "movies": 269,
+          "seasons": 55,
+          "albums": 203
+        },
+        {
+          "date": "Mar 2",
+          "movies": 272,
+          "seasons": 55,
+          "albums": 203
+        },
+        {
+          "date": "Mar 3",
+          "movies": 274,
+          "seasons": 57,
+          "albums": 223
+        },
+        {
+          "date": "Mar 4",
+          "movies": 277,
+          "seasons": 61,
+          "albums": 238
+        },
+        {
+          "date": "Mar 5",
+          "movies": 278,
+          "seasons": 63,
+          "albums": 252
+        },
+        {
+          "date": "Mar 6",
+          "movies": 324,
+          "seasons": 65,
+          "albums": 274
+        },
+        {
+          "date": "Mar 7",
+          "movies": 325,
+          "seasons": 68,
+          "albums": 274
+        },
+        {
+          "date": "Mar 8",
+          "movies": 327,
+          "seasons": 69,
+          "albums": 274
+        },
+        {
+          "date": "Mar 9",
+          "movies": 328,
+          "seasons": 71,
+          "albums": 292
+        },
+        {
+          "date": "Mar 10",
+          "movies": 331,
+          "seasons": 71,
+          "albums": 304
+        },
+        {
+          "date": "Mar 11",
+          "movies": 333,
+          "seasons": 71,
+          "albums": 313
+        },
+        {
+          "date": "Mar 12",
+          "movies": 333,
+          "seasons": 71,
+          "albums": 339
+        },
+        {
+          "date": "Mar 13",
+          "movies": 333,
+          "seasons": 72,
+          "albums": 339
+        },
+        {
+          "date": "Mar 14",
+          "movies": 336,
+          "seasons": 73,
+          "albums": 339
+        },
+        {
+          "date": "Mar 15",
+          "movies": 336,
+          "seasons": 73,
+          "albums": 339
+        },
+        {
+          "date": "Mar 16",
+          "movies": 336,
+          "seasons": 75,
+          "albums": 339
+        },
+        {
+          "date": "Mar 17",
+          "movies": 341,
+          "seasons": 76,
+          "albums": 343
+        },
+        {
+          "date": "Mar 18",
+          "movies": 341,
+          "seasons": 78,
+          "albums": 343
+        },
+        {
+          "date": "Mar 19",
+          "movies": 341,
+          "seasons": 79,
+          "albums": 343
+        },
+        {
+          "date": "Mar 20",
+          "movies": 341,
+          "seasons": 80,
+          "albums": 348
+        },
+        {
+          "date": "Mar 21",
+          "movies": 341,
+          "seasons": 81,
+          "albums": 356
+        },
+        {
+          "date": "Mar 22",
+          "movies": 341,
+          "seasons": 84,
+          "albums": 356
+        },
+        {
+          "date": "Mar 23",
+          "movies": 345,
+          "seasons": 84,
+          "albums": 356
+        },
+        {
+          "date": "Mar 24",
+          "movies": 348,
+          "seasons": 84,
+          "albums": 356
+        },
+        {
+          "date": "Mar 25",
+          "movies": 348,
+          "seasons": 87,
+          "albums": 356
+        },
+        {
+          "date": "Mar 26",
+          "movies": 348,
+          "seasons": 90,
+          "albums": 356
+        },
+        {
+          "date": "Mar 27",
+          "movies": 348,
+          "seasons": 90,
+          "albums": 356
+        },
+        {
+          "date": "Mar 28",
+          "movies": 348,
+          "seasons": 91,
+          "albums": 356
+        },
+        {
+          "date": "Mar 29",
+          "movies": 348,
+          "seasons": 91,
+          "albums": 356
+        },
+        {
+          "date": "Mar 30",
+          "movies": 348,
+          "seasons": 91,
+          "albums": 356
+        },
+        {
+          "date": "Mar 31",
           "movies": 348,
           "seasons": 93,
           "albums": 356
         },
         {
-          "date": "Apr",
+          "date": "Apr 1",
+          "movies": 348,
+          "seasons": 96,
+          "albums": 357
+        },
+        {
+          "date": "Apr 2",
+          "movies": 349,
+          "seasons": 97,
+          "albums": 363
+        },
+        {
+          "date": "Apr 3",
+          "movies": 349,
+          "seasons": 98,
+          "albums": 363
+        },
+        {
+          "date": "Apr 4",
+          "movies": 351,
+          "seasons": 98,
+          "albums": 373
+        },
+        {
+          "date": "Apr 5",
+          "movies": 353,
+          "seasons": 99,
+          "albums": 373
+        },
+        {
+          "date": "Apr 6",
+          "movies": 353,
+          "seasons": 100,
+          "albums": 374
+        },
+        {
+          "date": "Apr 7",
+          "movies": 353,
+          "seasons": 102,
+          "albums": 376
+        },
+        {
+          "date": "Apr 8",
+          "movies": 353,
+          "seasons": 104,
+          "albums": 377
+        },
+        {
+          "date": "Apr 9",
+          "movies": 357,
+          "seasons": 104,
+          "albums": 386
+        },
+        {
+          "date": "Apr 10",
+          "movies": 358,
+          "seasons": 105,
+          "albums": 386
+        },
+        {
+          "date": "Apr 11",
+          "movies": 370,
+          "seasons": 105,
+          "albums": 386
+        },
+        {
+          "date": "Apr 12",
+          "movies": 370,
+          "seasons": 106,
+          "albums": 386
+        },
+        {
+          "date": "Apr 13",
+          "movies": 370,
+          "seasons": 106,
+          "albums": 386
+        },
+        {
+          "date": "Apr 14",
+          "movies": 370,
+          "seasons": 109,
+          "albums": 387
+        },
+        {
+          "date": "Apr 15",
+          "movies": 370,
+          "seasons": 109,
+          "albums": 387
+        },
+        {
+          "date": "Apr 16",
+          "movies": 376,
+          "seasons": 109,
+          "albums": 387
+        },
+        {
+          "date": "Apr 17",
+          "movies": 395,
+          "seasons": 111,
+          "albums": 387
+        },
+        {
+          "date": "Apr 18",
+          "movies": 422,
+          "seasons": 111,
+          "albums": 387
+        },
+        {
+          "date": "Apr 19",
+          "movies": 467,
+          "seasons": 111,
+          "albums": 387
+        },
+        {
+          "date": "Apr 20",
+          "movies": 489,
+          "seasons": 111,
+          "albums": 387
+        },
+        {
+          "date": "Apr 21",
+          "movies": 497,
+          "seasons": 118,
+          "albums": 389
+        },
+        {
+          "date": "Apr 22",
+          "movies": 536,
+          "seasons": 118,
+          "albums": 389
+        },
+        {
+          "date": "Apr 23",
+          "movies": 542,
+          "seasons": 123,
+          "albums": 396
+        },
+        {
+          "date": "Apr 24",
+          "movies": 550,
+          "seasons": 132,
+          "albums": 399
+        },
+        {
+          "date": "Apr 25",
+          "movies": 560,
+          "seasons": 134,
+          "albums": 403
+        },
+        {
+          "date": "Apr 26",
+          "movies": 563,
+          "seasons": 134,
+          "albums": 404
+        },
+        {
+          "date": "Apr 27",
+          "movies": 563,
+          "seasons": 134,
+          "albums": 404
+        },
+        {
+          "date": "Apr 28",
+          "movies": 567,
+          "seasons": 137,
+          "albums": 406
+        },
+        {
+          "date": "Apr 29",
+          "movies": 573,
+          "seasons": 159,
+          "albums": 406
+        },
+        {
+          "date": "Apr 30",
           "movies": 580,
           "seasons": 163,
           "albums": 408
         },
         {
-          "date": "May",
+          "date": "May 1",
+          "movies": 580,
+          "seasons": 167,
+          "albums": 409
+        },
+        {
+          "date": "May 2",
+          "movies": 584,
+          "seasons": 181,
+          "albums": 409
+        },
+        {
+          "date": "May 3",
+          "movies": 589,
+          "seasons": 193,
+          "albums": 410
+        },
+        {
+          "date": "May 4",
+          "movies": 591,
+          "seasons": 197,
+          "albums": 410
+        },
+        {
+          "date": "May 5",
+          "movies": 594,
+          "seasons": 205,
+          "albums": 413
+        },
+        {
+          "date": "May 6",
+          "movies": 594,
+          "seasons": 210,
+          "albums": 417
+        },
+        {
+          "date": "May 7",
+          "movies": 600,
+          "seasons": 213,
+          "albums": 419
+        },
+        {
+          "date": "May 8",
+          "movies": 619,
+          "seasons": 214,
+          "albums": 423
+        },
+        {
+          "date": "May 9",
+          "movies": 630,
+          "seasons": 219,
+          "albums": 433
+        },
+        {
+          "date": "May 10",
+          "movies": 633,
+          "seasons": 232,
+          "albums": 441
+        },
+        {
+          "date": "May 11",
+          "movies": 634,
+          "seasons": 249,
+          "albums": 443
+        },
+        {
+          "date": "May 12",
+          "movies": 634,
+          "seasons": 252,
+          "albums": 444
+        },
+        {
+          "date": "May 13",
+          "movies": 635,
+          "seasons": 253,
+          "albums": 446
+        },
+        {
+          "date": "May 14",
+          "movies": 635,
+          "seasons": 253,
+          "albums": 447
+        },
+        {
+          "date": "May 15",
+          "movies": 635,
+          "seasons": 266,
+          "albums": 457
+        },
+        {
+          "date": "May 16",
+          "movies": 635,
+          "seasons": 266,
+          "albums": 462
+        },
+        {
+          "date": "May 17",
+          "movies": 635,
+          "seasons": 267,
+          "albums": 463
+        },
+        {
+          "date": "May 18",
+          "movies": 635,
+          "seasons": 272,
+          "albums": 464
+        },
+        {
+          "date": "May 19",
+          "movies": 635,
+          "seasons": 272,
+          "albums": 467
+        },
+        {
+          "date": "May 20",
+          "movies": 635,
+          "seasons": 272,
+          "albums": 476
+        },
+        {
+          "date": "May 21",
+          "movies": 641,
+          "seasons": 273,
+          "albums": 476
+        },
+        {
+          "date": "May 22",
+          "movies": 641,
+          "seasons": 273,
+          "albums": 483
+        },
+        {
+          "date": "May 23",
+          "movies": 641,
+          "seasons": 273,
+          "albums": 484
+        },
+        {
+          "date": "May 24",
+          "movies": 641,
+          "seasons": 273,
+          "albums": 484
+        },
+        {
+          "date": "May 25",
+          "movies": 642,
+          "seasons": 273,
+          "albums": 484
+        },
+        {
+          "date": "May 26",
+          "movies": 642,
+          "seasons": 273,
+          "albums": 484
+        },
+        {
+          "date": "May 27",
+          "movies": 642,
+          "seasons": 274,
+          "albums": 485
+        },
+        {
+          "date": "May 28",
+          "movies": 642,
+          "seasons": 274,
+          "albums": 488
+        },
+        {
+          "date": "May 29",
+          "movies": 642,
+          "seasons": 274,
+          "albums": 488
+        },
+        {
+          "date": "May 30",
+          "movies": 646,
+          "seasons": 274,
+          "albums": 489
+        },
+        {
+          "date": "May 31",
           "movies": 647,
           "seasons": 274,
           "albums": 490
         },
         {
-          "date": "Jun",
+          "date": "Jun 1",
+          "movies": 656,
+          "seasons": 279,
+          "albums": 493
+        },
+        {
+          "date": "Jun 2",
+          "movies": 658,
+          "seasons": 290,
+          "albums": 493
+        },
+        {
+          "date": "Jun 3",
+          "movies": 660,
+          "seasons": 317,
+          "albums": 497
+        },
+        {
+          "date": "Jun 4",
+          "movies": 661,
+          "seasons": 343,
+          "albums": 499
+        },
+        {
+          "date": "Jun 5",
+          "movies": 682,
+          "seasons": 355,
+          "albums": 499
+        },
+        {
+          "date": "Jun 6",
+          "movies": 688,
+          "seasons": 366,
+          "albums": 515
+        },
+        {
+          "date": "Jun 7",
+          "movies": 719,
+          "seasons": 370,
+          "albums": 516
+        },
+        {
+          "date": "Jun 8",
+          "movies": 766,
+          "seasons": 372,
+          "albums": 516
+        },
+        {
+          "date": "Jun 9",
+          "movies": 775,
+          "seasons": 375,
+          "albums": 517
+        },
+        {
+          "date": "Jun 10",
+          "movies": 778,
+          "seasons": 379,
+          "albums": 518
+        },
+        {
+          "date": "Jun 11",
+          "movies": 778,
+          "seasons": 382,
+          "albums": 518
+        },
+        {
+          "date": "Jun 12",
+          "movies": 779,
+          "seasons": 382,
+          "albums": 518
+        },
+        {
+          "date": "Jun 13",
+          "movies": 779,
+          "seasons": 382,
+          "albums": 519
+        },
+        {
+          "date": "Jun 14",
+          "movies": 779,
+          "seasons": 382,
+          "albums": 519
+        },
+        {
+          "date": "Jun 15",
+          "movies": 779,
+          "seasons": 384,
+          "albums": 520
+        },
+        {
+          "date": "Jun 16",
+          "movies": 779,
+          "seasons": 384,
+          "albums": 520
+        },
+        {
+          "date": "Jun 17",
+          "movies": 781,
+          "seasons": 384,
+          "albums": 520
+        },
+        {
+          "date": "Jun 18",
+          "movies": 782,
+          "seasons": 384,
+          "albums": 520
+        },
+        {
+          "date": "Jun 19",
+          "movies": 782,
+          "seasons": 387,
+          "albums": 520
+        },
+        {
+          "date": "Jun 20",
+          "movies": 788,
+          "seasons": 387,
+          "albums": 538
+        },
+        {
+          "date": "Jun 21",
+          "movies": 794,
+          "seasons": 402,
+          "albums": 539
+        },
+        {
+          "date": "Jun 22",
+          "movies": 794,
+          "seasons": 407,
+          "albums": 540
+        },
+        {
+          "date": "Jun 23",
+          "movies": 838,
+          "seasons": 413,
+          "albums": 550
+        },
+        {
+          "date": "Jun 24",
+          "movies": 854,
+          "seasons": 414,
+          "albums": 551
+        },
+        {
+          "date": "Jun 25",
+          "movies": 859,
+          "seasons": 416,
+          "albums": 574
+        },
+        {
+          "date": "Jun 26",
+          "movies": 873,
+          "seasons": 418,
+          "albums": 577
+        },
+        {
+          "date": "Jun 27",
+          "movies": 875,
+          "seasons": 420,
+          "albums": 580
+        },
+        {
+          "date": "Jun 28",
+          "movies": 889,
+          "seasons": 420,
+          "albums": 586
+        },
+        {
+          "date": "Jun 29",
+          "movies": 892,
+          "seasons": 422,
+          "albums": 594
+        },
+        {
+          "date": "Jun 30",
           "movies": 893,
           "seasons": 427,
           "albums": 598
         },
         {
-          "date": "Jul",
+          "date": "Jul 1",
+          "movies": 893,
+          "seasons": 427,
+          "albums": 598
+        },
+        {
+          "date": "Jul 2",
+          "movies": 893,
+          "seasons": 427,
+          "albums": 598
+        },
+        {
+          "date": "Jul 3",
+          "movies": 893,
+          "seasons": 427,
+          "albums": 605
+        },
+        {
+          "date": "Jul 4",
+          "movies": 893,
+          "seasons": 427,
+          "albums": 605
+        },
+        {
+          "date": "Jul 5",
+          "movies": 894,
+          "seasons": 428,
+          "albums": 605
+        },
+        {
+          "date": "Jul 6",
+          "movies": 897,
+          "seasons": 433,
+          "albums": 606
+        },
+        {
+          "date": "Jul 7",
+          "movies": 898,
+          "seasons": 433,
+          "albums": 608
+        },
+        {
+          "date": "Jul 8",
+          "movies": 899,
+          "seasons": 434,
+          "albums": 609
+        },
+        {
+          "date": "Jul 9",
+          "movies": 899,
+          "seasons": 434,
+          "albums": 609
+        },
+        {
+          "date": "Jul 10",
+          "movies": 902,
+          "seasons": 435,
+          "albums": 609
+        },
+        {
+          "date": "Jul 11",
+          "movies": 902,
+          "seasons": 435,
+          "albums": 609
+        },
+        {
+          "date": "Jul 12",
+          "movies": 902,
+          "seasons": 435,
+          "albums": 609
+        },
+        {
+          "date": "Jul 13",
+          "movies": 902,
+          "seasons": 435,
+          "albums": 609
+        },
+        {
+          "date": "Jul 14",
+          "movies": 903,
+          "seasons": 435,
+          "albums": 609
+        },
+        {
+          "date": "Jul 15",
+          "movies": 909,
+          "seasons": 435,
+          "albums": 609
+        },
+        {
+          "date": "Jul 16",
+          "movies": 917,
+          "seasons": 435,
+          "albums": 609
+        },
+        {
+          "date": "Jul 17",
+          "movies": 917,
+          "seasons": 435,
+          "albums": 610
+        },
+        {
+          "date": "Jul 18",
+          "movies": 919,
+          "seasons": 435,
+          "albums": 610
+        },
+        {
+          "date": "Jul 19",
+          "movies": 919,
+          "seasons": 435,
+          "albums": 612
+        },
+        {
+          "date": "Jul 20",
+          "movies": 919,
+          "seasons": 435,
+          "albums": 612
+        },
+        {
+          "date": "Jul 21",
+          "movies": 919,
+          "seasons": 435,
+          "albums": 612
+        },
+        {
+          "date": "Jul 22",
+          "movies": 923,
+          "seasons": 440,
+          "albums": 612
+        },
+        {
+          "date": "Jul 23",
+          "movies": 923,
+          "seasons": 440,
+          "albums": 612
+        },
+        {
+          "date": "Jul 24",
+          "movies": 923,
+          "seasons": 446,
+          "albums": 613
+        },
+        {
+          "date": "Jul 25",
+          "movies": 923,
+          "seasons": 450,
+          "albums": 623
+        },
+        {
+          "date": "Jul 26",
+          "movies": 923,
+          "seasons": 450,
+          "albums": 623
+        },
+        {
+          "date": "Jul 27",
+          "movies": 923,
+          "seasons": 450,
+          "albums": 623
+        },
+        {
+          "date": "Jul 28",
+          "movies": 924,
+          "seasons": 450,
+          "albums": 624
+        },
+        {
+          "date": "Jul 29",
+          "movies": 924,
+          "seasons": 450,
+          "albums": 624
+        },
+        {
+          "date": "Jul 30",
           "movies": 925,
           "seasons": 450,
           "albums": 626
         },
         {
-          "date": "Aug",
+          "date": "Jul 31",
+          "movies": 925,
+          "seasons": 450,
+          "albums": 626
+        },
+        {
+          "date": "Aug 1",
+          "movies": 925,
+          "seasons": 450,
+          "albums": 627
+        },
+        {
+          "date": "Aug 2",
+          "movies": 925,
+          "seasons": 451,
+          "albums": 627
+        },
+        {
+          "date": "Aug 3",
+          "movies": 925,
+          "seasons": 451,
+          "albums": 627
+        },
+        {
+          "date": "Aug 4",
+          "movies": 925,
+          "seasons": 451,
+          "albums": 628
+        },
+        {
+          "date": "Aug 5",
+          "movies": 926,
+          "seasons": 451,
+          "albums": 631
+        },
+        {
+          "date": "Aug 6",
+          "movies": 926,
+          "seasons": 451,
+          "albums": 631
+        },
+        {
+          "date": "Aug 7",
+          "movies": 928,
+          "seasons": 452,
+          "albums": 631
+        },
+        {
+          "date": "Aug 8",
+          "movies": 928,
+          "seasons": 452,
+          "albums": 640
+        },
+        {
+          "date": "Aug 9",
+          "movies": 929,
+          "seasons": 452,
+          "albums": 640
+        },
+        {
+          "date": "Aug 10",
+          "movies": 929,
+          "seasons": 452,
+          "albums": 640
+        },
+        {
+          "date": "Aug 11",
+          "movies": 930,
+          "seasons": 452,
+          "albums": 643
+        },
+        {
+          "date": "Aug 12",
+          "movies": 934,
+          "seasons": 452,
+          "albums": 648
+        },
+        {
+          "date": "Aug 13",
+          "movies": 936,
+          "seasons": 452,
+          "albums": 650
+        },
+        {
+          "date": "Aug 14",
+          "movies": 945,
+          "seasons": 453,
+          "albums": 650
+        },
+        {
+          "date": "Aug 15",
+          "movies": 945,
+          "seasons": 454,
+          "albums": 653
+        },
+        {
+          "date": "Aug 16",
+          "movies": 946,
+          "seasons": 454,
+          "albums": 654
+        },
+        {
+          "date": "Aug 17",
+          "movies": 946,
+          "seasons": 455,
+          "albums": 654
+        },
+        {
+          "date": "Aug 18",
+          "movies": 946,
+          "seasons": 455,
+          "albums": 654
+        },
+        {
+          "date": "Aug 19",
+          "movies": 946,
+          "seasons": 455,
+          "albums": 654
+        },
+        {
+          "date": "Aug 20",
+          "movies": 946,
+          "seasons": 455,
+          "albums": 658
+        },
+        {
+          "date": "Aug 21",
+          "movies": 946,
+          "seasons": 461,
+          "albums": 661
+        },
+        {
+          "date": "Aug 22",
+          "movies": 946,
+          "seasons": 461,
+          "albums": 662
+        },
+        {
+          "date": "Aug 23",
+          "movies": 946,
+          "seasons": 461,
+          "albums": 662
+        },
+        {
+          "date": "Aug 24",
+          "movies": 946,
+          "seasons": 461,
+          "albums": 668
+        },
+        {
+          "date": "Aug 25",
+          "movies": 946,
+          "seasons": 461,
+          "albums": 675
+        },
+        {
+          "date": "Aug 26",
+          "movies": 947,
+          "seasons": 461,
+          "albums": 682
+        },
+        {
+          "date": "Aug 27",
           "movies": 949,
           "seasons": 463,
           "albums": 683
         },
         {
-          "date": "Sep",
+          "date": "Aug 28",
+          "movies": 949,
+          "seasons": 463,
+          "albums": 683
+        },
+        {
+          "date": "Aug 29",
+          "movies": 949,
+          "seasons": 463,
+          "albums": 683
+        },
+        {
+          "date": "Aug 30",
+          "movies": 949,
+          "seasons": 463,
+          "albums": 683
+        },
+        {
+          "date": "Aug 31",
+          "movies": 949,
+          "seasons": 463,
+          "albums": 683
+        },
+        {
+          "date": "Sep 1",
+          "movies": 949,
+          "seasons": 463,
+          "albums": 683
+        },
+        {
+          "date": "Sep 2",
+          "movies": 958,
+          "seasons": 463,
+          "albums": 683
+        },
+        {
+          "date": "Sep 3",
+          "movies": 958,
+          "seasons": 463,
+          "albums": 686
+        },
+        {
+          "date": "Sep 4",
+          "movies": 958,
+          "seasons": 463,
+          "albums": 686
+        },
+        {
+          "date": "Sep 5",
+          "movies": 960,
+          "seasons": 463,
+          "albums": 689
+        },
+        {
+          "date": "Sep 6",
+          "movies": 960,
+          "seasons": 463,
+          "albums": 689
+        },
+        {
+          "date": "Sep 7",
+          "movies": 960,
+          "seasons": 463,
+          "albums": 689
+        },
+        {
+          "date": "Sep 8",
+          "movies": 960,
+          "seasons": 464,
+          "albums": 689
+        },
+        {
+          "date": "Sep 9",
+          "movies": 960,
+          "seasons": 465,
+          "albums": 689
+        },
+        {
+          "date": "Sep 10",
+          "movies": 960,
+          "seasons": 465,
+          "albums": 689
+        },
+        {
+          "date": "Sep 11",
+          "movies": 960,
+          "seasons": 465,
+          "albums": 689
+        },
+        {
+          "date": "Sep 12",
+          "movies": 960,
+          "seasons": 465,
+          "albums": 689
+        },
+        {
+          "date": "Sep 13",
+          "movies": 960,
+          "seasons": 466,
+          "albums": 689
+        },
+        {
+          "date": "Sep 14",
+          "movies": 960,
+          "seasons": 466,
+          "albums": 689
+        },
+        {
+          "date": "Sep 15",
+          "movies": 960,
+          "seasons": 467,
+          "albums": 689
+        },
+        {
+          "date": "Sep 16",
+          "movies": 961,
+          "seasons": 467,
+          "albums": 691
+        },
+        {
+          "date": "Sep 17",
+          "movies": 961,
+          "seasons": 467,
+          "albums": 693
+        },
+        {
+          "date": "Sep 18",
+          "movies": 962,
+          "seasons": 469,
+          "albums": 695
+        },
+        {
+          "date": "Sep 19",
+          "movies": 963,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 20",
+          "movies": 963,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 21",
+          "movies": 963,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 22",
+          "movies": 968,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 23",
+          "movies": 968,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 24",
+          "movies": 968,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 25",
+          "movies": 968,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 26",
+          "movies": 968,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 27",
+          "movies": 968,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 28",
+          "movies": 968,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Sep 29",
           "movies": 970,
           "seasons": 471,
           "albums": 695
         },
         {
-          "date": "Oct",
+          "date": "Sep 30",
+          "movies": 970,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Oct 1",
+          "movies": 970,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Oct 2",
+          "movies": 970,
+          "seasons": 471,
+          "albums": 695
+        },
+        {
+          "date": "Oct 3",
+          "movies": 970,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 4",
+          "movies": 970,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 5",
+          "movies": 970,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 6",
+          "movies": 970,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 7",
+          "movies": 976,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 8",
+          "movies": 977,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 9",
+          "movies": 977,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 10",
+          "movies": 979,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 11",
+          "movies": 980,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 12",
+          "movies": 981,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 13",
+          "movies": 981,
+          "seasons": 471,
+          "albums": 699
+        },
+        {
+          "date": "Oct 14",
+          "movies": 981,
+          "seasons": 472,
+          "albums": 700
+        },
+        {
+          "date": "Oct 15",
+          "movies": 981,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 16",
+          "movies": 981,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 17",
+          "movies": 981,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 18",
+          "movies": 981,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 19",
+          "movies": 981,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 20",
+          "movies": 981,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 21",
+          "movies": 981,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 22",
           "movies": 983,
           "seasons": 472,
           "albums": 703
         },
         {
-          "date": "Nov",
+          "date": "Oct 23",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 24",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 25",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 26",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 27",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 28",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 29",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 30",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Oct 31",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Nov 1",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Nov 2",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Nov 3",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Nov 4",
+          "movies": 983,
+          "seasons": 472,
+          "albums": 703
+        },
+        {
+          "date": "Nov 5",
+          "movies": 983,
+          "seasons": 482,
+          "albums": 703
+        },
+        {
+          "date": "Nov 6",
+          "movies": 983,
+          "seasons": 482,
+          "albums": 703
+        },
+        {
+          "date": "Nov 7",
+          "movies": 983,
+          "seasons": 483,
+          "albums": 734
+        },
+        {
+          "date": "Nov 8",
+          "movies": 983,
+          "seasons": 483,
+          "albums": 734
+        },
+        {
+          "date": "Nov 9",
+          "movies": 983,
+          "seasons": 483,
+          "albums": 734
+        },
+        {
+          "date": "Nov 10",
+          "movies": 983,
+          "seasons": 489,
+          "albums": 734
+        },
+        {
+          "date": "Nov 11",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 734
+        },
+        {
+          "date": "Nov 12",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 734
+        },
+        {
+          "date": "Nov 13",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 735
+        },
+        {
+          "date": "Nov 14",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 735
+        },
+        {
+          "date": "Nov 15",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 735
+        },
+        {
+          "date": "Nov 16",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 735
+        },
+        {
+          "date": "Nov 17",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 736
+        },
+        {
+          "date": "Nov 18",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 736
+        },
+        {
+          "date": "Nov 19",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 736
+        },
+        {
+          "date": "Nov 20",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 736
+        },
+        {
+          "date": "Nov 21",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 737
+        },
+        {
+          "date": "Nov 22",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 740
+        },
+        {
+          "date": "Nov 23",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 740
+        },
+        {
+          "date": "Nov 24",
+          "movies": 983,
+          "seasons": 494,
+          "albums": 740
+        },
+        {
+          "date": "Nov 25",
+          "movies": 984,
+          "seasons": 499,
+          "albums": 740
+        },
+        {
+          "date": "Nov 26",
           "movies": 987,
           "seasons": 499,
           "albums": 740
         },
         {
-          "date": "Dec",
+          "date": "Nov 27",
+          "movies": 987,
+          "seasons": 499,
+          "albums": 740
+        },
+        {
+          "date": "Nov 28",
+          "movies": 987,
+          "seasons": 499,
+          "albums": 740
+        },
+        {
+          "date": "Nov 29",
+          "movies": 987,
+          "seasons": 499,
+          "albums": 740
+        },
+        {
+          "date": "Nov 30",
+          "movies": 987,
+          "seasons": 499,
+          "albums": 740
+        },
+        {
+          "date": "Dec 1",
+          "movies": 987,
+          "seasons": 501,
+          "albums": 740
+        },
+        {
+          "date": "Dec 2",
+          "movies": 992,
+          "seasons": 501,
+          "albums": 740
+        },
+        {
+          "date": "Dec 3",
+          "movies": 997,
+          "seasons": 501,
+          "albums": 740
+        },
+        {
+          "date": "Dec 4",
+          "movies": 998,
+          "seasons": 503,
+          "albums": 741
+        },
+        {
+          "date": "Dec 5",
+          "movies": 999,
+          "seasons": 507,
+          "albums": 742
+        },
+        {
+          "date": "Dec 6",
+          "movies": 999,
+          "seasons": 510,
+          "albums": 742
+        },
+        {
+          "date": "Dec 7",
+          "movies": 999,
+          "seasons": 513,
+          "albums": 742
+        },
+        {
+          "date": "Dec 8",
+          "movies": 1003,
+          "seasons": 518,
+          "albums": 762
+        },
+        {
+          "date": "Dec 9",
+          "movies": 1005,
+          "seasons": 535,
+          "albums": 779
+        },
+        {
+          "date": "Dec 10",
+          "movies": 1005,
+          "seasons": 539,
+          "albums": 782
+        },
+        {
+          "date": "Dec 11",
+          "movies": 1005,
+          "seasons": 568,
+          "albums": 810
+        },
+        {
+          "date": "Dec 12",
+          "movies": 1005,
+          "seasons": 580,
+          "albums": 838
+        },
+        {
+          "date": "Dec 13",
+          "movies": 1005,
+          "seasons": 585,
+          "albums": 871
+        },
+        {
+          "date": "Dec 14",
+          "movies": 1006,
+          "seasons": 588,
+          "albums": 873
+        },
+        {
+          "date": "Dec 15",
+          "movies": 1006,
+          "seasons": 590,
+          "albums": 882
+        },
+        {
+          "date": "Dec 16",
+          "movies": 1006,
+          "seasons": 590,
+          "albums": 927
+        },
+        {
+          "date": "Dec 17",
+          "movies": 1014,
+          "seasons": 590,
+          "albums": 931
+        },
+        {
+          "date": "Dec 18",
+          "movies": 1014,
+          "seasons": 590,
+          "albums": 944
+        },
+        {
+          "date": "Dec 19",
+          "movies": 1014,
+          "seasons": 591,
+          "albums": 949
+        },
+        {
+          "date": "Dec 20",
+          "movies": 1015,
+          "seasons": 592,
+          "albums": 963
+        },
+        {
+          "date": "Dec 21",
+          "movies": 1015,
+          "seasons": 592,
+          "albums": 963
+        },
+        {
+          "date": "Dec 22",
+          "movies": 1018,
+          "seasons": 593,
+          "albums": 977
+        },
+        {
+          "date": "Dec 23",
+          "movies": 1021,
+          "seasons": 593,
+          "albums": 977
+        },
+        {
+          "date": "Dec 24",
+          "movies": 1022,
+          "seasons": 595,
+          "albums": 985
+        },
+        {
+          "date": "Dec 25",
+          "movies": 1023,
+          "seasons": 595,
+          "albums": 989
+        },
+        {
+          "date": "Dec 26",
+          "movies": 1023,
+          "seasons": 595,
+          "albums": 989
+        },
+        {
+          "date": "Dec 27",
           "movies": 1023,
           "seasons": 595,
           "albums": 1023
+        },
+        {
+          "date": "Dec 28",
+          "movies": 1023,
+          "seasons": 595,
+          "albums": 1023
+        },
+        {
+          "date": "Dec 29",
+          "movies": 1023,
+          "seasons": 595,
+          "albums": 1023
+        },
+        {
+          "date": "Dec 30",
+          "movies": 1023,
+          "seasons": 595,
+          "albums": 1023
+        },
+        {
+          "date": "Dec 31",
+          "movies": 1023,
+          "seasons": 595,
+          "albums": 1023
+        }
+      ],
+      "user_joins": [
+        {
+          "username": "Dodgewilly",
+          "date": "Apr 27",
+          "avatar": "/decoded/assets/2025/user-Dodgewilly.jpg"
+        },
+        {
+          "username": "vannehbe",
+          "date": "Apr 29",
+          "avatar": "/decoded/assets/2025/user-vannehbe.jpg"
+        },
+        {
+          "username": "ianduncan634",
+          "date": "Apr 30",
+          "avatar": "/decoded/assets/2025/user-ianduncan634.jpg"
+        },
+        {
+          "username": "car4338",
+          "date": "May 1",
+          "avatar": "/decoded/assets/2025/user-car4338.jpg"
+        },
+        {
+          "username": "samtayl97",
+          "date": "May 4",
+          "avatar": "/decoded/assets/2025/user-samtayl97.jpg"
+        },
+        {
+          "username": "troymarderosian",
+          "date": "May 9",
+          "avatar": "/decoded/assets/2025/user-troymarderosian.jpg"
+        },
+        {
+          "username": "josejal2",
+          "date": "May 13",
+          "avatar": "/decoded/assets/2025/user-josejal2.jpg"
+        },
+        {
+          "username": "equa50",
+          "date": "May 20",
+          "avatar": "/decoded/assets/2025/user-equa50.jpg"
+        },
+        {
+          "username": "maggie.c70",
+          "date": "Jun 14",
+          "avatar": "/decoded/assets/2025/user-maggie.c70.jpg"
+        },
+        {
+          "username": "rochel819",
+          "date": "Jun 17",
+          "avatar": "/decoded/assets/2025/user-rochel819.jpg"
+        },
+        {
+          "username": "christinebedrossian116",
+          "date": "Jun 27",
+          "avatar": "/decoded/assets/2025/user-christinebedrossian116.jpg"
+        },
+        {
+          "username": "tannerlakin",
+          "date": "Jul 8",
+          "avatar": "/decoded/assets/2025/user-tannerlakin.jpg"
+        },
+        {
+          "username": "hannahwhelan8",
+          "date": "Aug 17",
+          "avatar": "/decoded/assets/2025/user-hannahwhelan8.jpg"
+        },
+        {
+          "username": "spamw2",
+          "date": "Sep 19",
+          "avatar": "/decoded/assets/2025/user-spamw2.jpg"
+        },
+        {
+          "username": "kendra420uncut",
+          "date": "Oct 1",
+          "avatar": "/decoded/assets/2025/user-kendra420uncut.jpg"
+        },
+        {
+          "username": "macgnarly",
+          "date": "Dec 10",
+          "avatar": "/decoded/assets/2025/user-macgnarly.jpg"
         }
       ]
     },
@@ -927,80 +3127,179 @@
         {
           "category": "#1 Most Watched Movie",
           "title": "Eddington",
-          "description": "Watched by 5 users",
+          "description": "Viewed by 5 users: rakbarut,hannahwhelan8,Dodgewilly,maggie.c70,jac7k",
           "image_asset_name": "eddington.jpg"
         },
         {
           "category": "#2 Most Watched Movie",
           "title": "Friendship",
-          "description": "Watched by 4 users",
+          "description": "Viewed by 4 users: tannerlakin,caseystewart73,ianduncan634,Dodgewilly",
           "image_asset_name": "friendship.jpg"
         },
         {
           "category": "#3 Most Watched Movie",
           "title": "Shaun of the Dead",
-          "description": "Watched by 3 users",
+          "description": "Viewed by 3 users: maggie.c70,rakbarut,Dodgewilly",
           "image_asset_name": "shaun-of-the-dead.jpg"
         },
         {
           "category": "#1 Most Watched TV Show",
           "title": "Jeopardy!",
-          "description": "Watched by 6 users",
+          "description": "Viewed by 6 users: jac7k,tannerlakin,hannahwhelan8,blackbox.a,rakbarut,Dodgewilly",
           "image_asset_name": "jeopardy.jpg"
         },
         {
           "category": "#2 Most Watched TV Show",
           "title": "The Paper",
-          "description": "Watched by 5 users",
+          "description": "Viewed by 5 users: hannahwhelan8,Dodgewilly,jac7k,troymarderosian,caseystewart73",
           "image_asset_name": "the-paper.jpg"
         },
         {
           "category": "#3 Most Watched TV Show",
           "title": "The Rehearsal",
-          "description": "Watched by 5 users",
+          "description": "Viewed by 5 users: josejal2,rakbarut,Dodgewilly,troymarderosian,caseystewart73",
           "image_asset_name": "the-rehearsal.jpg"
         },
         {
           "category": "#1 Most Played Artist",
           "title": "Comps",
-          "description": "Listened by 8 users",
+          "description": "Played by 8 users: WHS.IV,rakbarut,caseystewart73,jac7k,blackbox.a,natalietice,maggie.c70,troymarderosian",
           "image_asset_name": "comps.jpg"
         },
         {
           "category": "#2 Most Played Artist",
           "title": "Aphex Twin",
-          "description": "Listened by 7 users",
+          "description": "Played by 7 users: blackbox.a,rakbarut,equa50,jac7k,caseystewart73,natalietice,josejal2",
           "image_asset_name": "aphex-twin.jpg"
         },
         {
           "category": "#3 Most Played Artist",
           "title": "Nine Inch Nails",
-          "description": "Listened by 7 users",
+          "description": "Played by 7 users: blackbox.a,jac7k,rakbarut,WHS.IV,hannahwhelan8,equa50,caseystewart73",
           "image_asset_name": "nine-inch-nails.jpg"
         },
         {
           "category": "#1 Top User",
           "title": "jac7k",
           "description": "445h 19m",
+          "join_date": "Apr 27, 2025",
           "image_asset_name": "user-jac7k.jpg"
         },
         {
           "category": "#2 Top User",
           "title": "caseystewart73",
           "description": "260 hours",
+          "join_date": "Apr 27, 2025",
           "image_asset_name": "user-caseystewart73.jpg"
         },
         {
           "category": "#3 Top User",
           "title": "hannahwhelan8",
           "description": "259h 30m",
+          "join_date": "Aug 17, 2025",
           "image_asset_name": "user-hannahwhelan8.jpg"
         },
         {
           "category": "#4 Top User",
           "title": "rakbarut",
           "description": "256h 5m",
+          "join_date": "May 01, 2025",
           "image_asset_name": "user-rakbarut.jpg"
+        }
+      ]
+    },
+    {
+      "type": "users",
+      "id": "user-directory",
+      "title": "User Directory",
+      "data": [
+        {
+          "name": "caseystewart73",
+          "join_date": "Apr 27, 2025"
+        },
+        {
+          "name": "jac7k",
+          "join_date": "Apr 27, 2025"
+        },
+        {
+          "name": "Dodgewilly",
+          "join_date": "Apr 27, 2025"
+        },
+        {
+          "name": "blackbox.a",
+          "join_date": "Apr 29, 2025"
+        },
+        {
+          "name": "vannehbe",
+          "join_date": "Apr 29, 2025"
+        },
+        {
+          "name": "ianduncan634",
+          "join_date": "Apr 30, 2025"
+        },
+        {
+          "name": "car4338",
+          "join_date": "May 01, 2025"
+        },
+        {
+          "name": "rakbarut",
+          "join_date": "May 01, 2025"
+        },
+        {
+          "name": "samtayl97",
+          "join_date": "May 04, 2025"
+        },
+        {
+          "name": "WHS.IV",
+          "join_date": "May 06, 2025"
+        },
+        {
+          "name": "troymarderosian",
+          "join_date": "May 09, 2025"
+        },
+        {
+          "name": "josejal2",
+          "join_date": "May 13, 2025"
+        },
+        {
+          "name": "equa50",
+          "join_date": "May 20, 2025"
+        },
+        {
+          "name": "natalietice",
+          "join_date": "Jun 04, 2025"
+        },
+        {
+          "name": "maggie.c70",
+          "join_date": "Jun 14, 2025"
+        },
+        {
+          "name": "rochel819",
+          "join_date": "Jun 17, 2025"
+        },
+        {
+          "name": "christinebedrossian116",
+          "join_date": "Jun 27, 2025"
+        },
+        {
+          "name": "tannerlakin",
+          "join_date": "Jul 08, 2025"
+        },
+        {
+          "name": "hannahwhelan8",
+          "join_date": "Aug 17, 2025"
+        },
+        {
+          "name": "spamw2",
+          "join_date": "Sep 19, 2025"
+        },
+        {
+          "name": "kendra420uncut",
+          "join_date": "Oct 01, 2025"
+        },
+        {
+          "name": "macgnarly",
+          "join_date": "Dec 10, 2025"
         }
       ]
     }

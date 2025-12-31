@@ -30,6 +30,7 @@ interface ChartSection extends BaseSection {
   chart_type: 'area' | 'bar' | 'heatmap';
   config: Record<string, unknown>;
   data: Record<string, string | number>[];
+  user_joins?: { username: string; date: string; avatar: string }[];
 }
 
 interface AwardItem {
@@ -197,7 +198,7 @@ export default function DecodedPage() {
                 ) : (
                   <>
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,53,0.05),transparent_70%)] pointer-events-none" />
-                    <InteractiveChart 
+                    <InteractiveChart
                       type={chart.chart_type as 'area' | 'bar'}
                       data={chart.data}
                       config={chart.config as unknown as InteractiveChartConfig}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import {
   AreaChart,
   Area,
@@ -9,175 +9,217 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
-  Legend
 } from 'recharts';
-
-interface ChartSeries {
-  key: string;
-  label: string;
-  color: string;
-}
-
-interface ChartConfig {
-  xaxis_key: string;
-  series: ChartSeries[];
-  unit?: string;
-}
 
 interface ChartProps {
   type: 'area' | 'bar';
   data: Record<string, string | number>[];
-  config: ChartConfig;
+  config: {
+    xaxis_key: string;
+    series: { key: string; label: string; color: string }[];
+  };
   title?: string;
 }
 
-interface TooltipPayload {
-  name: string;
-  value: number;
-  color: string;
-  payload: Record<string, string | number>;
-}
+const SERIES = [
+  { key: 'all', label: 'All', color: '#FF6B35' },
+  { key: 'albums', label: 'Albums', color: '#00D26A' },
+  { key: 'movies', label: 'Movies', color: '#e74c3c' },
+  { key: 'seasons', label: 'TV Seasons', color: '#3498db' },
+];
 
-interface CustomTooltipProps {
-  active?: boolean;
-  payload?: TooltipPayload[];
-  label?: string;
-  unit?: string;
-}
-
-const CustomTooltip = ({ active, payload, label, unit }: CustomTooltipProps) => {
-  if (active && payload && payload.length) {
-    return (
-      <div className="bg-black/90 border border-neutral-800 p-4 rounded shadow-2xl backdrop-blur-md min-w-[200px]">
-        <p className="text-neutral-400 text-sm mb-3 font-mono border-b border-neutral-800 pb-2">{label}</p>
-        <div className="space-y-2">
-          {payload.map((entry, index) => (
-            <div key={index} className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-2">
-                <div 
-                  className="w-2 h-2 rounded-full" 
-                  style={{ backgroundColor: entry.color }}
-                />
-                <span className="text-neutral-300 text-sm">{entry.name}</span>
-              </div>
-              <p className="text-white font-mono font-bold">
-                {entry.value}
-                {unit && <span className="text-neutral-600 text-xs ml-1">{unit}</span>}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-  return null;
-};
-
-export default function InteractiveChart({ type, data, config, title }: ChartProps) {
+export default function InteractiveChart({ data, config, title }: ChartProps) {
   const [mounted, setMounted] = useState(false);
+  const [isInView, setIsInView] = useState(false);
+  const chartRef = useRef<HTMLDivElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const defaultDataRef = useRef<Record<string, string | number> | null>(null);
+
+  // Add "all" series to each data point
+  const chartData = useMemo(() => {
+    return data.map(item => {
+      const all = config.series.reduce((sum, s) => sum + (Number(item[s.key]) || 0), 0);
+      return { ...item, all } as Record<string, string | number>;
+    });
+  }, [data, config.series]);
+
+  // Store default (last) data
+  defaultDataRef.current = chartData[chartData.length - 1];
+
+  // Update stats panel via DOM (no re-renders)
+  const updateStats = useCallback((dataPoint: Record<string, string | number>) => {
+    if (!statsRef.current) return;
+
+    const dateEl = statsRef.current.querySelector('[data-stat="date"]');
+    if (dateEl) dateEl.textContent = String(dataPoint[config.xaxis_key] || '');
+
+    SERIES.forEach(s => {
+      const el = statsRef.current?.querySelector(`[data-stat="${s.key}"]`);
+      if (el) el.textContent = String(dataPoint[s.key] ?? 0);
+    });
+  }, [config.xaxis_key]);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Trigger animation when scrolled into view
+  useEffect(() => {
+    if (!mounted || !chartRef.current) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(chartRef.current);
+    return () => observer.disconnect();
+  }, [mounted]);
+
+  // Animate stats counter when chart comes into view
+  useEffect(() => {
+    if (!isInView || chartData.length === 0) return;
+
+    const duration = 3000;
+    const steps = chartData.length;
+    const interval = duration / steps;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      if (step < steps) {
+        updateStats(chartData[step]);
+        step++;
+      } else {
+        clearInterval(timer);
+      }
+    }, interval);
+
+    return () => clearInterval(timer);
+  }, [isInView, chartData, updateStats]);
+
+  // Handle hover - update stats via DOM
+  const handleHover = useCallback((dataPoint: Record<string, string | number> | null) => {
+    if (dataPoint) {
+      updateStats(dataPoint);
+    } else if (defaultDataRef.current) {
+      updateStats(defaultDataRef.current);
+    }
+  }, [updateStats]);
+
   if (!mounted) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-        {title && (
-          <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>
-        )}
-        <div className="w-full h-[400px] bg-neutral-900/20 rounded-xl border border-neutral-800 p-4 md:p-8 backdrop-blur-sm animate-pulse" />
+        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
+        <div className="w-full h-[350px] bg-neutral-900/20 rounded-xl animate-pulse" />
       </div>
     );
   }
 
+  const initialData = chartData[chartData.length - 1];
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-      {title && (
-        <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>
-      )}
-      
-      <div className="w-full h-[400px] bg-neutral-900/20 rounded-xl border border-neutral-800 p-4 md:p-8 backdrop-blur-sm">
-        <ResponsiveContainer width="100%" height="100%">
-          {type === 'area' ? (
-            <AreaChart data={data}>
+      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
+
+      <style jsx global>{`
+        @keyframes revealLine {
+          from { clip-path: inset(0 100% 0 0); }
+          to { clip-path: inset(0 0 0 0); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        .chart-hidden .recharts-area-curve,
+        .chart-hidden .recharts-area-area {
+          clip-path: inset(0 100% 0 0);
+        }
+        .chart-animate .recharts-area-curve {
+          animation: revealLine 3s ease-out forwards;
+        }
+        .chart-animate .recharts-area-area {
+          clip-path: inset(0 0 0 0);
+          opacity: 0;
+          animation: fadeIn 1s ease-out 2.5s forwards;
+        }
+      `}</style>
+
+      <div className="w-full h-[350px] flex gap-4">
+        {/* Chart */}
+        <div ref={chartRef} className={`flex-1 h-full ${isInView ? 'chart-animate' : 'chart-hidden'}`}>
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData}>
               <defs>
-                {config.series.map((s) => (
-                  <linearGradient key={s.key} id={`color${s.key}`} x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={s.color} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={s.color} stopOpacity={0}/>
+                {SERIES.map((s) => (
+                  <linearGradient key={s.key} id={`grad-${s.key}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={s.color} stopOpacity={0.3} />
+                    <stop offset="95%" stopColor={s.color} stopOpacity={0} />
                   </linearGradient>
                 ))}
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
-              <XAxis 
-                dataKey={config.xaxis_key} 
-                stroke="#666" 
+              <XAxis
+                dataKey={config.xaxis_key}
+                stroke="#666"
+                tick={{ fill: '#666', fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+                interval={30}
+                tickFormatter={(v) => v.split(' ')[0]}
+              />
+              <YAxis
+                stroke="#666"
                 tick={{ fill: '#666', fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
               />
-              <YAxis 
-                stroke="#666" 
-                tick={{ fill: '#666', fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
+              <Tooltip
+                cursor={{ stroke: '#666', strokeDasharray: '4 4' }}
+                content={(props) => {
+                  const { active, payload } = props;
+                  if (active && payload?.[0]?.payload) {
+                    handleHover(payload[0].payload);
+                  } else {
+                    handleHover(null);
+                  }
+                  return null;
+                }}
               />
-              <Tooltip 
-                content={<CustomTooltip unit={config.unit} />} 
-                cursor={{ stroke: '#666', strokeDasharray: '4 4' }} 
-              />
-              <Legend verticalAlign="top" height={36} iconType="circle" />
-              {config.series.map((s) => (
-                <Area 
+              {SERIES.map((s) => (
+                <Area
                   key={s.key}
-                  type="monotone" 
+                  type="natural"
                   dataKey={s.key}
-                  name={s.label}
-                  stroke={s.color} 
-                  fillOpacity={1} 
-                  fill={`url(#color${s.key})`} 
-                  strokeWidth={3}
-                  animationDuration={2000}
+                  stroke={s.color}
+                  fill={`url(#grad-${s.key})`}
+                  strokeWidth={2}
+                  isAnimationActive={false}
                 />
               ))}
             </AreaChart>
-          ) : (
-            <BarChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#333" vertical={false} />
-              <XAxis 
-                dataKey={config.xaxis_key} 
-                stroke="#666" 
-                tick={{ fill: '#666', fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis 
-                stroke="#666" 
-                tick={{ fill: '#666', fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip 
-                content={<CustomTooltip unit={config.unit} />} 
-                cursor={{ fill: 'rgba(255,255,255,0.05)' }} 
-              />
-              <Legend verticalAlign="top" height={36} iconType="circle" />
-              {config.series.map((s) => (
-                <Bar 
-                  key={s.key}
-                  dataKey={s.key} 
-                  name={s.label}
-                  fill={s.color} 
-                  radius={[4, 4, 0, 0]}
-                  animationDuration={2000}
-                />
-              ))}
-            </BarChart>
-          )}
-        </ResponsiveContainer>
+          </ResponsiveContainer>
+        </div>
+
+        {/* Stats Panel - Updated via DOM refs */}
+        <div ref={statsRef} className="w-36 flex flex-col justify-center space-y-2">
+          <div data-stat="date" className="text-neutral-400 font-mono text-sm mb-1">
+            {initialData?.[config.xaxis_key] || ''}
+          </div>
+          {SERIES.map((s) => (
+            <div key={s.key} className="flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: s.color }} />
+                <span className="text-neutral-400 text-xs">{s.label}</span>
+              </div>
+              <span data-stat={s.key} className="text-white font-mono font-bold text-base">
+                {initialData?.[s.key] ?? 0}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
