@@ -5,7 +5,7 @@ import decodedManifest from '../../../decoded_manifest.json';
 import HorizontalSection from './components/HorizontalSection';
 import ProgressBar from './components/ProgressBar';
 import InteractiveChart from './components/InteractiveChart';
-import WeeklyPatternChart from './components/WeeklyPatternChart';
+import RidgelineChart from './components/RidgelineChart';
 import AwardGroup from './components/AwardGroup';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
@@ -190,7 +190,7 @@ export default function DecodedPage() {
             return (
               <HorizontalSection key={chart.id || index} className="bg-black relative border-l border-neutral-900">
                 {isHeatmap ? (
-                  <WeeklyPatternChart 
+                  <RidgelineChart
                     data={chart.data as unknown as WeeklyPatternItem[]}
                     config={chart.config as unknown as WeeklyPatternConfig}
                     title={chart.title}
