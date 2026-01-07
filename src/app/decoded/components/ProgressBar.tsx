@@ -8,11 +8,11 @@ interface ProgressBarProps {
 }
 
 export default function ProgressBar({ containerRef }: ProgressBarProps) {
-  const { scrollXProgress } = useScroll({
+  const { scrollYProgress } = useScroll({
     container: containerRef,
   });
 
-  const scaleX = useSpring(scrollXProgress, {
+  const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001

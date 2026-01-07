@@ -5,10 +5,6 @@ import * as d3 from 'd3';
 
 interface RidgelineChartProps {
   data: { day: string; hour: number; value: number }[];
-  config?: {
-    color: string;
-    unit?: string;
-  };
   title?: string;
 }
 

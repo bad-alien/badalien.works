@@ -1,8 +1,8 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import decodedManifest from '../../../decoded_manifest.json';
-import HorizontalSection from './components/HorizontalSection';
+import Section from './components/Section';
 import ProgressBar from './components/ProgressBar';
 import InteractiveChart from './components/InteractiveChart';
 import RidgelineChart from './components/RidgelineChart';
@@ -10,7 +10,7 @@ import AwardGroup from './components/AwardGroup';
 import UserUsageChart from './components/UserUsageChart';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 
 // Types for the Manifest
 interface BaseSection {
@@ -72,11 +72,6 @@ interface WeeklyPatternItem {
   value: number;
 }
 
-interface WeeklyPatternConfig {
-  color: string;
-  unit?: string;
-}
-
 interface InteractiveChartConfig {
   xaxis_key: string;
   series: { key: string; label: string; color: string }[];
@@ -125,41 +120,44 @@ const processAwards = (items: AwardItem[]) => {
 
 export default function DecodedPage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // Track scroll position to show/hide scroll-to-top button
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Use window listener for global wheel capture
-    const handleWheel = (e: WheelEvent) => {
-      const isVertical = Math.abs(e.deltaY) > Math.abs(e.deltaX);
-      if (isVertical) {
-        container.scrollLeft += e.deltaY;
-        e.preventDefault();
-      }
+    const handleScroll = () => {
+      // Show button after scrolling past ~50% of viewport height
+      setShowScrollTop(container.scrollTop > window.innerHeight * 0.5);
     };
 
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-    };
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToTop = () => {
+    containerRef.current?.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   return (
     <>
       <ProgressBar containerRef={containerRef} />
-      
-      {/* Back Button */}
-      <Link 
-        href="/"
-        className="fixed top-6 left-6 z-50 p-3 rounded-full bg-black/50 backdrop-blur border border-white/10 hover:border-void-orange text-white hover:text-void-orange transition-all duration-300 group"
-      >
-        <ArrowLeft className="w-6 h-6 group-hover:-translate-x-1 transition-transform" />
-      </Link>
 
-      <main 
+      {/* Scroll to Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed top-6 left-6 z-50 p-3 rounded-full bg-black/50 backdrop-blur border border-white/10 hover:border-void-orange text-white hover:text-void-orange transition-all duration-300 group ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+        }`}
+        aria-label="Scroll to top"
+      >
+        <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
+      </button>
+
+      <main
         ref={containerRef}
-        className="flex overflow-x-auto snap-x snap-mandatory h-screen w-screen overflow-y-hidden scrollbar-hide bg-black"
+        className="overflow-y-auto snap-y snap-mandatory h-screen w-screen overflow-x-hidden scrollbar-hide bg-black"
         style={{ scrollBehavior: 'smooth' }}
       >
         {/* Reorder sections: intro, library-growth, users, heatmap, awards */}
@@ -172,6 +170,7 @@ export default function DecodedPage() {
           const awardsSection = sections.find(s => s.type === 'awards');
           const reorderedSections = [
             ...(introSection ? [introSection] : []),
+            { type: 'message' as const, id: 'owner-message' },
             ...(libraryGrowthChart ? [libraryGrowthChart] : []),
             ...(usersSection ? [usersSection] : []),
             ...(heatmapChart ? [heatmapChart] : []),
@@ -179,11 +178,81 @@ export default function DecodedPage() {
           ];
           return reorderedSections;
         })().map((section, index) => {
+          // SECTION: OWNER MESSAGE
+          if (section.type === 'message') {
+            return (
+              <Section key="owner-message" className="bg-black relative border-t border-neutral-900">
+                <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16">
+                  {/* Owner 1 Message */}
+                  <motion.div
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="space-y-4"
+                  >
+                    <h3 className="text-void-orange font-mono text-lg">Rasheed:</h3>
+                    <p className="text-neutral-300 text-lg leading-relaxed">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
+                    </p>
+                  </motion.div>
+
+                  {/* Owner 2 Message */}
+                  <motion.div
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="space-y-4"
+                  >
+                    <h3 className="text-void-orange font-mono text-lg">Jack:</h3>
+                    <p className="text-neutral-300 text-lg leading-relaxed">
+                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.
+                    </p>
+                  </motion.div>
+                </div>
+
+                {/* Explore Arrow */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.8, duration: 0.6 }}
+                  className="mt-16 flex flex-col items-center gap-4"
+                >
+                  <span
+                    className="text-void-orange text-lg font-mono uppercase tracking-[0.3em] drop-shadow-[0_0_10px_rgba(255,107,53,0.5)]"
+                  >
+                    explore
+                  </span>
+                  <motion.div
+                    animate={{ y: [0, 12, 0] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative"
+                  >
+                    <div className="absolute inset-0 blur-xl bg-void-orange/30 rounded-full scale-150" />
+                    <svg
+                      width="40"
+                      height="40"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      className="relative text-void-orange drop-shadow-[0_0_20px_rgba(255,107,53,0.8)]"
+                    >
+                      <path
+                        d="M12 4L12 20M12 20L6 14M12 20L18 14"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </motion.div>
+                </motion.div>
+              </Section>
+            );
+          }
           // SECTION: INTRO
           if (section.type === 'intro') {
             const intro = section as IntroSection;
             return (
-              <HorizontalSection key={intro.id || index} className="bg-gradient-to-br from-black via-neutral-900 to-black">
+              <Section key={intro.id || index} className="bg-gradient-to-br from-black via-neutral-900 to-black">
                 <div className="text-center space-y-8">
                   <motion.div
                     initial={{ opacity: 0, scale: 0.9 }}
@@ -205,16 +274,16 @@ export default function DecodedPage() {
                   >
                     {intro.description}
                   </motion.p>
-                  <motion.div 
-                    className="animate-bounce text-neutral-600 mt-12"
+                  <motion.div
+                    className="animate-bounce text-neutral-600 mt-12 text-3xl"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     transition={{ delay: 1 }}
                   >
-                    →
+                    ↓
                   </motion.div>
                 </div>
-              </HorizontalSection>
+              </Section>
             );
           }
 
@@ -224,12 +293,11 @@ export default function DecodedPage() {
             const isHeatmap = chart.chart_type === 'heatmap';
             
             return (
-              <HorizontalSection key={chart.id || index} className="bg-black relative border-l border-neutral-900">
+              <Section key={chart.id || index} className="bg-black relative border-t border-neutral-900">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,53,0.05),transparent_70%)] pointer-events-none" />
                 {isHeatmap ? (
                   <RidgelineChart
                     data={chart.data as unknown as WeeklyPatternItem[]}
-                    config={chart.config as unknown as WeeklyPatternConfig}
                     title="When We Use Blackbox"
                   />
                 ) : (
@@ -240,7 +308,7 @@ export default function DecodedPage() {
                     title={chart.title}
                   />
                 )}
-              </HorizontalSection>
+              </Section>
             );
           }
 
@@ -250,13 +318,13 @@ export default function DecodedPage() {
             const groups = processAwards(awards.items);
 
             return groups.map((group, i) => (
-              <HorizontalSection key={`${section.id}-group-${i}`} className="bg-black border-l border-neutral-900">
+              <Section key={`${section.id}-group-${i}`} className="bg-black border-t border-neutral-900">
                 <AwardGroup
                   title={group.title}
                   items={group.items}
                   year={decodedManifest.meta.year}
                 />
-              </HorizontalSection>
+              </Section>
             ));
           }
 
@@ -264,14 +332,14 @@ export default function DecodedPage() {
           if (section.type === 'users') {
             const usersSection = section as UsersSection;
             return (
-              <HorizontalSection key={section.id || index} className="bg-black relative border-l border-neutral-900">
+              <Section key={section.id || index} className="bg-black relative border-t border-neutral-900">
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,107,53,0.05),transparent_70%)] pointer-events-none" />
                 <UserUsageChart
                   users={usersSection.data}
                   year={decodedManifest.meta.year}
                   title="How We Use Blackbox"
                 />
-              </HorizontalSection>
+              </Section>
             );
           }
 
@@ -279,7 +347,7 @@ export default function DecodedPage() {
         })}
 
         {/* SECTION FINAL: OUTRO */}
-        <HorizontalSection className="bg-black relative overflow-hidden border-l border-neutral-900">
+        <Section className="bg-black relative overflow-hidden border-t border-neutral-900">
           <div className="absolute inset-0 bg-neutral-900/20 opacity-20 pointer-events-none" />
           <div className="text-center z-10">
             <h2 className="text-5xl md:text-8xl font-bold mb-8 text-white">
@@ -292,7 +360,7 @@ export default function DecodedPage() {
               Return to Base
             </Link>
           </div>
-        </HorizontalSection>
+        </Section>
       </main>
     </>
   );

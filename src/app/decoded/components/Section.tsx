@@ -4,18 +4,18 @@ import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 import { cn } from '@/lib/utils';
 
-interface HorizontalSectionProps {
+interface SectionProps {
   children: ReactNode;
   className?: string;
   id?: string;
 }
 
-export default function HorizontalSection({ children, className, id }: HorizontalSectionProps) {
+export default function Section({ children, className, id }: SectionProps) {
   return (
-    <section 
+    <section
       id={id}
       className={cn(
-        "min-w-full h-screen snap-center flex flex-col items-center justify-center relative overflow-hidden",
+        "min-h-screen w-full snap-start snap-always flex flex-col items-center justify-center relative overflow-hidden",
         className
       )}
     >
