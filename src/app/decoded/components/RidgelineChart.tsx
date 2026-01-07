@@ -148,7 +148,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
       .paddingInner(0); // Remove padding for more overlap
   }, [innerHeight]);
 
-  const areaHeight = yScale.bandwidth() * 1.62; // 10% less than 1.8
+  const areaHeight = yScale.bandwidth() * 2.15; // Increased for additional 15% compression
 
   // Square root scale to compress extremes while keeping smaller values visible
   const sqrtMax = Math.sqrt(globalMax);
@@ -159,6 +159,14 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
       .x(d => xScale(d.hour))
       .y0(0)
       .y1(d => -(Math.sqrt(d.value) / sqrtMax) * areaHeight)
+      .curve(d3.curveMonotoneX);
+  }, [xScale, sqrtMax, areaHeight]);
+
+  // D3 line generator for top stroke only
+  const lineGenerator = useMemo(() => {
+    return d3.line<{ hour: number; value: number }>()
+      .x(d => xScale(d.hour))
+      .y(d => -(Math.sqrt(d.value) / sqrtMax) * areaHeight)
       .curve(d3.curveMonotoneX);
   }, [xScale, sqrtMax, areaHeight]);
 
@@ -247,6 +255,13 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
             <clipPath id="chart-clip">
               <rect x={0} y={-200} width={clipWidth} height={innerHeight + 400} />
             </clipPath>
+            {/* Gradient fills for each day */}
+            {DAYS.map(day => (
+              <linearGradient key={`grad-${day}`} id={`grad-${day.toLowerCase()}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={DAY_COLORS[day]} stopOpacity={1.0} />
+                <stop offset="100%" stopColor={DAY_COLORS[day]} stopOpacity={0.3} />
+              </linearGradient>
+            ))}
           </defs>
           <g transform={`translate(${margin.left}, ${margin.top})`}>
             {/* X-axis labels - every other hour from 4am to 4am */}
@@ -278,21 +293,17 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
                     transform={`translate(${-clipX}, ${dayY + yScale.bandwidth()})`}
                     className={`ridgeline-wave wave-${day.toLowerCase()}`}
                   >
-                    {/* Baseline */}
-                    <line
-                      x1={xScale(START_HOUR)}
-                      y1={0}
-                      x2={xScale(END_HOUR)}
-                      y2={0}
-                      stroke="#666"
-                      strokeWidth={1}
-                      opacity={0.3}
-                    />
-
-                    {/* Filled area - fully opaque */}
+                    {/* Filled area with gradient */}
                     <path
                       d={areaGenerator(dayData) || ''}
-                      fill={color}
+                      fill={`url(#grad-${day.toLowerCase()})`}
+                    />
+                    {/* Top stroke line only */}
+                    <path
+                      d={lineGenerator(dayData) || ''}
+                      fill="none"
+                      stroke={color}
+                      strokeWidth={2}
                     />
                   </g>
                 );

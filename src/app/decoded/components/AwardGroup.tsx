@@ -102,7 +102,8 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
           {isCenter ? (
             // Center card shows full description with user list (max 2 rows of names)
             (() => {
-              const match = item.description.match(/^((viewed|played) by (\d+) users?:)\s*(.+)$/i);
+              const match = item.description.match(/^((\d+)\s*plays?\s*by\s*(\d+)\s*users?:)\s*(.+)$/i)
+                || item.description.match(/^((viewed|played)\s*by\s*(\d+)\s*users?:)\s*(.+)$/i);
               if (match) {
                 const [, header, , , names] = match;
                 // Split names and limit to fit in 2 rows (~3 names per row max)
@@ -112,17 +113,18 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
                 const remaining = nameList.length - maxNames;
                 const midpoint = Math.ceil(displayNames.length / 2);
                 const row1 = displayNames.slice(0, midpoint).join(', ');
-                const row2 = displayNames.slice(midpoint).join(', ') + (remaining > 0 ? ` +${remaining} more` : '');
+                const row2Suffix = remaining > 0 ? ` +${remaining}` : '';
+                const row2 = displayNames.slice(midpoint).join(', ') + row2Suffix;
                 return (
-                  <div className="text-center">
+                  <div className="text-center max-w-[320px]">
                     <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold mb-1">
                       {header}
                     </p>
-                    <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold">
+                    <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold break-words">
                       {row1}
                     </p>
                     {row2 && (
-                      <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold">
+                      <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold break-words">
                         {row2}
                       </p>
                     )}
@@ -130,7 +132,7 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
                 );
               }
               return (
-                <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold text-center">
+                <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold text-center max-w-[320px] break-words">
                   {item.description}
                 </p>
               );
