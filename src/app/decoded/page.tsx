@@ -8,6 +8,7 @@ import InteractiveChart from './components/InteractiveChart';
 import RidgelineChart from './components/RidgelineChart';
 import AwardGroup from './components/AwardGroup';
 import UserUsageChart from './components/UserUsageChart';
+import BoxAnimationHero from './components/BoxAnimationHero';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { ArrowUp } from 'lucide-react';
@@ -248,42 +249,20 @@ export default function DecodedPage() {
               </Section>
             );
           }
-          // SECTION: INTRO
+          // SECTION: INTRO (Box Animation Hero)
           if (section.type === 'intro') {
             const intro = section as IntroSection;
             return (
-              <Section key={intro.id || index} className="bg-gradient-to-br from-black via-neutral-900 to-black">
-                <div className="text-center space-y-8">
-                  <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 1 }}
-                  >
-                    <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-600 mb-4">
-                      {intro.title}
-                    </h1>
-                    <p className="text-2xl md:text-4xl font-mono text-void-orange tracking-widest">
-                      {intro.subtitle}
-                    </p>
-                  </motion.div>
-                  <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="text-neutral-400 max-w-xl mx-auto text-lg"
-                  >
-                    {intro.description}
-                  </motion.p>
-                  <motion.div
-                    className="animate-bounce text-neutral-600 mt-12 text-3xl"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    transition={{ delay: 1 }}
-                  >
-                    ↓
-                  </motion.div>
-                </div>
-              </Section>
+              <section
+                key={intro.id || index}
+                className="min-h-screen w-full snap-start snap-always flex flex-col items-center justify-center relative overflow-hidden"
+              >
+                <BoxAnimationHero
+                  title={intro.title}
+                  subtitle={intro.subtitle}
+                  description={intro.description}
+                />
+              </section>
             );
           }
 
