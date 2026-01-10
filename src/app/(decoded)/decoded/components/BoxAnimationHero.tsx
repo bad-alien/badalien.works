@@ -44,10 +44,10 @@ const CONFIG = {
   // Bit stream
   bits: {
     startDelay: 1.425,     // Delay after animation starts
-    count: 69,             // Number of bits to emit (15% more)
-    emitInterval: 85,      // ms between bit emissions
-    durationMin: 2.38,     // Travel duration (15% faster)
-    durationMax: 2.98,     // Travel duration (15% faster)
+    count: 1000,           // Number of bits to emit
+    emitInterval: 10,      // ms between bit emissions
+    durationMin: 2.6,      // Travel duration
+    durationMax: 2.6,      // Travel duration (uniform speed)
     sizeMin: 28,           // Min font size
     sizeMax: 34,           // Max font size
     xSpread: 2,            // Horizontal spread randomness (px)
@@ -145,10 +145,10 @@ export default function BoxAnimationHero({
     const frontLidUnderside = svg.querySelector('#front_lid_underside') as SVGPolygonElement;
     const frontLidEdge = svg.querySelector('#front_lid_edge') as SVGPolygonElement;
     const bitsStream = svg.querySelector('#bits_stream') as SVGGElement;
-    const streamPath = svg.querySelector('#stream_path') as SVGPathElement;
+    const streamPaths = [0, 1, 2, 3, 4].map(i => svg.querySelector(`#stream_path_${i}`) as SVGPathElement);
     const impactLines = svg.querySelector('#impact_lines') as SVGGElement;
 
-    if (!boxBody || !backLid || !frontLid || !boxShadow || !boxInner || !bitsStream || !streamPath) {
+    if (!boxBody || !backLid || !frontLid || !boxShadow || !boxInner || !bitsStream || streamPaths.some(p => !p)) {
       console.warn('BoxAnimationHero: Missing required SVG elements');
       return;
     }
@@ -414,14 +414,18 @@ export default function BoxAnimationHero({
 
           const duration = CONFIG.bits.durationMin + Math.random() * (CONFIG.bits.durationMax - CONFIG.bits.durationMin);
 
-          // Random horizontal offset for spread effect
+          // Randomly pick one of the 5 stream paths
+          const pathIndex = Math.floor(Math.random() * streamPaths.length);
+          const selectedPath = streamPaths[pathIndex];
+
+          // Small horizontal offset for slight variation within each column
           const xOffset = (Math.random() - 0.5) * CONFIG.bits.xSpread * 2;
 
-          // Animate along the curved path with horizontal offset
+          // Animate along the selected path
           gsap.to(bit, {
             motionPath: {
-              path: streamPath,
-              align: streamPath,
+              path: selectedPath,
+              align: selectedPath,
               alignOrigin: [0.5, 0.5],
               offsetX: xOffset,
             },
@@ -662,10 +666,39 @@ export default function BoxAnimationHero({
             />
           </g>
 
-          {/* Stream path - curves OUT left, UP to arch peak, slightly DOWN, then STRAIGHT DOWN */}
+          {/* Stream paths - 5 columns emerging from box */}
+          {/* Far left stream */}
           <path
-            id="stream_path"
-            d="M 400 318 C 250 220 220 120 300 60 Q 380 30 400 80 L 400 950"
+            id="stream_path_0"
+            d="M 400 318 C 250 220 150 120 200 60 Q 230 40 250 80 L 250 950"
+            fill="none"
+            stroke="none"
+          />
+          {/* Left stream */}
+          <path
+            id="stream_path_1"
+            d="M 400 318 C 300 220 250 120 300 60 Q 320 40 325 80 L 325 950"
+            fill="none"
+            stroke="none"
+          />
+          {/* Center stream */}
+          <path
+            id="stream_path_2"
+            d="M 400 318 C 350 200 350 100 400 50 Q 450 30 400 80 L 400 950"
+            fill="none"
+            stroke="none"
+          />
+          {/* Right stream */}
+          <path
+            id="stream_path_3"
+            d="M 400 318 C 500 220 550 120 500 60 Q 480 40 475 80 L 475 950"
+            fill="none"
+            stroke="none"
+          />
+          {/* Far right stream */}
+          <path
+            id="stream_path_4"
+            d="M 400 318 C 550 220 650 120 600 60 Q 570 40 550 80 L 550 950"
             fill="none"
             stroke="none"
           />
