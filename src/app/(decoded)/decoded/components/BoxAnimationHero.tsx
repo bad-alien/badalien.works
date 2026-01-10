@@ -20,12 +20,12 @@ const CONFIG = {
   },
   // Impact animation
   impact: {
-    squishScaleY: 0.7,     // Vertical squish - MORE EXAGGERATED
-    squishScaleX: 1.2,     // Horizontal expand during squish - MORE EXAGGERATED
-    squishDuration: 0.12,  // How long the squish lasts
-    unsquishDuration: 0.3, // How long to return to normal
-    lineDistance: 120,     // How far impact lines shoot out - FURTHER
-    lineDuration: 0.35,    // Line animation duration
+    squishScaleY: 0.55,    // Vertical squish - VERY EXAGGERATED
+    squishScaleX: 1.35,    // Horizontal expand during squish - VERY EXAGGERATED
+    squishDuration: 0.1,   // How long the squish lasts - SNAPPIER
+    unsquishDuration: 0.35,// How long to return to normal
+    lineDistance: 180,     // How far impact lines shoot out - EXTENDED
+    lineDuration: 0.25,    // Line animation duration - SHORTER
   },
   // Shadow animation
   shadow: {
@@ -39,17 +39,19 @@ const CONFIG = {
   lid: {
     startDelay: 1.0,       // Delay after drop starts (adjusted for faster drop)
     duration: 0.9,         // Lid open duration
+    secondLidDelay: 0.25,  // Delay before second lid opens
   },
   // Bit stream
   bits: {
-    startDelay: 1.425,     // Delay after animation starts - 50% slower
-    count: 60,             // Number of bits to emit
-    emitInterval: 95,      // ms between bit emissions
-    durationMin: 2.0,      // Travel duration (same for all)
-    durationMax: 2.0,      // Travel duration (same for all)
+    startDelay: 1.425,     // Delay after animation starts
+    count: 69,             // Number of bits to emit (15% more)
+    emitInterval: 85,      // ms between bit emissions
+    durationMin: 2.38,     // Travel duration (15% faster)
+    durationMax: 2.98,     // Travel duration (15% faster)
     sizeMin: 28,           // Min font size
     sizeMax: 34,           // Max font size
     xSpread: 2,            // Horizontal spread randomness (px)
+    stopBeforeExit: 0.3,   // Stop emitting this many seconds before box exits
   },
   // Box exit
   boxExit: {
@@ -58,27 +60,34 @@ const CONFIG = {
   },
   // Content entrance
   content: {
-    startDelay: 5.7,       // When content starts appearing
+    startDelay: 6.5,       // Title appears at 6.5s
     duration: 1.5,         // Fade in duration
     stagger: 0.3,          // Stagger between elements
   },
 };
 
-// Lid polygon points - closed and open states for morph animation
-// New centered box lid closed: "310,270 400,240 490,295 400,325"
-// Points order: front-left, back-left(hinge), back-right(hinge), front-right
-// Back edge (hinge): 400,240 -> 490,295 (stays fixed)
-// Front edge: 310,270 -> 400,325 (moves up and back when opening)
+// Lid polygon points - TWO LIDS that split horizontally
+// Original lid: "310,270 400,240 490,295 400,325"
+// Split into back lid and front lid at midpoints:
+// - Mid-left: (355, 255) - midpoint of front-left to back-left
+// - Mid-right: (445, 310) - midpoint of back-right to front-right
 
-// Open state - front edge moved up and back toward hinge line
-// When lid opens ~80°, front points move up and collapse toward hinge
-const LID_OPEN = {
-  // Front-left moves from (310,270) toward back-left hinge (400,240), going up
-  // Front-right moves from (400,325) toward back-right hinge (490,295), going up
-  top: "400,190 400,240 490,295 490,245",       // Lid tilted back, front edge near hinge
-  underside: "400,190 400,240 490,295 490,245",
-  side: "490,245 490,295 490,303 490,253",      // Side edge compressed vertically
-  backEdge: "400,240 490,295 490,303 400,248",  // Back edge thickness visible
+// BACK LID - hinges on back edge, opens backward (20% shorter box)
+// Closed: 355,298 -> 400,286 -> 490,330 -> 445,342
+const BACK_LID_CLOSED = "355,298 400,286 490,330 445,342";
+const BACK_LID_OPEN = {
+  top: "400,254 400,286 490,330 490,298",       // Tilted back
+  underside: "400,254 400,286 490,330 490,298",
+  backEdge: "400,286 490,330 490,336 400,292",
+};
+
+// FRONT LID - hinges on FRONT edge, back edge swings UP (mirrors back lid)
+// Closed: 310,310 -> 355,298 -> 445,342 -> 400,354
+const FRONT_LID_CLOSED = "310,310 355,298 445,342 400,354";
+const FRONT_LID_OPEN = {
+  top: "310,310 310,278 400,322 400,354",       // Back edge swings up (same height as back lid)
+  underside: "310,310 310,278 400,322 400,354",
+  frontEdge: null, // No edge visible when opening this direction
 };
 
 interface BoxAnimationHeroProps {
@@ -123,18 +132,23 @@ export default function BoxAnimationHero({
 
     // Get SVG elements
     const boxBody = svg.querySelector('#box_body') as SVGGElement;
-    const boxLid = svg.querySelector('#box_lid') as SVGGElement;
+    const backLid = svg.querySelector('#back_lid') as SVGGElement;
+    const frontLid = svg.querySelector('#front_lid') as SVGGElement;
     const boxShadow = svg.querySelector('#box_shadow') as SVGGElement;
     const boxInner = svg.querySelector('#box_inner') as SVGGElement;
-    const lidTop = svg.querySelector('#lid_top') as SVGPolygonElement;
-    const lidUnderside = svg.querySelector('#lid_underside') as SVGPolygonElement;
-    const lidSide = svg.querySelector('#lid_side') as SVGPolygonElement;
-    const lidBackEdge = svg.querySelector('#lid_back_edge') as SVGPolygonElement;
+    // Back lid elements
+    const backLidTop = svg.querySelector('#back_lid_top') as SVGPolygonElement;
+    const backLidUnderside = svg.querySelector('#back_lid_underside') as SVGPolygonElement;
+    const backLidEdge = svg.querySelector('#back_lid_edge') as SVGPolygonElement;
+    // Front lid elements
+    const frontLidTop = svg.querySelector('#front_lid_top') as SVGPolygonElement;
+    const frontLidUnderside = svg.querySelector('#front_lid_underside') as SVGPolygonElement;
+    const frontLidEdge = svg.querySelector('#front_lid_edge') as SVGPolygonElement;
     const bitsStream = svg.querySelector('#bits_stream') as SVGGElement;
     const streamPath = svg.querySelector('#stream_path') as SVGPathElement;
     const impactLines = svg.querySelector('#impact_lines') as SVGGElement;
 
-    if (!boxBody || !boxLid || !boxShadow || !boxInner || !bitsStream || !streamPath) {
+    if (!boxBody || !backLid || !frontLid || !boxShadow || !boxInner || !bitsStream || !streamPath) {
       console.warn('BoxAnimationHero: Missing required SVG elements');
       return;
     }
@@ -156,7 +170,7 @@ export default function BoxAnimationHero({
     }
 
     // Set initial states
-    gsap.set([boxBody, boxLid], {
+    gsap.set([boxBody, backLid, frontLid], {
       y: -CONFIG.drop.height,
       transformOrigin: 'center bottom', // Squish from bottom
     });
@@ -166,7 +180,7 @@ export default function BoxAnimationHero({
       transformOrigin: 'center center',
     });
     gsap.set(boxInner, { opacity: 0 });
-    gsap.set(lidBackEdge, { opacity: 0 });
+    gsap.set([backLidEdge, frontLidEdge], { opacity: 0 });
     gsap.set(contentElements, { opacity: 0, y: 150 }); // Start well below for dramatic "from bottom" entrance
     gsap.set(contentRef.current, { opacity: 0 });
 
@@ -182,7 +196,7 @@ export default function BoxAnimationHero({
     const tl = gsap.timeline();
 
     // Phase 1: Drop (fast, no bounce - hard landing)
-    tl.to([boxBody, boxLid], {
+    tl.to([boxBody, backLid, frontLid], {
       y: 0,
       duration: CONFIG.drop.duration,
       ease: 'power2.in', // Accelerate into ground
@@ -200,7 +214,7 @@ export default function BoxAnimationHero({
     const impactTime = CONFIG.drop.duration;
 
     // Squish the box
-    tl.to([boxBody, boxLid], {
+    tl.to([boxBody, backLid, frontLid], {
       scaleY: CONFIG.impact.squishScaleY,
       scaleX: CONFIG.impact.squishScaleX,
       duration: CONFIG.impact.squishDuration,
@@ -219,19 +233,22 @@ export default function BoxAnimationHero({
     if (impactLines) {
       const lines = impactLines.querySelectorAll('line');
       const numLines = lines.length;
-      const baseY = 470; // At box bottom
+      const baseY = 480; // At shadow level
       const centerX = 400;
 
+      // Match the shadow ellipse ratio (rx=140, ry=26)
+      const ellipseRatioY = 26 / 140; // ~0.186 - flattens to match 3D perspective
+
       lines.forEach((line, i) => {
-        // Spread lines in a full circle pattern
+        // Spread lines in an ellipse pattern matching the shadow
         const angle = (i / numLines) * Math.PI * 2; // Full 360 degrees
 
         const dist = CONFIG.impact.lineDistance;
-        const lineLength = 40; // Length of each impact line
+        const lineLength = 60; // Length of each impact line - LONGER
 
-        // Direction vector - full circle
+        // Direction vector - ellipse (flattened in Y to match shadow)
         const dx = Math.cos(angle);
-        const dy = Math.sin(angle);
+        const dy = Math.sin(angle) * ellipseRatioY;
 
         // Initial position - small line at center
         gsap.set(line, {
@@ -275,7 +292,7 @@ export default function BoxAnimationHero({
     const unsquishTime = impactTime + CONFIG.impact.squishDuration;
 
     // First unsquish (overshoot slightly)
-    tl.to([boxBody, boxLid], {
+    tl.to([boxBody, backLid, frontLid], {
       scaleY: 1.05,
       scaleX: 0.97,
       duration: CONFIG.impact.unsquishDuration * 0.6,
@@ -284,7 +301,7 @@ export default function BoxAnimationHero({
 
     // Second squish (smaller)
     const jiggle1Time = unsquishTime + CONFIG.impact.unsquishDuration * 0.6;
-    tl.to([boxBody, boxLid], {
+    tl.to([boxBody, backLid, frontLid], {
       scaleY: 0.92,
       scaleX: 1.05,
       duration: CONFIG.impact.unsquishDuration * 0.4,
@@ -293,7 +310,7 @@ export default function BoxAnimationHero({
 
     // Second unsquish
     const jiggle2Time = jiggle1Time + CONFIG.impact.unsquishDuration * 0.4;
-    tl.to([boxBody, boxLid], {
+    tl.to([boxBody, backLid, frontLid], {
       scaleY: 1.02,
       scaleX: 0.99,
       duration: CONFIG.impact.unsquishDuration * 0.3,
@@ -302,7 +319,7 @@ export default function BoxAnimationHero({
 
     // Third squish (tiny)
     const jiggle3Time = jiggle2Time + CONFIG.impact.unsquishDuration * 0.3;
-    tl.to([boxBody, boxLid], {
+    tl.to([boxBody, backLid, frontLid], {
       scaleY: 0.98,
       scaleX: 1.01,
       duration: CONFIG.impact.unsquishDuration * 0.25,
@@ -311,7 +328,7 @@ export default function BoxAnimationHero({
 
     // Final settle to normal
     const settleTime = jiggle3Time + CONFIG.impact.unsquishDuration * 0.25;
-    tl.to([boxBody, boxLid], {
+    tl.to([boxBody, backLid, frontLid], {
       scaleY: 1,
       scaleX: 1,
       duration: CONFIG.impact.unsquishDuration * 0.3,
@@ -326,44 +343,60 @@ export default function BoxAnimationHero({
       ease: 'power2.inOut',
     }, unsquishTime);
 
-    // Phase 2: Lid Open (morph polygon points)
-    // Animate lid polygons to open position
-    tl.to(lidTop, {
-      attr: { points: LID_OPEN.top },
+    // Phase 2: Lid Open (morph polygon points) - BACK LID FIRST
+    const backLidStartTime = CONFIG.lid.startDelay;
+    const frontLidStartTime = CONFIG.lid.startDelay + CONFIG.lid.secondLidDelay;
+
+    // Back lid opens first (opens backward)
+    tl.to(backLidTop, {
+      attr: { points: BACK_LID_OPEN.top },
       duration: CONFIG.lid.duration,
       ease: 'power2.out',
-    }, CONFIG.lid.startDelay);
+    }, backLidStartTime);
 
-    tl.to(lidUnderside, {
-      attr: { points: LID_OPEN.underside },
+    tl.to(backLidUnderside, {
+      attr: { points: BACK_LID_OPEN.underside },
       duration: CONFIG.lid.duration,
       ease: 'power2.out',
-    }, CONFIG.lid.startDelay);
+    }, backLidStartTime);
 
-    tl.to(lidSide, {
-      attr: { points: LID_OPEN.side },
-      duration: CONFIG.lid.duration,
+    // Reveal back lid edge (subtle)
+    tl.to(backLidEdge, {
+      opacity: 0.3,
+      attr: { points: BACK_LID_OPEN.backEdge },
+      duration: CONFIG.lid.duration * 0.8,
       ease: 'power2.out',
-    }, CONFIG.lid.startDelay);
+    }, backLidStartTime + 0.05);
 
-    // Reveal inner cavity
+    // Reveal inner cavity (starts when back lid opens)
     tl.to(boxInner, {
       opacity: 1,
       duration: 0.3,
       ease: 'power1.in',
-    }, CONFIG.lid.startDelay + 0.1);
+    }, backLidStartTime + 0.1);
 
-    // Reveal lid back edge
-    tl.to(lidBackEdge, {
-      opacity: 1,
-      attr: { points: LID_OPEN.backEdge },
-      duration: CONFIG.lid.duration * 0.8,
+    // Front lid opens second (opens forward)
+    tl.to(frontLidTop, {
+      attr: { points: FRONT_LID_OPEN.top },
+      duration: CONFIG.lid.duration,
       ease: 'power2.out',
-    }, CONFIG.lid.startDelay + 0.05);
+    }, frontLidStartTime);
 
-    // Phase 3: Bit Stream - curves up then down with horizontal spread
-    const emitBits = () => {
-      for (let i = 0; i < CONFIG.bits.count; i++) {
+    tl.to(frontLidUnderside, {
+      attr: { points: FRONT_LID_OPEN.underside },
+      duration: CONFIG.lid.duration,
+      ease: 'power2.out',
+    }, frontLidStartTime);
+
+    // Front lid edge stays hidden (no visible edge when opening upward with front hinge)
+
+    // Phase 3: Bit Stream - curves up then down (arch phase)
+    // Calculate how many arch bits to emit - stop BEFORE box exits
+    const archBitsDuration = (CONFIG.boxExit.startDelay - CONFIG.bits.startDelay - CONFIG.bits.stopBeforeExit) * 1000; // ms
+    const archBitsCount = Math.min(CONFIG.bits.count, Math.floor(archBitsDuration / CONFIG.bits.emitInterval));
+
+    const emitArchBits = () => {
+      for (let i = 0; i < archBitsCount; i++) {
         setTimeout(() => {
           const bit = document.createElementNS('http://www.w3.org/2000/svg', 'text');
           bit.textContent = Math.random() > 0.5 ? '1' : '0';
@@ -393,7 +426,7 @@ export default function BoxAnimationHero({
               offsetX: xOffset,
             },
             duration,
-            ease: 'none', // Linear for consistent flow
+            ease: 'none',
           });
 
           // Fade in
@@ -419,15 +452,30 @@ export default function BoxAnimationHero({
       }
     };
 
-    tl.call(emitBits, [], CONFIG.bits.startDelay);
+    tl.call(emitArchBits, [], CONFIG.bits.startDelay);
 
-    // Phase 4: Box exits (moves up and fades out)
-    tl.to(svgContainerRef.current, {
-      y: -150,
+    // Phase 4: Box exits (box elements move up and fade, bits continue streaming down)
+    tl.to([boxBody, backLid, frontLid], {
+      y: -250,
       opacity: 0,
       duration: CONFIG.boxExit.duration,
-      ease: 'power2.inOut',
+      ease: 'power2.out',
     }, CONFIG.boxExit.startDelay);
+
+    // Shadow fades out quickly
+    tl.to(boxShadow, {
+      opacity: 0,
+      scale: 0.5,
+      duration: CONFIG.boxExit.duration * 0.5,
+      ease: 'power2.in',
+    }, CONFIG.boxExit.startDelay);
+
+    // Fade out bits before content appears at 7s
+    tl.to(bitsStream, {
+      opacity: 0,
+      duration: 1.2,
+      ease: 'power2.in',
+    }, CONFIG.content.startDelay - 1.0);
 
     // Phase 5: Content appears
     tl.call(() => setShowContent(true), [], CONFIG.content.startDelay);
@@ -499,18 +547,24 @@ export default function BoxAnimationHero({
             <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round"/>
           </g>
 
-          {/* Box body - centered at x=400 */}
+          {/* Box body - centered at x=400 (20% shorter) */}
           <g id="box_body">
-            {/* Inner cavity */}
+            {/* Inner cavity - extended to fill full opening when both lids open */}
             <g id="box_inner" opacity="0">
-              <polygon id="inner_back" points="310,270 400,240 490,295 400,325" fill="#141418"/>
-              <polygon id="inner_floor" points="310,270 310,415 400,470 400,325" fill="#0f0f13"/>
+              {/* Back wall - extends up to meet both open lids */}
+              <polygon id="inner_back" points="310,278 400,254 490,298 400,322" fill="#141418"/>
+              {/* Original top plane */}
+              <polygon id="inner_top" points="310,310 400,286 490,330 400,354" fill="#18181f"/>
+              {/* Floor visible through opening */}
+              <polygon id="inner_floor" points="310,310 310,426 400,470 400,354" fill="#0f0f13"/>
+              {/* Right wall visible */}
+              <polygon id="inner_right" points="400,354 490,330 490,446 400,470" fill="#101015"/>
             </g>
 
             {/* Top face (visible when lid closed) */}
             <polygon
               id="face_top"
-              points="310,270 400,240 490,295 400,325"
+              points="310,310 400,286 490,330 400,354"
               fill="#2b2b34"
               stroke="#0a0a0d"
               strokeWidth="2"
@@ -520,7 +574,7 @@ export default function BoxAnimationHero({
             {/* Front face */}
             <polygon
               id="face_front"
-              points="310,270 400,325 400,470 310,415"
+              points="310,310 400,354 400,470 310,426"
               fill="#1f1f27"
               stroke="#0a0a0d"
               strokeWidth="2"
@@ -529,7 +583,7 @@ export default function BoxAnimationHero({
             {/* Right side face */}
             <polygon
               id="face_side"
-              points="400,325 490,295 490,440 400,470"
+              points="400,354 490,330 490,446 400,470"
               fill="#17171f"
               stroke="#0a0a0d"
               strokeWidth="2"
@@ -537,7 +591,7 @@ export default function BoxAnimationHero({
 
             {/* Rim highlight */}
             <polyline
-              points="310,270 400,325 490,295"
+              points="310,310 400,354 490,330"
               fill="none"
               stroke="#bdbdd1"
               strokeWidth="2"
@@ -545,47 +599,62 @@ export default function BoxAnimationHero({
             />
           </g>
 
-          {/* Lid */}
-          <g id="box_lid">
-            {/* Back-edge thickness */}
+          {/* FRONT LID - opens upward (rendered first, behind back lid) */}
+          <g id="front_lid">
+            {/* Front-edge thickness (visible when open) */}
             <polygon
-              id="lid_back_edge"
-              points="400,240 490,295 486,302 396,247"
+              id="front_lid_edge"
+              points="310,310 400,354 400,360 310,316"
               fill="#0f0f13"
               opacity="0"
             />
 
             {/* Underside */}
             <polygon
-              id="lid_underside"
-              points="310,270 400,240 490,295 400,325"
+              id="front_lid_underside"
+              points="310,310 355,298 445,342 400,354"
               fill="#14141b"
-              opacity="0.85"
             />
 
             {/* Lid top */}
             <polygon
-              id="lid_top"
-              points="310,270 400,240 490,295 400,325"
+              id="front_lid_top"
+              points="310,310 355,298 445,342 400,354"
               fill="#34343f"
               stroke="#0a0a0d"
               strokeWidth="2"
-              opacity="0.98"
+            />
+          </g>
+
+          {/* BACK LID - opens backward */}
+          <g id="back_lid">
+            {/* Back-edge thickness (visible when open) */}
+            <polygon
+              id="back_lid_edge"
+              points="400,286 490,330 490,336 400,292"
+              fill="#0f0f13"
+              opacity="0"
             />
 
-            {/* Lid thickness on right edge */}
+            {/* Underside */}
             <polygon
-              id="lid_side"
-              points="400,325 490,295 490,303 400,333"
-              fill="#23232c"
+              id="back_lid_underside"
+              points="355,298 400,286 490,330 445,342"
+              fill="#14141b"
+            />
+
+            {/* Lid top */}
+            <polygon
+              id="back_lid_top"
+              points="355,298 400,286 490,330 445,342"
+              fill="#34343f"
               stroke="#0a0a0d"
               strokeWidth="2"
-              opacity="0.98"
             />
 
             {/* Subtle highlight */}
             <polyline
-              points="310,270 400,240 490,295"
+              points="355,298 400,286 490,330"
               fill="none"
               stroke="#d7d7ea"
               strokeWidth="2"
@@ -593,10 +662,10 @@ export default function BoxAnimationHero({
             />
           </g>
 
-          {/* Stream path - curves UP-LEFT, arches at top, then DOWN-RIGHT creating visible fountain arch */}
+          {/* Stream path - curves OUT left, UP to arch peak, slightly DOWN, then STRAIGHT DOWN */}
           <path
             id="stream_path"
-            d="M 400 280 C 320 150 300 50 400 30 C 500 50 480 150 400 300 L 400 950"
+            d="M 400 318 C 250 220 220 120 300 60 Q 380 30 400 80 L 400 950"
             fill="none"
             stroke="none"
           />

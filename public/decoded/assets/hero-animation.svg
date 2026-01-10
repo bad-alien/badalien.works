@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="1200"
+  height="600"
+  viewBox="0 0 1200 600"
+  role="img"
+  aria-label="Hero intro box asset (dark, no lid overhang, lid back thickness)"
+>
+  <!-- Background -->
+  <rect id="bg" x="0" y="0" width="1200" height="600" fill="#0b0b0e"/>
+
+  <!-- Ground line -->
+  <line x1="0" y1="430" x2="1200" y2="430" stroke="#14141a" stroke-width="2" opacity="0.7"/>
+
+  <!-- Shadow (keep on ground; animate scale/opacity on impact) -->
+  <g id="box_shadow" opacity="0.60">
+    <ellipse cx="290" cy="430" rx="150" ry="28" fill="#000000" opacity="0.70"/>
+    <ellipse cx="290" cy="430" rx="95" ry="18" fill="#000000" opacity="0.45"/>
+  </g>
+
+  <!-- Box body -->
+  <g id="box_body">
+    <!-- Inner cavity (reveal when lid opens) -->
+    <g id="box_inner" opacity="0">
+      <polygon id="inner_back"  points="200,220 340,190 460,245 320,275" fill="#141418"/>
+      <polygon id="inner_floor" points="200,220 200,365 320,420 320,275" fill="#0f0f13"/>
+    </g>
+
+    <!-- Top face -->
+    <polygon
+      id="face_top"
+      points="200,220 340,190 460,245 320,275"
+      fill="#2b2b34"
+      stroke="#0a0a0d"
+      stroke-width="2"
+      opacity="0.98"
+    />
+
+    <!-- Front face -->
+    <polygon
+      id="face_front"
+      points="200,220 320,275 320,420 200,365"
+      fill="#1f1f27"
+      stroke="#0a0a0d"
+      stroke-width="2"
+    />
+
+    <!-- Right side face -->
+    <polygon
+      id="face_side"
+      points="320,275 460,245 460,390 320,420"
+      fill="#17171f"
+      stroke="#0a0a0d"
+      stroke-width="2"
+    />
+
+    <!-- Rim highlight (very subtle) -->
+    <polyline
+      points="200,220 320,275 460,245"
+      fill="none"
+      stroke="#bdbdd1"
+      stroke-width="2"
+      opacity="0.10"
+    />
+  </g>
+
+  <!-- Lid (NO OVERHANG): footprint matches face_top exactly -->
+  <g id="box_lid">
+    <!-- Back-edge thickness strip (hidden when closed; appears as lid rotates) -->
+    <!-- Back edge is between (340,190) and (460,245). We offset a tiny amount to fake thickness. -->
+    <polygon
+      id="lid_back_edge"
+      points="340,190 460,245 456,252 336,197"
+      fill="#0f0f13"
+      opacity="0"
+    />
+
+    <!-- Underside -->
+    <polygon
+      id="lid_underside"
+      points="200,220 340,190 460,245 320,275"
+      fill="#14141b"
+      opacity="0.85"
+    />
+
+    <!-- Lid top -->
+    <polygon
+      id="lid_top"
+      points="200,220 340,190 460,245 320,275"
+      fill="#34343f"
+      stroke="#0a0a0d"
+      stroke-width="2"
+      opacity="0.98"
+    />
+
+    <!-- Lid thickness on right edge (kept within footprint; no lateral extension) -->
+    <polygon
+      id="lid_side"
+      points="320,275 460,245 460,253 320,283"
+      fill="#23232c"
+      stroke="#0a0a0d"
+      stroke-width="2"
+      opacity="0.98"
+    />
+
+    <!-- Subtle highlight -->
+    <polyline
+      points="200,220 340,190 460,245"
+      fill="none"
+      stroke="#d7d7ea"
+      stroke-width="2"
+      opacity="0.08"
+    />
+  </g>
+
+  <!-- Bits scaffolding (we will populate bits_stream from JS) -->
+  <path
+    id="stream_path"
+    d="M 285 245 C 420 155 650 160 860 240"
+    fill="none"
+    stroke="none"
+  />
+  <g id="bits_stream"></g>
+
+  <!-- Bits anchors (visible for dev; set opacity=0 later) -->
+  <circle id="bits_origin" cx="285" cy="245" r="6" fill="#00e5ff" opacity="0.95"/>
+  <circle id="bits_target" cx="860" cy="240" r="6" fill="#ff4d7d" opacity="0.95"/>
+
+  <g id="dev_labels" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" fill="#c9c9d6" opacity="0.85">
+    <text x="305" y="250">bits_origin</text>
+    <text x="880" y="245">bits_target</text>
+  </g>
+</svg>

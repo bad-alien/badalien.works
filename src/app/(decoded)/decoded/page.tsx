@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import decodedManifest from '../../../decoded_manifest.json';
+import decodedManifest from '@/decoded_manifest.json';
 import Section from './components/Section';
 import ProgressBar from './components/ProgressBar';
 import InteractiveChart from './components/InteractiveChart';

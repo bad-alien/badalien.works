@@ -28,25 +28,25 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Scenario 1: Accessing the Void Subdomain (void.badalien.works or void.localhost:3001)
+  // Scenario 1: Accessing Subdomains
   if (currentHost === 'void') {
-    // Rewrite traffic to /void internally
-    // User sees: void.badalien.works
-    // Server renders: src/app/(void)/void/page.tsx
     url.pathname = `/void${url.pathname === '/' ? '' : url.pathname}`;
     return NextResponse.rewrite(url);
   }
 
-  // Scenario 2: Prevent direct access to /void from main domain
-  // Force users to use void.badalien.works
-  if (url.pathname.startsWith('/void')) {
-    if (process.env.NODE_ENV === 'development') {
-      // In development, redirect to void.localhost:3001
-      return NextResponse.redirect(new URL(`http://void.localhost:3001${url.pathname.replace('/void', '') || '/'}`, request.url), 301);
-    } else {
-      // In production, redirect to void.badalien.works
+  if (currentHost === 'decoded') {
+    url.pathname = `/decoded${url.pathname === '/' ? '' : url.pathname}`;
+    return NextResponse.rewrite(url);
+  }
+
+  // Scenario 2: Prevent direct access to sub-paths from main domain (production only)
+  // In development, allow direct path access for easier testing
+  if (process.env.NODE_ENV !== 'development') {
+    if (url.pathname.startsWith('/void') || url.pathname.startsWith('/decoded')) {
+      const targetSubdomain = url.pathname.startsWith('/void') ? 'void' : 'decoded';
+      const cleanPath = url.pathname.replace(`/${targetSubdomain}`, '') || '/';
       const protocol = request.headers.get('x-forwarded-proto') || 'https';
-      return NextResponse.redirect(`${protocol}://void.${rootDomain}${url.pathname.replace('/void', '') || '/'}`, 301);
+      return NextResponse.redirect(`${protocol}://${targetSubdomain}.${rootDomain}${cleanPath}`, 301);
     }
   }
 
