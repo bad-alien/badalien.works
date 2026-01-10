@@ -16,21 +16,29 @@ const CONFIG = {
   // Drop animation
   drop: {
     height: 600,           // Starting position above final - starts OFF SCREEN
-    duration: 1.05,        // Drop duration (seconds) - 50% slower
-    bounce: 0.12,          // Bounce intensity (0-1)
+    duration: 0.55,        // Drop duration - FASTER
+  },
+  // Impact animation
+  impact: {
+    squishScaleY: 0.7,     // Vertical squish - MORE EXAGGERATED
+    squishScaleX: 1.2,     // Horizontal expand during squish - MORE EXAGGERATED
+    squishDuration: 0.12,  // How long the squish lasts
+    unsquishDuration: 0.3, // How long to return to normal
+    lineDistance: 120,     // How far impact lines shoot out - FURTHER
+    lineDuration: 0.35,    // Line animation duration
   },
   // Shadow animation
   shadow: {
     initialScale: 0.6,     // Starting scale
     initialOpacity: 0.25,  // Starting opacity
-    impactScale: 1.12,     // Scale at impact moment
-    impactOpacity: 0.75,   // Opacity at impact
-    settleDuration: 0.375, // Time to settle after impact - 50% slower
+    impactScale: 1.25,     // Scale at impact moment - bigger for emphasis
+    impactOpacity: 0.85,   // Opacity at impact
+    settleDuration: 0.3,   // Time to settle after impact
   },
   // Lid opening (morphing polygon points for 2.5D effect)
   lid: {
-    startDelay: 1.125,     // Delay after drop starts (seconds) - 50% slower
-    duration: 0.9,         // Lid open duration - 50% slower
+    startDelay: 1.0,       // Delay after drop starts (adjusted for faster drop)
+    duration: 0.9,         // Lid open duration
   },
   // Bit stream
   bits: {
@@ -124,6 +132,7 @@ export default function BoxAnimationHero({
     const lidBackEdge = svg.querySelector('#lid_back_edge') as SVGPolygonElement;
     const bitsStream = svg.querySelector('#bits_stream') as SVGGElement;
     const streamPath = svg.querySelector('#stream_path') as SVGPathElement;
+    const impactLines = svg.querySelector('#impact_lines') as SVGGElement;
 
     if (!boxBody || !boxLid || !boxShadow || !boxInner || !bitsStream || !streamPath) {
       console.warn('BoxAnimationHero: Missing required SVG elements');
@@ -147,7 +156,10 @@ export default function BoxAnimationHero({
     }
 
     // Set initial states
-    gsap.set([boxBody, boxLid], { y: -CONFIG.drop.height });
+    gsap.set([boxBody, boxLid], {
+      y: -CONFIG.drop.height,
+      transformOrigin: 'center bottom', // Squish from bottom
+    });
     gsap.set(boxShadow, {
       scale: CONFIG.shadow.initialScale,
       opacity: CONFIG.shadow.initialOpacity,
@@ -158,23 +170,153 @@ export default function BoxAnimationHero({
     gsap.set(contentElements, { opacity: 0, y: 150 }); // Start well below for dramatic "from bottom" entrance
     gsap.set(contentRef.current, { opacity: 0 });
 
+    // Set up impact lines - start as invisible at center
+    if (impactLines) {
+      const lines = impactLines.querySelectorAll('line');
+      lines.forEach(line => {
+        gsap.set(line, { opacity: 0 });
+      });
+    }
+
     // Create master timeline
     const tl = gsap.timeline();
 
-    // Phase 1: Drop + Impact
+    // Phase 1: Drop (fast, no bounce - hard landing)
     tl.to([boxBody, boxLid], {
       y: 0,
       duration: CONFIG.drop.duration,
-      ease: `back.out(${CONFIG.drop.bounce})`,
+      ease: 'power2.in', // Accelerate into ground
     }, 0);
 
-    // Shadow responds to drop
+    // Shadow grows as box approaches
     tl.to(boxShadow, {
       scale: CONFIG.shadow.impactScale,
       opacity: CONFIG.shadow.impactOpacity,
-      duration: CONFIG.drop.duration * 0.85,
-      ease: 'power2.out',
+      duration: CONFIG.drop.duration,
+      ease: 'power2.in',
     }, 0);
+
+    // Phase 1b: Impact - Squish!
+    const impactTime = CONFIG.drop.duration;
+
+    // Squish the box
+    tl.to([boxBody, boxLid], {
+      scaleY: CONFIG.impact.squishScaleY,
+      scaleX: CONFIG.impact.squishScaleX,
+      duration: CONFIG.impact.squishDuration,
+      ease: 'power2.out',
+    }, impactTime);
+
+    // Shadow expands more on impact
+    tl.to(boxShadow, {
+      scaleX: 1.4,
+      scaleY: 1.2,
+      duration: CONFIG.impact.squishDuration,
+      ease: 'power2.out',
+    }, impactTime);
+
+    // Show impact lines - short lines that shoot out from bottom of box
+    if (impactLines) {
+      const lines = impactLines.querySelectorAll('line');
+      const numLines = lines.length;
+      const baseY = 470; // At box bottom
+      const centerX = 400;
+
+      lines.forEach((line, i) => {
+        // Spread lines in a full circle pattern
+        const angle = (i / numLines) * Math.PI * 2; // Full 360 degrees
+
+        const dist = CONFIG.impact.lineDistance;
+        const lineLength = 40; // Length of each impact line
+
+        // Direction vector - full circle
+        const dx = Math.cos(angle);
+        const dy = Math.sin(angle);
+
+        // Initial position - small line at center
+        gsap.set(line, {
+          attr: {
+            x1: centerX,
+            y1: baseY,
+            x2: centerX + dx * 3,
+            y2: baseY + dy * 3,
+          },
+          opacity: 0,
+        });
+
+        // End position (extended outward)
+        const endX1 = centerX + dx * (dist - lineLength);
+        const endY1 = baseY + dy * (dist - lineLength);
+        const endX2 = centerX + dx * dist;
+        const endY2 = baseY + dy * dist;
+
+        // Animate line shooting out from center
+        tl.to(line, {
+          attr: {
+            x1: endX1,
+            y1: endY1,
+            x2: endX2,
+            y2: endY2,
+          },
+          opacity: 0.7,  // Slightly transparent
+          duration: CONFIG.impact.lineDuration,
+          ease: 'power2.out',
+        }, impactTime);
+
+        // Fade out lines
+        tl.to(line, {
+          opacity: 0,
+          duration: CONFIG.impact.lineDuration * 0.5,
+        }, impactTime + CONFIG.impact.lineDuration * 0.6);
+      });
+    }
+
+    // Phase 1c: Jiggle - squish/unsquish with decreasing intensity
+    const unsquishTime = impactTime + CONFIG.impact.squishDuration;
+
+    // First unsquish (overshoot slightly)
+    tl.to([boxBody, boxLid], {
+      scaleY: 1.05,
+      scaleX: 0.97,
+      duration: CONFIG.impact.unsquishDuration * 0.6,
+      ease: 'power2.out',
+    }, unsquishTime);
+
+    // Second squish (smaller)
+    const jiggle1Time = unsquishTime + CONFIG.impact.unsquishDuration * 0.6;
+    tl.to([boxBody, boxLid], {
+      scaleY: 0.92,
+      scaleX: 1.05,
+      duration: CONFIG.impact.unsquishDuration * 0.4,
+      ease: 'power2.inOut',
+    }, jiggle1Time);
+
+    // Second unsquish
+    const jiggle2Time = jiggle1Time + CONFIG.impact.unsquishDuration * 0.4;
+    tl.to([boxBody, boxLid], {
+      scaleY: 1.02,
+      scaleX: 0.99,
+      duration: CONFIG.impact.unsquishDuration * 0.3,
+      ease: 'power2.out',
+    }, jiggle2Time);
+
+    // Third squish (tiny)
+    const jiggle3Time = jiggle2Time + CONFIG.impact.unsquishDuration * 0.3;
+    tl.to([boxBody, boxLid], {
+      scaleY: 0.98,
+      scaleX: 1.01,
+      duration: CONFIG.impact.unsquishDuration * 0.25,
+      ease: 'power2.inOut',
+    }, jiggle3Time);
+
+    // Final settle to normal
+    const settleTime = jiggle3Time + CONFIG.impact.unsquishDuration * 0.25;
+    tl.to([boxBody, boxLid], {
+      scaleY: 1,
+      scaleX: 1,
+      duration: CONFIG.impact.unsquishDuration * 0.3,
+      ease: 'power2.out',
+    }, settleTime);
 
     // Shadow settles
     tl.to(boxShadow, {
@@ -182,7 +324,7 @@ export default function BoxAnimationHero({
       opacity: 0.55,
       duration: CONFIG.shadow.settleDuration,
       ease: 'power2.inOut',
-    }, CONFIG.drop.duration * 0.85);
+    }, unsquishTime);
 
     // Phase 2: Lid Open (morph polygon points)
     // Animate lid polygons to open position
@@ -339,6 +481,22 @@ export default function BoxAnimationHero({
           <g id="box_shadow" opacity="0.55">
             <ellipse cx="400" cy="480" rx="140" ry="26" fill="#000000" opacity="0.65"/>
             <ellipse cx="400" cy="480" rx="90" ry="16" fill="#000000" opacity="0.4"/>
+          </g>
+
+          {/* Impact lines - BEFORE box so they render behind it - 12 lines for full circle */}
+          <g id="impact_lines">
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="3" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round"/>
+            <line x1="400" y1="470" x2="400" y2="470" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round"/>
           </g>
 
           {/* Box body - centered at x=400 */}
