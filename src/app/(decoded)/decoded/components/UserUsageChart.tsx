@@ -191,11 +191,11 @@ export default function UserUsageChart({ users, year, title }: UserUsageChartPro
     <div className="w-full h-full flex flex-col items-center justify-center max-w-6xl mx-auto">
       {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
 
-      <div className="w-full h-[400px] flex gap-6">
+      <div className="w-full flex flex-col md:flex-row gap-6">
         {/* Chart */}
         <div
           ref={chartRef}
-          className="flex-1 h-full"
+          className="w-full md:flex-1 h-[350px] md:h-[400px]"
           style={{ opacity: isInView ? 1 : 0, transition: 'opacity 0.3s' }}
         >
           <ResponsiveContainer width="100%" height="100%">
@@ -253,14 +253,14 @@ export default function UserUsageChart({ users, year, title }: UserUsageChartPro
         </div>
 
         {/* Stats Panel */}
-        <div className="w-40 flex flex-col justify-center space-y-4">
-          <div className="text-center mb-4">
+        <div className="w-full md:w-40 flex flex-row md:flex-col justify-center items-center md:items-stretch gap-6 md:gap-0 md:space-y-4 pt-2 md:pt-0">
+          <div className="text-center md:mb-4">
             <p className="text-void-orange font-mono text-2xl font-bold">{formatHours(totals.total)}</p>
             <p className="text-neutral-500 text-xs uppercase tracking-wider">Total Playtime</p>
           </div>
-          <div className="space-y-3">
+          <div className="flex flex-row md:flex-col gap-4 md:gap-0 md:space-y-3">
             {CATEGORIES.map((cat) => (
-              <div key={cat.key} className="flex items-center justify-between">
+              <div key={cat.key} className="flex items-center gap-2 md:justify-between">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full" style={{ backgroundColor: cat.color }} />
                   <span className="text-neutral-400 text-xs">{cat.label}</span>
@@ -271,7 +271,7 @@ export default function UserUsageChart({ users, year, title }: UserUsageChartPro
               </div>
             ))}
           </div>
-          <div className="pt-4 border-t border-neutral-800">
+          <div className="md:pt-4 md:border-t md:border-neutral-800 hidden md:block">
             <p className="text-neutral-500 text-xs text-center">
               {allUserData.length} users
             </p>

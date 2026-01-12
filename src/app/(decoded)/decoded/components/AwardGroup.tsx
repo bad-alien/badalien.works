@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
+import { useState, useRef, useEffect, useCallback } from 'react';
 
 interface AwardItem {
   category: string;
@@ -19,10 +20,52 @@ interface AwardGroupProps {
 }
 
 export default function AwardGroup({ title, items, year }: AwardGroupProps) {
+  const [isMobile, setIsMobile] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Detect mobile
+  const checkMobile = useCallback(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  useEffect(() => {
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [checkMobile]);
+
+  // Track scroll position to update active dot
+  useEffect(() => {
+    const container = scrollContainerRef.current;
+    if (!container || !isMobile) return;
+
+    const handleScroll = () => {
+      const scrollLeft = container.scrollLeft;
+      const itemWidth = container.offsetWidth;
+      const newIndex = Math.round(scrollLeft / itemWidth);
+      setActiveIndex(Math.min(newIndex, 2));
+    };
+
+    container.addEventListener('scroll', handleScroll);
+    return () => container.removeEventListener('scroll', handleScroll);
+  }, [isMobile]);
+
+  // Scroll to specific item when dot is clicked
+  const scrollToItem = (index: number) => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+    const itemWidth = container.offsetWidth;
+    container.scrollTo({ left: itemWidth * index, behavior: 'smooth' });
+  };
+
   // We strictly expect ranks 1, 2, and 3.
   const rank1 = items.find(i => i.rank === 1);
   const rank2 = items.find(i => i.rank === 2);
   const rank3 = items.find(i => i.rank === 3);
+
+  // For mobile carousel, order is 1, 2, 3
+  const mobileOrder = [rank1, rank2, rank3].filter(Boolean) as (AwardItem & { rank: number })[];
 
   // Helper to render a single podium card
   const renderCard = (item: AwardItem | undefined, position: 'center' | 'left' | 'right') => {
@@ -159,6 +202,80 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
     );
   };
 
+  // Mobile card renderer (simplified, all same size)
+  const renderMobileCard = (item: AwardItem) => {
+    return (
+      <div
+        key={item.title}
+        className="flex-shrink-0 w-full flex flex-col items-center px-4"
+      >
+        {/* Poster */}
+        <div
+          className="relative rounded-2xl overflow-hidden border shadow-[0_0_60px_rgba(255,107,53,0.4)] border-void-orange/50"
+          style={{
+            width: '260px',
+            height: '390px',
+          }}
+        >
+          <Image
+            src={`/decoded/assets/${year}/${item.image_asset_name}`}
+            alt={item.title}
+            fill
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent opacity-80" />
+
+          {/* Rank Indicator */}
+          <div className="absolute top-4 left-4 font-black text-4xl italic tracking-tighter text-void-orange opacity-40">
+            {item.rank}
+          </div>
+        </div>
+
+        {/* Text Label */}
+        <div className="text-center mt-4 max-w-[280px]">
+          <h3 className="text-2xl font-black leading-tight tracking-tight mb-1 text-white break-words">
+            {item.title}
+          </h3>
+          {(() => {
+            const match = item.description.match(/^((\d+)\s*plays?\s*by\s*(\d+)\s*users?:)\s*(.+)$/i)
+              || item.description.match(/^((viewed|played)\s*by\s*(\d+)\s*users?:)\s*(.+)$/i);
+            if (match) {
+              const [, header, , , names] = match;
+              const nameList = names.split(',').map(n => n.trim());
+              const maxNames = 6;
+              const displayNames = nameList.slice(0, maxNames);
+              const remaining = nameList.length - maxNames;
+              const midpoint = Math.ceil(displayNames.length / 2);
+              const row1 = displayNames.slice(0, midpoint).join(', ');
+              const row2Suffix = remaining > 0 ? ` +${remaining}` : '';
+              const row2 = displayNames.slice(midpoint).join(', ') + row2Suffix;
+              return (
+                <div className="text-center">
+                  <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold mb-1">
+                    {header}
+                  </p>
+                  <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold break-words">
+                    {row1}
+                  </p>
+                  {row2 && (
+                    <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold break-words">
+                      {row2}
+                    </p>
+                  )}
+                </div>
+              );
+            }
+            return (
+              <p className="font-mono tracking-wider uppercase text-void-orange text-xs font-bold break-words">
+                {item.description}
+              </p>
+            );
+          })()}
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="w-full h-full max-w-7xl mx-auto flex flex-col items-center justify-center p-4 md:p-8">
       {/* Title */}
@@ -170,12 +287,49 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
         {title}
       </motion.h2>
 
-      {/* Podium Container - items-start so text extends below */}
-      <div className="flex items-start justify-center gap-4 md:gap-8 w-full">
-        {renderCard(rank2, 'left')}
-        {renderCard(rank1, 'center')}
-        {renderCard(rank3, 'right')}
-      </div>
+      {/* Mobile Carousel */}
+      {isMobile ? (
+        <div className="w-full flex flex-col items-center">
+          {/* Scrollable container */}
+          <div
+            ref={scrollContainerRef}
+            className="w-full overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+            style={{ scrollBehavior: 'smooth' }}
+          >
+            <div className="flex w-[300%]">
+              {mobileOrder.map((item) => (
+                <div key={item.title} className="w-1/3 snap-center flex justify-center">
+                  {renderMobileCard(item)}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Pagination Dots */}
+          <div className="flex gap-3 mt-6">
+            {mobileOrder.map((item, index) => (
+              <button
+                key={item.rank}
+                onClick={() => scrollToItem(index)}
+                className={cn(
+                  "w-3 h-3 rounded-full transition-all duration-300",
+                  activeIndex === index
+                    ? "bg-void-orange scale-125"
+                    : "bg-neutral-600 hover:bg-neutral-500"
+                )}
+                aria-label={`Go to item ${index + 1}`}
+              />
+            ))}
+          </div>
+        </div>
+      ) : (
+        /* Desktop Podium Container - items-start so text extends below */
+        <div className="flex items-start justify-center gap-4 md:gap-8 w-full">
+          {renderCard(rank2, 'left')}
+          {renderCard(rank1, 'center')}
+          {renderCard(rank3, 'right')}
+        </div>
+      )}
     </div>
   );
 }

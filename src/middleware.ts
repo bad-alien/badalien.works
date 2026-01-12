@@ -4,6 +4,14 @@ import type { NextRequest } from 'next/server';
 export function middleware(request: NextRequest) {
   const url = request.nextUrl;
   const hostname = request.headers.get('host') || '';
+  const pathname = url.pathname;
+
+  // Skip middleware for static assets (files with extensions in /assets, /fonts, /logos, etc.)
+  // These should be served directly without path rewriting
+  const isStaticAsset = /\.(png|jpg|jpeg|gif|svg|ico|webp|mp4|webm|mp3|wav|pdf|woff|woff2|ttf|otf|eot|json|lottie|css|js)$/i.test(pathname);
+  if (isStaticAsset) {
+    return NextResponse.next();
+  }
 
   // Configuration
   const rootDomain = process.env.ROOT_DOMAIN || 'badalien.works';

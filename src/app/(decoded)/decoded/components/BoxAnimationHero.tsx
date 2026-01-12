@@ -12,6 +12,12 @@ if (typeof window !== 'undefined') {
 // ============================================================================
 // CONFIGURATION - Tune these values to adjust animation feel
 // ============================================================================
+// Check if mobile device (runs on client only)
+const getIsMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+};
+
 const CONFIG = {
   // Drop animation
   drop: {
@@ -41,11 +47,11 @@ const CONFIG = {
     duration: 0.9,         // Lid open duration
     secondLidDelay: 0.25,  // Delay before second lid opens
   },
-  // Bit stream
+  // Bit stream - desktop values (mobile overrides applied at runtime)
   bits: {
     startDelay: 1.425,     // Delay after animation starts
-    count: 1000,           // Number of bits to emit
-    emitInterval: 10,      // ms between bit emissions
+    count: 1000,           // Number of bits to emit (mobile: 350)
+    emitInterval: 10,      // ms between bit emissions (mobile: 28)
     durationMin: 2.6,      // Travel duration
     durationMax: 2.6,      // Travel duration (uniform speed)
     sizeMin: 28,           // Min font size
@@ -74,7 +80,8 @@ const CONFIG = {
 
 // BACK LID - hinges on back edge, opens backward (20% shorter box)
 // Closed: 355,298 -> 400,286 -> 490,330 -> 445,342
-const BACK_LID_CLOSED = "355,298 400,286 490,330 445,342";
+const _BACK_LID_CLOSED = "355,298 400,286 490,330 445,342";
+void _BACK_LID_CLOSED; // Reference position for documentation
 const BACK_LID_OPEN = {
   top: "400,254 400,286 490,330 490,298",       // Tilted back
   underside: "400,254 400,286 490,330 490,298",
@@ -83,7 +90,8 @@ const BACK_LID_OPEN = {
 
 // FRONT LID - hinges on FRONT edge, back edge swings UP (mirrors back lid)
 // Closed: 310,310 -> 355,298 -> 445,342 -> 400,354
-const FRONT_LID_CLOSED = "310,310 355,298 445,342 400,354";
+const _FRONT_LID_CLOSED = "310,310 355,298 445,342 400,354";
+void _FRONT_LID_CLOSED; // Reference position for documentation
 const FRONT_LID_OPEN = {
   top: "310,310 310,278 400,322 400,354",       // Back edge swings up (same height as back lid)
   underside: "310,310 310,278 400,322 400,354",
@@ -391,9 +399,14 @@ export default function BoxAnimationHero({
     // Front lid edge stays hidden (no visible edge when opening upward with front hinge)
 
     // Phase 3: Bit Stream - curves up then down (arch phase)
+    // Mobile optimization: reduce bit count and increase interval to prevent stutter
+    const isMobile = getIsMobile();
+    const bitCount = isMobile ? 350 : CONFIG.bits.count;
+    const bitInterval = isMobile ? 28 : CONFIG.bits.emitInterval;
+
     // Calculate how many arch bits to emit - stop BEFORE box exits
     const archBitsDuration = (CONFIG.boxExit.startDelay - CONFIG.bits.startDelay - CONFIG.bits.stopBeforeExit) * 1000; // ms
-    const archBitsCount = Math.min(CONFIG.bits.count, Math.floor(archBitsDuration / CONFIG.bits.emitInterval));
+    const archBitsCount = Math.min(bitCount, Math.floor(archBitsDuration / bitInterval));
 
     const emitArchBits = () => {
       for (let i = 0; i < archBitsCount; i++) {
@@ -452,7 +465,7 @@ export default function BoxAnimationHero({
               if (idx > -1) bitsCreatedRef.current.splice(idx, 1);
             },
           });
-        }, i * CONFIG.bits.emitInterval);
+        }, i * bitInterval);
       }
     };
 

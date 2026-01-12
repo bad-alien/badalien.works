@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import * as d3 from 'd3';
 
 interface RidgelineChartProps {
@@ -36,11 +36,23 @@ const DAY_COLORS: Record<DayName, string> = {
 export default function RidgelineChart({ data, title }: RidgelineChartProps) {
   const [mounted, setMounted] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Chart dimensions
-  const margin = { top: 60, right: 30, bottom: 50, left: 110 };
+  // Detect mobile on mount and resize
+  const checkMobile = useCallback(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
+  useEffect(() => {
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [checkMobile]);
+
+  // Chart dimensions - responsive
+  const margin = { top: 60, right: 30, bottom: 50, left: isMobile ? 70 : 110 };
   const width = 900;
   const height = 500;
   const innerWidth = width - margin.left - margin.right;
@@ -260,16 +272,17 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
             ))}
           </defs>
           <g transform={`translate(${margin.left}, ${margin.top})`}>
-            {/* X-axis labels - every other hour from 4am to 4am */}
+            {/* X-axis labels - every 4 hours on mobile, every 2 hours on desktop */}
             <g transform={`translate(${-clipX}, ${innerHeight + 10})`}>
-              {Array.from({ length: 13 }, (_, i) => i * 2 + 4).map(hour => (
+              {Array.from({ length: isMobile ? 7 : 13 }, (_, i) => i * (isMobile ? 4 : 2) + 4).map(hour => (
                 <text
                   key={hour}
                   x={xScale(hour)}
                   y={15}
                   textAnchor="middle"
-                  fill="#666"
-                  fontSize="11"
+                  fill="#999"
+                  fontSize={isMobile ? "14" : "13"}
+                  fontWeight="500"
                 >
                   {formatHour(hour)}
                 </text>
@@ -309,16 +322,19 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
             {/* Day labels - outside clip area */}
             {renderOrder.map(day => {
               const dayY = yScale(day) ?? 0;
+              // Shorter labels on mobile
+              const dayLabel = isMobile ? day.slice(0, 3) : day;
               return (
                 <text
                   key={`label-${day}`}
                   x={-15}
                   y={dayY + yScale.bandwidth() - areaHeight / 3}
                   textAnchor="end"
-                  fill="#666"
-                  fontSize="14"
+                  fill="#999"
+                  fontSize={isMobile ? "13" : "14"}
+                  fontWeight="500"
                 >
-                  {day}
+                  {dayLabel}
                 </text>
               );
             })}

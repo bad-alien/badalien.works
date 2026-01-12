@@ -147,9 +147,9 @@ export default function InteractiveChart({ data, config, title }: ChartProps) {
         }
       `}</style>
 
-      <div className="w-full h-[350px] flex gap-4">
+      <div className="w-full flex flex-col md:flex-row gap-4">
         {/* Chart */}
-        <div ref={chartRef} className={`flex-1 h-full ${isInView ? 'chart-animate' : 'chart-hidden'}`}>
+        <div ref={chartRef} className={`w-full md:flex-1 h-[300px] md:h-[350px] ${isInView ? 'chart-animate' : 'chart-hidden'}`}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData}>
               <defs>
@@ -204,17 +204,17 @@ export default function InteractiveChart({ data, config, title }: ChartProps) {
         </div>
 
         {/* Stats Panel - Updated via DOM refs */}
-        <div ref={statsRef} className="w-36 flex flex-col justify-center space-y-2">
-          <div data-stat="date" className="text-neutral-400 font-mono text-sm mb-1">
+        <div ref={statsRef} className="w-full md:w-36 flex flex-row md:flex-col justify-center items-center md:items-stretch gap-4 md:gap-0 md:space-y-2 pt-2 md:pt-0">
+          <div data-stat="date" className="text-neutral-400 font-mono text-sm mb-0 md:mb-1">
             {initialData?.[config.xaxis_key] || ''}
           </div>
           {SERIES.map((s) => (
-            <div key={s.key} className="flex items-center justify-between">
+            <div key={s.key} className="flex items-center gap-1.5 md:justify-between">
               <div className="flex items-center gap-1.5">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: s.color }} />
                 <span className="text-neutral-400 text-xs">{s.label}</span>
               </div>
-              <span data-stat={s.key} className="text-white font-mono font-bold text-base">
+              <span data-stat={s.key} className="text-white font-mono font-bold text-base ml-1 md:ml-0">
                 {initialData?.[s.key] ?? 0}
               </span>
             </div>
