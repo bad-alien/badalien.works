@@ -101,14 +101,10 @@ const FRONT_LID_OPEN = {
 
 interface BoxAnimationHeroProps {
   title?: string;
-  subtitle?: string;
-  description?: string;
 }
 
 export default function BoxAnimationHero({
   title = 'DECODED',
-  subtitle = '2025',
-  description = 'Scroll down to explore the year in data.',
 }: BoxAnimationHeroProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const svgContainerRef = useRef<HTMLDivElement>(null);
