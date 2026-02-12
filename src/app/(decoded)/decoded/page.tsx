@@ -10,7 +10,6 @@ import AwardGroup from './components/AwardGroup';
 import UserUsageChart from './components/UserUsageChart';
 import BoxAnimationHero from './components/BoxAnimationHero';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
 import { ArrowUp } from 'lucide-react';
 
 // Types for the Manifest
@@ -183,33 +182,28 @@ export default function DecodedPage() {
           if (section.type === 'message') {
             return (
               <Section key="owner-message" className="bg-black relative border-t border-neutral-900">
-                <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-12 md:gap-16">
-                  {/* Owner 1 Message */}
-                  <motion.div
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="space-y-4"
-                  >
-                    <h3 className="text-void-orange font-mono text-lg">Rasheed:</h3>
-                    <p className="text-neutral-300 text-lg leading-relaxed">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
-                    </p>
-                  </motion.div>
-
-                  {/* Owner 2 Message */}
-                  <motion.div
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="space-y-4"
-                  >
-                    <h3 className="text-void-orange font-mono text-lg">Jack:</h3>
-                    <p className="text-neutral-300 text-lg leading-relaxed">
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt.
-                    </p>
-                  </motion.div>
-                </div>
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="max-w-3xl mx-auto space-y-6"
+                >
+                  <p className="text-neutral-300 text-lg leading-relaxed">
+                    One of the harshest evolutions of our ever-evolving world is the blitz and bombardment of recommendation and suggestion algorithms. What you see, what you should buy, what to watch or listen to, and now even what you do and make, the grubby hands of tech bros greedily reach for whatever decision in your life they can try to exploit for profit.
+                  </p>
+                  <p className="text-neutral-300 text-lg leading-relaxed">
+                    The underlying basis for this tech is the individual&apos;s sacrifice of choice. It relies on willingly giving up selecting for yourself and willfully taking only what you are given. From this, the platform is now in control of what you see, influencing how you think and opening a gap for the shoveling of ads.
+                  </p>
+                  <p className="text-neutral-300 text-lg leading-relaxed">
+                    There isn&apos;t much we can control these days. But one thing we will always have is where we place our attention. At least temporarily, at least for a moment. It satiates the soul to select the content you consume with intention. It reclaims your agency and solidifies it. It expresses your individuality and refines it. Where one&apos;s attention goes, the mind follows. So whether you end up loving or hating the choice you make, you can always be satisfied that you chose for yourself.
+                  </p>
+                  <p className="text-neutral-300 text-lg leading-relaxed">
+                    All this blab is to try and explain a big motivation for the creation of Blackbox in 2025. Seeing 5 people using the server at once makes us smile and makes us happy. And nothing would make us happier than to see the usage continue and grow in 2026.
+                  </p>
+                  <p className="text-void-orange font-mono text-lg text-center">
+                    Fuck Algorithms. Choose for Yourself. Love You All.
+                  </p>
+                </motion.div>
 
                 {/* Explore Arrow */}
                 <motion.div
@@ -285,6 +279,7 @@ export default function DecodedPage() {
                     data={chart.data}
                     config={chart.config as unknown as InteractiveChartConfig}
                     title={chart.title}
+                    userJoins={chart.user_joins}
                   />
                 )}
               </Section>
@@ -328,17 +323,36 @@ export default function DecodedPage() {
         {/* SECTION FINAL: OUTRO */}
         <Section className="bg-black relative overflow-hidden border-t border-neutral-900">
           <div className="absolute inset-0 bg-neutral-900/20 opacity-20 pointer-events-none" />
-          <div className="text-center z-10">
-            <h2 className="text-5xl md:text-8xl font-bold mb-8 text-white">
-              END OF LINE
-            </h2>
-            <Link 
-              href="/"
-              className="inline-block px-12 py-4 bg-white text-black font-bold text-xl rounded-full hover:bg-void-orange hover:text-white transition-all duration-300 hover:scale-105"
-            >
-              Return to Base
-            </Link>
-          </div>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-left z-10 max-w-2xl mx-auto space-y-8"
+          >
+            <h3 className="text-void-orange font-mono text-xl md:text-2xl text-center">A Token of Our Appreciation</h3>
+            <p className="text-neutral-300 text-lg leading-relaxed">
+              <span className="text-void-orange font-mono">THANK YOU</span> to Will, Chief Music Officer, and Casey, Chief Cinema Officer. They utilize their professional expertise and impeccable taste to continually refine our music and movie / tv libraries. Shout out to Casey and Jack for the hours finagling a finicky-ass disc drive with raided DVDs and Blu-Rays.
+            </p>
+            <p className="text-neutral-300 text-lg leading-relaxed">
+              <span className="text-void-orange font-mono">THANK YOU</span> to the illustrious Vanneh for putting up with clicks and clacks of the server within reach of her side of the bed and the constant yips and yaps of an exuberant Jack.
+            </p>
+            <p className="text-neutral-300 text-lg leading-relaxed">
+              <span className="text-void-orange font-mono">THANK YOU</span> to you. For engaging with this project, for putting up with bugs / tech issues, for providing ideas and feedback. And for actually using the damn thing. A huuuuuge thank you to everyone who contributed to our end of year fundraise. We were very hesitant to even do this and beyond appreciative for everyone who chose to contribute. And so, so grateful to Troy who not only volunteered to take the initiative on this, but also coordinated everything himself.
+            </p>
+            <p className="text-neutral-300 text-lg leading-relaxed">
+              As a token of our gratitude, we have built a way for anyone to request whatever TV show or movie you desire. All you have to do is follow the link, sign into your Plex account, and then hit request for whatever content you desire. Blackbox will then retrieve that content and automatically add it for you to watch via Plex as you normally do. The link is <a href="https://request.badalien.works" target="_blank" rel="noopener noreferrer" className="text-void-orange hover:underline">request.badalien.works</a>, bookmark or note it so you don&apos;t forget!
+            </p>
+            <div className="pt-4 text-center">
+              <a
+                href="https://request.badalien.works"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block px-12 py-4 bg-white text-black font-bold text-xl rounded-full hover:bg-void-orange hover:text-white transition-all duration-300 hover:scale-105"
+              >
+                Make A Request
+              </a>
+            </div>
+          </motion.div>
         </Section>
       </main>
     </>

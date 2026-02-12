@@ -8,8 +8,15 @@ import {
   YAxis,
   CartesianGrid,
   Tooltip,
+  ReferenceLine,
   ResponsiveContainer,
 } from 'recharts';
+
+interface UserJoin {
+  username: string;
+  date: string;
+  avatar: string;
+}
 
 interface ChartProps {
   type: 'area' | 'bar';
@@ -19,6 +26,7 @@ interface ChartProps {
     series: { key: string; label: string; color: string }[];
   };
   title?: string;
+  userJoins?: UserJoin[];
 }
 
 const SERIES = [
@@ -28,12 +36,98 @@ const SERIES = [
   { key: 'seasons', label: 'TV Seasons', color: '#3498db' },
 ];
 
-export default function InteractiveChart({ data, config, title }: ChartProps) {
+// Custom label component for join date markers - uses CSS hover only (no React state)
+function JoinMarkerLabel({ viewBox, users, date }: {
+  viewBox?: { x?: number; y?: number; height?: number };
+  users: UserJoin[];
+  date: string;
+}) {
+  const x = viewBox?.x ?? 0;
+  const topY = 8;
+  const avatarSize = 18;
+  const gap = 3;
+
+  return (
+    <g className="join-marker-group">
+      {/* Invisible wider hit area for easier hovering */}
+      <rect
+        x={x - 10}
+        y={0}
+        width={20}
+        height={viewBox?.height ?? 300}
+        fill="transparent"
+        style={{ cursor: 'pointer' }}
+      />
+      {/* Small diamond marker at the top of the line */}
+      <polygon
+        className="join-marker-diamond"
+        points={`${x},${topY - 4} ${x + 4},${topY} ${x},${topY + 4} ${x - 4},${topY}`}
+        fill="rgba(255,255,255,0.35)"
+      />
+      {/* Tooltip - hidden by default, shown via CSS :hover */}
+      <foreignObject
+        className="join-marker-tooltip"
+        x={x - 60}
+        y={topY + 10}
+        width={120}
+        height={users.length * (avatarSize + gap) + 28}
+        style={{ overflow: 'visible', pointerEvents: 'none' }}
+      >
+        <div
+          style={{
+            background: 'rgba(20,20,26,0.95)',
+            border: '1px solid rgba(255,255,255,0.1)',
+            borderRadius: 8,
+            padding: '6px 8px',
+            backdropFilter: 'blur(8px)',
+            width: 120,
+          }}
+        >
+          <div style={{ color: '#999', fontSize: 10, fontFamily: 'monospace', marginBottom: 4 }}>
+            Joined {date}
+          </div>
+          {users.map((u, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: i > 0 ? gap : 0 }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={u.avatar}
+                alt={u.username}
+                width={avatarSize}
+                height={avatarSize}
+                style={{ borderRadius: '50%', flexShrink: 0 }}
+              />
+              <span style={{ color: '#ddd', fontSize: 10, fontFamily: 'monospace', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                {u.username}
+              </span>
+            </div>
+          ))}
+        </div>
+      </foreignObject>
+    </g>
+  );
+}
+
+// Group user joins by date for stacking
+function groupJoinsByDate(joins: UserJoin[]): Map<string, UserJoin[]> {
+  const map = new Map<string, UserJoin[]>();
+  for (const j of joins) {
+    const existing = map.get(j.date) || [];
+    existing.push(j);
+    map.set(j.date, existing);
+  }
+  return map;
+}
+
+export default function InteractiveChart({ data, config, title, userJoins }: ChartProps) {
   const [mounted, setMounted] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const defaultDataRef = useRef<Record<string, string | number> | null>(null);
+
+  const joinsByDate = useMemo(() => {
+    return userJoins ? groupJoinsByDate(userJoins) : new Map<string, UserJoin[]>();
+  }, [userJoins]);
 
   // Add "all" series to each data point
   const chartData = useMemo(() => {
@@ -137,6 +231,9 @@ export default function InteractiveChart({ data, config, title }: ChartProps) {
         .chart-hidden .recharts-area-area {
           clip-path: inset(0 100% 0 0);
         }
+        .chart-hidden .recharts-reference-line {
+          opacity: 0;
+        }
         .chart-animate .recharts-area-curve {
           animation: revealLine 3s ease-out forwards;
         }
@@ -144,6 +241,23 @@ export default function InteractiveChart({ data, config, title }: ChartProps) {
           clip-path: inset(0 0 0 0);
           opacity: 0;
           animation: fadeIn 1s ease-out 2.5s forwards;
+        }
+        .chart-animate .recharts-reference-line {
+          opacity: 0;
+          animation: fadeIn 0.4s ease-out 3s forwards;
+        }
+        .join-marker-tooltip {
+          opacity: 0;
+          transition: opacity 0.15s ease;
+        }
+        .join-marker-diamond {
+          transition: fill 0.2s ease;
+        }
+        .join-marker-group:hover .join-marker-tooltip {
+          opacity: 1;
+        }
+        .join-marker-group:hover .join-marker-diamond {
+          fill: #FF6B35;
         }
       `}</style>
 
@@ -197,6 +311,21 @@ export default function InteractiveChart({ data, config, title }: ChartProps) {
                   fill={`url(#grad-${s.key})`}
                   strokeWidth={2}
                   isAnimationActive={false}
+                />
+              ))}
+              {/* User join date markers */}
+              {Array.from(joinsByDate.entries()).map(([date, users]) => (
+                <ReferenceLine
+                  key={`join-${date}`}
+                  x={date}
+                  stroke="rgba(255,255,255,0.15)"
+                  strokeDasharray="3 3"
+                  label={
+                    <JoinMarkerLabel
+                      users={users}
+                      date={date}
+                    />
+                  }
                 />
               ))}
             </AreaChart>

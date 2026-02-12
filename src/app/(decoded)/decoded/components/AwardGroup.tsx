@@ -19,6 +19,14 @@ interface AwardGroupProps {
   year: string;
 }
 
+// Map award group titles to their corresponding header images
+const titleImageMap: Record<string, string> = {
+  'Top Movies': 'top-movies.png',
+  'Top TV Shows': 'top-tvshows.png',
+  'Top Artists': 'top-artists.png',
+  'Top Albums': 'top-albums.png',
+};
+
 export default function AwardGroup({ title, items, year }: AwardGroupProps) {
   const [isMobile, setIsMobile] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -279,13 +287,24 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
   return (
     <div className="w-full h-full max-w-7xl mx-auto flex flex-col items-center justify-center p-4 md:p-8">
       {/* Title */}
-      <motion.h2
+      <motion.div
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-500 uppercase tracking-tighter mb-8 md:mb-16 text-center"
+        className="relative w-[346px] md:w-[518px] h-[86px] md:h-[130px] mb-2 md:mb-4"
       >
-        {title}
-      </motion.h2>
+        {titleImageMap[title] ? (
+          <Image
+            src={`/decoded/assets/${year}/${titleImageMap[title]}`}
+            alt={title}
+            fill
+            className="object-contain"
+          />
+        ) : (
+          <h2 className="text-4xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-500 uppercase tracking-tighter text-center">
+            {title}
+          </h2>
+        )}
+      </motion.div>
 
       {/* Mobile Carousel */}
       {isMobile ? (

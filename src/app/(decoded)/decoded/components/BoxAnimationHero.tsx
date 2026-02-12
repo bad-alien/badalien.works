@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { gsap } from 'gsap';
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import Image from 'next/image';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -50,7 +51,7 @@ const CONFIG = {
   // Bit stream - desktop values (mobile overrides applied at runtime)
   bits: {
     startDelay: 1.425,     // Delay after animation starts
-    count: 1000,           // Number of bits to emit (mobile: 350)
+    count: 99,             // Number of bits to emit (mobile: 35)
     emitInterval: 10,      // ms between bit emissions (mobile: 28)
     durationMin: 2.6,      // Travel duration
     durationMax: 2.6,      // Travel duration (uniform speed)
@@ -66,7 +67,7 @@ const CONFIG = {
   },
   // Content entrance
   content: {
-    startDelay: 6.5,       // Title appears at 6.5s
+    startDelay: 4.095,     // Title appears 10% earlier (was 4.55)
     duration: 1.5,         // Fade in duration
     stagger: 0.3,          // Stagger between elements
   },
@@ -112,8 +113,7 @@ export default function BoxAnimationHero({
   const containerRef = useRef<HTMLDivElement>(null);
   const svgContainerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const descriptionRef = useRef<HTMLParagraphElement>(null);
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
   const bitsCreatedRef = useRef<SVGTextElement[]>([]);
@@ -164,7 +164,6 @@ export default function BoxAnimationHero({
     // Content elements
     const contentElements = [
       titleRef.current,
-      subtitleRef.current,
       descriptionRef.current,
       scrollIndicatorRef.current,
     ].filter(Boolean);
@@ -401,7 +400,7 @@ export default function BoxAnimationHero({
     // Phase 3: Bit Stream - curves up then down (arch phase)
     // Mobile optimization: reduce bit count and increase interval to prevent stutter
     const isMobile = getIsMobile();
-    const bitCount = isMobile ? 350 : CONFIG.bits.count;
+    const bitCount = isMobile ? 35 : CONFIG.bits.count;
     const bitInterval = isMobile ? 28 : CONFIG.bits.emitInterval;
 
     // Calculate how many arch bits to emit - stop BEFORE box exits
@@ -487,28 +486,33 @@ export default function BoxAnimationHero({
       ease: 'power2.in',
     }, CONFIG.boxExit.startDelay);
 
-    // Fade out bits before content appears at 7s
-    tl.to(bitsStream, {
+    // Phase 5: Box starts sliding up, then content enters after a beat
+    const boxSlideTime = CONFIG.content.startDelay - 0.6;
+    const contentTime = CONFIG.content.startDelay;
+
+    // Box starts sliding up early
+    tl.to(svgContainerRef.current, {
+      y: -150,
       opacity: 0,
       duration: 1.2,
-      ease: 'power2.in',
-    }, CONFIG.content.startDelay - 1.0);
+      ease: 'power2.inOut',
+    }, boxSlideTime);
 
-    // Phase 5: Content appears
-    tl.call(() => setShowContent(true), [], CONFIG.content.startDelay);
+    // Content enters after box has started moving
+    tl.call(() => setShowContent(true), [], contentTime);
 
     tl.to(contentRef.current, {
       opacity: 1,
       duration: 0.3,
-    }, CONFIG.content.startDelay);
+    }, contentTime);
 
     tl.to(contentElements, {
       opacity: 1,
       y: 0,
       duration: CONFIG.content.duration,
       stagger: CONFIG.content.stagger,
-      ease: 'power3.out', // Smoother deceleration for "rising from below"
-    }, CONFIG.content.startDelay);
+      ease: 'power3.out',
+    }, contentTime);
 
     // Cleanup
     return () => {
@@ -727,23 +731,23 @@ export default function BoxAnimationHero({
         className={`relative z-10 flex flex-col items-center justify-center text-center space-y-6 ${showContent ? '' : 'pointer-events-none'}`}
         style={{ opacity: 0 }}
       >
-        <h1
+        <div
           ref={titleRef}
-          className="text-7xl md:text-9xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-neutral-600"
+          className="relative w-[600px] md:w-[900px] h-[180px] md:h-[270px]"
         >
-          {title}
-        </h1>
-        <p
-          ref={subtitleRef}
-          className="text-3xl md:text-5xl font-mono text-void-orange tracking-widest"
-        >
-          {subtitle}
-        </p>
+          <Image
+            src="/decoded/assets/2025/decoded-title.png"
+            alt={title}
+            fill
+            className="object-contain"
+            priority
+          />
+        </div>
         <p
           ref={descriptionRef}
           className="text-neutral-400 max-w-md text-lg mt-4"
         >
-          {description}
+          Scroll down to explore the year in data.
         </p>
 
         {/* Scroll indicator */}
