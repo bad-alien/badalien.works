@@ -253,8 +253,6 @@ export default function DecodedPage() {
               >
                 <BoxAnimationHero
                   title={intro.title}
-                  subtitle={intro.subtitle}
-                  description={intro.description}
                 />
               </section>
             );
