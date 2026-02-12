@@ -189,18 +189,18 @@ export default function DecodedPage() {
                   className="max-w-3xl mx-auto space-y-3 md:space-y-6"
                 >
                   <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
-                    One of the harshest evolutions of our ever-evolving world is the blitz and bombardment of recommendation and suggestion algorithms. What you see, what you should buy, what to watch or listen to, and now even what you do and make, the grubby hands of tech bros greedily reach for whatever decision in your life they can try to exploit for profit.
+                    One of the harshest evolutions of our ever-evolving world is the ever-present blitz of recommendation algorithms. What you see, what you should buy, what to watch or listen to, and now even what you do and make, the grubby hands of tech bros reach for whatever decision in your life they can exploit for profit.
                   </p>
                   <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
-                    The underlying basis for this tech is the individual&apos;s sacrifice of choice. It relies on willingly giving up selecting for yourself and willfully taking only what you are given. From this, the platform is now in control of what you see, influencing how you think and opening a gap for the shoveling of ads.
+                    This machine runs on the individual&apos;s sacrifice of choice. It works when you stop selecting for yourself and start accepting whatever you&apos;re handed. Then the platform controls what you see, influences how you think, and opens a gap for ads to be shoveled through.
                   </p>
                   <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
-                    There isn&apos;t much we can control these days. But one thing we will always have is where we place our attention. At least temporarily, at least for a moment. It satiates the soul to select the content you consume with intention. It reclaims your agency and solidifies it. It expresses your individuality and refines it. Where one&apos;s attention goes, the mind follows. So whether you end up loving or hating the choice you make, you can always be satisfied that you chose for yourself.
+                    There isn&apos;t much we can control these days. But we can control where we place our attention—at least temporarily, at least for a moment. It does something to your soul when you choose what to consume with intention. It reclaims your agency. It expresses your individuality. Where attention goes, the mind follows. Even if you end up loving or hating the choice, you can still be satisfied that it was yours.
                   </p>
                   <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
-                    All this blab is to try and explain a big motivation for the creation of Blackbox in 2025. Seeing 5 people using the server at once makes us smile and makes us happy. And nothing would make us happier than to see the usage continue and grow in 2026.
+                    That&apos;s a big part of why we created Blackbox in 2025. Seeing 5 people simultaneously using the server, having picked what they watch, makes us smile and genuinely happy. Nothing would make us happier than to see that continue and grow in 2026.
                   </p>
-                  <p className="text-void-orange font-mono text-lg text-center">
+                  <p className="text-void-orange font-mono text-xs md:text-lg text-center whitespace-nowrap">
                     Fuck Algorithms. Choose for Yourself. Love You All.
                   </p>
                 </motion.div>

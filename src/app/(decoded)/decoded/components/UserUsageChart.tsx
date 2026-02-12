@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import {
   BarChart,
   Bar,
@@ -59,6 +59,15 @@ function formatHours(hours: number): string {
   if (days === 0) return `${remainingHours}h`;
   if (remainingHours === 0) return `${days}d`;
   return `${days}d ${remainingHours}h`;
+}
+
+// Mobile-friendly: show just days with + if there are remaining hours
+function formatDaysPlus(hours: number): string {
+  if (hours === 0) return '0h';
+  const days = Math.floor(hours / 24);
+  const remainingHours = hours % 24;
+  if (days === 0) return `${remainingHours}h`;
+  return remainingHours > 0 ? `${days}d+` : `${days}d`;
 }
 
 interface TooltipPayload {
@@ -123,8 +132,13 @@ const CustomTooltip = ({ active, payload, year }: CustomTooltipProps) => {
 export default function UserUsageChart({ users, year, title }: UserUsageChartProps) {
   const [mounted, setMounted] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
   const hasAnimated = useRef(false);
+
+  const checkMobile = useCallback(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   // Process all user data (for totals calculation)
   const allUserData = useMemo(() => {
@@ -160,7 +174,10 @@ export default function UserUsageChart({ users, year, title }: UserUsageChartPro
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, [checkMobile]);
 
   useEffect(() => {
     if (!mounted || !chartRef.current || hasAnimated.current) return;
@@ -225,7 +242,7 @@ export default function UserUsageChart({ users, year, title }: UserUsageChartPro
                 tick={{ fill: '#666', fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
-                tickFormatter={(v) => formatHours(v)}
+                tickFormatter={(v) => isMobile ? formatDaysPlus(v) : formatHours(v)}
               />
               <Tooltip
                 content={<CustomTooltip year={year} />}
@@ -266,7 +283,7 @@ export default function UserUsageChart({ users, year, title }: UserUsageChartPro
                   <span className="text-neutral-400 text-xs">{cat.label}</span>
                 </div>
                 <span className="text-white font-mono font-bold text-sm">
-                  {formatHours(totals[cat.key as keyof typeof totals])}
+                  {isMobile ? formatDaysPlus(totals[cat.key as keyof typeof totals]) : formatHours(totals[cat.key as keyof typeof totals])}
                 </span>
               </div>
             ))}

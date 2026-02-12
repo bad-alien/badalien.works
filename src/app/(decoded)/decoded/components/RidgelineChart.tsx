@@ -54,7 +54,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
   // Chart dimensions - responsive
   const margin = { top: 60, right: 30, bottom: 50, left: isMobile ? 70 : 110 };
   const width = 900;
-  const height = 500;
+  const height = isMobile ? 700 : 500;
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
