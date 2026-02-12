@@ -221,8 +221,8 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
         <div
           className="relative rounded-2xl overflow-hidden border shadow-[0_0_60px_rgba(255,107,53,0.4)] border-void-orange/50"
           style={{
-            width: '260px',
-            height: '390px',
+            width: '240px',
+            height: '360px',
           }}
         >
           <Image
@@ -240,7 +240,7 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
         </div>
 
         {/* Text Label */}
-        <div className="text-center mt-4 max-w-[280px]">
+        <div className="text-center mt-2 max-w-[280px]">
           <h3 className="text-2xl font-black leading-tight tracking-tight mb-1 text-white break-words">
             {item.title}
           </h3>
@@ -290,7 +290,7 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="relative w-[346px] md:w-[518px] h-[86px] md:h-[130px] mb-2 md:mb-4"
+        className="relative w-[300px] md:w-[518px] h-[75px] md:h-[130px] mb-1 md:mb-4"
       >
         {titleImageMap[title] ? (
           <Image
@@ -325,7 +325,7 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
           </div>
 
           {/* Pagination Dots */}
-          <div className="flex gap-3 mt-6">
+          <div className="flex gap-3 mt-3">
             {mobileOrder.map((item, index) => (
               <button
                 key={item.rank}

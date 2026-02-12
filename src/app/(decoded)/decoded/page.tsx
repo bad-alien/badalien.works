@@ -147,12 +147,12 @@ export default function DecodedPage() {
       {/* Scroll to Top Button */}
       <button
         onClick={scrollToTop}
-        className={`fixed top-6 left-6 z-50 p-3 rounded-full bg-black/50 backdrop-blur border border-white/10 hover:border-void-orange text-white hover:text-void-orange transition-all duration-300 group ${
+        className={`fixed top-4 left-4 md:top-6 md:left-6 z-50 p-2 md:p-3 rounded-full bg-black/50 backdrop-blur border border-white/10 hover:border-void-orange text-white hover:text-void-orange transition-all duration-300 group ${
           showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
         }`}
         aria-label="Scroll to top"
       >
-        <ArrowUp className="w-6 h-6 group-hover:-translate-y-1 transition-transform" />
+        <ArrowUp className="w-5 h-5 md:w-6 md:h-6 group-hover:-translate-y-1 transition-transform" />
       </button>
 
       <main
@@ -186,18 +186,18 @@ export default function DecodedPage() {
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6 }}
-                  className="max-w-3xl mx-auto space-y-6"
+                  className="max-w-3xl mx-auto space-y-3 md:space-y-6"
                 >
-                  <p className="text-neutral-300 text-lg leading-relaxed">
+                  <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
                     One of the harshest evolutions of our ever-evolving world is the blitz and bombardment of recommendation and suggestion algorithms. What you see, what you should buy, what to watch or listen to, and now even what you do and make, the grubby hands of tech bros greedily reach for whatever decision in your life they can try to exploit for profit.
                   </p>
-                  <p className="text-neutral-300 text-lg leading-relaxed">
+                  <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
                     The underlying basis for this tech is the individual&apos;s sacrifice of choice. It relies on willingly giving up selecting for yourself and willfully taking only what you are given. From this, the platform is now in control of what you see, influencing how you think and opening a gap for the shoveling of ads.
                   </p>
-                  <p className="text-neutral-300 text-lg leading-relaxed">
+                  <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
                     There isn&apos;t much we can control these days. But one thing we will always have is where we place our attention. At least temporarily, at least for a moment. It satiates the soul to select the content you consume with intention. It reclaims your agency and solidifies it. It expresses your individuality and refines it. Where one&apos;s attention goes, the mind follows. So whether you end up loving or hating the choice you make, you can always be satisfied that you chose for yourself.
                   </p>
-                  <p className="text-neutral-300 text-lg leading-relaxed">
+                  <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
                     All this blab is to try and explain a big motivation for the creation of Blackbox in 2025. Seeing 5 people using the server at once makes us smile and makes us happy. And nothing would make us happier than to see the usage continue and grow in 2026.
                   </p>
                   <p className="text-void-orange font-mono text-lg text-center">
@@ -325,27 +325,27 @@ export default function DecodedPage() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-left z-10 max-w-2xl mx-auto space-y-8"
+            className="text-left z-10 max-w-2xl mx-auto space-y-4 md:space-y-8"
           >
             <h3 className="text-void-orange font-mono text-xl md:text-2xl text-center">A Token of Our Appreciation</h3>
-            <p className="text-neutral-300 text-lg leading-relaxed">
+            <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
               <span className="text-void-orange font-mono">THANK YOU</span> to Will, Chief Music Officer, and Casey, Chief Cinema Officer. They utilize their professional expertise and impeccable taste to continually refine our music and movie / tv libraries. Shout out to Casey and Jack for the hours finagling a finicky-ass disc drive with raided DVDs and Blu-Rays.
             </p>
-            <p className="text-neutral-300 text-lg leading-relaxed">
+            <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
               <span className="text-void-orange font-mono">THANK YOU</span> to the illustrious Vanneh for putting up with clicks and clacks of the server within reach of her side of the bed and the constant yips and yaps of an exuberant Jack.
             </p>
-            <p className="text-neutral-300 text-lg leading-relaxed">
+            <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
               <span className="text-void-orange font-mono">THANK YOU</span> to you. For engaging with this project, for putting up with bugs / tech issues, for providing ideas and feedback. And for actually using the damn thing. A huuuuuge thank you to everyone who contributed to our end of year fundraise. We were very hesitant to even do this and beyond appreciative for everyone who chose to contribute. And so, so grateful to Troy who not only volunteered to take the initiative on this, but also coordinated everything himself.
             </p>
-            <p className="text-neutral-300 text-lg leading-relaxed">
+            <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
               As a token of our gratitude, we have built a way for anyone to request whatever TV show or movie you desire. All you have to do is follow the link, sign into your Plex account, and then hit request for whatever content you desire. Blackbox will then retrieve that content and automatically add it for you to watch via Plex as you normally do. The link is <a href="https://request.badalien.works" target="_blank" rel="noopener noreferrer" className="text-void-orange hover:underline">request.badalien.works</a>, bookmark or note it so you don&apos;t forget!
             </p>
-            <div className="pt-4 text-center">
+            <div className="pt-2 md:pt-4 text-center">
               <a
                 href="https://request.badalien.works"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block px-12 py-4 bg-white text-black font-bold text-xl rounded-full hover:bg-void-orange hover:text-white transition-all duration-300 hover:scale-105"
+                className="inline-block px-8 md:px-12 py-3 md:py-4 bg-white text-black font-bold text-lg md:text-xl rounded-full hover:bg-void-orange hover:text-white transition-all duration-300 hover:scale-105"
               >
                 Make A Request
               </a>

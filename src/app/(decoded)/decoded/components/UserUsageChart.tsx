@@ -181,7 +181,7 @@ export default function UserUsageChart({ users, year, title }: UserUsageChartPro
   if (!mounted) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
+        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
         <div className="w-full h-[400px] bg-neutral-900/20 rounded-xl animate-pulse" />
       </div>
     );
@@ -189,7 +189,7 @@ export default function UserUsageChart({ users, year, title }: UserUsageChartPro
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center max-w-6xl mx-auto">
-      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
+      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
 
       <div className="w-full flex flex-col md:flex-row gap-6">
         {/* Chart */}

@@ -212,7 +212,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
   if (!mounted) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
+        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
         <div className="w-full h-[500px] bg-neutral-900/20 rounded-xl border border-neutral-800 animate-pulse" />
       </div>
     );
@@ -227,7 +227,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
       ref={containerRef}
       className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto"
     >
-      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
+      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
 
       <style jsx global>{`
         @keyframes waveReveal {

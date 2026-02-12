@@ -729,7 +729,7 @@ export default function BoxAnimationHero({
       >
         <div
           ref={titleRef}
-          className="relative w-[600px] md:w-[900px] h-[180px] md:h-[270px]"
+          className="relative w-[510px] md:w-[900px] h-[153px] md:h-[270px]"
         >
           <Image
             src="/decoded/assets/2025/decoded-title.png"

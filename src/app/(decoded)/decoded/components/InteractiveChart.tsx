@@ -121,6 +121,7 @@ function groupJoinsByDate(joins: UserJoin[]): Map<string, UserJoin[]> {
 export default function InteractiveChart({ data, config, title, userJoins }: ChartProps) {
   const [mounted, setMounted] = useState(false);
   const [isInView, setIsInView] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const defaultDataRef = useRef<Record<string, string | number> | null>(null);
@@ -155,6 +156,10 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
 
   useEffect(() => {
     setMounted(true);
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // Trigger animation when scrolled into view
@@ -206,7 +211,7 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
   if (!mounted) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
+        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
         <div className="w-full h-[350px] bg-neutral-900/20 rounded-xl animate-pulse" />
       </div>
     );
@@ -216,7 +221,7 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-8">{title}</h3>}
+      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
 
       <style jsx global>{`
         @keyframes revealLine {
@@ -263,7 +268,7 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
 
       <div className="w-full flex flex-col md:flex-row gap-4">
         {/* Chart */}
-        <div ref={chartRef} className={`w-full md:flex-1 h-[300px] md:h-[350px] ${isInView ? 'chart-animate' : 'chart-hidden'}`}>
+        <div ref={chartRef} className={`w-full md:flex-1 h-[340px] md:h-[350px] ${isInView ? 'chart-animate' : 'chart-hidden'}`}>
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData}>
               <defs>
@@ -313,8 +318,8 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
                   isAnimationActive={false}
                 />
               ))}
-              {/* User join date markers */}
-              {Array.from(joinsByDate.entries()).map(([date, users]) => (
+              {/* User join date markers - hidden on mobile (hover doesn't work on touch, diamonds cluster/overlap) */}
+              {!isMobile && Array.from(joinsByDate.entries()).map(([date, users]) => (
                 <ReferenceLine
                   key={`join-${date}`}
                   x={date}
