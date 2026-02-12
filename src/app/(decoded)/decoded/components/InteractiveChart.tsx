@@ -211,7 +211,7 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
   if (!mounted) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
+        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-6 md:mb-8">{title}</h3>}
         <div className="w-full h-[350px] bg-neutral-900/20 rounded-xl animate-pulse" />
       </div>
     );
@@ -221,7 +221,7 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
+      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-6 md:mb-8">{title}</h3>}
 
       <style jsx global>{`
         @keyframes revealLine {
@@ -349,7 +349,7 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
                   <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: s.color }} />
                   <span className="text-neutral-400 text-xs">{s.label}</span>
                 </div>
-                <span data-stat={s.key} className="text-white font-mono font-bold text-base ml-1 md:ml-0">
+                <span data-stat={s.key} className="text-white font-mono font-bold text-[22px] md:text-base ml-1 md:ml-0">
                   {initialData?.[s.key] ?? 0}
                 </span>
               </div>

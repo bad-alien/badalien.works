@@ -290,7 +290,7 @@ export default function AwardGroup({ title, items, year }: AwardGroupProps) {
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="relative w-[300px] md:w-[518px] h-[75px] md:h-[130px] mb-1 md:mb-4"
+        className="relative w-[300px] md:w-[518px] h-[75px] md:h-[130px] mb-3 md:mb-4"
       >
         {titleImageMap[title] ? (
           <Image

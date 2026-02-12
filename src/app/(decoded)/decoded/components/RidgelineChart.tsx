@@ -52,7 +52,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
   }, [checkMobile]);
 
   // Chart dimensions - responsive
-  const margin = { top: 60, right: 30, bottom: 50, left: isMobile ? 70 : 110 };
+  const margin = { top: isMobile ? 100 : 60, right: 30, bottom: 50, left: isMobile ? 70 : 110 };
   const width = 900;
   const height = isMobile ? 700 : 500;
   const innerWidth = width - margin.left - margin.right;
@@ -212,7 +212,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
   if (!mounted) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto">
-        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
+        {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-6 md:mb-8">{title}</h3>}
         <div className="w-full h-[500px] bg-neutral-900/20 rounded-xl border border-neutral-800 animate-pulse" />
       </div>
     );
@@ -227,7 +227,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
       ref={containerRef}
       className="w-full h-full flex flex-col items-center justify-center max-w-5xl mx-auto"
     >
-      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-4 md:mb-8">{title}</h3>}
+      {title && <h3 className="text-2xl md:text-3xl font-mono text-neutral-200 mb-6 md:mb-8">{title}</h3>}
 
       <style jsx global>{`
         @keyframes waveReveal {
@@ -281,7 +281,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
                   y={15}
                   textAnchor="middle"
                   fill="#999"
-                  fontSize={isMobile ? "14" : "13"}
+                  fontSize={isMobile ? "16" : "13"}
                   fontWeight="500"
                 >
                   {formatHour(hour)}
@@ -331,7 +331,7 @@ export default function RidgelineChart({ data, title }: RidgelineChartProps) {
                   y={dayY + yScale.bandwidth() - areaHeight / 3}
                   textAnchor="end"
                   fill="#999"
-                  fontSize={isMobile ? "13" : "14"}
+                  fontSize={isMobile ? "15" : "14"}
                   fontWeight="500"
                 >
                   {dayLabel}
