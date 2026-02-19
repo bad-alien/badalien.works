@@ -130,13 +130,22 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
     return userJoins ? groupJoinsByDate(userJoins) : new Map<string, UserJoin[]>();
   }, [userJoins]);
 
-  // Add "all" series to each data point
+  // Add "all" series and cumulative user count to each data point
   const chartData = useMemo(() => {
+    const joinCountByDate = new Map<string, number>();
+    if (userJoins) {
+      for (const j of userJoins) {
+        joinCountByDate.set(j.date, (joinCountByDate.get(j.date) || 0) + 1);
+      }
+    }
+    let cumulativeUsers = 0;
     return data.map(item => {
       const all = config.series.reduce((sum, s) => sum + (Number(item[s.key]) || 0), 0);
-      return { ...item, all } as Record<string, string | number>;
+      const dateKey = String(item[config.xaxis_key]);
+      cumulativeUsers += (joinCountByDate.get(dateKey) || 0);
+      return { ...item, all, _users: cumulativeUsers } as Record<string, string | number>;
     });
-  }, [data, config.series]);
+  }, [data, config.series, userJoins, config.xaxis_key]);
 
   // Store default (last) data
   defaultDataRef.current = chartData[chartData.length - 1];
@@ -152,6 +161,9 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
       const el = statsRef.current?.querySelector(`[data-stat="${s.key}"]`);
       if (el) el.textContent = String(dataPoint[s.key] ?? 0);
     });
+
+    const usersEl = statsRef.current.querySelector('[data-stat="_users"]');
+    if (usersEl) usersEl.textContent = String(dataPoint._users ?? 0);
   }, [config.xaxis_key]);
 
   useEffect(() => {
@@ -318,18 +330,20 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
                   isAnimationActive={false}
                 />
               ))}
-              {/* User join date markers - hidden on mobile (hover doesn't work on touch, diamonds cluster/overlap) */}
-              {!isMobile && Array.from(joinsByDate.entries()).map(([date, users]) => (
+              {/* User join date markers - full tooltips on desktop, subtle lines on mobile */}
+              {Array.from(joinsByDate.entries()).map(([date, users]) => (
                 <ReferenceLine
                   key={`join-${date}`}
                   x={date}
-                  stroke="rgba(255,255,255,0.15)"
+                  stroke={isMobile ? "rgba(255,255,255,0.08)" : "rgba(255,255,255,0.15)"}
                   strokeDasharray="3 3"
                   label={
-                    <JoinMarkerLabel
-                      users={users}
-                      date={date}
-                    />
+                    !isMobile ? (
+                      <JoinMarkerLabel
+                        users={users}
+                        date={date}
+                      />
+                    ) : undefined
                   }
                 />
               ))}
@@ -355,6 +369,17 @@ export default function InteractiveChart({ data, config, title, userJoins }: Cha
               </div>
             ))}
           </div>
+          {userJoins && userJoins.length > 0 && (
+            <div className="flex items-center gap-1.5 md:justify-between mt-2 pt-2 border-t border-neutral-800">
+              <div className="flex items-center gap-1.5">
+                <div className="w-2.5 h-2.5 rounded-full bg-white/30" />
+                <span className="text-neutral-400 text-xs">Users</span>
+              </div>
+              <span data-stat="_users" className="text-white font-mono font-bold text-[22px] md:text-base ml-1 md:ml-0">
+                {initialData?._users ?? 0}
+              </span>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -192,7 +192,7 @@ export default function DecodedPage() {
                     One of the harshest evolutions of our ever-evolving world is the ever-present blitz of recommendation algorithms. What you see, what you should buy, what to watch or listen to, and now even what you do and make, the grubby hands of tech bros reach for whatever decision in your life they can exploit for profit.
                   </p>
                   <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
-                    This machine runs on the individual&apos;s sacrifice of choice. It works when you stop selecting for yourself and start accepting whatever you&apos;re handed. Then the platform controls what you see, influences how you think, and opens a gap for ads to be shoveled through.
+                    The underlying basis of this tech relies on the individual&apos;s sacrifice of choice. It works when you stop selecting for yourself and start accepting whatever you&apos;re handed. Then the platform controls what you see, influences how you think, and opens a gap for ads to be shoveled through.
                   </p>
                   <p className="text-neutral-300 text-sm md:text-lg leading-snug md:leading-relaxed">
                     There isn&apos;t much we can control these days. But we can control where we place our attention—at least temporarily, at least for a moment. It does something to your soul when you choose what to consume with intention. It reclaims your agency. It expresses your individuality. Where attention goes, the mind follows. Even if you end up loving or hating the choice, you can still be satisfied that it was yours.
