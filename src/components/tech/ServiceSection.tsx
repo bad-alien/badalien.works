@@ -34,7 +34,7 @@ export default function ServiceSection({ service }: ServiceSectionProps) {
   return (
     <section
       ref={ref}
-      className="min-h-[80vh] flex items-start py-20 md:py-28 border-b border-white/5 last:border-0 scroll-mt-28"
+      className="min-h-0 py-12 md:py-16 border-b border-white/5 last:border-0 scroll-mt-28"
       aria-labelledby={`service-title-${service.id}`}
     >
       <div className="container mx-auto px-6 w-full">
