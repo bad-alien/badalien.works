@@ -31,7 +31,7 @@ function ServiceFilterBar({ filters, activeFilter, onFilterChange, isScrolled }:
                 key={filter}
                 onClick={() => onFilterChange(filter)}
                 aria-pressed={activeFilter === filter}
-                className={`px-5 py-1.5 font-light tracking-wider text-xs rounded-md backdrop-blur-md transition-all duration-300 whitespace-nowrap ${
+                className={`px-5 py-2 font-light tracking-wider text-sm rounded-md backdrop-blur-md transition-all duration-300 whitespace-nowrap ${
                   activeFilter === filter
                     ? 'bg-white text-black'
                     : 'bg-black/80 text-white border border-white/30 hover:border-white/60 hover:bg-white/10'

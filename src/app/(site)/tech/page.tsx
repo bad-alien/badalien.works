@@ -53,23 +53,17 @@ export default function TechPage() {
       />
 
       {/* Hero */}
-      <main className="pt-40 md:pt-48">
+      <main className="pt-28 md:pt-32">
         <div className="container mx-auto px-6">
           <motion.div
-            className="max-w-3xl mx-auto mb-8 md:mb-12"
+            className="max-w-4xl mx-auto mb-8 md:mb-12"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: 'easeOut' }}
           >
-            <p className="text-white/30 text-xs font-mono tracking-[0.3em] uppercase mb-5">
-              What I Build
-            </p>
-            <h1 className="text-5xl md:text-7xl font-light tracking-tight text-white leading-[1.05] mb-6">
-              Services
+            <h1 className="text-2xl md:text-3xl font-light tracking-tight text-white/80 leading-[1.3]">
+              End-to-end solutions across AI, automation, infrastructure, and design — built to last, engineered to scale, and designed to save you money.
             </h1>
-            <p className="text-gray-400 font-light text-base md:text-lg leading-relaxed max-w-xl">
-              End-to-end solutions across AI, automation, infrastructure, and design — built to last and engineered to scale.
-            </p>
           </motion.div>
         </div>
 
