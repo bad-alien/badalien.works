@@ -3,39 +3,11 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
-import { Service, ServiceStatus } from './types';
-import DemoPlaceholder from './DemoPlaceholder';
+import { Service } from './types';
 
 interface ServiceSectionProps {
   service: Service;
 }
-
-const statusConfig: Record<ServiceStatus, { bg: string; text: string; border: string; label: string }> = {
-  Active: {
-    bg: 'bg-green-500/20',
-    text: 'text-green-300',
-    border: 'border-green-500/50',
-    label: 'Active',
-  },
-  Completed: {
-    bg: 'bg-blue-500/20',
-    text: 'text-blue-300',
-    border: 'border-blue-500/50',
-    label: 'Completed',
-  },
-  'In Progress': {
-    bg: 'bg-yellow-500/20',
-    text: 'text-yellow-300',
-    border: 'border-yellow-500/50',
-    label: 'In Progress',
-  },
-  Planned: {
-    bg: 'bg-purple-500/20',
-    text: 'text-purple-300',
-    border: 'border-purple-500/50',
-    label: 'Planned',
-  },
-};
 
 const containerVariants = {
   hidden: {},
@@ -58,7 +30,6 @@ const itemVariants = {
 export default function ServiceSection({ service }: ServiceSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px 0px' });
-  const status = statusConfig[service.status];
 
   return (
     <section
@@ -96,20 +67,6 @@ export default function ServiceSection({ service }: ServiceSectionProps) {
           >
             {service.description}
           </motion.p>
-
-          {/* Demo placeholder with status badge */}
-          <motion.div variants={itemVariants} className="mb-10">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-white/40 text-sm font-light tracking-wider">Featured Project</span>
-              <span
-                className={`px-3 py-1 rounded-full text-xs font-light tracking-wider border ${status.bg} ${status.text} ${status.border}`}
-                aria-label={`Status: ${service.status}`}
-              >
-                {status.label}
-              </span>
-            </div>
-            <DemoPlaceholder type={service.demo.type} />
-          </motion.div>
 
           {/* Tech stack */}
           <motion.div variants={itemVariants} className="flex flex-wrap gap-2 mb-10">
