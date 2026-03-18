@@ -8,14 +8,13 @@ import HeroSection from '@/components/home/HeroSection';
 import BusinessChatInterface from '@/components/chat/BusinessChatInterface';
 
 export default function Home() {
-  const [animationComplete, setAnimationComplete] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(false);
 
   return (
     <div className="min-h-screen bg-black">
       {/* Logo Animation Overlay */}
       <HeroSection
-        onAnimationComplete={() => setAnimationComplete(true)}
+        onAnimationComplete={() => {}}
         onTransitionStart={() => setHeaderVisible(true)}
       />
 
