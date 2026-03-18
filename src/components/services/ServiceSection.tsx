@@ -80,8 +80,15 @@ export default function ServiceSection({ service }: ServiceSectionProps) {
             ))}
           </motion.div>
 
-          {/* CTA */}
-          <motion.div variants={itemVariants}>
+          {/* CTA - Book a Call button */}
+          <motion.div variants={itemVariants} className="flex items-center gap-4">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-3 px-6 py-3 border border-white/30 text-sm font-light tracking-wider text-white hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
+              aria-label={`Book a call about ${service.title}`}
+            >
+              Book a Call
+            </Link>
             <Link
               href={service.ctaUrl ?? '/contact'}
               className="inline-flex items-center gap-2 text-base font-light tracking-wider text-white/70 hover:text-white transition-colors duration-300 group"

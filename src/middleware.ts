@@ -58,7 +58,13 @@ export function middleware(request: NextRequest) {
     }
   }
 
-  // Scenario 3: Main Domain - no rewrite needed
+  // Scenario 3: Redirect /tech to /services (permanent redirect for renamed route)
+  if (url.pathname === '/tech' || url.pathname.startsWith('/tech/')) {
+    url.pathname = url.pathname.replace('/tech', '/services');
+    return NextResponse.redirect(url, 301);
+  }
+
+  // Scenario 4: Main Domain - no rewrite needed
   // Route groups are transparent to URL path
   return NextResponse.next();
 }

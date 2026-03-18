@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 interface UseLogoCycleOptions {
   /**
@@ -74,9 +74,9 @@ export function useLogoCycle({
     return () => clearInterval(cycleInterval);
   }, [isCycling, logoCount, interval]);
 
-  const startCycling = () => setIsCycling(true);
-  const stopCycling = () => setIsCycling(false);
-  const reset = () => setCurrentLogo(1);
+  const startCycling = useCallback(() => setIsCycling(true), []);
+  const stopCycling = useCallback(() => setIsCycling(false), []);
+  const reset = useCallback(() => setCurrentLogo(1), []);
 
   return {
     currentLogo,

@@ -1,12 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import Logo from '@/components/shared/Logo';
+import { motion } from 'framer-motion';
 import type { InputChangeHandler } from '@/types/common';
+import Header from '@/components/shared/Header';
+import Footer from '@/components/shared/Footer';
 
 interface ContactFormData {
   name: string;
   email: string;
+  company: string;
+  serviceInterest: string;
   message: string;
 }
 
@@ -16,6 +20,8 @@ export default function ContactPage() {
   const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
+    company: '',
+    serviceInterest: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -37,7 +43,7 @@ export default function ContactPage() {
 
       if (response.ok) {
         setSubmitStatus('success');
-        setFormData({ name: '', email: '', message: '' });
+        setFormData({ name: '', email: '', company: '', serviceInterest: '', message: '' });
       } else {
         setSubmitStatus('error');
       }
@@ -56,89 +62,213 @@ export default function ContactPage() {
     });
   };
 
+  const serviceOptions = [
+    { value: '', label: 'Select a service...' },
+    { value: 'ai-adoption', label: 'AI Adoption & Enablement' },
+    { value: 'custom-software', label: 'Custom Software & Automation' },
+    { value: 'design-growth', label: 'Design & Growth' },
+    { value: 'infrastructure', label: 'Infrastructure' },
+    { value: 'other', label: 'Other / Not Sure' }
+  ];
+
   return (
-    <div className="h-screen w-screen bg-black overflow-hidden flex items-center justify-center">
-      {/* Contact Form */}
-      <div className="w-full max-w-md px-6">
-        {/* Logo */}
-        <div className="flex justify-center mb-8">
-          <Logo size="lg" />
+    <div className="min-h-screen w-full bg-black">
+      <Header />
+
+      {/* Main Content */}
+      <main className="pt-24 pb-16 px-6">
+        <div className="max-w-4xl mx-auto">
+          {/* Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-science-gothic)' }}>
+              Let&apos;s Connect
+            </h1>
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Have a project in mind? Let&apos;s discuss how AI can work for your business.
+            </p>
+          </motion.div>
+
+          {/* Form */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 md:p-10 mb-16"
+          >
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Name */}
+              <div>
+                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                  Name <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
+                  placeholder="Your name"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                  Email <span className="text-red-400">*</span>
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
+                  placeholder="your.email@company.com"
+                />
+              </div>
+
+              {/* Company */}
+              <div>
+                <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
+                  Company
+                </label>
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
+                  placeholder="Your company name"
+                />
+              </div>
+
+              {/* Service Interest */}
+              <div>
+                <label htmlFor="serviceInterest" className="block text-sm font-medium text-gray-300 mb-2">
+                  Service Interest
+                </label>
+                <select
+                  id="serviceInterest"
+                  name="serviceInterest"
+                  value={formData.serviceInterest}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white focus:outline-none focus:border-white/30 transition-colors appearance-none cursor-pointer"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'right 1rem center',
+                  }}
+                >
+                  {serviceOptions.map(option => (
+                    <option key={option.value} value={option.value} className="bg-black text-white">
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Message */}
+              <div>
+                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                  Message <span className="text-red-400">*</span>
+                </label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows={6}
+                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors resize-none"
+                  placeholder="Tell me about your project..."
+                />
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full px-6 py-4 bg-white text-black rounded-lg font-medium transition-all hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-white"
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </button>
+
+              {/* Success Message */}
+              {submitStatus === 'success' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-green-900/30 border border-green-500/50 rounded-lg text-green-300 text-center"
+                >
+                  Message sent! I&apos;ll get back to you within 24 hours.
+                </motion.div>
+              )}
+
+              {/* Error Message */}
+              {submitStatus === 'error' && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="p-4 bg-red-900/30 border border-red-500/50 rounded-lg text-red-300 text-center"
+                >
+                  Something went wrong. Please try again or email directly at{' '}
+                  <a href="mailto:contact@badalien.works" className="underline hover:text-red-200">
+                    contact@badalien.works
+                  </a>
+                </motion.div>
+              )}
+            </form>
+          </motion.div>
+
+          {/* Calendar Section */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="text-center"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6" style={{ fontFamily: 'var(--font-science-gothic)' }}>
+              Or Book a Call Directly
+            </h2>
+
+            {/* Cal.com Embed Placeholder - Ready for: <Cal calLink="username/consultation" config={{ theme: "dark" }} /> */}
+            <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden min-h-[500px] flex items-center justify-center">
+              <div className="text-center px-6">
+                <div className="inline-block p-4 bg-white/5 rounded-full mb-4">
+                  <svg
+                    className="w-12 h-12 text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    />
+                  </svg>
+                </div>
+                <p className="text-lg text-gray-400 mb-2">Calendar booking loading...</p>
+                <p className="text-sm text-gray-500 max-w-md mx-auto">
+                  Cal.com integration will be embedded here once account setup is complete
+                </p>
+              </div>
+            </div>
+          </motion.div>
         </div>
+      </main>
 
-        <h1 className="text-4xl font-bold text-white mb-3 text-center">
-          Transmit to Bad Alien
-        </h1>
-          <p className="text-gray-400 text-center mb-8">
-            Business, Creative, Networking - Bad Alien receives all frequencies.
-          </p>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-void-teal"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-void-teal"
-              />
-            </div>
-
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                required
-                rows={5}
-                className="w-full px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:border-[#007878] resize-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full px-6 py-3 bg-void-teal hover:bg-void-teal-dark text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'Transmitting...' : 'Send Message'}
-            </button>
-
-            {submitStatus === 'success' && (
-              <div className="p-4 bg-green-900/30 border border-green-500/50 rounded-lg text-green-300 text-center">
-                Message transmitted successfully! Bad Alien will respond soon.
-              </div>
-            )}
-
-            {submitStatus === 'error' && (
-              <div className="p-4 bg-red-900/30 border border-red-500/50 rounded-lg text-red-300 text-center">
-                Transmission failed. Please try again or email directly at bad.alien.biz@gmail.com
-              </div>
-            )}
-          </form>
-      </div>
+      <Footer />
     </div>
   );
 }

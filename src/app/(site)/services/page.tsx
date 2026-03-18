@@ -3,12 +3,12 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
-import Logo from '@/components/shared/Logo';
-import ServiceFilterBar from '@/components/tech/ServiceFilterBar';
-import ServiceSection from '@/components/tech/ServiceSection';
+import Header from '@/components/shared/Header';
+import ServiceFilterBar from '@/components/services/ServiceFilterBar';
+import ServiceSection from '@/components/services/ServiceSection';
 import { services, serviceFilters, type ServiceFilter } from '@/data/services';
+import { ServiceCategory } from '@/components/services/types';
 import { useScrollState } from '@/hooks/useScrollState';
-import { ServiceCategory } from '@/components/tech/types';
 
 export default function TechPage() {
   const isScrolled = useScrollState(50);
@@ -24,25 +24,7 @@ export default function TechPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Fixed header */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled ? 'bg-black/80 backdrop-blur-md py-3' : 'bg-transparent py-6'
-        }`}
-      >
-        <div className="container mx-auto px-6 flex items-center justify-center relative">
-          <Logo
-            size={isScrolled ? 'sm' : 'sm'}
-            className="transition-all duration-300"
-          />
-          <Link
-            href="/contact"
-            className="absolute right-6 text-sm font-light tracking-wider hover:text-gray-400 transition-colors"
-          >
-            CONTACT
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       {/* Filter bar — sticky below header */}
       <ServiceFilterBar

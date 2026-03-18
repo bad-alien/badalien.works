@@ -3,10 +3,23 @@ import { NextResponse } from 'next/server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
+// Escape HTML entities to prevent XSS
+function escapeHtml(text: string): string {
+  const htmlEntities: { [key: string]: string } = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '/': '&#x2F;',
+  };
+  return text.replace(/[&<>"'/]/g, (char) => htmlEntities[char]);
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, message } = body;
+    const { name, email, company, serviceInterest, message } = body;
 
     // Validate required fields
     if (!name || !email || !message) {
@@ -16,19 +29,47 @@ export async function POST(request: Request) {
       );
     }
 
+    // Escape user input to prevent XSS
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeCompany = company ? escapeHtml(company) : '';
+    const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+
+    // Build email content
+    let emailContent = `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${safeName}</p>
+      <p><strong>Email:</strong> ${safeEmail}</p>
+    `;
+
+    if (safeCompany) {
+      emailContent += `<p><strong>Company:</strong> ${safeCompany}</p>`;
+    }
+
+    if (serviceInterest) {
+      const serviceLabels: { [key: string]: string } = {
+        'ai-adoption': 'AI Adoption & Enablement',
+        'custom-software': 'Custom Software & Automation',
+        'design-growth': 'Design & Growth',
+        'infrastructure': 'Infrastructure',
+        'other': 'Other / Not Sure'
+      };
+      const serviceLabel = serviceLabels[serviceInterest] || serviceInterest;
+      emailContent += `<p><strong>Service Interest:</strong> ${escapeHtml(serviceLabel)}</p>`;
+    }
+
+    emailContent += `
+      <p><strong>Message:</strong></p>
+      <p>${safeMessage}</p>
+    `;
+
     // Send email via Resend
     const { data, error } = await resend.emails.send({
-      from: 'Bad Alien Contact <r@badalien.works>',
+      from: 'Contact Form <r@badalien.works>',
       to: 'bad.alien.biz@gmail.com',
       replyTo: email,
-      subject: `New Contact Form Message from ${name}`,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>From:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+      subject: `New Contact: ${name}${company ? ` (${company})` : ''}`,
+      html: emailContent,
     });
 
     if (error) {
