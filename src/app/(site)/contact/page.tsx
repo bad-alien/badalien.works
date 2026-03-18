@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import type { InputChangeHandler } from '@/types/common';
+import type { ChangeEvent } from 'react';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 
@@ -55,7 +55,7 @@ export default function ContactPage() {
     }
   };
 
-  const handleChange: InputChangeHandler = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
