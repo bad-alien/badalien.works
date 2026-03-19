@@ -19,6 +19,9 @@ npm run dev        # Dev server on port 3001
 npm run build      # Production build
 npm start          # Production server
 npm run lint       # ESLint
+npm test           # Run unit/integration tests (vitest)
+npm run test:watch # Vitest in watch mode
+npm run test:e2e   # Playwright e2e tests
 ```
 
 ## Conventions
@@ -30,7 +33,7 @@ npm run lint       # ESLint
 - Hooks: `src/hooks/use*.ts`
 - API routes: `src/app/api/`
 - Path alias: `@/*` → `./src/*`
-- No test framework currently configured
+- Tests in `tests/` (vitest) and `e2e/` (Playwright). See `TESTING.md` for conventions
 
 ### Git Commits
 
