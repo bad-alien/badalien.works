@@ -473,3 +473,9 @@ Pick the cheapest model that can do the job:
 1. **Stay in this project directory.** Never read, write, or delete files outside of it.
 2. **No destructive commands without approval.** This includes `rm -rf`, `git clean -fdx`, `git reset --hard`, and bulk deletes.
 3. **Include the project path in every agent prompt** so subagents know their boundary.
+
+## Design System
+Always read DESIGN.md before making any visual or UI decisions.
+All font choices, colors, spacing, and aesthetic direction are defined there.
+Do not deviate without explicit user approval.
+In QA mode, flag any code that doesn't match DESIGN.md.
