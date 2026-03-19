@@ -117,7 +117,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
         if (e.target === modalRef.current) onClose();
       }}
     >
-      <div className="relative w-full max-w-6xl mx-4 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden animate-scaleIn">
+      <div className="relative w-full max-w-6xl mx-4 bg-black/60 backdrop-blur-xl border border-border rounded-xl overflow-hidden animate-scaleIn">
         {/* Close Button */}
         <button
           onClick={onClose}

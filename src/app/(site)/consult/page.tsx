@@ -11,7 +11,7 @@ export const metadata = {
 
 export default function ConsultPage() {
   return (
-    <main className="relative bg-black text-white overflow-hidden">
+    <main className="relative bg-base text-white overflow-hidden grain-texture">
       <ConsultHero />
       <ProblemSection />
       <SolutionSection />

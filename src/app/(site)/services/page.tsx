@@ -23,7 +23,7 @@ export default function TechPage() {
   );
 
   return (
-    <div className="min-h-screen bg-base text-white">
+    <div className="min-h-screen bg-base text-white relative grain-texture">
       <Header />
 
       {/* Filter bar — sticky below header */}
@@ -83,7 +83,7 @@ export default function TechPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, ease: 'easeOut' }}
             >
-              <p className="text-secondary text-xs font-mono tracking-[0.3em] uppercase mb-6">
+              <p className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary mb-6">
                 Ready to start?
               </p>
               <h2 className="text-4xl md:text-6xl font-light text-white tracking-tight mb-10 leading-[1.1]">

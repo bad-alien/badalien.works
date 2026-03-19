@@ -72,7 +72,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="min-h-screen w-full bg-base">
+    <div className="min-h-screen w-full bg-base relative grain-texture">
       <Header />
 
       {/* Main Content */}

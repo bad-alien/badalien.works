@@ -15,7 +15,7 @@ export default function Home() {
   const [headerVisible, setHeaderVisible] = useState(false);
 
   return (
-    <div className="min-h-screen bg-base">
+    <div className="min-h-screen bg-base relative grain-texture">
       {/* Logo Animation Overlay */}
       <HeroSection
         onAnimationComplete={() => {}}

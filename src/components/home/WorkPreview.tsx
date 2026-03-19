@@ -87,7 +87,7 @@ export default function WorkPreview() {
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs px-2 py-1 bg-base border border-border rounded-md text-text-secondary font-mono"
+                          className="text-xs px-2 py-1 bg-base border border-border rounded-md text-secondary font-mono"
                         >
                           {tag}
                         </span>

@@ -83,7 +83,7 @@ export default function BusinessChatInterface({
 
   return (
     <div
-      className={`flex flex-col ${compact ? 'bg-black/80 backdrop-blur-sm border border-white/10 rounded-xl' : 'bg-transparent'} ${
+      className={`flex flex-col ${compact ? 'bg-[#0A0A0A]/80 backdrop-blur-sm border border-border rounded-xl' : 'bg-transparent'} ${
         compact ? 'h-full' : 'h-full'
       }`}
     >

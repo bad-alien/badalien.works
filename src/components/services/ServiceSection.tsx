@@ -46,8 +46,8 @@ export default function ServiceSection({ service }: ServiceSectionProps) {
         >
           {/* Number */}
           <motion.div variants={itemVariants} className="mb-6">
-            <span className="font-mono text-base tracking-[0.2em] text-secondary">
-              {service.number} /
+            <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary">
+              {service.number} / Services
             </span>
           </motion.div>
 

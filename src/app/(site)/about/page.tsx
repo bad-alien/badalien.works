@@ -64,7 +64,7 @@ export default function AboutPage() {
   const ctaInView = useInView(ctaRef, { once: true, amount: 0.3 });
 
   return (
-    <div className="min-h-screen bg-base">
+    <div className="min-h-screen bg-base relative grain-texture">
       <Header />
 
       {/* Hero Section */}

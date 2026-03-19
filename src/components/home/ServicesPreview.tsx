@@ -25,8 +25,44 @@ export default function ServicesPreview() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {displayServices.map((service, index) => (
+        {/* Featured first card — full width */}
+        {displayServices.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6, ease: 'easeOut' }}
+            className="mb-6"
+          >
+            <Link
+              href={`/services#${displayServices[0].id}`}
+              className="group block"
+            >
+              <div className="p-10 md:p-12 bg-surface border border-border rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300">
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                  <div className="flex-1">
+                    <span className="text-6xl font-bold text-text-secondary/30 group-hover:text-text-secondary/50 transition-colors duration-300 font-display">
+                      {displayServices[0].number}
+                    </span>
+                    <h3 className="text-3xl md:text-4xl font-bold text-text-heading mt-4 mb-4 group-hover:text-white transition-colors duration-300">
+                      {displayServices[0].title}
+                    </h3>
+                    <p className="text-text-body text-lg max-w-2xl">
+                      {displayServices[0].description}
+                    </p>
+                  </div>
+                  <span className="inline-flex items-center text-text-heading text-lg group-hover:translate-x-2 transition-transform duration-300 shrink-0">
+                    Learn more →
+                  </span>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+        )}
+
+        {/* Remaining cards — 3-column grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {displayServices.slice(1).map((service, index) => (
             <motion.div
               key={service.id}
               initial={{ opacity: 0, y: 40 }}
@@ -34,7 +70,7 @@ export default function ServicesPreview() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{
                 duration: 0.6,
-                delay: index * 0.1,
+                delay: (index + 1) * 0.1,
                 ease: 'easeOut',
               }}
             >

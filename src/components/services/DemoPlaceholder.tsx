@@ -28,7 +28,7 @@ export default function DemoPlaceholder({ type = 'placeholder', className = '' }
 
       <div className="relative flex flex-col items-center gap-3 select-none">
         <div className="w-8 h-px bg-white/20" />
-        <span className="text-xs font-mono tracking-[0.25em] text-white/30 uppercase">
+        <span className="text-xs font-mono tracking-[0.08em] text-secondary/40 uppercase">
           {type === 'placeholder' ? 'Demo coming soon' : 'Preview unavailable'}
         </span>
         <div className="w-8 h-px bg-white/20" />
