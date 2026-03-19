@@ -34,6 +34,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <noscript>
+          <style>{`[style*="opacity: 0"], [style*="opacity:0"] { opacity: 1 !important; transform: none !important; }`}</style>
+        </noscript>
+      </head>
       <body
         className={`${gemunuLibre.variable} ${scienceGothic.variable} antialiased`}
         style={{ fontFamily: 'var(--font-gemunu-libre)' }}
