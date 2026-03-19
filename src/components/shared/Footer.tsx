@@ -52,13 +52,13 @@ export default function Footer() {
           </div>
 
           {/* Right Column - Connect */}
-          <div>
+          <div className="min-w-0">
             <h3 className="text-white font-sans text-lg mb-6">Connect</h3>
             <ul className="space-y-3">
               <li>
                 <a
                   href="mailto:contact@badalien.works"
-                  className="text-text-secondary hover:text-white transition-colors font-sans text-base"
+                  className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
                 >
                   contact@badalien.works
                 </a>
@@ -69,7 +69,7 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-text-secondary hover:text-white transition-colors font-sans text-base"
+                    className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
                   >
                     {link.label}
                   </a>

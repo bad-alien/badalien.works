@@ -12,7 +12,7 @@ export default function ConsultHero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20">
+    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
       {/* Minimal Nav */}
       <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-[#0A0A0A]/80 backdrop-blur-md border-b border-border">
         <Logo size="sm" />
@@ -87,7 +87,7 @@ export default function ConsultHero() {
 
       {/* Mobile sticky CTA bar - only visible on scroll */}
       <motion.div
-        className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0A0A0A]/95 backdrop-blur-md border-t border-border p-4"
+        className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0A0A0A]/98 backdrop-blur-md border-t border-border p-4"
         initial={{ y: 100 }}
         whileInView={{ y: 0 }}
         viewport={{ once: false, margin: '200px' }}

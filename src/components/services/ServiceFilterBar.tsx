@@ -25,13 +25,13 @@ function ServiceFilterBar({ filters, activeFilter, onFilterChange, isScrolled }:
         }`}
       >
         <div className="container mx-auto px-6">
-          <div className="flex gap-2 justify-center overflow-x-auto flex-nowrap md:flex-wrap">
+          <div className="flex gap-2 md:justify-center overflow-x-auto flex-nowrap md:flex-wrap -mx-6 px-6 pb-1">
             {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => onFilterChange(filter)}
                 aria-pressed={activeFilter === filter}
-                className={`px-5 py-2 font-light tracking-wider text-sm rounded-md backdrop-blur-md transition-all duration-300 whitespace-normal md:whitespace-nowrap ${
+                className={`px-5 py-2 font-light tracking-wider text-sm rounded-md transition-all duration-300 whitespace-nowrap ${
                   activeFilter === filter
                     ? 'bg-white text-black'
                     : 'bg-surface text-text-body border border-border hover:border-text-secondary hover:bg-elevated'
