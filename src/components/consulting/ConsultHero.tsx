@@ -52,7 +52,7 @@ export default function ConsultHero() {
 
         {/* Subheadline */}
         <motion.p
-          className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed"
+          className="text-xl sm:text-2xl md:text-3xl text-text-heading mb-12 max-w-3xl mx-auto leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}

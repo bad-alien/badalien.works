@@ -1,28 +1,5 @@
 # TODOS
 
-## TODO #1: Full DESIGN.md application (fonts, colors, tokens, anti-slop)
-
-**What:** Complete design system application across all pages:
-- **Fonts:** Replace Science Gothic/Gemunu Libre with Outfit/Instrument Sans/Geist Mono. Replace all inline `fontFamily` styles with Tailwind utility classes.
-- **Colors:** Background #000000 → #0A0A0A. Content cards: replace `bg-white/5 backdrop-blur-sm` with solid `bg-[#161616] border-[#2A2A2A]`. Keep glassmorphism ONLY on overlays (scrolled header, mobile menu, chat widget, chat input). Form containers: `bg-[#1E1E1E]`. Body text: `text-[#C5C5C5]`. Headings: `text-[#F0F0F0]`.
-- **Spacing:** Standardize section padding to 64px desktop / 40px mobile. Card padding: 24-32px. Card border-radius: 12px (`rounded-xl`).
-- **Anti-slop:** Add Geist Mono section markers (`01 /`, `// consulting`, numbered steps). Add subtle grain texture on dark surfaces. Use thin rule lines as section dividers instead of uniform `border-white/10`. Apply secondary blue (#0284C7) for monospace labels and data highlights. Break up uniform 3-column card grids with varied layouts.
-- **Homepage:** Wire scroll-down sections (ServicesPreview, WorkPreview, AboutPreview, CtaSection). Remove hardcoded inline cards. Add small positioning label above chat (`// AI CONSULTING & ENABLEMENT` in Geist Mono).
-- **Placeholders:** Replace all bracket-placeholder text ("[Your Name]", "[Client reference placeholder]") with credible stand-ins or remove sections until real content arrives.
-- **DESIGN.md update:** Add glassmorphism overlay pattern as a documented treatment (currently missing from the design system).
-
-**Why:** DESIGN.md was created during this branch but almost nothing in the code matches it. The homepage is missing 60% of its planned scroll-down content. The site currently looks like every other dark-mode consulting template — DESIGN.md has strong anti-slop tools (Geist Mono markers, grain, rule lines, graffiti contrast) that would make it distinctive.
-
-**Pros:** Single source of truth for design. Complete homepage. Anti-AI-slop visual identity. Cleaner code (no inline styles). All pages visually consistent. Glassmorphism reserved for where it creates real depth (overlays over content).
-
-**Cons:** Touches many files (site-wide). Requires visual QA after the change to verify nothing breaks. Largest single TODO.
-
-**Context:** DESIGN.md specifies: Outfit (display), Instrument Sans (body), Geist Mono (labels/code). Card style decision: solid surfaces (#161616) for content, glassmorphism for floating overlays only. Four scroll components exist in `src/components/home/` but aren't imported by `src/app/(site)/page.tsx`. The inline hardcoded "What I Do" cards on the homepage duplicate `src/data/services.ts` data. 9 content card instances need solid surface swap. 4 overlay instances keep glassmorphism. Proven /consult conversion structure (Hero→Problem→Solution→Proof→CTA) stays, differentiated visually via DESIGN.md vocabulary.
-
-**Depends on:** Nothing.
-
----
-
 ## TODO #2: Extract shared DualCta component
 
 **What:** Create `src/components/shared/DualCta.tsx` that encapsulates the "Talk to My AI" + "Book a Call" button pair. Replace all 5 instances: ConsultHero, ConsultCta, AboutPage CTA section, CtaSection, homepage.
@@ -92,7 +69,27 @@
 
 ---
 
+## TODO #7: Re-add Cal.com calendar embed to /contact
+
+**What:** Re-add the Cal.com calendar booking section to the /contact page once the Cal.com account is created and configured.
+
+**Why:** Calendar booking is a key conversion path for leads who prefer scheduling directly over chat or email. The section was removed because the placeholder said "loading..." when nothing was loading — misleading for real visitors.
+
+**Pros:** Direct booking reduces friction vs. back-and-forth emails. Cal.com free tier supports unlimited bookings with dark theme embed.
+
+**Cons:** None — just needs the Cal.com account.
+
+**Context:** The implementation was already built (`@calcom/embed-react`, dark theme, inline embed). It was removed during design review because the placeholder text was misleading. The embed code and component structure exist in git history (commit around `ef58b70`). Re-adding is a matter of: (1) creating Cal.com account, (2) getting the booking link, (3) uncommenting/re-adding the embed section with the real `calLink` prop.
+
+**Depends on:** Owner creating Cal.com account and providing booking link (see `.claude/plans/content-needs.md`).
+
+---
+
 ## Completed
+
+### TODO #1: Full DESIGN.md application (fonts, colors, tokens, anti-slop)
+**Completed:** 2026-03-19 (commits 28f5a55, ff2e29b, ef58b70)
+Full design system applied across all pages: Outfit/Instrument Sans/Geist Mono fonts, design tokens in globals.css, solid surfaces for content cards, glassmorphism reserved for overlays, grain texture, Geist Mono section markers, rule line dividers.
 
 ### TODO #3: Add Vitest and write unit tests for chatResponses + contact API
 **Completed:** v0.1.0.0 (2026-03-19)

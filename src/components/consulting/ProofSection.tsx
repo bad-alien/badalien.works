@@ -27,7 +27,7 @@ export default function ProofSection() {
             8 Years Building Products
           </h2>
           <p
-            className="text-2xl sm:text-3xl text-white/70 max-w-3xl mx-auto"
+            className="text-2xl sm:text-3xl text-text-body max-w-3xl mx-auto"
           >
             Across finance, defense, and healthtech — from product strategy to technical implementation
           </p>
@@ -48,7 +48,7 @@ export default function ProofSection() {
                 className="p-8 bg-surface border border-border rounded-xl text-center"
               >
                 <p
-                  className="text-lg text-white/40 italic"
+                  className="text-lg text-muted italic"
                 >
                   Case study details arriving Q2 2026
                 </p>
@@ -88,7 +88,7 @@ export default function ProofSection() {
                   {item.title}
                 </h4>
                 <p
-                  className="text-white/60"
+                  className="text-text-secondary"
                 >
                   {item.description}
                 </p>

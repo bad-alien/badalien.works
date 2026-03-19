@@ -59,7 +59,7 @@ export default function SolutionSection() {
               whileHover={{ y: -4 }}
             >
               {/* Icon */}
-              <div className="mb-6 text-white/70 group-hover:text-white transition-colors">
+              <div className="mb-6 text-text-body group-hover:text-white transition-colors">
                 {solution.icon}
               </div>
 
@@ -72,7 +72,7 @@ export default function SolutionSection() {
 
               {/* Description */}
               <p
-                className="text-base sm:text-lg text-white/60 leading-relaxed"
+                className="text-base sm:text-lg text-text-secondary leading-relaxed"
                 style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
               >
                 {solution.description}
@@ -91,7 +91,7 @@ export default function SolutionSection() {
         >
           <Link
             href="/services"
-            className="inline-block text-lg text-white/70 hover:text-white transition-colors border-b border-white/30 hover:border-white pb-1"
+            className="inline-block text-lg text-text-body hover:text-white transition-colors border-b border-border hover:border-white pb-1"
           >
             See all services →
           </Link>

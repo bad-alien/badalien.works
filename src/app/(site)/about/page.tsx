@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { User, Briefcase, Shield, Activity } from 'lucide-react';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
+import { useChat } from '@/contexts/ChatContext';
 
 const containerVariants = {
   hidden: {},
@@ -49,6 +50,8 @@ const clientPlaceholders = [
 ];
 
 export default function AboutPage() {
+  const { setIsWidgetOpen } = useChat();
+
   const heroRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
   const experienceRef = useRef<HTMLDivElement>(null);
@@ -104,12 +107,6 @@ export default function AboutPage() {
             initial="hidden"
             animate={bioInView ? 'visible' : 'hidden'}
           >
-            <motion.h2
-              variants={itemVariants}
-              className="text-3xl md:text-5xl font-display font-light tracking-tight text-text-heading mb-6"
-            >
-              [Your Name]
-            </motion.h2>
             <motion.p
               variants={itemVariants}
               className="text-text-body font-light leading-relaxed text-lg md:text-xl mb-6"
@@ -253,9 +250,7 @@ export default function AboutPage() {
               </Link>
               <button
                 className="px-8 py-4 rounded-md bg-surface border border-border text-text-heading font-light tracking-wide hover:border-border/80 transition-all duration-300 text-lg"
-                onClick={() => {
-                  // Placeholder - will be wired to chat widget
-                }}
+                onClick={() => setIsWidgetOpen(true)}
               >
                 Or ask my AI
               </button>

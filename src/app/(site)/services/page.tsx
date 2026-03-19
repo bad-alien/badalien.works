@@ -43,7 +43,7 @@ export default function TechPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.75, ease: 'easeOut' }}
           >
-            <h1 className="text-2xl md:text-3xl font-light tracking-tight text-white/80 leading-[1.3]">
+            <h1 className="text-2xl md:text-3xl font-light tracking-tight text-text-secondary leading-[1.3]">
               End-to-end solutions across AI, automation, infrastructure, and design — built to last, engineered to scale, and designed to save you money.
             </h1>
           </motion.div>

@@ -70,7 +70,7 @@ export async function POST(request: Request) {
       from: 'Contact Form <r@badalien.works>',
       to: 'bad.alien.biz@gmail.com',
       replyTo: email,
-      subject: `New Contact: ${name}${company ? ` (${company})` : ''}`,
+      subject: `New Contact: ${safeName}${safeCompany ? ` (${safeCompany})` : ''}`,
       html: emailContent,
     });
 

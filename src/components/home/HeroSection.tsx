@@ -54,16 +54,18 @@ export default function HeroSection({ onAnimationComplete, onTransitionStart }: 
     }
   }, [phase, onAnimationComplete]);
 
-  const isMoving = phase === 'transitioning' || phase === 'complete';
+  // Unmount overlay when animation is complete
+  if (phase === 'complete') return null;
+
+  const isMoving = phase === 'transitioning';
   const targetY = isMoving ? '-45vh' : '0vh';
-  const overlayFading = phase === 'transitioning' || phase === 'complete';
 
   return (
     <motion.div
       className="fixed inset-0 z-[100] bg-[#0A0A0A] flex items-center justify-center"
-      animate={{ opacity: overlayFading ? 0 : 1 }}
+      animate={{ opacity: isMoving ? 0 : 1 }}
       transition={{ duration: 1.0, ease: 'easeIn' }}
-      style={{ pointerEvents: overlayFading ? 'none' : 'auto' }}
+      style={{ pointerEvents: isMoving ? 'none' : 'auto' }}
     >
       {/* Logo container - animates from center to header position */}
       <motion.div
