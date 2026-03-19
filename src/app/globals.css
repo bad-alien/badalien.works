@@ -102,3 +102,8 @@ html {
   background-repeat: repeat;
   z-index: 1;
 }
+
+*:focus-visible {
+  outline: 2px solid #FF6B35;
+  outline-offset: 2px;
+}

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import Logo from './Logo';
 import { useScrollState } from '@/hooks/useScrollState';
@@ -13,6 +14,7 @@ interface HeaderProps {
 export default function Header({ variant = 'default' }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const isScrolled = useScrollState(50);
+  const pathname = usePathname();
 
   const navLinks = [
     { href: '/services', label: 'Services' },
@@ -36,7 +38,9 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-white/80 hover:text-white transition-colors text-lg font-sans"
+                  className={`${
+                    pathname === link.href ? 'text-white' : 'text-white/80'
+                  } hover:text-white transition-colors text-lg font-sans`}
                 >
                   {link.label}
                 </Link>
@@ -128,7 +132,9 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                     <Link
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-sans border-b border-white/5"
+                      className={`block py-4 ${
+                        pathname === link.href ? 'text-white' : 'text-white/80'
+                      } hover:text-white transition-colors text-xl font-sans border-b border-white/5`}
                     >
                       {link.label}
                     </Link>
@@ -142,7 +148,9 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                   <Link
                     href="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-sans border-b border-white/5"
+                    className={`block py-4 ${
+                      pathname === '/contact' ? 'text-white' : 'text-white/80'
+                    } hover:text-white transition-colors text-xl font-sans border-b border-white/5`}
                   >
                     Book a Call
                   </Link>
@@ -155,7 +163,9 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                   <Link
                     href="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-sans"
+                    className={`block py-4 ${
+                      pathname === '/contact' ? 'text-white' : 'text-white/80'
+                    } hover:text-white transition-colors text-xl font-sans`}
                   >
                     Contact
                   </Link>
