@@ -1,7 +1,9 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY);
+}
 
 // Escape HTML entities to prevent XSS
 function escapeHtml(text: string): string {
@@ -64,7 +66,7 @@ export async function POST(request: Request) {
     `;
 
     // Send email via Resend
-    const { data, error } = await resend.emails.send({
+    const { data, error } = await getResend().emails.send({
       from: 'Contact Form <r@badalien.works>',
       to: 'bad.alien.biz@gmail.com',
       replyTo: email,
