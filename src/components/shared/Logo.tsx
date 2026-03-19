@@ -52,6 +52,7 @@ export default function Logo({
       alt="Bad Alien"
       width={200}
       height={200}
+      priority
       className={combinedClasses}
     />
   );
