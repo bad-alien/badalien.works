@@ -56,12 +56,12 @@ export default function AboutPage() {
   const personalRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
-  const heroInView = useInView(heroRef, { once: true, margin: '-80px 0px' });
-  const bioInView = useInView(bioRef, { once: true, margin: '-80px 0px' });
-  const experienceInView = useInView(experienceRef, { once: true, margin: '-80px 0px' });
-  const clientInView = useInView(clientRef, { once: true, margin: '-80px 0px' });
-  const personalInView = useInView(personalRef, { once: true, margin: '-80px 0px' });
-  const ctaInView = useInView(ctaRef, { once: true, margin: '-80px 0px' });
+  const heroInView = useInView(heroRef, { once: true, amount: 0.3 });
+  const bioInView = useInView(bioRef, { once: true, amount: 0.3 });
+  const experienceInView = useInView(experienceRef, { once: true, amount: 0.3 });
+  const clientInView = useInView(clientRef, { once: true, amount: 0.3 });
+  const personalInView = useInView(personalRef, { once: true, amount: 0.3 });
+  const ctaInView = useInView(ctaRef, { once: true, amount: 0.3 });
 
   return (
     <div className="min-h-screen bg-black">

@@ -29,7 +29,7 @@ const itemVariants = {
 
 export default function ServiceSection({ service }: ServiceSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-80px 0px' });
+  const isInView = useInView(ref, { once: true, amount: 0.3 });
 
   return (
     <section

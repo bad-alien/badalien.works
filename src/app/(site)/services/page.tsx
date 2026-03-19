@@ -80,7 +80,7 @@ export default function TechPage() {
               className="max-w-3xl mx-auto text-center"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
+              viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, ease: 'easeOut' }}
             >
               <p className="text-white/25 text-xs font-mono tracking-[0.3em] uppercase mb-6">

@@ -18,7 +18,7 @@ export default function ProofSection() {
           className="text-center mb-20"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8 }}
         >
           <h2
@@ -40,7 +40,7 @@ export default function ProofSection() {
           className="mb-20"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -64,7 +64,7 @@ export default function ProofSection() {
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <h3
@@ -80,7 +80,7 @@ export default function ProofSection() {
                 className="relative"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
+                viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
               >
                 <div className="text-6xl font-bold text-white/10 mb-4" style={{ fontFamily: 'var(--font-science-gothic)' }}>
