@@ -22,14 +22,12 @@ export default function ProofSection() {
           transition={{ duration: 0.8 }}
         >
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl mb-8"
-            style={{ fontFamily: 'var(--font-science-gothic)' }}
+            className="text-4xl sm:text-5xl md:text-6xl mb-8 font-display"
           >
             8 Years Building Products
           </h2>
           <p
             className="text-2xl sm:text-3xl text-white/70 max-w-3xl mx-auto"
-            style={{ fontFamily: 'var(--font-gemunu-libre)' }}
           >
             Across finance, defense, and healthtech — from product strategy to technical implementation
           </p>
@@ -47,13 +45,12 @@ export default function ProofSection() {
             {[1, 2, 3].map((i) => (
               <div
                 key={i}
-                className="p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl text-center"
+                className="p-8 bg-surface border border-border rounded-xl text-center"
               >
                 <p
                   className="text-lg text-white/40 italic"
-                  style={{ fontFamily: 'var(--font-gemunu-libre)' }}
                 >
-                  [Client reference placeholder]
+                  Case study details arriving Q2 2026
                 </p>
               </div>
             ))}
@@ -68,8 +65,7 @@ export default function ProofSection() {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <h3
-            className="text-3xl sm:text-4xl mb-12 text-center"
-            style={{ fontFamily: 'var(--font-science-gothic)' }}
+            className="text-3xl sm:text-4xl mb-12 text-center font-display"
           >
             My Approach
           </h3>
@@ -83,18 +79,16 @@ export default function ProofSection() {
                 viewport={{ once: true, amount: 0.3 }}
                 transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
               >
-                <div className="text-6xl font-bold text-white/10 mb-4" style={{ fontFamily: 'var(--font-science-gothic)' }}>
+                <div className="text-6xl font-bold text-secondary mb-4 font-mono">
                   {item.step}
                 </div>
                 <h4
-                  className="text-xl mb-2"
-                  style={{ fontFamily: 'var(--font-science-gothic)' }}
+                  className="text-xl mb-2 font-display"
                 >
                   {item.title}
                 </h4>
                 <p
                   className="text-white/60"
-                  style={{ fontFamily: 'var(--font-gemunu-libre)' }}
                 >
                   {item.description}
                 </p>

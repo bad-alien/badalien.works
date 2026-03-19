@@ -38,8 +38,7 @@ export default function SolutionSection() {
     <section className="relative py-24 px-6">
       <div className="max-w-6xl mx-auto">
         <motion.h2
-          className="text-4xl sm:text-5xl md:text-6xl mb-16 text-center"
-          style={{ fontFamily: 'var(--font-science-gothic)' }}
+          className="text-4xl sm:text-5xl md:text-6xl mb-16 text-center font-display"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
@@ -52,7 +51,7 @@ export default function SolutionSection() {
           {solutions.map((solution, index) => (
             <motion.div
               key={solution.title}
-              className="group relative p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl hover:bg-white/10 hover:border-white/20 transition-all duration-300"
+              className="group relative p-8 bg-surface border border-border rounded-xl hover:bg-elevated transition-all duration-300"
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
@@ -66,8 +65,7 @@ export default function SolutionSection() {
 
               {/* Title */}
               <h3
-                className="text-2xl mb-4"
-                style={{ fontFamily: 'var(--font-science-gothic)' }}
+                className="text-2xl mb-4 font-display"
               >
                 {solution.title}
               </h3>
@@ -75,7 +73,7 @@ export default function SolutionSection() {
               {/* Description */}
               <p
                 className="text-base sm:text-lg text-white/60 leading-relaxed"
-                style={{ fontFamily: 'var(--font-gemunu-libre)', fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
+                style={{ fontSize: 'clamp(1rem, 2vw, 1.125rem)' }}
               >
                 {solution.description}
               </p>
@@ -94,7 +92,6 @@ export default function SolutionSection() {
           <Link
             href="/services"
             className="inline-block text-lg text-white/70 hover:text-white transition-colors border-b border-white/30 hover:border-white pb-1"
-            style={{ fontFamily: 'var(--font-gemunu-libre)' }}
           >
             See all services →
           </Link>

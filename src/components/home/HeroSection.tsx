@@ -60,7 +60,7 @@ export default function HeroSection({ onAnimationComplete, onTransitionStart }: 
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] bg-black flex items-center justify-center"
+      className="fixed inset-0 z-[100] bg-[#0A0A0A] flex items-center justify-center"
       animate={{ opacity: overlayFading ? 0 : 1 }}
       transition={{ duration: 1.0, ease: 'easeIn' }}
       style={{ pointerEvents: overlayFading ? 'none' : 'auto' }}

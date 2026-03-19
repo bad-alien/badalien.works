@@ -22,27 +22,27 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="bg-white/[0.02] border-t border-white/10">
+    <footer className="bg-surface border-t border-border">
       <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 lg:py-20">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
           {/* Left Column - Logo + Tagline */}
           <div className="space-y-4">
             <Logo size="md" linkToHome={false} />
-            <p className="text-white/60 text-sm font-gemunu leading-relaxed max-w-xs">
+            <p className="text-text-secondary text-sm font-sans leading-relaxed max-w-xs">
               AI strategy and creative technology for ambitious organizations
             </p>
           </div>
 
           {/* Middle Column - Pages */}
           <div>
-            <h3 className="text-white font-gemunu text-lg mb-6">Pages</h3>
+            <h3 className="text-white font-sans text-lg mb-6">Pages</h3>
             <ul className="space-y-3">
               {pageLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-white/70 hover:text-white transition-colors font-gemunu text-base"
+                    className="text-text-secondary hover:text-white transition-colors font-sans text-base"
                   >
                     {link.label}
                   </Link>
@@ -53,12 +53,12 @@ export default function Footer() {
 
           {/* Right Column - Connect */}
           <div>
-            <h3 className="text-white font-gemunu text-lg mb-6">Connect</h3>
+            <h3 className="text-white font-sans text-lg mb-6">Connect</h3>
             <ul className="space-y-3">
               <li>
                 <a
                   href="mailto:contact@badalien.works"
-                  className="text-white/70 hover:text-white transition-colors font-gemunu text-base"
+                  className="text-text-secondary hover:text-white transition-colors font-sans text-base"
                 >
                   contact@badalien.works
                 </a>
@@ -69,7 +69,7 @@ export default function Footer() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-white/70 hover:text-white transition-colors font-gemunu text-base"
+                    className="text-text-secondary hover:text-white transition-colors font-sans text-base"
                   >
                     {link.label}
                   </a>
@@ -80,8 +80,8 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-white/10">
-          <p className="text-white/40 text-sm font-gemunu text-center">
+        <div className="mt-16 pt-8 border-t border-border">
+          <p className="text-white/40 text-sm font-sans text-center">
             © 2026 Bad Alien. All rights reserved.
           </p>
         </div>

@@ -23,7 +23,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-black/80 backdrop-blur-md border-b border-white/10'
+          ? 'bg-[#0A0A0A]/80 backdrop-blur-md border-b border-border'
           : 'bg-transparent'
       }`}
     >
@@ -36,7 +36,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-white/80 hover:text-white transition-colors text-lg font-gemunu"
+                  className="text-white/80 hover:text-white transition-colors text-lg font-sans"
                 >
                   {link.label}
                 </Link>
@@ -52,7 +52,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
             <nav className="hidden md:flex items-center absolute right-0">
               <Link
                 href="/contact"
-                className="px-6 py-2.5 bg-white text-black font-gemunu text-lg hover:bg-white/90 transition-colors rounded"
+                className="px-6 py-2.5 bg-white text-black font-sans text-lg hover:bg-white/90 transition-colors rounded"
               >
                 Book a Call
               </Link>
@@ -102,7 +102,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed top-0 right-0 bottom-0 w-72 bg-black border-l border-white/10 z-50 md:hidden"
+              className="fixed top-0 right-0 bottom-0 w-72 bg-base border-l border-border z-50 md:hidden"
             >
               {/* Close button */}
               <div className="flex justify-end p-6">
@@ -128,7 +128,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                     <Link
                       href={link.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-gemunu border-b border-white/5"
+                      className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-sans border-b border-white/5"
                     >
                       {link.label}
                     </Link>
@@ -142,7 +142,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                   <Link
                     href="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-gemunu border-b border-white/5"
+                    className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-sans border-b border-white/5"
                   >
                     Book a Call
                   </Link>
@@ -155,7 +155,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                   <Link
                     href="/contact"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-gemunu"
+                    className="block py-4 text-white/80 hover:text-white transition-colors text-xl font-sans"
                   >
                     Contact
                   </Link>

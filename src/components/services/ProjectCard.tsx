@@ -31,12 +31,12 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
   return (
     <div
       onClick={onClick}
-      className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-lg overflow-hidden cursor-pointer hover:bg-white/10 hover:border-white/20 transition-all duration-500 hover:scale-[1.02]"
+      className="group relative bg-surface border border-border rounded-xl overflow-hidden cursor-pointer hover:bg-elevated hover:border-border/80 transition-all duration-500 hover:scale-[1.02]"
     >
       {/* Status Badge */}
       <div className={`absolute top-4 z-10 ${isReversed ? 'right-4' : 'left-4'}`}>
         <span
-          className={`px-3 py-1 text-xs font-light tracking-wider rounded-full border backdrop-blur-md ${statusStyle.className}`}
+          className={`px-3 py-1 text-xs font-light tracking-wider rounded-full border ${statusStyle.className}`}
         >
           {statusStyle.label}
         </span>
@@ -50,17 +50,17 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
         {/* Text Content */}
         <div className="flex-1 flex flex-col justify-center space-y-4">
           <div>
-            <h3 className="text-2xl md:text-3xl font-light tracking-wide mb-2 group-hover:text-white transition-colors">
+            <h3 className="text-2xl md:text-3xl font-light tracking-wide text-text-heading mb-2 group-hover:text-white transition-colors">
               {project.title}
             </h3>
             {project.subtitle && (
-              <p className="text-sm md:text-base text-gray-400 font-light tracking-wide">
+              <p className="text-sm md:text-base text-text-secondary font-light tracking-wide">
                 {project.subtitle}
               </p>
             )}
           </div>
 
-          <p className="text-gray-300 font-light leading-relaxed">
+          <p className="text-text-body font-light leading-relaxed">
             {project.description}
           </p>
 
@@ -70,7 +70,7 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
               {project.techStack.map((tech) => (
                 <span
                   key={tech}
-                  className="px-3 py-1 text-xs font-light tracking-wider bg-black/40 border border-white/20 rounded-md backdrop-blur-sm"
+                  className="px-3 py-1 text-xs font-light tracking-wider bg-base border border-border rounded-md"
                 >
                   {tech}
                 </span>
@@ -80,7 +80,7 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
         </div>
 
         {/* Image */}
-        <div className="flex-1 relative aspect-video md:aspect-auto md:min-h-[300px] rounded-lg overflow-hidden bg-black/20">
+        <div className="flex-1 relative aspect-video md:aspect-auto md:min-h-[300px] rounded-xl overflow-hidden bg-base/20">
           <Image
             src={project.thumbnail.url}
             alt={project.thumbnail.alt || project.title}

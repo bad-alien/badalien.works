@@ -1,18 +1,20 @@
 import type { Metadata } from "next";
-import { Gemunu_Libre } from "next/font/google";
-import localFont from "next/font/local";
+import { Outfit, Instrument_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
-const gemunuLibre = Gemunu_Libre({
-  variable: "--font-gemunu-libre",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
-const scienceGothic = localFont({
-  src: "../../public/fonts/ScienceGothic-VariableFont_CTRS,slnt,wdth,wght.ttf",
-  variable: "--font-science-gothic",
-  weight: "100 900",
+const instrumentSans = Instrument_Sans({
+  variable: "--font-instrument-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -40,8 +42,7 @@ export default function RootLayout({
         </noscript>
       </head>
       <body
-        className={`${gemunuLibre.variable} ${scienceGothic.variable} antialiased`}
-        style={{ fontFamily: 'var(--font-gemunu-libre)' }}
+        className={`${outfit.variable} ${instrumentSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
       </body>

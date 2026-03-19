@@ -23,7 +23,7 @@ export default function TechPage() {
   );
 
   return (
-    <div className="min-h-screen bg-black text-white">
+    <div className="min-h-screen bg-base text-white">
       <Header />
 
       {/* Filter bar — sticky below header */}
@@ -67,14 +67,14 @@ export default function TechPage() {
         {/* Empty state */}
         {filteredServices.length === 0 && (
           <div className="container mx-auto px-6 py-32 text-center">
-            <p className="text-white/30 font-light tracking-wider text-sm">
+            <p className="text-text-secondary font-light tracking-wider text-sm">
               No services in this category yet.
             </p>
           </div>
         )}
 
         {/* Footer CTA */}
-        <section className="py-32 md:py-40 border-t border-white/5">
+        <section className="py-32 md:py-40 border-t border-border">
           <div className="container mx-auto px-6">
             <motion.div
               className="max-w-3xl mx-auto text-center"
@@ -83,7 +83,7 @@ export default function TechPage() {
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.7, ease: 'easeOut' }}
             >
-              <p className="text-white/25 text-xs font-mono tracking-[0.3em] uppercase mb-6">
+              <p className="text-secondary text-xs font-mono tracking-[0.3em] uppercase mb-6">
                 Ready to start?
               </p>
               <h2 className="text-4xl md:text-6xl font-light text-white tracking-tight mb-10 leading-[1.1]">

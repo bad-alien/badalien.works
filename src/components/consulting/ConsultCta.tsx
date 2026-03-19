@@ -21,8 +21,7 @@ export default function ConsultCta() {
       >
         {/* Heading */}
         <h2
-          className="text-5xl sm:text-6xl md:text-7xl mb-12"
-          style={{ fontFamily: 'var(--font-science-gothic)' }}
+          className="text-5xl sm:text-6xl md:text-7xl mb-12 font-display"
         >
           Ready to Talk?
         </h2>
@@ -33,7 +32,6 @@ export default function ConsultCta() {
           <button
             onClick={handleChatOpen}
             className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-black bg-white rounded-lg transition-all duration-300 hover:scale-105"
-            style={{ fontFamily: 'var(--font-gemunu-libre)' }}
           >
             <span className="relative z-10">Talk to My AI</span>
           </button>
@@ -41,8 +39,7 @@ export default function ConsultCta() {
           {/* Secondary CTA - Book a Call */}
           <a
             href="/contact"
-            className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-white bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg transition-all duration-300 hover:bg-white/10 hover:border-white/30"
-            style={{ fontFamily: 'var(--font-gemunu-libre)' }}
+            className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-white bg-surface border border-border rounded-xl transition-all duration-300 hover:bg-elevated"
           >
             <span className="relative z-10">Book a Call</span>
           </a>
@@ -51,7 +48,6 @@ export default function ConsultCta() {
         {/* Email alternative */}
         <motion.p
           className="text-xl text-white/50"
-          style={{ fontFamily: 'var(--font-gemunu-libre)' }}
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}

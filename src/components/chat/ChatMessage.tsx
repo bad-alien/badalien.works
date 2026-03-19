@@ -21,9 +21,8 @@ export default function ChatMessage({ message, index }: ChatMessageProps) {
       className={`py-6 flex ${isUser ? 'justify-end' : 'justify-start'}`}
     >
       <div
-        className={`markdown-content ${isUser ? 'text-white text-right' : 'text-[#FF6B35] text-left w-full'}`}
+        className={`markdown-content ${isUser ? 'text-white text-right' : 'text-primary text-left w-full'}`}
         style={{
-          fontFamily: 'var(--font-gemunu-libre)',
           fontSize: isUser ? '1.125rem' : '1.25rem',
           lineHeight: '1.6',
           letterSpacing: '0.025em',
@@ -45,14 +44,14 @@ export default function ChatMessage({ message, index }: ChatMessageProps) {
               // eslint-disable-next-line @typescript-eslint/no-explicit-any
               code: ({inline, ...props}: any) =>
                 inline
-                  ? <code className="bg-[#FF6B35]/10 px-1.5 py-0.5 rounded text-[#FF8C5A] font-mono text-sm" {...props} />
-                  : <code className="block bg-[#FF6B35]/10 p-3 rounded my-2 text-[#FF8C5A] font-mono text-sm overflow-x-auto" {...props} />,
+                  ? <code className="bg-primary/10 px-1.5 py-0.5 rounded text-primary-light font-mono text-sm" {...props} />
+                  : <code className="block bg-primary/10 p-3 rounded my-2 text-primary-light font-mono text-sm overflow-x-auto" {...props} />,
               pre: ({...props}) => <pre className="my-2" {...props} />,
-              a: ({...props}) => <a className="text-[#FF8C5A] underline hover:text-white transition-colors" {...props} />,
-              strong: ({...props}) => <strong className="font-bold text-[#FF8C5A]" {...props} />,
+              a: ({...props}) => <a className="text-primary-light underline hover:text-white transition-colors" {...props} />,
+              strong: ({...props}) => <strong className="font-bold text-primary-light" {...props} />,
               em: ({...props}) => <em className="italic" {...props} />,
-              blockquote: ({...props}) => <blockquote className="border-l-4 border-[#FF6B35]/50 pl-4 italic my-3" {...props} />,
-              hr: ({...props}) => <hr className="border-[#FF6B35]/30 my-4" {...props} />,
+              blockquote: ({...props}) => <blockquote className="border-l-4 border-primary/50 pl-4 italic my-3" {...props} />,
+              hr: ({...props}) => <hr className="border-primary/30 my-4" {...props} />,
             }}
           >
             {message.content}

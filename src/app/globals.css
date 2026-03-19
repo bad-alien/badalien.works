@@ -1,14 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0A0A0A;
+  --foreground: #C5C5C5;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-gemunu-libre);
+
+  /* Typography */
+  --font-sans: var(--font-instrument-sans);
+  --font-display: var(--font-outfit);
+  --font-mono: var(--font-geist-mono);
+
+  /* Primary */
+  --color-primary: #FF6B35;
+  --color-primary-light: #FF8C5A;
+  --color-primary-dark: #E05A2A;
+
+  /* Secondary */
+  --color-secondary: #0284C7;
+  --color-secondary-light: #0EA5E9;
+  --color-secondary-dark: #016A9F;
+
+  /* Surfaces */
+  --color-base: #0A0A0A;
+  --color-surface: #161616;
+  --color-elevated: #1E1E1E;
+  --color-border: #2A2A2A;
+  --color-muted: #3A3A3A;
+
+  /* Text */
+  --color-text-secondary: #8A8A8A;
+  --color-text-body: #C5C5C5;
+  --color-text-heading: #F0F0F0;
 
   /* Void Design Tokens */
   --color-void-black: #000000;
@@ -23,25 +49,25 @@
   --color-void-teal-dark: #006666;
 
   /* Void Fonts */
-  --font-science: var(--font-science-gothic);
-  --font-gemunu: var(--font-gemunu-libre);
+  --font-science: var(--font-outfit);
+  --font-gemunu: var(--font-instrument-sans);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0A0A0A;
+    --foreground: #C5C5C5;
   }
 }
 
 body {
-  background: #000000;
-  color: var(--foreground);
-  font-family: var(--font-gemunu-libre), sans-serif;
+  background: #0A0A0A;
+  color: #C5C5C5;
+  font-family: var(--font-instrument-sans);
 }
 
 html {
-  background: #000000;
+  background: #0A0A0A;
 }
 
 @keyframes fadeIn {
@@ -63,4 +89,16 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Grain texture utility */
+.grain-texture::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  z-index: 1;
 }

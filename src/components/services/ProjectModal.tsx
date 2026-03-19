@@ -117,7 +117,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
         if (e.target === modalRef.current) onClose();
       }}
     >
-      <div className="relative w-full max-w-6xl mx-4 bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden animate-scaleIn">
+      <div className="relative w-full max-w-6xl mx-4 bg-black/60 backdrop-blur-xl border border-white/10 rounded-xl overflow-hidden animate-scaleIn">
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -196,7 +196,7 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
                   {project.title}
                 </h2>
                 {project.subtitle && (
-                  <p className="text-gray-400 font-light tracking-wide">
+                  <p className="text-text-secondary font-light tracking-wide">
                     {project.subtitle}
                   </p>
                 )}
@@ -204,21 +204,21 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
 
               {/* Full Description */}
               <div className="space-y-3">
-                <p className="text-gray-300 font-light leading-relaxed whitespace-pre-line">
+                <p className="text-text-body font-light leading-relaxed whitespace-pre-line">
                   {project.fullDescription}
                 </p>
               </div>
 
               {/* Tech Stack */}
               <div>
-                <h3 className="text-sm font-light tracking-wider text-gray-400 mb-3">
+                <h3 className="text-sm font-light tracking-wider text-text-secondary mb-3">
                   TECH STACK
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {project.techStack.map((tech) => (
                     <span
                       key={tech}
-                      className="px-3 py-1 text-xs font-light tracking-wider bg-black/40 border border-white/20 rounded-md"
+                      className="px-3 py-1 text-xs font-light tracking-wider bg-base border border-border rounded-md"
                     >
                       {tech}
                     </span>

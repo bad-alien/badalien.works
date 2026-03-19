@@ -31,7 +31,7 @@ const portfolioItems = [
 
 export default function WorkPreview() {
   return (
-    <section className="py-24 px-4 bg-black">
+    <section className="py-24 px-4 bg-base">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -39,13 +39,11 @@ export default function WorkPreview() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2
-            className="text-5xl md:text-6xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-science-gothic)' }}
-          >
+          <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary">02 / Work</span>
+          <h2 className="text-5xl md:text-6xl font-bold text-text-heading mb-4 font-display">
             What I&apos;ve Built
           </h2>
-          <p className="text-xl text-gray-400 mb-16 max-w-2xl">
+          <p className="text-xl text-text-secondary mb-16 max-w-2xl">
             A mix of client work and personal projects — from ML pipelines to creative experiments
           </p>
         </motion.div>
@@ -64,9 +62,9 @@ export default function WorkPreview() {
               }}
             >
               <div className="group h-full">
-                <div className="h-full flex flex-col p-6 bg-white/5 backdrop-blur-sm border border-white/10 rounded-sm hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="h-full flex flex-col p-6 bg-surface border border-border rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300">
                   {/* Image placeholder */}
-                  <div className="w-full aspect-video bg-gradient-to-br from-gray-800 to-gray-900 rounded-sm mb-4 flex items-center justify-center overflow-hidden relative">
+                  <div className="w-full aspect-video bg-gradient-to-br from-surface to-elevated rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
                     <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     <span className="text-4xl opacity-20">
                       {item.category === 'AI/ML' ? '🤖' : item.category === 'Automation' ? '⚙️' : '🎨'}
@@ -74,13 +72,13 @@ export default function WorkPreview() {
                   </div>
 
                   <div className="flex-1 flex flex-col">
-                    <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    <span className="font-mono text-xs font-semibold text-secondary uppercase tracking-wider mb-2">
                       {item.category}
                     </span>
-                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-gray-100 transition-colors duration-300">
+                    <h3 className="text-xl font-bold text-text-heading mb-2 group-hover:text-white transition-colors duration-300">
                       {item.title}
                     </h3>
-                    <p className="text-gray-400 text-sm mb-4 flex-1">
+                    <p className="text-text-body text-sm mb-4 flex-1">
                       {item.description}
                     </p>
 
@@ -89,7 +87,7 @@ export default function WorkPreview() {
                       {item.tags.map((tag) => (
                         <span
                           key={tag}
-                          className="text-xs px-2 py-1 bg-white/5 border border-white/10 rounded-sm text-gray-400"
+                          className="text-xs px-2 py-1 bg-base border border-border rounded-md text-text-secondary font-mono"
                         >
                           {tag}
                         </span>

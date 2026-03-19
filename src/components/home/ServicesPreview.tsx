@@ -8,7 +8,7 @@ export default function ServicesPreview() {
   const displayServices = services.slice(0, 4); // Show all 4 services
 
   return (
-    <section className="py-24 px-4 bg-black">
+    <section className="py-24 px-4 bg-base">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -16,13 +16,11 @@ export default function ServicesPreview() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2
-            className="text-5xl md:text-6xl font-bold text-white mb-4"
-            style={{ fontFamily: 'var(--font-science-gothic)' }}
-          >
+          <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary">01 / Services</span>
+          <h2 className="text-5xl md:text-6xl font-bold text-text-heading mb-4 font-display">
             What I Do
           </h2>
-          <p className="text-xl text-gray-400 mb-16 max-w-2xl">
+          <p className="text-xl text-text-secondary mb-16 max-w-2xl">
             AI adoption and custom automation for businesses that want operational advantage
           </p>
         </motion.div>
@@ -44,22 +42,19 @@ export default function ServicesPreview() {
                 href={`/services#${service.id}`}
                 className="group block h-full"
               >
-                <div className="h-full p-8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-sm hover:bg-white/10 hover:border-white/20 transition-all duration-300">
+                <div className="h-full p-8 bg-surface border border-border rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300">
                   <div className="flex items-start justify-between mb-4">
-                    <span
-                      className="text-5xl font-bold text-white/20 group-hover:text-white/40 transition-colors duration-300"
-                      style={{ fontFamily: 'var(--font-science-gothic)' }}
-                    >
+                    <span className="text-5xl font-bold text-text-secondary/30 group-hover:text-text-secondary/50 transition-colors duration-300 font-display">
                       {service.number}
                     </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-gray-100 transition-colors duration-300">
+                  <h3 className="text-2xl font-bold text-text-heading mb-3 group-hover:text-white transition-colors duration-300">
                     {service.title}
                   </h3>
-                  <p className="text-gray-400 mb-4 line-clamp-3">
+                  <p className="text-text-body mb-4 line-clamp-3">
                     {service.description}
                   </p>
-                  <span className="inline-flex items-center text-white group-hover:translate-x-2 transition-transform duration-300">
+                  <span className="inline-flex items-center text-text-heading group-hover:translate-x-2 transition-transform duration-300">
                     Learn more →
                   </span>
                 </div>

@@ -18,8 +18,7 @@ export default function ConsultHero() {
         <Logo size="sm" />
         <a
           href="/contact"
-          className="px-6 py-2 text-base font-medium text-white bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg hover:bg-white/20 hover:border-white/30 transition-all duration-300"
-          style={{ fontFamily: 'var(--font-gemunu-libre)' }}
+          className="px-6 py-2 text-base font-medium text-white bg-surface border border-border rounded-xl hover:bg-elevated transition-all duration-300"
         >
           Book a Call
         </a>
@@ -44,8 +43,7 @@ export default function ConsultHero() {
       >
         {/* Headline */}
         <h1
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 tracking-tight leading-tight"
-          style={{ fontFamily: 'var(--font-science-gothic)' }}
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 tracking-tight leading-tight font-display"
         >
           Stop Watching Competitors
           <br />
@@ -55,7 +53,6 @@ export default function ConsultHero() {
         {/* Subheadline */}
         <motion.p
           className="text-xl sm:text-2xl md:text-3xl text-white/90 mb-12 max-w-3xl mx-auto leading-relaxed"
-          style={{ fontFamily: 'var(--font-gemunu-libre)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -74,7 +71,6 @@ export default function ConsultHero() {
           <button
             onClick={handleChatOpen}
             className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
-            style={{ fontFamily: 'var(--font-gemunu-libre)' }}
           >
             <span className="relative z-10">Talk to My AI</span>
           </button>
@@ -82,8 +78,7 @@ export default function ConsultHero() {
           {/* Secondary CTA - Book a Call */}
           <a
             href="/contact"
-            className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-white bg-white/5 backdrop-blur-sm border border-white/20 rounded-lg overflow-hidden transition-all duration-300 hover:bg-white/10 hover:border-white/30"
-            style={{ fontFamily: 'var(--font-gemunu-libre)' }}
+            className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-white bg-surface border border-border rounded-xl overflow-hidden transition-all duration-300 hover:bg-elevated"
           >
             <span className="relative z-10">Book a Call</span>
           </a>
@@ -101,7 +96,6 @@ export default function ConsultHero() {
         <button
           onClick={handleChatOpen}
           className="w-full px-8 py-4 min-h-[48px] text-lg font-medium text-black bg-white rounded-lg transition-all duration-300 active:scale-95"
-          style={{ fontFamily: 'var(--font-gemunu-libre)' }}
         >
           Talk to My AI
         </button>

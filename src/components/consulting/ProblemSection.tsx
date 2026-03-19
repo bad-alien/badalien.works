@@ -13,8 +13,8 @@ export default function ProblemSection() {
         transition={{ duration: 0.8 }}
       >
         <p
-          className="text-xl sm:text-2xl md:text-3xl leading-relaxed text-white/70"
-          style={{ fontFamily: 'var(--font-gemunu-libre)', fontSize: 'clamp(1rem, 3vw, 1.875rem)' }}
+          className="text-xl sm:text-2xl md:text-3xl leading-relaxed text-text-body"
+          style={{ fontSize: 'clamp(1rem, 3vw, 1.875rem)' }}
         >
           Your team is drowning in AI hype but shipping nothing. POCs stall. Vendors overpromise. Meanwhile, competitors are already capturing the upside. You need someone who can cut through the noise and actually ship.
         </p>

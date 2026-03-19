@@ -115,10 +115,7 @@ export default function BusinessChatInterface({
                       onClick={() => handleQuickAction('services')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-4 py-2 text-[#FF6B35] border border-[#FF6B35]/30 rounded-full text-sm hover:border-[#FF6B35]/50 transition-colors"
-                      style={{
-                        fontFamily: 'var(--font-gemunu-libre)',
-                      }}
+                      className="px-4 py-2 text-primary border border-primary/30 rounded-full text-sm hover:border-primary/50 transition-colors"
                     >
                       Services
                     </motion.button>
@@ -126,10 +123,7 @@ export default function BusinessChatInterface({
                       onClick={() => handleQuickAction('book')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-4 py-2 text-[#FF6B35] border border-[#FF6B35]/30 rounded-full text-sm hover:border-[#FF6B35]/50 transition-colors"
-                      style={{
-                        fontFamily: 'var(--font-gemunu-libre)',
-                      }}
+                      className="px-4 py-2 text-primary border border-primary/30 rounded-full text-sm hover:border-primary/50 transition-colors"
                     >
                       Book a Call
                     </motion.button>
@@ -137,10 +131,7 @@ export default function BusinessChatInterface({
                       onClick={() => handleQuickAction('about')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      className="px-4 py-2 text-[#FF6B35] border border-[#FF6B35]/30 rounded-full text-sm hover:border-[#FF6B35]/50 transition-colors"
-                      style={{
-                        fontFamily: 'var(--font-gemunu-libre)',
-                      }}
+                      className="px-4 py-2 text-primary border border-primary/30 rounded-full text-sm hover:border-primary/50 transition-colors"
                     >
                       About
                     </motion.button>
@@ -170,7 +161,7 @@ export default function BusinessChatInterface({
                       repeat: Infinity,
                       delay: i * 0.2,
                     }}
-                    className="w-1.5 h-1.5 rounded-full bg-[#FF6B35]"
+                    className="w-1.5 h-1.5 rounded-full bg-primary"
                   />
                 ))}
               </div>

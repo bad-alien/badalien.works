@@ -72,7 +72,7 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="min-h-screen w-full bg-black">
+    <div className="min-h-screen w-full bg-base">
       <Header />
 
       {/* Main Content */}
@@ -85,10 +85,10 @@ export default function ContactPage() {
             transition={{ duration: 0.6 }}
             className="text-center mb-12"
           >
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-4" style={{ fontFamily: 'var(--font-science-gothic)' }}>
+            <h1 className="text-5xl md:text-6xl font-display font-bold text-text-heading mb-4">
               Let&apos;s Connect
             </h1>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className="text-lg text-text-secondary max-w-2xl mx-auto">
               Have a project in mind? Let&apos;s discuss how AI can work for your business.
             </p>
           </motion.div>
@@ -98,12 +98,12 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 md:p-10 mb-16"
+            className="bg-elevated border border-border rounded-xl p-8 md:p-10 mb-16"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="name" className="block text-sm font-medium text-text-body mb-2">
                   Name <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -113,14 +113,14 @@ export default function ContactPage() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
+                  className="w-full px-4 py-3 bg-base border border-border rounded-lg text-text-heading placeholder-muted focus:outline-none focus:border-primary/30 transition-colors"
                   placeholder="Your name"
                 />
               </div>
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="email" className="block text-sm font-medium text-text-body mb-2">
                   Email <span className="text-red-400">*</span>
                 </label>
                 <input
@@ -130,14 +130,14 @@ export default function ContactPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
+                  className="w-full px-4 py-3 bg-base border border-border rounded-lg text-text-heading placeholder-muted focus:outline-none focus:border-primary/30 transition-colors"
                   placeholder="your.email@company.com"
                 />
               </div>
 
               {/* Company */}
               <div>
-                <label htmlFor="company" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="company" className="block text-sm font-medium text-text-body mb-2">
                   Company
                 </label>
                 <input
@@ -146,14 +146,14 @@ export default function ContactPage() {
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors"
+                  className="w-full px-4 py-3 bg-base border border-border rounded-lg text-text-heading placeholder-muted focus:outline-none focus:border-primary/30 transition-colors"
                   placeholder="Your company name"
                 />
               </div>
 
               {/* Service Interest */}
               <div>
-                <label htmlFor="serviceInterest" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="serviceInterest" className="block text-sm font-medium text-text-body mb-2">
                   Service Interest
                 </label>
                 <select
@@ -161,7 +161,7 @@ export default function ContactPage() {
                   name="serviceInterest"
                   value={formData.serviceInterest}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white focus:outline-none focus:border-white/30 transition-colors appearance-none cursor-pointer"
+                  className="w-full px-4 py-3 bg-base border border-border rounded-lg text-text-heading focus:outline-none focus:border-primary/30 transition-colors appearance-none cursor-pointer"
                   style={{
                     backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='white' d='M6 9L1 4h10z'/%3E%3C/svg%3E")`,
                     backgroundRepeat: 'no-repeat',
@@ -178,7 +178,7 @@ export default function ContactPage() {
 
               {/* Message */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-300 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-text-body mb-2">
                   Message <span className="text-red-400">*</span>
                 </label>
                 <textarea
@@ -188,7 +188,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   rows={6}
-                  className="w-full px-4 py-3 bg-black/40 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/30 transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-base border border-border rounded-lg text-text-heading placeholder-muted focus:outline-none focus:border-primary/30 transition-colors resize-none"
                   placeholder="Tell me about your project..."
                 />
               </div>
@@ -236,14 +236,14 @@ export default function ContactPage() {
             transition={{ duration: 0.6, delay: 0.4 }}
             className="text-center"
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6" style={{ fontFamily: 'var(--font-science-gothic)' }}>
+            <h2 className="text-3xl md:text-4xl font-display font-bold text-text-heading mb-6">
               Or Book a Call Directly
             </h2>
 
             {/* Cal.com Embed Placeholder - Ready for: <Cal calLink="username/consultation" config={{ theme: "dark" }} /> */}
-            <div className="bg-black/40 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden min-h-[500px] flex items-center justify-center">
+            <div className="bg-elevated border border-border rounded-xl overflow-hidden min-h-[500px] flex items-center justify-center">
               <div className="text-center px-6">
-                <div className="inline-block p-4 bg-white/5 rounded-full mb-4">
+                <div className="inline-block p-4 bg-surface rounded-full mb-4">
                   <svg
                     className="w-12 h-12 text-gray-500"
                     fill="none"
@@ -258,8 +258,8 @@ export default function ContactPage() {
                     />
                   </svg>
                 </div>
-                <p className="text-lg text-gray-400 mb-2">Calendar booking loading...</p>
-                <p className="text-sm text-gray-500 max-w-md mx-auto">
+                <p className="text-lg text-text-secondary mb-2">Calendar booking loading...</p>
+                <p className="text-sm text-muted max-w-md mx-auto">
                   Cal.com integration will be embedded here once account setup is complete
                 </p>
               </div>

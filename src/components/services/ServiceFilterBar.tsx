@@ -21,7 +21,7 @@ function ServiceFilterBar({ filters, activeFilter, onFilterChange, isScrolled }:
     >
       <div
         className={`transition-all duration-300 ${
-          isScrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
+          isScrolled ? 'bg-base/80 backdrop-blur-md' : 'bg-transparent'
         }`}
       >
         <div className="container mx-auto px-6">
@@ -34,7 +34,7 @@ function ServiceFilterBar({ filters, activeFilter, onFilterChange, isScrolled }:
                 className={`px-5 py-2 font-light tracking-wider text-sm rounded-md backdrop-blur-md transition-all duration-300 whitespace-normal md:whitespace-nowrap ${
                   activeFilter === filter
                     ? 'bg-white text-black'
-                    : 'bg-black/80 text-white border border-white/30 hover:border-white/60 hover:bg-white/10'
+                    : 'bg-surface text-text-body border border-border hover:border-text-secondary hover:bg-elevated'
                 }`}
               >
                 {filter}

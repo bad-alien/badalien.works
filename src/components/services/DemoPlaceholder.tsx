@@ -8,7 +8,7 @@ interface DemoPlaceholderProps {
 export default function DemoPlaceholder({ type = 'placeholder', className = '' }: DemoPlaceholderProps) {
   return (
     <div
-      className={`relative w-full aspect-video rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 overflow-hidden flex items-center justify-center ${className}`}
+      className={`relative w-full aspect-video rounded-xl bg-surface border border-border overflow-hidden flex items-center justify-center ${className}`}
       aria-label="Demo preview placeholder"
     >
       {/* Subtle grid pattern */}

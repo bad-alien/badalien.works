@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 
 export default function AboutPreview() {
   return (
-    <section className="py-24 px-4 bg-black">
+    <section className="py-24 px-4 bg-base">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -16,9 +16,10 @@ export default function AboutPreview() {
         >
           {/* Photo placeholder */}
           <div className="flex-shrink-0">
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-sm bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center overflow-hidden">
+            <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-4">03 / About</span>
+            <div className="w-48 h-48 md:w-64 md:h-64 rounded-xl bg-gradient-to-br from-surface to-elevated flex items-center justify-center overflow-hidden">
               <svg
-                className="w-24 h-24 md:w-32 md:h-32 text-gray-700"
+                className="w-24 h-24 md:w-32 md:h-32 text-muted"
                 fill="currentColor"
                 viewBox="0 0 24 24"
               >
@@ -29,14 +30,11 @@ export default function AboutPreview() {
 
           {/* Bio content */}
           <div className="flex-1">
-            <h2
-              className="text-4xl md:text-5xl font-bold text-white mb-6"
-              style={{ fontFamily: 'var(--font-science-gothic)' }}
-            >
+            <h2 className="text-4xl md:text-5xl font-bold text-text-heading mb-6 font-display">
               Who I Am
             </h2>
 
-            <div className="space-y-4 text-gray-300 text-lg leading-relaxed mb-8">
+            <div className="space-y-4 text-text-body text-lg leading-relaxed mb-8">
               <p>
                 8 years as a product manager across finance, defense, and healthtech.
                 I built AI-first products before most companies knew what to do with the technology.
@@ -49,7 +47,7 @@ export default function AboutPreview() {
                 On the side, I build data visualizations and creative experiments. Check out{' '}
                 <Link
                   href="https://creative.badalien.works"
-                  className="text-white hover:text-gray-400 underline underline-offset-2 transition-colors duration-200"
+                  className="text-text-heading hover:text-primary underline underline-offset-2 transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -58,7 +56,7 @@ export default function AboutPreview() {
                 {' '}and{' '}
                 <Link
                   href="https://decoded.badalien.works"
-                  className="text-white hover:text-gray-400 underline underline-offset-2 transition-colors duration-200"
+                  className="text-text-heading hover:text-primary underline underline-offset-2 transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -70,7 +68,7 @@ export default function AboutPreview() {
 
             <Link
               href="/about"
-              className="inline-flex items-center text-white hover:text-gray-400 transition-colors duration-200 group"
+              className="inline-flex items-center text-text-heading hover:text-primary transition-colors duration-200 group"
             >
               <span className="font-semibold">More about me</span>
               <span className="ml-2 group-hover:translate-x-1 transition-transform duration-200">
