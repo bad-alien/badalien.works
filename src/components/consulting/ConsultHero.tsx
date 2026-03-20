@@ -5,10 +5,11 @@ import Logo from '@/components/shared/Logo';
 import { useChat } from '@/contexts/ChatContext';
 
 export default function ConsultHero() {
-  const { setIsWidgetOpen } = useChat();
+  const { openChat, setEntryPoint } = useChat();
 
   const handleChatOpen = () => {
-    setIsWidgetOpen(true);
+    setEntryPoint('widget');
+    openChat();
   };
 
   return (

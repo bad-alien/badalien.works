@@ -33,7 +33,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
         <div className="relative flex items-center justify-center h-20 md:h-24">
           {/* Left Nav - Desktop only */}
           {variant === 'default' && (
-            <nav className="hidden md:flex items-center gap-8 absolute left-0">
+            <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-8 absolute left-0">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
@@ -102,6 +102,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
 
             {/* Menu Panel */}
             <motion.nav
+              aria-label="Mobile navigation"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}

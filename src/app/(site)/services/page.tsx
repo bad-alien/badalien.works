@@ -35,7 +35,7 @@ export default function TechPage() {
       />
 
       {/* Hero */}
-      <main className="pt-28 md:pt-32">
+      <main id="main-content" className="pt-28 md:pt-32">
         <div className="container mx-auto px-6">
           <motion.div
             className="max-w-4xl mx-auto mb-8 md:mb-12"

@@ -18,7 +18,7 @@ export default function BusinessChatInterface({
   context = 'homepage', // eslint-disable-line @typescript-eslint/no-unused-vars
   heroMode = false
 }: BusinessChatInterfaceProps) {
-  const { messages, setMessages, setEntryPoint } = useChat();
+  const { messages, setMessages, setEntryPoint, chatView } = useChat(); // eslint-disable-line @typescript-eslint/no-unused-vars
   const [isTyping, setIsTyping] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -99,13 +99,16 @@ export default function BusinessChatInterface({
       {/* Messages Container */}
       <div
         ref={scrollContainerRef}
+        role="log"
+        aria-live="polite"
+        aria-atomic="false"
         className={`flex-1 overflow-y-auto ${compact ? 'px-4 py-6' : 'px-6 py-8 md:px-12 lg:px-24'}`}
         style={{
           scrollbarWidth: 'thin',
           scrollbarColor: 'rgba(255, 107, 53, 0.4) transparent',
         }}
       >
-        <div className={compact ? 'max-w-full' : 'max-w-4xl mx-auto'}>
+        <div className={compact ? 'max-w-full' : 'max-w-5xl mx-auto'}>
           <AnimatePresence mode="popLayout">
             {messages.map((message, index) => (
               <div key={message.id}>
@@ -183,7 +186,7 @@ export default function BusinessChatInterface({
 
       {/* Input Area */}
       <div className={`${compact ? 'px-4 pb-4 pt-2' : 'px-6 pb-4 md:px-12 lg:px-24'}`}>
-        <div className={compact ? 'max-w-full' : 'max-w-3xl mx-auto'}>
+        <div className={compact ? 'max-w-full' : 'max-w-5xl mx-auto'}>
           <ChatInput
             onSend={handleSendMessage}
             disabled={isTyping}

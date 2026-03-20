@@ -9,12 +9,14 @@ import HeroChatTransition from './HeroChatTransition';
 
 interface HeroSectionProps {
   onChatActivated: () => void;
+  onLearnMore?: () => void;
 }
 
 type AnimationPhase = 'chat-opening' | 'chat-active';
 
-export default function HeroSection({ onChatActivated }: HeroSectionProps) {
+export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectionProps) {
   const [phase, setPhase] = useState<AnimationPhase | null>(null);
+  const [introComplete, setIntroComplete] = useState(false);
   const [scope, animate] = useAnimate();
   const interactiveRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
@@ -64,6 +66,9 @@ export default function HeroSection({ onChatActivated }: HeroSectionProps) {
       interactiveRef.current.style.pointerEvents = 'auto';
     }
     await animate(interactiveRef.current!, { opacity: 1 }, { duration: 0.3 });
+
+    // Intro animation complete - allow clicks to pass through overlay
+    setIntroComplete(true);
   }, [animate]);
 
   // Run the main hero animation sequence
@@ -79,15 +84,14 @@ export default function HeroSection({ onChatActivated }: HeroSectionProps) {
     }
     // Shrink + fade logo
     await animate('.logo-container', { width: 77, height: 77, opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
-    // Set phase for chat component
-    setPhase('chat-active');
+    // Fade out entire overlay so page Header + inline chat show through
     onChatActivated();
-    // Show chat
-    if (chatRef.current) {
-      chatRef.current.style.pointerEvents = 'auto';
-      await animate(chatRef.current, { opacity: 1 }, { duration: 0.4 });
+    await animate(scope.current!, { opacity: 0 }, { duration: 0.3, ease: 'easeIn' });
+    // Remove overlay from layout entirely
+    if (scope.current) {
+      scope.current.style.display = 'none';
     }
-  }, [animate, onChatActivated]);
+  }, [animate, scope, onChatActivated]);
 
   const handleActivateChat = () => {
     runChatSequence();
@@ -97,7 +101,7 @@ export default function HeroSection({ onChatActivated }: HeroSectionProps) {
     <motion.div
       ref={scope}
       className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center overflow-hidden"
-      style={{ pointerEvents: 'auto' }}
+      style={{ pointerEvents: introComplete ? 'none' : 'auto' }}
     >
       {/* Logo container - shrinks through phases, fades out during chat */}
       <div
@@ -142,7 +146,7 @@ export default function HeroSection({ onChatActivated }: HeroSectionProps) {
 
       {/* Interactive content - flows below logo in flex column */}
       <div ref={interactiveRef}>
-        <HeroInteractive onActivateChat={handleActivateChat} />
+        <HeroInteractive onActivateChat={handleActivateChat} onLearnMore={onLearnMore} />
       </div>
 
       {/* Chat transition and interface */}

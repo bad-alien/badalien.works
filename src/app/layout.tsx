@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Outfit, Instrument_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Providers from "@/components/Providers";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -44,7 +45,12 @@ export default function RootLayout({
       <body
         className={`${outfit.variable} ${instrumentSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Providers>
+          <a href="#main-content" className="skip-link">
+            Skip to main content
+          </a>
+          {children}
+        </Providers>
       </body>
     </html>
   );

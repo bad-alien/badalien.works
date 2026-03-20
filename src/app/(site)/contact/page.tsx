@@ -76,7 +76,7 @@ export default function ContactPage() {
       <Header />
 
       {/* Main Content */}
-      <main className="pt-24 pb-16 px-6">
+      <main id="main-content" className="pt-24 pb-16 px-6">
         <div className="max-w-4xl mx-auto">
           {/* Heading */}
           <motion.div

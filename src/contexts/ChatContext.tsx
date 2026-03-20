@@ -10,14 +10,15 @@ export type Message = {
 };
 
 export type EntryPoint = 'hero' | 'widget' | 'page';
+export type ChatView = 'closed' | 'open' | 'minimized';
 
 type ChatContextType = {
   messages: Message[];
   setMessages: (messages: Message[] | ((prev: Message[]) => Message[])) => void;
-  isWidgetOpen: boolean;
-  setIsWidgetOpen: (open: boolean) => void;
-  isChatActive: boolean;
-  setIsChatActive: (active: boolean) => void;
+  chatView: ChatView;
+  openChat: () => void;
+  minimizeChat: () => void;
+  closeChat: () => void;
   entryPoint: EntryPoint;
   setEntryPoint: (entryPoint: EntryPoint) => void;
 };
@@ -33,19 +34,22 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       timestamp: Date.now(),
     }
   ]);
-  const [isWidgetOpen, setIsWidgetOpen] = useState(false);
-  const [isChatActive, setIsChatActive] = useState(false);
+  const [chatView, setChatView] = useState<ChatView>('closed');
   const [entryPoint, setEntryPoint] = useState<EntryPoint>('page');
+
+  const openChat = () => setChatView('open');
+  const minimizeChat = () => setChatView('minimized');
+  const closeChat = () => setChatView('closed');
 
   return (
     <ChatContext.Provider
       value={{
         messages,
         setMessages,
-        isWidgetOpen,
-        setIsWidgetOpen,
-        isChatActive,
-        setIsChatActive,
+        chatView,
+        openChat,
+        minimizeChat,
+        closeChat,
         entryPoint,
         setEntryPoint,
       }}

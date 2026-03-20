@@ -50,7 +50,7 @@ const clientPlaceholders = [
 ];
 
 export default function AboutPage() {
-  const { setIsWidgetOpen } = useChat();
+  const { openChat, setEntryPoint } = useChat();
 
   const heroRef = useRef<HTMLDivElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
@@ -69,6 +69,7 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-base relative grain-texture">
       <Header />
+      <main id="main-content">
 
       {/* Hero Section */}
       <section ref={heroRef} className="pt-32 pb-20 px-6">
@@ -250,7 +251,7 @@ export default function AboutPage() {
               </Link>
               <button
                 className="px-8 py-4 rounded-md bg-surface border border-border text-text-heading font-light tracking-wide hover:border-border/80 transition-all duration-300 text-lg"
-                onClick={() => setIsWidgetOpen(true)}
+                onClick={() => { setEntryPoint('widget'); openChat(); }}
               >
                 Or ask my AI
               </button>
@@ -258,6 +259,7 @@ export default function AboutPage() {
           </motion.div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

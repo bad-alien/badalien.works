@@ -4,10 +4,11 @@ import { motion } from 'framer-motion';
 import { useChat } from '@/contexts/ChatContext';
 
 export default function ConsultCta() {
-  const { setIsWidgetOpen } = useChat();
+  const { openChat, setEntryPoint } = useChat();
 
   const handleChatOpen = () => {
-    setIsWidgetOpen(true);
+    setEntryPoint('widget');
+    openChat();
   };
 
   return (
