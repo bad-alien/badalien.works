@@ -2,87 +2,98 @@
 
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useLogoCycle } from '@/hooks/useLogoCycle';
+import HeroInteractive from './HeroInteractive';
+import HeroChatTransition from './HeroChatTransition';
 
 interface HeroSectionProps {
-  onAnimationComplete: () => void;
-  onTransitionStart?: () => void;
+  onChatActivated: () => void;
 }
 
-type AnimationPhase = 'animating' | 'resolved' | 'transitioning' | 'complete';
+type AnimationPhase = 'animating' | 'resolving' | 'interactive' | 'chat-opening' | 'chat-active';
 
-export default function HeroSection({ onAnimationComplete, onTransitionStart }: HeroSectionProps) {
+export default function HeroSection({ onChatActivated }: HeroSectionProps) {
   const [phase, setPhase] = useState<AnimationPhase>('animating');
-  const { currentLogo, stopCycling } = useLogoCycle({
+  const { currentLogo, decelerate } = useLogoCycle({
     logoCount: 7,
     interval: 156,
     autoStart: true,
   });
 
+  // Phase 1: Logo cycles for 2 seconds
   useEffect(() => {
-    // Phase 1: Logo cycles for 2 seconds
     const cycleTimer = setTimeout(() => {
-      stopCycling();
-      setPhase('resolved');
+      decelerate();
+      setPhase('resolving');
     }, 2000);
 
     return () => clearTimeout(cycleTimer);
-  }, [stopCycling]);
+  }, [decelerate]);
 
+  // Phase 2: Resolving - decelerate and cross-fade (700ms)
   useEffect(() => {
-    // Phase 2: Static logo holds for ~0.9s, then transition starts
-    if (phase === 'resolved') {
-      const holdTimer = setTimeout(() => {
-        setPhase('transitioning');
-        onTransitionStart?.();
-      }, 900);
+    if (phase === 'resolving') {
+      const resolveTimer = setTimeout(() => {
+        setPhase('interactive');
+      }, 700);
 
-      return () => clearTimeout(holdTimer);
+      return () => clearTimeout(resolveTimer);
     }
-  }, [phase, onTransitionStart]);
+  }, [phase]);
 
+  // Phase 4: Chat opening animation (600ms)
   useEffect(() => {
-    // Phase 3: Logo moves to header + overlay fades out simultaneously over 1.0s
-    if (phase === 'transitioning') {
-      const transitionTimer = setTimeout(() => {
-        setPhase('complete');
-        onAnimationComplete();
-      }, 1000);
+    if (phase === 'chat-opening') {
+      const openingTimer = setTimeout(() => {
+        setPhase('chat-active');
+      }, 600);
 
-      return () => clearTimeout(transitionTimer);
+      return () => clearTimeout(openingTimer);
     }
-  }, [phase, onAnimationComplete]);
+  }, [phase]);
 
-  // Unmount overlay when animation is complete
-  if (phase === 'complete') return null;
+  const handleActivateChat = () => {
+    setPhase('chat-opening');
+    onChatActivated();
+  };
 
-  const isMoving = phase === 'transitioning';
-  const targetY = isMoving ? '-45vh' : '0vh';
+  // Calculate logo animations based on phase
+  const isMovingToHeader = phase === 'chat-opening' || phase === 'chat-active';
+  const isInteractive = phase === 'interactive';
+  const logoSize = isMovingToHeader ? 77 : isInteractive ? 200 : 400;
+
+  // Overlay opacity - only fade interactive elements during chat-opening
+  const showInteractive = phase === 'interactive';
+  const showChat = phase === 'chat-opening' || phase === 'chat-active';
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] bg-[#0A0A0A] flex items-center justify-center"
-      animate={{ opacity: isMoving ? 0 : 1 }}
-      transition={{ duration: 1.0, ease: 'easeIn' }}
-      style={{ pointerEvents: isMoving ? 'none' : 'auto' }}
+      className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center overflow-hidden"
+      style={{ pointerEvents: 'auto' }}
     >
-      {/* Logo container - animates from center to header position */}
+      {/* Logo container - shrinks through phases, fades out during chat */}
       <motion.div
-        className="relative w-[400px] h-[400px]"
+        className="relative flex-shrink-0"
         animate={{
-          scale: isMoving ? 0.12 : 1,
-          y: targetY,
+          width: logoSize,
+          height: logoSize,
+          opacity: isMovingToHeader ? 0 : 1,
         }}
         transition={{
-          duration: 1.0,
-          ease: [0.4, 0, 0.2, 1],
+          duration: isMovingToHeader ? 0.4 : isInteractive ? 0.5 : 0,
+          ease: 'easeInOut',
         }}
       >
-        {/* Cycling logos - fades out when phase changes from animating */}
+        {/* Cycling logos - fades out during resolving phase */}
         <motion.div
-          animate={{ opacity: phase === 'animating' ? 1 : 0 }}
-          transition={{ duration: 0.5 }}
+          animate={{
+            opacity: phase === 'animating' ? 0.8 : 0,
+          }}
+          transition={{
+            duration: 0.5,
+            ease: 'easeInOut',
+          }}
           className="absolute inset-0 flex items-center justify-center"
         >
           {[1, 2, 3, 4, 5, 6, 7].map((logoNum) => (
@@ -94,16 +105,22 @@ export default function HeroSection({ onAnimationComplete, onTransitionStart }: 
               height={400}
               priority={logoNum <= 2}
               className={`absolute w-full h-full object-contain transition-opacity duration-100 select-none filter invert ${
-                currentLogo === logoNum ? 'opacity-80' : 'opacity-0'
+                currentLogo === logoNum ? 'opacity-100' : 'opacity-0'
               }`}
             />
           ))}
         </motion.div>
 
-        {/* Static resolved logo - fades in quickly as cycling fades out */}
+        {/* Static resolved logo - fades in during resolving phase with 100ms offset */}
         <motion.div
-          animate={{ opacity: phase !== 'animating' ? 1 : 0 }}
-          transition={{ duration: 0.2 }}
+          animate={{
+            opacity: phase !== 'animating' ? 1 : 0,
+          }}
+          transition={{
+            duration: 0.5,
+            ease: 'easeInOut',
+            delay: phase === 'resolving' ? 0.1 : 0,
+          }}
           className="absolute inset-0 flex items-center justify-center"
         >
           <Image
@@ -116,6 +133,39 @@ export default function HeroSection({ onAnimationComplete, onTransitionStart }: 
           />
         </motion.div>
       </motion.div>
+
+      {/* Interactive content - flows below logo in flex column */}
+      <AnimatePresence mode="wait">
+        {showInteractive && (
+          <motion.div
+            key="interactive"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <HeroInteractive onActivateChat={handleActivateChat} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Chat transition and interface */}
+      <AnimatePresence mode="wait">
+        {showChat && (
+          <motion.div
+            key="chat"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              duration: 0.4,
+              delay: phase === 'chat-opening' ? 0.2 : 0,
+            }}
+            className="absolute inset-0 flex flex-col items-center justify-start pt-24"
+          >
+            <HeroChatTransition phase={phase === 'chat-opening' ? 'chat-opening' : 'chat-active'} />
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }

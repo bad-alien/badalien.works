@@ -79,6 +79,15 @@ html {
   }
 }
 
+@keyframes blink-cursor {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
 /* Motion: respect user preference per DESIGN.md */
 @media (prefers-reduced-motion: reduce) {
   *,

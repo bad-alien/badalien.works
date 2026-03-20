@@ -10,13 +10,15 @@ import { getScriptedResponse } from './chatResponses';
 interface BusinessChatInterfaceProps {
   compact?: boolean;
   context?: 'homepage' | 'consult' | 'services';
+  heroMode?: boolean;
 }
 
 export default function BusinessChatInterface({
   compact = false,
-  context = 'homepage'
+  context = 'homepage', // eslint-disable-line @typescript-eslint/no-unused-vars
+  heroMode = false
 }: BusinessChatInterfaceProps) {
-  const { messages, setMessages } = useChat();
+  const { messages, setMessages, setEntryPoint } = useChat();
   const [isTyping, setIsTyping] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -29,11 +31,18 @@ export default function BusinessChatInterface({
     }
   }, [messages]);
 
-  // Context-aware initial message (Phase 2 feature placeholder)
+  // Set entry point and initial message based on heroMode
   useEffect(() => {
-    // In Phase 2, this would customize the initial message based on context
-    // For now, all contexts use the same initial message from ChatContext
-  }, [context]);
+    if (heroMode) {
+      setEntryPoint('hero');
+      setMessages([{
+        id: 'initial',
+        role: 'assistant',
+        content: "Welcome! I can help you explore how AI enablement works for your team, walk through our approach, or book a free consultation. What brings you here?",
+        timestamp: Date.now(),
+      }]);
+    }
+  }, [heroMode, setEntryPoint, setMessages]);
 
   const handleSendMessage = async (userInput: string) => {
     if (isTyping) return;

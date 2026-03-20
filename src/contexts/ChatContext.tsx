@@ -9,6 +9,8 @@ export type Message = {
   timestamp: number;
 };
 
+export type EntryPoint = 'hero' | 'widget' | 'page';
+
 type ChatContextType = {
   messages: Message[];
   setMessages: (messages: Message[] | ((prev: Message[]) => Message[])) => void;
@@ -16,6 +18,8 @@ type ChatContextType = {
   setIsWidgetOpen: (open: boolean) => void;
   isChatActive: boolean;
   setIsChatActive: (active: boolean) => void;
+  entryPoint: EntryPoint;
+  setEntryPoint: (entryPoint: EntryPoint) => void;
 };
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -31,6 +35,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   ]);
   const [isWidgetOpen, setIsWidgetOpen] = useState(false);
   const [isChatActive, setIsChatActive] = useState(false);
+  const [entryPoint, setEntryPoint] = useState<EntryPoint>('page');
 
   return (
     <ChatContext.Provider
@@ -41,6 +46,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         setIsWidgetOpen,
         isChatActive,
         setIsChatActive,
+        entryPoint,
+        setEntryPoint,
       }}
     >
       {children}

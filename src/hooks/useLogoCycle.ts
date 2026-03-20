@@ -25,6 +25,10 @@ interface UseLogoCycleReturn {
    */
   isCycling: boolean;
   /**
+   * Whether the cycle is decelerating
+   */
+  isDecelerating: boolean;
+  /**
    * Start the logo cycling
    */
   startCycling: () => void;
@@ -32,6 +36,10 @@ interface UseLogoCycleReturn {
    * Stop the logo cycling
    */
   stopCycling: () => void;
+  /**
+   * Gradually slow down and stop the cycling over ~500ms
+   */
+  decelerate: () => void;
   /**
    * Reset to the first logo
    */
@@ -63,26 +71,57 @@ export function useLogoCycle({
 }: UseLogoCycleOptions): UseLogoCycleReturn {
   const [currentLogo, setCurrentLogo] = useState(1);
   const [isCycling, setIsCycling] = useState(autoStart);
+  const [isDecelerating, setIsDecelerating] = useState(false);
 
   useEffect(() => {
-    if (!isCycling) return;
+    if (!isCycling || isDecelerating) return;
 
     const cycleInterval = setInterval(() => {
       setCurrentLogo((prev) => (prev === logoCount ? 1 : prev + 1));
     }, interval);
 
     return () => clearInterval(cycleInterval);
-  }, [isCycling, logoCount, interval]);
+  }, [isCycling, isDecelerating, logoCount, interval]);
 
   const startCycling = useCallback(() => setIsCycling(true), []);
   const stopCycling = useCallback(() => setIsCycling(false), []);
   const reset = useCallback(() => setCurrentLogo(1), []);
 
+  const decelerate = useCallback(() => {
+    setIsDecelerating(true);
+
+    // Gradually slow down: 156ms → 220ms → 300ms → 400ms → stop
+    // Total duration: ~1076ms
+    const sequence = [156, 220, 300, 400];
+    let step = 0;
+
+    const runStep = () => {
+      if (step >= sequence.length) {
+        setIsCycling(false);
+        return;
+      }
+
+      setCurrentLogo((prev) => (prev === logoCount ? 1 : prev + 1));
+      step++;
+
+      if (step < sequence.length) {
+        setTimeout(runStep, sequence[step]);
+      } else {
+        setIsCycling(false);
+      }
+    };
+
+    // Start the deceleration sequence after one more cycle at original speed
+    setTimeout(runStep, sequence[0]);
+  }, [logoCount]);
+
   return {
     currentLogo,
     isCycling,
+    isDecelerating,
     startCycling,
     stopCycling,
+    decelerate,
     reset,
   };
 }
