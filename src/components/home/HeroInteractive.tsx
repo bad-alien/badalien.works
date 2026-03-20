@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
@@ -8,8 +8,59 @@ interface HeroInteractiveProps {
   onActivateChat: () => void;
 }
 
+const PROMPTS = [
+  "What can you improve at our ad agency?",
+  "Come teach my team about all the recent AI tools",
+  "How can I automate parts of my construction business?",
+  "Free on Friday at 1pm to swing by my office and chat?"
+];
+
 export default function HeroInteractive({ onActivateChat }: HeroInteractiveProps) {
   const router = useRouter();
+  const [displayText, setDisplayText] = useState('');
+
+  // Typing animation effect
+  useEffect(() => {
+    let currentPromptIndex = 0;
+    let currentCharIndex = 0;
+    let isTyping = true;
+    let timeoutId: NodeJS.Timeout;
+
+    const typeNextChar = () => {
+      const currentPrompt = PROMPTS[currentPromptIndex];
+
+      if (isTyping) {
+        // Typing phase
+        if (currentCharIndex < currentPrompt.length) {
+          setDisplayText(currentPrompt.slice(0, currentCharIndex + 1));
+          currentCharIndex++;
+          timeoutId = setTimeout(typeNextChar, 45); // 45ms per character
+        } else {
+          // Finished typing, pause before erasing
+          timeoutId = setTimeout(() => {
+            isTyping = false;
+            setDisplayText('');
+            // Move to next prompt
+            currentPromptIndex = (currentPromptIndex + 1) % PROMPTS.length;
+            currentCharIndex = 0;
+            isTyping = true;
+            // Small pause before typing next prompt
+            timeoutId = setTimeout(typeNextChar, 200);
+          }, 2000); // 2 second pause
+        }
+      }
+    };
+
+    // Initial delay before starting (800ms to account for input animation)
+    const initialDelay = setTimeout(() => {
+      typeNextChar();
+    }, 800);
+
+    return () => {
+      clearTimeout(initialDelay);
+      clearTimeout(timeoutId);
+    };
+  }, []);
 
   // Global keydown listener for printable keys
   useEffect(() => {
@@ -148,7 +199,7 @@ export default function HeroInteractive({ onActivateChat }: HeroInteractiveProps
           className="relative w-full px-4 py-3 bg-transparent border border-muted/20 rounded-lg cursor-text transition-all duration-300 hover:border-muted/40"
         >
           <span className="text-muted/50 text-sm font-sans select-none">
-            What are you looking for?
+            {displayText}
             <span
               className="inline-block w-0.5 h-4 bg-primary ml-1 align-middle"
               style={{ animation: 'blink-cursor 1s step-end infinite' }}
