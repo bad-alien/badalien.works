@@ -28,9 +28,7 @@ export default function ChatInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className={`relative flex items-center gap-4 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-4 transition-all duration-300 ${
-        isFocused ? 'border border-primary/50' : 'border border-primary/30'
-      }`}
+      className="relative flex items-center gap-4 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-4 transition-all duration-300 border border-primary/30"
     >
       <input
         type="text"
@@ -41,7 +39,7 @@ export default function ChatInput({
         placeholder={placeholder}
         disabled={disabled}
         aria-label="Chat message input"
-        className="flex-1 bg-transparent border-none text-white placeholder-[#5A5A5A] outline-none disabled:opacity-50"
+        className="flex-1 bg-transparent border-none text-white placeholder-[#5A5A5A] outline-none focus-visible:outline-none disabled:opacity-50"
         style={{
           fontSize: '1rem',
           caretColor: '#FF6B35',

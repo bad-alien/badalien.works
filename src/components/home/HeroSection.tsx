@@ -20,10 +20,11 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
   const [scope, animate] = useAnimate();
   const interactiveRef = useRef<HTMLDivElement>(null);
   const chatRef = useRef<HTMLDivElement>(null);
+  const isExitingRef = useRef(false);
 
   const { currentLogo, decelerate } = useLogoCycle({
     logoCount: 7,
-    interval: 156,
+    interval: 125,
     autoStart: true,
   });
 
@@ -55,17 +56,17 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     await animate('.resolved-logo', { opacity: 1, scale: 1 }, { duration: 0.6, ease: 'easeOut' });
 
     // Wait for deceleration to finish
-    await new Promise(r => setTimeout(r, 700));
+    await new Promise(r => setTimeout(r, 560));
 
-    // Logo rises + shrinks (0.6s)
-    animate('.logo-container', { width: 200, height: 200, y: -80 }, { duration: 0.6, ease: 'easeInOut' });
+    // Logo rises + shrinks (0.5s)
+    animate('.logo-container', { width: 200, height: 200, y: -80 }, { duration: 0.5, ease: 'easeInOut' });
 
-    // Interactive fades in with slight delay (0.2s after logo starts moving)
-    await new Promise(r => setTimeout(r, 200));
+    // Interactive fades in with slight delay (160ms after logo starts moving)
+    await new Promise(r => setTimeout(r, 160));
     if (interactiveRef.current) {
       interactiveRef.current.style.pointerEvents = 'auto';
     }
-    await animate(interactiveRef.current!, { opacity: 1 }, { duration: 0.3 });
+    await animate(interactiveRef.current!, { opacity: 1 }, { duration: 0.25 });
 
     // Intro animation complete - allow clicks to pass through overlay
     setIntroComplete(true);
@@ -76,7 +77,10 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     runHeroSequence();
   }, [runHeroSequence]);
 
-  const runChatSequence = useCallback(async () => {
+  const exitOverlay = useCallback(async () => {
+    if (isExitingRef.current) return;
+    isExitingRef.current = true;
+
     // Fade out interactive
     if (interactiveRef.current) {
       interactiveRef.current.style.pointerEvents = 'none';
@@ -84,14 +88,58 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     }
     // Shrink + fade logo
     await animate('.logo-container', { width: 77, height: 77, opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
-    // Fade out entire overlay so page Header + inline chat show through
+
+    return scope;
+  }, [animate, scope]);
+
+  const runChatSequence = useCallback(async () => {
+    if (isExitingRef.current) return;
+    await exitOverlay();
     onChatActivated();
     await animate(scope.current!, { opacity: 0 }, { duration: 0.3, ease: 'easeIn' });
-    // Remove overlay from layout entirely
     if (scope.current) {
       scope.current.style.display = 'none';
     }
-  }, [animate, scope, onChatActivated]);
+  }, [animate, scope, onChatActivated, exitOverlay]);
+
+  const runLearnMoreSequence = useCallback(async () => {
+    if (isExitingRef.current) return;
+    await exitOverlay();
+    onLearnMore?.();
+    await animate(scope.current!, { opacity: 0 }, { duration: 0.5, ease: 'easeIn' });
+    if (scope.current) {
+      scope.current.style.display = 'none';
+    }
+  }, [animate, scope, onLearnMore, exitOverlay]);
+
+  // Scroll/swipe down triggers learn-more exit
+  useEffect(() => {
+    if (!introComplete) return;
+
+    let touchStartY = 0;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY > 0) runLearnMoreSequence();
+    };
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (touchStartY - e.changedTouches[0].clientY > 50) runLearnMoreSequence();
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [introComplete, runLearnMoreSequence]);
 
   const handleActivateChat = () => {
     runChatSequence();
@@ -146,7 +194,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
 
       {/* Interactive content - flows below logo in flex column */}
       <div ref={interactiveRef}>
-        <HeroInteractive onActivateChat={handleActivateChat} onLearnMore={onLearnMore} />
+        <HeroInteractive onActivateChat={handleActivateChat} onLearnMore={runLearnMoreSequence} />
       </div>
 
       {/* Chat transition and interface */}

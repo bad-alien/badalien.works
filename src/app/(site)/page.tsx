@@ -9,15 +9,16 @@ import ServicesPreview from '@/components/home/ServicesPreview';
 import WorkPreview from '@/components/home/WorkPreview';
 import AboutPreview from '@/components/home/AboutPreview';
 import CtaSection from '@/components/home/CtaSection';
-import BusinessChatInterface from '@/components/chat/BusinessChatInterface';
+import { useChat } from '@/contexts/ChatContext';
 
 export default function Home() {
   const [headerVisible, setHeaderVisible] = useState(false);
-  const [chatActive, setChatActive] = useState(false);
+  const { openChat, setEntryPoint } = useChat();
 
   const handleChatActivated = () => {
     setHeaderVisible(true);
-    setChatActive(true);
+    setEntryPoint('hero');
+    openChat();
   };
 
   const handleLearnMore = () => {
@@ -49,18 +50,6 @@ export default function Home() {
       >
         <Header />
       </motion.div>
-
-      {/* Inline Chat - shows after hero activation */}
-      {chatActive && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="h-[calc(85vh-96px)]"
-        >
-          <BusinessChatInterface compact={false} context="homepage" heroMode={true} />
-        </motion.div>
-      )}
 
       {/* Main Content - Always rendered, fades in with header */}
       <motion.main

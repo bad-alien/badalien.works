@@ -98,11 +98,13 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
 
     // Exit animation sequence
     // 1. All hero elements fly UP and fade out
-    await animate(
-      '#tagline, #nav-buttons, #ghost-input, #learn-more',
-      { opacity: 0, y: -40 },
-      { duration: 0.4, ease: [0.4, 0, 1, 1] } // ease-in
-    );
+    if (scope.current) {
+      await animate(
+        '#tagline, #nav-buttons, #ghost-input, #learn-more',
+        { opacity: 0, y: -40 },
+        { duration: 0.4, ease: [0.4, 0, 1, 1] } // ease-in
+      );
+    }
 
     // 2. Trigger the chat activation
     onActivateChat();

@@ -34,7 +34,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       timestamp: Date.now(),
     }
   ]);
-  const [chatView, setChatView] = useState<ChatView>('closed');
+  const [chatView, setChatView] = useState<ChatView>('minimized');
   const [entryPoint, setEntryPoint] = useState<EntryPoint>('page');
 
   const openChat = () => setChatView('open');
