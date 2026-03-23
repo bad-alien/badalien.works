@@ -16,7 +16,7 @@ export default function ChatInput({
   placeholder = 'Ask about our services...'
 }: ChatInputProps) {
   const [input, setInput] = useState('');
-  const [isFocused, setIsFocused] = useState(false);
+  const [, setIsFocused] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

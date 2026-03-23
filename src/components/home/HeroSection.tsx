@@ -15,7 +15,7 @@ interface HeroSectionProps {
 type AnimationPhase = 'chat-opening' | 'chat-active';
 
 export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectionProps) {
-  const [phase, setPhase] = useState<AnimationPhase | null>(null);
+  const [phase] = useState<AnimationPhase | null>(null);
   const [introComplete, setIntroComplete] = useState(false);
   const [scope, animate] = useAnimate();
   const interactiveRef = useRef<HTMLDivElement>(null);

@@ -1,0 +1,259 @@
+---
+title: "Securing LLM Infrastructure: Building Compliant AI Workflows"
+date: "2026-03-15"
+description: "Why standard LLM APIs aren't sufficient for sensitive industries, and how to build infrastructure that actually meets compliance requirements."
+category: "Engineering"
+tags:
+  - Security
+  - LLM
+  - Infrastructure
+  - Compliance
+---
+
+Most organizations approach LLM adoption the same way: sign up for OpenAI or Anthropic's API, integrate it into their application, and ship. For consumer products and low-stakes use cases, this works fine. For healthcare, finance, legal, and defense — it's a non-starter.
+
+The problem isn't the models themselves. It's the infrastructure they run on, and specifically: **where your data goes, who can see it, and what happens to it after the fact**.
+
+## The No-Logging Problem
+
+When you send a prompt to OpenAI's API, here's what happens:
+
+1. Your prompt and any context you've included travels over the public internet to OpenAI's servers
+2. OpenAI processes it using their hosted models
+3. The completion is returned to you
+4. **Both the prompt and completion are logged by OpenAI** — ostensibly for abuse prevention, model improvement, and debugging
+
+OpenAI's [API data usage policy](https://openai.com/policies/usage-policies) states that API inputs and outputs are retained for 30 days for abuse monitoring, then deleted (unless you've opted into longer retention for fine-tuning). Anthropic has similar policies.
+
+For most use cases, this is reasonable. For regulated industries, it's disqualifying:
+
+- **Healthcare (HIPAA):** Protected Health Information (PHI) cannot be transmitted to third parties without a Business Associate Agreement (BAA) that guarantees specific controls. Even with a BAA, many organizations have internal policies that prohibit sending PHI outside their own infrastructure.
+- **Finance (SOC 2, PCI-DSS):** Customer financial data, transaction details, and PII require audit trails **you control**. Relying on a third party's logging means you can't prove data handling compliance during audits.
+- **Legal (attorney-client privilege):** Case strategy, client communications, and discovery materials cannot be shared with third parties without waiving privilege protections.
+- **Defense (FedRAMP, ITAR):** Controlled Unclassified Information (CUI) and export-controlled technical data require air-gapped or government-accredited infrastructure.
+
+The core issue: **you don't control the logs, so you can't guarantee compliance**.
+
+## Self-Hosted Inference: The Trade-offs
+
+The obvious solution is to run models yourself. Self-hosted inference gives you full control over data flows, logging, and access controls. But it introduces new challenges:
+
+### Option 1: llama.cpp
+
+[llama.cpp](https://github.com/ggerganov/llama.cpp) is a C++ inference engine optimized for consumer hardware. It's fast, supports quantized models (reduced memory footprint), and runs on CPUs and GPUs.
+
+**Pros:**
+- No external dependencies — pure C++, compiles anywhere
+- Quantization support (4-bit, 5-bit, 8-bit) makes large models feasible on modest hardware
+- Active community, frequent updates
+
+**Cons:**
+- Single-threaded request handling (you need a reverse proxy for concurrency)
+- No built-in batching or request queuing
+- Manual model management (downloading, converting to GGUF format)
+
+### Option 2: vLLM
+
+[vLLM](https://github.com/vllm-project/vllm) is a high-throughput inference server built for production workloads. It uses PagedAttention for efficient memory management and supports continuous batching.
+
+**Pros:**
+- Production-grade: handles concurrent requests efficiently
+- OpenAI-compatible API (drop-in replacement for existing integrations)
+- Automatic batching and memory optimization
+
+**Cons:**
+- GPU-only (requires CUDA)
+- Higher resource requirements (needs 24GB+ VRAM for 70B models)
+- More complex setup and monitoring
+
+### Option 3: Text Generation Inference (TGI)
+
+Hugging Face's [TGI](https://github.com/huggingface/text-generation-inference) is another production inference server with similar capabilities to vLLM, plus native integration with Hugging Face's model hub.
+
+**Trade-off summary:**
+- llama.cpp: Best for **low-concurrency, resource-constrained** environments (edge devices, developer machines)
+- vLLM/TGI: Best for **high-throughput, production** workloads where you have GPUs available
+
+For compliance use cases, you'll likely need a production-grade server (vLLM or TGI) to handle real user traffic.
+
+## Infrastructure Hardening
+
+Running the model is only half the problem. You need to harden the entire stack:
+
+### 1. Data Encryption
+
+- **At rest:** All model weights, prompt logs, and completions stored on disk must be encrypted. Use LUKS for Linux full-disk encryption, or cloud provider-managed encryption keys (AWS KMS, GCP Cloud KMS).
+- **In transit:** All API calls to your inference server must use TLS 1.3. No exceptions. Use Let's Encrypt for certificates, or internal PKI for air-gapped environments.
+
+### 2. Network Isolation
+
+- **No public internet exposure:** Your inference server should never be directly accessible from the public internet. Use a VPN (Tailscale, WireGuard) or private networking (AWS VPC, GCP VPC) to restrict access.
+- **Reverse proxy:** Run a reverse proxy (nginx, Caddy) in front of the inference server to handle TLS termination, rate limiting, and request logging.
+
+Example nginx config for vLLM:
+
+```nginx
+upstream vllm {
+    server 127.0.0.1:8000;
+}
+
+server {
+    listen 443 ssl http2;
+    server_name llm.internal.example.com;
+
+    ssl_certificate /etc/letsencrypt/live/llm.internal.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/llm.internal.example.com/privkey.pem;
+    ssl_protocols TLSv1.3;
+
+    location / {
+        proxy_pass http://vllm;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_read_timeout 300s;
+    }
+
+    access_log /var/log/nginx/llm-access.log combined;
+    error_log /var/log/nginx/llm-error.log;
+}
+```
+
+### 3. Audit Logging You Control
+
+This is the key differentiator from hosted APIs. You need to log:
+- **Who** made the request (user ID, service account)
+- **When** it was made (timestamp with timezone)
+- **What** was requested (prompt, parameters)
+- **What** was returned (completion, token count)
+
+Store logs in a write-once, append-only system (S3 with versioning + object lock, or a dedicated audit log service like AWS CloudTrail).
+
+Example structured log entry (JSON):
+
+```json
+{
+  "timestamp": "2026-03-15T14:32:11Z",
+  "user_id": "user_12345",
+  "model": "llama-3-70b",
+  "prompt_hash": "sha256:abc123...",
+  "completion_hash": "sha256:def456...",
+  "tokens_used": 342,
+  "latency_ms": 1240,
+  "status": "success"
+}
+```
+
+**Why hash the prompt/completion?** For compliance, you need to prove a request happened without storing the sensitive content itself. Hashing (SHA-256) gives you a verifiable audit trail without retaining the data.
+
+### 4. Zero-Trust Networking with Tailscale
+
+[Tailscale](https://tailscale.com) is a WireGuard-based VPN that creates a private mesh network between your devices. It's particularly useful for LLM infrastructure because:
+
+- **No port forwarding:** Your inference server stays behind a firewall, accessible only via Tailscale
+- **Device authentication:** Every connecting device is authenticated via SSO (Google, Okta, etc.)
+- **ACLs:** Fine-grained access control (e.g., only engineering team can access production inference server)
+- **Audit logs:** Tailscale logs all connection attempts for compliance
+
+Example Tailscale ACL policy:
+
+```json
+{
+  "ACLs": [
+    {
+      "Action": "accept",
+      "Users": ["group:engineering"],
+      "Ports": ["llm-server:443"]
+    }
+  ]
+}
+```
+
+This ensures only authenticated engineering team members can reach the inference server, and all access is logged.
+
+## Compliance Frameworks
+
+Different industries have different requirements. Here's how to map the above infrastructure to common frameworks:
+
+### HIPAA (Healthcare)
+
+- **Required:** Encryption at rest/in transit, access controls, audit logging
+- **Your infrastructure must:** Run on a HIPAA-eligible cloud (AWS, GCP, Azure with BAA), log all PHI access, and have a documented incident response plan
+- **Bonus:** Use a compliance automation tool (Vanta, Drata) to generate audit reports
+
+### SOC 2 Type II (SaaS, Finance)
+
+- **Required:** Logical access controls, change management, encryption, vendor management
+- **Your infrastructure must:** Have role-based access control (RBAC), log all changes to production systems, and undergo annual third-party audits
+- **Bonus:** Automate compliance checks with OpenSCAP or Chef InSpec
+
+### FedRAMP (Government)
+
+- **Required:** Run on a FedRAMP-authorized cloud (AWS GovCloud, Azure Government), meet NIST 800-53 controls, continuous monitoring
+- **Your infrastructure must:** Be accredited by a Third Party Assessment Organization (3PAO) and maintain an Authority to Operate (ATO)
+- **Reality check:** FedRAMP is expensive and slow. Budget 12-18 months and $200k+ for initial authorization.
+
+## Practical Architecture
+
+Here's a reference architecture we've built for clients in healthcare and legal:
+
+```
+User Application
+    | (HTTPS over Tailscale VPN)
+Reverse Proxy (nginx)
+    | (local TCP)
+vLLM Inference Server
+    | (reads model weights from encrypted disk)
+Model Storage (LUKS-encrypted volume)
+    | (writes audit logs)
+S3 Bucket (versioned, object-locked)
+```
+
+**Key properties:**
+- No public internet exposure
+- All data encrypted at rest and in transit
+- Audit logs immutable and tamper-proof
+- Access controlled via Tailscale ACLs + SSO
+
+**Cost:** ~$500-1500/month for a single-GPU instance (AWS p3.2xlarge or equivalent) + storage/networking.
+
+## Case Study: SilentLLM
+
+We built [SilentLLM](https://github.com/badalien/SilentLLM) as a reference implementation of this architecture. It's a forensically silent llama.cpp server with:
+
+- **Zero logging** of prompts/completions (configurable for compliance use cases)
+- **Tailscale integration** for zero-trust networking
+- **Docker-based deployment** for reproducible builds
+- **Health checks and metrics** for monitoring
+
+It's designed for use cases where even logging hashes is unacceptable (attorney-client work, internal security research).
+
+The core insight: **silence is a feature, not a bug**. When you control the infrastructure, you can choose what to log, where to log it, and who has access. With hosted APIs, those decisions are made for you.
+
+## When to Use Hosted APIs vs. Self-Hosted
+
+Not every organization needs this level of control. Here's a decision matrix:
+
+| Use Hosted APIs (OpenAI, Anthropic) if: | Use Self-Hosted if: |
+|------------------------------------------|---------------------|
+| You're building consumer products | You handle PHI, PII, or CUI |
+| You don't have compliance requirements | You need to pass HIPAA/SOC 2/FedRAMP audits |
+| You want to move fast and iterate | You have security/legal teams that veto third-party data sharing |
+| You don't have GPU infrastructure | You have ML engineers who can manage inference servers |
+| Your use case fits within API rate limits | You need guaranteed low latency and no rate limits |
+
+The tipping point is usually **regulatory requirements**. If you're subject to HIPAA, PCI-DSS, FedRAMP, or attorney-client privilege, self-hosted is the only viable path.
+
+## Next Steps
+
+If your organization needs compliant AI infrastructure:
+
+1. **Audit your current data flows:** Where does sensitive data go when you use LLMs? Who has access to it?
+2. **Identify your compliance framework:** HIPAA? SOC 2? FedRAMP? Each has different requirements.
+3. **Prototype a self-hosted setup:** Start with llama.cpp on a dev machine, then graduate to vLLM on a cloud GPU.
+4. **Build the hardening layer:** Add encryption, network isolation, and audit logging before you go to production.
+5. **Document everything:** Compliance audits require evidence. Log architecture decisions, access controls, and incident response plans.
+
+If you're facing this problem and need help architecting a solution, [let's talk](/consult). We've built these systems for healthcare providers, law firms, and defense contractors — and we can help you navigate the trade-offs between security, performance, and cost.
+
+---
+
+**About the author:** I'm an AI infrastructure consultant specializing in compliant LLM deployments. I've helped organizations in healthcare, legal, and defense build self-hosted inference infrastructure that passes HIPAA, SOC 2, and FedRAMP audits. [Book a consultation](/consult) to discuss your use case.

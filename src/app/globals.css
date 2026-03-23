@@ -132,3 +132,143 @@ html {
 .skip-link:focus {
   top: 0;
 }
+
+/* Blog prose styles */
+.prose-insights {
+  max-width: 100%;
+  color: #C5C5C5;
+}
+
+.prose-insights h1,
+.prose-insights h2,
+.prose-insights h3 {
+  font-family: var(--font-outfit);
+  color: #F0F0F0;
+  font-weight: 600;
+  scroll-margin-top: 6rem;
+}
+
+.prose-insights h1 {
+  font-size: 2rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1.25rem;
+  font-weight: 700;
+}
+
+.prose-insights h2 {
+  font-size: 1.75rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.prose-insights h3 {
+  font-size: 1.375rem;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-insights p {
+  font-family: var(--font-instrument-sans);
+  color: #C5C5C5;
+  line-height: 1.75;
+  margin-bottom: 1.25rem;
+  font-size: 1rem;
+}
+
+.prose-insights a {
+  color: #FF6B35;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s;
+}
+
+.prose-insights a:hover {
+  color: #FF8C5A;
+}
+
+.prose-insights code {
+  background: #1E1E1E;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--font-geist-mono);
+  font-size: 0.875em;
+  color: #F0F0F0;
+}
+
+.prose-insights pre {
+  background: #161616;
+  border: 1px solid #2A2A2A;
+  border-radius: 12px;
+  padding: 1.25rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.prose-insights pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.875rem;
+  color: inherit;
+}
+
+.prose-insights blockquote {
+  border-left: 4px solid #FF6B35;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #8A8A8A;
+  margin: 1.5rem 0;
+}
+
+.prose-insights img {
+  border-radius: 12px;
+  width: 100%;
+  height: auto;
+  margin: 2rem 0;
+}
+
+.prose-insights ul,
+.prose-insights ol {
+  padding-left: 1.5rem;
+  color: #C5C5C5;
+  margin: 1.25rem 0;
+}
+
+.prose-insights li {
+  margin-bottom: 0.5rem;
+  line-height: 1.7;
+}
+
+.prose-insights hr {
+  border: none;
+  border-top: 1px solid #2A2A2A;
+  margin: 2.5rem 0;
+}
+
+.prose-insights strong {
+  color: #F0F0F0;
+  font-weight: 600;
+}
+
+.prose-insights em {
+  font-style: italic;
+}
+
+.prose-insights table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.prose-insights th {
+  background: #161616;
+  border: 1px solid #2A2A2A;
+  padding: 0.75rem;
+  text-align: left;
+  font-weight: 600;
+  color: #F0F0F0;
+}
+
+.prose-insights td {
+  border: 1px solid #2A2A2A;
+  padding: 0.75rem;
+}
