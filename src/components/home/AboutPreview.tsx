@@ -36,45 +36,44 @@ export default function AboutPreview() {
 
             <div className="space-y-4 text-text-body text-lg leading-relaxed mb-8">
               <p>
-                8 years as a product manager across finance, defense, and healthtech.
-                I built AI-first products before most companies knew what to do with the technology.
+                I started in tech as a machine learning researcher, then spent 8 years as a product
+                manager shipping AI-powered systems across finance, defense contracting, and healthtech.
+                I built data products for institutional teams, led development on mission-critical
+                intelligence platforms, and shipped diagnostic automation tools for clinical workflows.
               </p>
               <p>
-                Now I help businesses cut through the AI hype and actually deploy systems that work —
-                combining strategic enablement with hands-on implementation.
+                Now I help businesses adopt AI honestly — with the technical depth to deploy reliable
+                systems and the design instinct to make them beautiful.
               </p>
               <p>
-                On the side, I build data visualizations and creative experiments. Check out{' '}
+                I&apos;d rather teach you to fish than sell you fish. My default is enablement — giving
+                you the knowledge, frameworks, and tools to make your own AI decisions. Only you know
+                your business best.
+              </p>
+              <p>
+                When you need something built, I build it with you — not for you. You&apos;ll understand
+                the system, be able to use it fully, and maintain it without depending on me.
+              </p>
+              <p>
+                I can also build the whole thing independently if that&apos;s what you need. Custom
+                automation, full-stack applications, polished frontends — from concept to deployed
+                and working.
+              </p>
+              <p>
+                Outside of consulting, I shoot film photography, build interactive data visualizations,
+                and experiment with generative media. Check out{' '}
                 <Link
                   href="https://creative.badalien.works"
                   className="text-text-heading hover:text-primary underline underline-offset-2 transition-colors duration-200"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  creative.badalien.works
+                  my portfolio
                 </Link>
-                {' '}and{' '}
-                <Link
-                  href="https://decoded.badalien.works"
-                  className="text-text-heading hover:text-primary underline underline-offset-2 transition-colors duration-200"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  decoded.badalien.works
-                </Link>
-                {' '}if you&apos;re curious.
+                .
               </p>
             </div>
 
-            <Link
-              href="/about"
-              className="inline-flex items-center text-text-heading hover:text-primary transition-colors duration-200 group"
-            >
-              <span className="font-semibold">More about me</span>
-              <span className="ml-2 group-hover:translate-x-1 transition-transform duration-200">
-                →
-              </span>
-            </Link>
           </div>
         </motion.div>
       </div>

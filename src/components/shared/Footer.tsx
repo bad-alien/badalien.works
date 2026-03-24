@@ -4,7 +4,6 @@ import Logo from './Logo';
 export default function Footer() {
   const pageLinks = [
     { href: '/consult', label: 'Consult' },
-    { href: '/services', label: 'Services' },
     { href: '/creative', label: 'Creative' },
     { href: '/insights', label: 'Insights' },
     { href: '/contact', label: 'Contact' },

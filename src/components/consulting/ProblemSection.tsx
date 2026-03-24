@@ -16,7 +16,7 @@ export default function ProblemSection() {
           className="text-xl sm:text-2xl md:text-3xl leading-relaxed text-text-body"
           style={{ fontSize: 'clamp(1rem, 3vw, 1.875rem)' }}
         >
-          Your team is drowning in AI hype but shipping nothing. POCs stall. Vendors overpromise. Meanwhile, competitors are already capturing the upside. You need someone who can cut through the noise and actually ship.
+          Everyone in AI is overcharging and exploiting the massive information gap between those in the know and those outside it. Over-promise, over-charge, under-deliver is the norm. You deserve better than half-baked systems at prices that don&apos;t reflect the ease of doing things.
         </p>
       </motion.div>
     </section>

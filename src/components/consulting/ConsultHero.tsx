@@ -57,9 +57,9 @@ export default function ConsultHero() {
         <h1
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-6 tracking-tight leading-tight font-display"
         >
-          Stop Watching Competitors
+          Honest AI Consulting
           <br />
-          Ship AI While You Plan
+          In a Market Full of Hype
         </h1>
 
         {/* Subheadline */}
@@ -69,7 +69,7 @@ export default function ConsultHero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          I help product teams ship AI features in weeks, not quarters.
+          Discovery-first engagements. Transparent pricing. Systems that actually work.
         </motion.p>
 
         {/* CTAs */}

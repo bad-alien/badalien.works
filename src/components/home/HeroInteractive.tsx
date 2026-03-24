@@ -10,10 +10,10 @@ interface HeroInteractiveProps {
 }
 
 const PROMPTS = [
-  "What can you improve at our ad agency?",
-  "Come teach my team about all the recent AI tools",
-  "How can I automate parts of my construction business?",
-  "Free on Friday at 1pm to swing by my office and chat?"
+  "Help my team actually understand and use AI tools",
+  "What would it cost to automate our intake process?",
+  "Can you build us a custom system from scratch?",
+  "We just need a few sessions to get up to speed"
 ];
 
 export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInteractiveProps) {

@@ -33,30 +33,6 @@ export default function ProofSection() {
           </p>
         </motion.div>
 
-        {/* Client references (placeholders) */}
-        <motion.div
-          className="mb-20"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div
-                key={i}
-                className="p-8 bg-surface border border-border rounded-xl text-center"
-              >
-                <p
-                  className="text-lg text-muted italic"
-                >
-                  Case study details arriving Q2 2026
-                </p>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
         {/* Approach */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
