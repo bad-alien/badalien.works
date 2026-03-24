@@ -208,12 +208,12 @@ export default function AboutPage() {
               When I&apos;m not building AI systems, I shoot film photography and run a media server with friends.
             </motion.p>
             <motion.div variants={itemVariants} className="flex gap-6 text-base">
-              <a
-                href="https://creative.badalien.works"
+              <Link
+                href="/creative"
                 className="text-text-secondary hover:text-text-heading transition-colors duration-300 font-light"
               >
-                creative.badalien.works
-              </a>
+                creative
+              </Link>
               <a
                 href="https://decoded.badalien.works"
                 className="text-text-secondary hover:text-text-heading transition-colors duration-300 font-light"

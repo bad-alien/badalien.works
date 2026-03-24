@@ -11,9 +11,9 @@ export default function Footer() {
 
   const connectLinks = [
     {
-      href: 'https://creative.badalien.works',
-      label: 'creative.badalien.works',
-      external: true,
+      href: '/creative',
+      label: 'creative',
+      external: false,
     },
     {
       href: 'https://decoded.badalien.works',
@@ -67,14 +67,23 @@ export default function Footer() {
                 </li>
                 {connectLinks.map((link) => (
                   <li key={link.href}>
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
-                    >
-                      {link.label}
-                    </a>
+                    {link.external ? (
+                      <a
+                        href={link.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
+                      >
+                        {link.label}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
+                      >
+                        {link.label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>

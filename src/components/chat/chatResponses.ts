@@ -139,7 +139,7 @@ Typical projects: 4-8 weeks from kickoff to production. Some proof-of-concepts l
 
 **Custom RAG Chatbots** — Domain-specific knowledge systems for legal, medical, and technical documentation.
 
-I also built this site and its chat system. Check out [creative.badalien.works](https://creative.badalien.works) for the artistic side.
+I also built this site and its chat system. Check out my [creative portfolio](/creative) for the artistic side.
 
 Curious how something similar could work for you? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult).`,
   },

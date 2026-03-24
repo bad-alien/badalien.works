@@ -1,17 +1,17 @@
 import { memo } from 'react';
-import { PhotoTag } from '@/data/photos';
+import { PortfolioCategory } from '@/data/portfolio';
 
 interface FilterBarProps {
-  filters: (PhotoTag | 'All')[];
-  activeFilter: PhotoTag | 'All';
-  onFilterChange: (filter: PhotoTag | 'All') => void;
+  filters: (PortfolioCategory | 'All')[];
+  activeFilter: PortfolioCategory | 'All';
+  onFilterChange: (filter: PortfolioCategory | 'All') => void;
   isScrolled: boolean;
 }
 
 function FilterBar({ filters, activeFilter, onFilterChange, isScrolled }: FilterBarProps) {
   return (
     <div
-      className={`sticky z-30 bg-transparent transition-all duration-300 ${
+      className={`sticky z-40 bg-transparent transition-all duration-300 ${
         isScrolled
           ? 'top-[72px] py-4'
           : 'top-[112px] py-6'
@@ -25,7 +25,7 @@ function FilterBar({ filters, activeFilter, onFilterChange, isScrolled }: Filter
               onClick={() => onFilterChange(filter)}
               className={`px-6 py-2 font-light tracking-wider text-sm rounded-md backdrop-blur-md transition-all duration-300 ${
                 activeFilter === filter
-                  ? 'bg-white text-black'
+                  ? 'bg-[#FF6B35] text-white'
                   : 'bg-black/80 text-white border border-white/30 hover:border-white/60 hover:bg-white/10'
               }`}
             >

@@ -63,10 +63,8 @@ export default function AboutPreview() {
                 Outside of consulting, I shoot film photography, build interactive data visualizations,
                 and experiment with generative media. Check out{' '}
                 <Link
-                  href="https://creative.badalien.works"
+                  href="/creative"
                   className="text-text-heading hover:text-primary underline underline-offset-2 transition-colors duration-200"
-                  target="_blank"
-                  rel="noopener noreferrer"
                 >
                   my portfolio
                 </Link>
