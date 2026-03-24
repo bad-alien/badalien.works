@@ -1,0 +1,75 @@
+---
+title: "OpenClaw Is Popular. It's Also a Security Liability."
+date: "2026-03-25"
+description: "OpenClaw has 247K GitHub stars and two unpatched CVEs. Here's what you need to know before deploying it — and how to harden it if you do."
+category: "Engineering"
+tags:
+  - OpenClaw
+  - Security
+  - AI Agents
+  - Infrastructure
+  - CVE
+---
+
+OpenClaw is the most popular open-source AI agent framework right now — 247K GitHub stars, active community, integrations with every major messaging platform. If your team is experimenting with AI agents, someone has probably already installed it.
+
+The problem: **OpenClaw has serious, documented security vulnerabilities that make it unsuitable for production use without significant hardening.** And most deployments I've seen are running with defaults.
+
+## The CVEs
+
+**CVE-2026-25253 (CVSS 8.8) — One-click RCE via WebSocket.** OpenClaw's WebSocket interface doesn't validate connection origins. An attacker can craft a malicious webpage that, when visited by someone running OpenClaw, executes arbitrary commands on their machine. One click, full access. This has been publicly disclosed and is actively exploited.
+
+**CVE-2026-27646 (March 23, 2026) — Sandbox escape via `/acp spawn`.** OpenClaw's sandboxing can be bypassed through its agent control protocol. An attacker (or a malicious skill) can spawn processes outside the sandbox boundary. This was disclosed two days ago and there is no patch yet.
+
+## Beyond the CVEs
+
+The CVEs are the headline, but the systemic issues are worse:
+
+**Plaintext credential storage.** OpenClaw stores API keys, tokens, and credentials in plaintext on disk. Infostealers like RedLine and Lumma specifically target OpenClaw credential files. If your machine is compromised, every API key you've configured in OpenClaw is exfiltrated.
+
+**36% of ClawHub skills contain prompt injection.** Snyk's ToxicSkills audit found that over a third of community-contributed skills on ClawHub — OpenClaw's skill marketplace — contain prompt injection payloads. Installing a popular skill can silently compromise your agent's behavior.
+
+**135K instances exposed on the public internet.** Shodan scans have found 135,000 OpenClaw instances listening on `0.0.0.0:18789` with no authentication. These are directly accessible to anyone on the internet.
+
+## Secure Deployment Checklist
+
+If you're going to run OpenClaw despite the above — for experimentation, research, or internal tooling in an isolated environment — here's the minimum hardening you should apply:
+
+**1. Run in Docker with restrictive flags.**
+
+```bash
+docker run \
+  --read-only \
+  --cap-drop=ALL \
+  --security-opt=no-new-privileges \
+  --network=none \
+  openclaw/openclaw:latest
+```
+
+`--read-only` prevents the container from writing to its filesystem. `--cap-drop=ALL` removes all Linux capabilities. `--network=none` blocks all network access from the container (add back only what you need).
+
+**2. Use allowlist-based tool access.** OpenClaw's default configuration gives the agent access to all installed tools. Switch to an explicit allowlist — only the tools you've reviewed and approved.
+
+**3. Encrypt credentials and inject at runtime.** Don't store API keys in OpenClaw's config files. Use a secrets manager (HashiCorp Vault, AWS Secrets Manager, even `pass`) and inject credentials as environment variables at container startup.
+
+**4. Bind to localhost only.** Never expose OpenClaw on `0.0.0.0`. Bind to `127.0.0.1` and use a reverse proxy with authentication if you need remote access.
+
+**5. Use dedicated, non-privileged credentials.** Create separate API keys with minimal permissions for OpenClaw. Don't give it your admin tokens.
+
+**6. Monitor continuously.** Log all OpenClaw activity and review it. Set up alerts for unexpected outbound connections, file access patterns, or credential usage.
+
+## Bottom Line
+
+OpenClaw is a useful tool for **experimentation and local development** — in an isolated environment, with hardened configuration, by someone who understands the risks. It is not ready for production deployment in any environment where security matters.
+
+If you need production-grade AI agent capabilities with enterprise security controls, look at [Claude Cowork](/insights/what-claude-cowork-means-for-business) (managed, isolated VM) or build a controlled pipeline with [LangChain/LangGraph](/insights/choosing-ai-automation-stack) (self-hosted, full control).
+
+Don't let GitHub star counts substitute for security due diligence.
+
+---
+
+If you're running OpenClaw and want a security review of your deployment, or if you're evaluating agent frameworks and want help picking the right one for your risk profile, [let's talk](/consult).
+
+---
+
+**About the author:** I'm an AI infrastructure consultant specializing in secure AI deployments. I help organizations evaluate, harden, and deploy AI agent frameworks — with a focus on getting the security right before going to production. [Book a consultation](/consult) to discuss your setup.
