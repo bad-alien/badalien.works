@@ -27,15 +27,19 @@ export default function CreativePage() {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? 'bg-black/80 backdrop-blur-md py-3'
-            : 'bg-transparent py-6'
+            ? 'bg-black/80 backdrop-blur-md'
+            : 'bg-transparent'
         }`}
       >
-        <div className="container mx-auto px-6 flex items-center justify-center relative">
-          <Logo
-            size={isScrolled ? 'sm' : 'md'}
-            className="transition-all duration-300"
-          />
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-center relative h-24 md:h-28">
+          <Link
+            href="/"
+            className="absolute left-6 lg:left-8 flex items-center gap-2 text-sm font-light tracking-wider text-white/70 hover:text-white transition-colors"
+          >
+            <span aria-hidden="true">&larr;</span> Back to Home
+          </Link>
+
+          <Logo size="md" className="!h-[77px]" />
 
           <Link
             href="/contact"

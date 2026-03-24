@@ -30,7 +30,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     {
       id: 'initial',
       role: 'assistant',
-      content: "Hi! I'm Bad Alien's AI assistant. I can help you learn about our consulting services, technical approach, pricing, and booking a call. What would you like to know?",
+      content: "Hey! I help businesses figure out where AI can actually move the needle — no fluff, just practical results. Ask me anything, or grab a [free 15-minute intro call](https://cal.com/bad-alien/free-consult) to talk specifics.",
       timestamp: Date.now(),
     }
   ]);

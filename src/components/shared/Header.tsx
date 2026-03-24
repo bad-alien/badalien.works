@@ -16,25 +16,29 @@ export default function Header({ variant = 'default' }: HeaderProps) {
   const isScrolled = useScrollState(50);
   const pathname = usePathname();
 
-  const navLinks = [
-    { href: '/services', label: 'Services' },
-    { href: '/about', label: 'About' },
+  const leftLinks = [
+    { href: '/consult', label: 'Consult' },
+    { href: '/creative', label: 'Creative' },
+  ];
+
+  const rightLinks = [
+    { href: '/insights', label: 'Insights' },
   ];
 
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0A0A0A]/80 backdrop-blur-md border-b border-border'
+          ? 'bg-[#0A0A0A]/80 backdrop-blur-md'
           : 'bg-transparent'
       }`}
     >
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="relative flex items-center justify-center h-20 md:h-24">
+        <div className="relative flex items-center justify-center h-24 md:h-28">
           {/* Left Nav - Desktop only */}
           {variant === 'default' && (
             <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-8 absolute left-0">
-              {navLinks.map((link) => (
+              {leftLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
@@ -53,12 +57,23 @@ export default function Header({ variant = 'default' }: HeaderProps) {
 
           {/* Right Nav - Desktop only */}
           {variant === 'default' && (
-            <nav className="hidden md:flex items-center absolute right-0">
+            <nav className="hidden md:flex items-center gap-8 absolute right-0">
+              {rightLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`${
+                    pathname === link.href ? 'text-white' : 'text-white/80'
+                  } hover:text-white transition-colors text-lg font-sans`}
+                >
+                  {link.label}
+                </Link>
+              ))}
               <Link
                 href="/contact"
                 className="px-6 py-2.5 bg-white text-black font-sans text-lg hover:bg-white/90 transition-colors rounded"
               >
-                Book a Call
+                Let&apos;s Talk
               </Link>
             </nav>
           )}
@@ -123,7 +138,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
 
               {/* Menu Items */}
               <div className="flex flex-col gap-2 px-6">
-                {navLinks.map((link, index) => (
+                {[...leftLinks, ...rightLinks].map((link, index) => (
                   <motion.div
                     key={link.href}
                     initial={{ opacity: 0, x: 20 }}
@@ -144,22 +159,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: navLinks.length * 0.1 }}
-                >
-                  <Link
-                    href="/contact"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`block py-4 ${
-                      pathname === '/contact' ? 'text-white' : 'text-white/80'
-                    } hover:text-white transition-colors text-xl font-sans border-b border-white/5`}
-                  >
-                    Book a Call
-                  </Link>
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: (navLinks.length + 1) * 0.1 }}
+                  transition={{ delay: 3 * 0.1 }}
                 >
                   <Link
                     href="/contact"
@@ -168,7 +168,7 @@ export default function Header({ variant = 'default' }: HeaderProps) {
                       pathname === '/contact' ? 'text-white' : 'text-white/80'
                     } hover:text-white transition-colors text-xl font-sans`}
                   >
-                    Contact
+                    Let&apos;s Talk
                   </Link>
                 </motion.div>
               </div>

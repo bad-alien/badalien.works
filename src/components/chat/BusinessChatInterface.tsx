@@ -9,19 +9,14 @@ import { getScriptedResponse } from './chatResponses';
 
 interface BusinessChatInterfaceProps {
   compact?: boolean;
-  context?: 'homepage' | 'consult' | 'services';
-  heroMode?: boolean;
 }
 
 export default function BusinessChatInterface({
   compact = false,
-  context = 'homepage', // eslint-disable-line @typescript-eslint/no-unused-vars
-  heroMode = false
 }: BusinessChatInterfaceProps) {
-  const { messages, setMessages, setEntryPoint, chatView } = useChat(); // eslint-disable-line @typescript-eslint/no-unused-vars
+  const { messages, setMessages } = useChat();
   const [isTyping, setIsTyping] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Auto-scroll to bottom when new messages arrive - scroll within container, not page
@@ -30,19 +25,6 @@ export default function BusinessChatInterface({
       scrollContainerRef.current.scrollTop = scrollContainerRef.current.scrollHeight;
     }
   }, [messages]);
-
-  // Set entry point and initial message based on heroMode
-  useEffect(() => {
-    if (heroMode) {
-      setEntryPoint('hero');
-      setMessages([{
-        id: 'initial',
-        role: 'assistant',
-        content: "Welcome! I can help you explore how AI enablement works for your team, walk through our approach, or book a free consultation. What brings you here?",
-        timestamp: Date.now(),
-      }]);
-    }
-  }, [heroMode, setEntryPoint, setMessages]);
 
   const handleSendMessage = async (userInput: string) => {
     if (isTyping) return;
@@ -80,9 +62,9 @@ export default function BusinessChatInterface({
 
   const handleQuickAction = (action: string) => {
     const quickActionMessages: Record<string, string> = {
-      services: 'Tell me about your services',
-      book: "I'd like to book a call",
-      about: 'Tell me about your background',
+      help: 'What kind of problems do you help businesses solve?',
+      book: "I'd like to book a free intro call",
+      approach: 'Tell me about your approach to AI consulting',
     };
     handleSendMessage(quickActionMessages[action]);
   };
@@ -122,12 +104,12 @@ export default function BusinessChatInterface({
                     className="flex gap-3 mt-6 mb-8 flex-wrap"
                   >
                     <motion.button
-                      onClick={() => handleQuickAction('services')}
+                      onClick={() => handleQuickAction('help')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="px-4 py-2 text-primary border border-primary/30 rounded-full text-sm hover:border-primary/50 transition-colors"
                     >
-                      Services
+                      How I Help
                     </motion.button>
                     <motion.button
                       onClick={() => handleQuickAction('book')}
@@ -135,15 +117,15 @@ export default function BusinessChatInterface({
                       whileTap={{ scale: 0.95 }}
                       className="px-4 py-2 text-primary border border-primary/30 rounded-full text-sm hover:border-primary/50 transition-colors"
                     >
-                      Book a Call
+                      Free Intro Call
                     </motion.button>
                     <motion.button
-                      onClick={() => handleQuickAction('about')}
+                      onClick={() => handleQuickAction('approach')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="px-4 py-2 text-primary border border-primary/30 rounded-full text-sm hover:border-primary/50 transition-colors"
                     >
-                      About
+                      My Approach
                     </motion.button>
                   </motion.div>
                 )}
@@ -178,7 +160,6 @@ export default function BusinessChatInterface({
             </motion.div>
           )}
 
-          <div ref={messagesEndRef} />
         </div>
       </div>
 

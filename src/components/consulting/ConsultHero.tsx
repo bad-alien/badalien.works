@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import Logo from '@/components/shared/Logo';
 import { useChat } from '@/contexts/ChatContext';
 
@@ -14,16 +15,26 @@ export default function ConsultHero() {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
-      {/* Minimal Nav */}
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-4 bg-[#0A0A0A]/80 backdrop-blur-md border-b border-border">
-        <Logo size="sm" />
-        <a
-          href="/contact"
-          className="px-6 py-2 text-base font-medium text-white bg-surface border border-border rounded-xl hover:bg-elevated transition-all duration-300"
-        >
-          Book a Call
-        </a>
-      </nav>
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/80 backdrop-blur-md">
+        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-center relative h-24 md:h-28">
+          <Link
+            href="/"
+            className="absolute left-6 lg:left-8 flex items-center gap-2 text-sm font-light tracking-wider text-white/70 hover:text-white transition-colors"
+          >
+            <span aria-hidden="true">&larr;</span> Back to Home
+          </Link>
+
+          <Logo size="md" className="!h-[77px]" />
+
+          <Link
+            href="/contact"
+            className="absolute right-6 lg:right-8 px-6 py-2.5 bg-white text-black font-sans text-lg hover:bg-white/90 transition-colors rounded"
+          >
+            Let&apos;s Talk
+          </Link>
+        </div>
+      </header>
 
       {/* Subtle atmospheric background gradient - minimal animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">

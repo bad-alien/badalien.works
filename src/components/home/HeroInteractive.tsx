@@ -191,7 +191,7 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
   return (
     <motion.div
       ref={scope}
-      className="flex flex-col items-center gap-6 mt-6"
+      className="flex flex-col items-center gap-6 -mt-4"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -200,12 +200,9 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
       <motion.p
         id="tagline"
         variants={taglineVariants}
-        className="font-sans text-base text-text-body leading-relaxed max-w-2xl mx-auto text-center px-4"
+        className="font-sans text-lg text-text-body leading-relaxed max-w-2xl mx-auto text-center px-4"
       >
-        Bridging the gap between AI curiosity and operational competency. I provide hands-on
-        coaching for teams and business owners of all technical levels, ensuring your organization
-        becomes fully self-sufficient in utilizing AI tools to drive value today and remains agile
-        enough to master the innovations of tomorrow.
+        Bringing AI to those ready to move from curiosity to capability.
       </motion.p>
 
       {/* Navigation Buttons */}
@@ -230,10 +227,10 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
         </motion.button>
         <motion.button
           variants={buttonVariants}
-          onClick={() => handleNavigate('/about')}
+          onClick={() => handleNavigate('/contact')}
           className="px-6 py-2.5 rounded-full border-2 border-primary bg-transparent text-primary font-sans font-medium transition-all duration-300 hover:bg-primary hover:text-background"
         >
-          About
+          Contact
         </motion.button>
       </motion.div>
 
@@ -250,7 +247,7 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
               handleActivateChat();
             }
           }}
-          className="relative w-full px-4 py-3 bg-transparent border border-muted/20 rounded-lg cursor-text transition-all duration-300 hover:border-muted/40"
+          className="relative w-full px-5 py-4 bg-transparent border border-muted/20 rounded-lg cursor-text transition-all duration-300 hover:border-muted/40"
         >
           <span className="text-primary/70 text-base font-sans select-none">
             {displayText}

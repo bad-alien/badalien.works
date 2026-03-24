@@ -21,9 +21,8 @@ describe('ChatContext', () => {
     expect(result.current.messages[0].id).toBe('initial')
   })
 
-  it('initializes with widget closed and chat inactive', () => {
+  it('initializes with chat minimized', () => {
     const { result } = renderHook(() => useChat(), { wrapper })
-    expect(result.current.isWidgetOpen).toBe(false)
-    expect(result.current.isChatActive).toBe(false)
+    expect(result.current.chatView).toBe('minimized')
   })
 })

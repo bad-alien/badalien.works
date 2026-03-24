@@ -31,56 +31,53 @@ vi.mock('@/hooks/useScrollState', () => ({
 import { usePathname } from 'next/navigation'
 
 describe('Header', () => {
-  it('highlights active nav link for /services', () => {
-    vi.mocked(usePathname).mockReturnValue('/services')
+  it('highlights active nav link for /consult', () => {
+    vi.mocked(usePathname).mockReturnValue('/consult')
     render(<Header />)
 
-    const servicesLink = screen.getByText('Services')
-    const aboutLink = screen.getByText('About')
+    const consultLink = screen.getByText('Consult')
+    const creativeLink = screen.getByText('Creative')
 
-    // Active link should have text-white (not text-white/80)
-    expect(servicesLink.className).toContain('text-white')
-    expect(servicesLink.className).not.toContain('text-white/80')
-
-    // Inactive link should have text-white/80
-    expect(aboutLink.className).toContain('text-white/80')
+    expect(consultLink.className).toContain('text-white')
+    expect(consultLink.className).not.toContain('text-white/80')
+    expect(creativeLink.className).toContain('text-white/80')
   })
 
-  it('highlights active nav link for /about', () => {
-    vi.mocked(usePathname).mockReturnValue('/about')
+  it('highlights active nav link for /insights', () => {
+    vi.mocked(usePathname).mockReturnValue('/insights')
     render(<Header />)
 
-    const servicesLink = screen.getByText('Services')
-    const aboutLink = screen.getByText('About')
+    const consultLink = screen.getByText('Consult')
+    const insightsLink = screen.getByText('Insights')
 
-    expect(aboutLink.className).toContain('text-white')
-    expect(aboutLink.className).not.toContain('text-white/80')
-    expect(servicesLink.className).toContain('text-white/80')
+    expect(insightsLink.className).toContain('text-white')
+    expect(insightsLink.className).not.toContain('text-white/80')
+    expect(consultLink.className).toContain('text-white/80')
   })
 
   it('shows no active state on homepage', () => {
     vi.mocked(usePathname).mockReturnValue('/')
     render(<Header />)
 
-    const servicesLink = screen.getByText('Services')
-    const aboutLink = screen.getByText('About')
+    const consultLink = screen.getByText('Consult')
+    const creativeLink = screen.getByText('Creative')
 
-    expect(servicesLink.className).toContain('text-white/80')
-    expect(aboutLink.className).toContain('text-white/80')
+    expect(consultLink.className).toContain('text-white/80')
+    expect(creativeLink.className).toContain('text-white/80')
   })
 
-  it('renders Book a Call CTA', () => {
+  it('renders Let\'s Talk CTA', () => {
     vi.mocked(usePathname).mockReturnValue('/')
     render(<Header />)
-    expect(screen.getByText('Book a Call')).toBeTruthy()
+    expect(screen.getByText("Let's Talk")).toBeTruthy()
   })
 
   it('hides nav in minimal variant', () => {
     vi.mocked(usePathname).mockReturnValue('/')
     render(<Header variant="minimal" />)
 
-    expect(screen.queryByText('Services')).toBeNull()
-    expect(screen.queryByText('About')).toBeNull()
-    expect(screen.queryByText('Book a Call')).toBeNull()
+    expect(screen.queryByText('Consult')).toBeNull()
+    expect(screen.queryByText('Creative')).toBeNull()
+    expect(screen.queryByText("Let's Talk")).toBeNull()
   })
 })

@@ -22,10 +22,10 @@ function filterMotionProps(props: Record<string, any>) {
   return filtered
 }
 
-function renderWithChat(context: 'homepage' | 'consult' | 'services' = 'homepage') {
+function renderWithChat() {
   return render(
     <ChatProvider>
-      <BusinessChatInterface context={context} />
+      <BusinessChatInterface />
     </ChatProvider>
   )
 }
@@ -41,14 +41,14 @@ describe('BusinessChatInterface', () => {
 
   it('renders initial assistant message', () => {
     renderWithChat()
-    expect(screen.getByText(/I'm Bad Alien's AI assistant/)).toBeTruthy()
+    expect(screen.getByText(/I help businesses figure out where AI can actually move the needle/)).toBeTruthy()
   })
 
   it('shows quick action chips after initial message', () => {
     renderWithChat()
-    expect(screen.getByText('Services')).toBeTruthy()
-    expect(screen.getByText('Book a Call')).toBeTruthy()
-    expect(screen.getByText('About')).toBeTruthy()
+    expect(screen.getByText('How I Help')).toBeTruthy()
+    expect(screen.getByText('Free Intro Call')).toBeTruthy()
+    expect(screen.getByText('My Approach')).toBeTruthy()
   })
 
   it('sends user message and receives scripted response', async () => {
@@ -69,12 +69,12 @@ describe('BusinessChatInterface', () => {
     })
 
     // Scripted response should appear (pricing keyword matched)
-    expect(screen.getByText(/Pricing depends on scope/)).toBeTruthy()
+    expect(screen.getByText(/Pricing scales with scope/)).toBeTruthy()
   })
 
   it('hides quick action chips after first user message', async () => {
     renderWithChat()
-    expect(screen.getByText('Services')).toBeTruthy()
+    expect(screen.getByText('How I Help')).toBeTruthy()
 
     const input = screen.getByPlaceholderText('Ask about our services...')
     await act(async () => {
@@ -83,7 +83,7 @@ describe('BusinessChatInterface', () => {
     })
 
     // Quick action chips should be gone
-    expect(screen.queryByText('Services')).toBeNull()
+    expect(screen.queryByText('How I Help')).toBeNull()
   })
 
   it('disables input while typing indicator is active', async () => {

@@ -92,7 +92,7 @@ export default function ChatWidget() {
 
             {/* Chat Interface */}
             <div className="flex-1 overflow-hidden">
-              <BusinessChatInterface compact={true} context="homepage" heroMode={false} />
+              <BusinessChatInterface compact={true} />
             </div>
           </motion.div>
         )}

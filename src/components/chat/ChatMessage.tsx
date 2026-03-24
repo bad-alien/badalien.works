@@ -18,13 +18,13 @@ export default function ChatMessage({ message, index }: ChatMessageProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.08 }}
-      className={`py-6 flex ${isUser ? 'justify-end' : 'justify-start'}`}
+      className={`py-3 flex ${isUser ? 'justify-end' : 'justify-start'}`}
     >
       <div
         className={`markdown-content ${isUser ? 'text-white text-right' : 'text-primary text-left w-full'}`}
         style={{
-          fontSize: isUser ? '1.125rem' : '1.25rem',
-          lineHeight: '1.6',
+          fontSize: '0.9375rem',
+          lineHeight: '1.5',
           letterSpacing: '0.025em',
         }}
       >

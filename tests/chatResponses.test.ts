@@ -17,7 +17,7 @@ describe('getScriptedResponse', () => {
 
   it('returns greeting response for hello', () => {
     const response = getScriptedResponse('hello')
-    expect(response).toContain('Services')
+    expect(response).toContain('How I help')
     expect(response).toContain('Pricing')
     expect(response).toContain('Background')
   })
@@ -36,8 +36,8 @@ describe('getScriptedResponse', () => {
 
   it('returns fallback for unrecognized input', () => {
     const response = getScriptedResponse('xyzzy quantum flux capacitor')
-    expect(response).toContain('book a call')
-    expect(response).toContain('scripted chatbot')
+    expect(response).toContain('Book a free 15-minute consult')
+    expect(response).toContain('point you in the right direction')
   })
 
   it('matches automation keywords', () => {

@@ -9,167 +9,159 @@ type ResponseMatch = {
 };
 
 const responses: ResponseMatch[] = [
-  // Services
+  // Services / How I help
   {
-    keywords: ['services', 'what do you do', 'offerings', 'help with', 'provide'],
-    response: `I offer three core AI consulting services:
+    keywords: ['services', 'what do you do', 'offerings', 'help with', 'provide', 'problems', 'solve'],
+    response: `Three ways I help businesses put AI to work:
 
-**AI Strategy & Implementation** — I help organizations design and deploy AI solutions that actually work. From proof-of-concept to production deployment.
+**AI Strategy & Implementation** — I find the highest-impact AI opportunities in your workflow and build them out. From proof-of-concept to production.
 
-**AI-Powered Automation** — I build custom automation systems using LLMs and agentic workflows. Think intelligent data pipelines, automated analysis, and smart document processing.
+**AI-Powered Automation** — Custom automation using LLMs and agentic workflows. Intelligent data pipelines, automated analysis, smart document processing — systems that replace hours of manual work.
 
-**Technical Enablement** — I train teams to work effectively with AI tools like Claude, ChatGPT, and Cursor. Hands-on workshops tailored to your workflow.
+**Technical Enablement** — Hands-on workshops that teach your team to work effectively with tools like Claude, ChatGPT, and Cursor. Tailored to your actual workflow.
 
-Which area interests you most?`,
+Which area is closest to what you need? Or [book a free 15-minute consult](https://cal.com/bad-alien/free-consult) and we can figure it out together.`,
   },
 
-  // Strategy
+  // Strategy / Approach
   {
-    keywords: ['strategy', 'planning', 'roadmap', 'approach'],
-    response: `My approach to AI strategy is practical and outcome-focused:
+    keywords: ['strategy', 'planning', 'roadmap', 'approach', 'how do you work', 'methodology'],
+    response: `I keep it simple and outcome-focused:
 
-1. **Discovery** — I assess your current workflows and identify high-impact AI opportunities
-2. **Proof of Concept** — We validate the approach with a small-scale pilot
+1. **Discovery** — I assess your current workflows and find the highest-ROI AI opportunities
+2. **Proof of Concept** — We validate the approach with a small-scale pilot before committing
 3. **Implementation** — I build and deploy the solution, with your team involved throughout
 4. **Enablement** — I train your team to maintain and extend what we've built
 
-I've done this for companies ranging from finance to healthcare. Want to discuss your specific use case?`,
+No black-box handoffs. You understand what was built and why. I've run this playbook across finance, healthcare, and defense.
+
+Want to walk through how this would look for your business? [Grab a free 15-minute consult](https://cal.com/bad-alien/free-consult) — available Monday through Friday, 9am-6pm.`,
   },
 
   // Automation
   {
     keywords: ['automation', 'workflow', 'pipeline', 'agentic', 'llm'],
-    response: `I specialize in building intelligent automation systems using frontier AI models like Claude and GPT-4.
+    response: `I build intelligent automation systems using frontier AI models like Claude and GPT-4.
 
-Recent examples:
-- Automated ML pipeline for home inspection analysis (computer vision + document extraction)
-- Agentic web scraping system for reverse-engineering applications
-- Custom chatbots with RAG (retrieval-augmented generation) for domain-specific knowledge
+Recent builds:
+- **HomeAI** — ML pipeline for home inspection analysis (computer vision + document extraction)
+- **Webscope** — Agentic web scraper using Playwright + Claude to reverse-engineer applications
+- **Custom RAG chatbots** — Domain-specific knowledge systems for legal, medical, and technical docs
 
-These aren't chatbot wrappers — they're production systems that replace hours of manual work.
+These aren't chatbot wrappers — they're production systems that replace hours of manual work every day.
 
-What workflow are you looking to automate?`,
+Got a workflow that's eating up your team's time? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) and I'll tell you if it's a good fit for automation.`,
   },
 
   // Enablement / Training
   {
     keywords: ['training', 'enablement', 'teach', 'workshop', 'learn', 'upskill'],
-    response: `Technical enablement is about teaching your team to work *with* AI tools effectively, not replacing them.
+    response: `Technical enablement is about teaching your team to work *with* AI, not replacing them.
 
 I run hands-on workshops covering:
-- Prompt engineering for Claude/GPT (including system prompts and tool use)
+- Prompt engineering for Claude/GPT (system prompts, tool use, advanced patterns)
 - AI-assisted development with Cursor, Copilot, and Claude Code
 - Building internal tools with LLM APIs
 
-The goal: your team becomes self-sufficient with AI in their daily work.
+The result: your team becomes self-sufficient with AI in their daily work. Most teams see productivity gains within the first week.
 
-Interested in enablement for your team?`,
+Interested in enablement for your team? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) and we'll scope out what makes sense.`,
   },
 
   // Pricing
   {
     keywords: ['pricing', 'cost', 'rate', 'how much', 'budget', 'price'],
-    response: `Pricing depends on scope and engagement type:
+    response: `Pricing scales with scope:
 
 **Consulting & Strategy** — $200/hour or project-based pricing for defined deliverables
 
-**Implementation Projects** — Fixed-price quotes based on scope. Typical projects range from $5K (proof-of-concept) to $30K+ (full production deployment)
+**Implementation Projects** — Fixed-price quotes. Typical range: $5K (proof-of-concept) to $30K+ (full production deployment)
 
 **Enablement Workshops** — $2K/day for team training (up to 15 people)
 
-I'm flexible on structure — hourly, project-based, or retainer. Want to discuss your specific needs?`,
+I'm flexible on structure — hourly, project-based, or retainer. The best way to get an accurate number is to talk through your specific needs.
+
+[Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) — no commitment, just a conversation. Available Monday through Friday, 9am-6pm.`,
   },
 
   // Booking / Call
   {
-    keywords: ['book', 'call', 'meeting', 'schedule', 'calendar', 'talk', 'discuss'],
-    response: `Great! I'd love to talk through your project.
+    keywords: ['book', 'call', 'meeting', 'schedule', 'calendar', 'talk', 'discuss', 'intro', 'consult'],
+    response: `Let's do it. The intro call is free, 15 minutes, and zero pressure. We'll talk through what you're working on and whether I can help.
 
-You can book a 30-minute intro call directly on my calendar. We'll discuss your goals, current challenges, and whether I'm the right fit.
+**[Book your free consult here](https://cal.com/bad-alien/free-consult)**
+Available Monday through Friday, 9am-6pm.
 
-**Book here:** [Link to calendar will be added]
-
-Or keep asking questions here — I'm happy to answer anything upfront.`,
+Or keep asking questions here first — happy to answer anything upfront.`,
   },
 
   // Background / About
   {
     keywords: ['background', 'about you', 'experience', 'who are you', 'your story'],
-    response: `I'm a product manager turned AI consultant with 8+ years building software products in finance, defense, and healthtech.
+    response: `Product manager turned AI consultant. 8+ years building software products in finance, defense, and healthtech.
 
-My PM background means I focus on outcomes, not just code. I've shipped products used by thousands of users, managed engineering teams, and led technical strategy.
+The PM background means I focus on outcomes, not just code. I've shipped products used by thousands, managed engineering teams, and led technical strategy at multiple organizations.
 
-Now I help organizations leverage AI without the hype — practical implementations that solve real problems.
+Now I help businesses put AI to work — practical implementations that solve real problems, not science projects.
 
-I work solo on most projects, occasionally pulling in specialists for design or infrastructure.
+I work solo on most projects, occasionally pulling in specialists for design or infrastructure. That keeps overhead low and quality high.
 
-What else would you like to know?`,
+Want to see if I'm the right fit? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) — I'll give you an honest assessment.`,
   },
 
-  // Process / Methodology
+  // Process / Timeline
   {
-    keywords: ['process', 'how do you work', 'methodology', 'workflow', 'timeline'],
+    keywords: ['process', 'timeline', 'how long', 'delivery'],
     response: `My process is agile and transparent:
 
 **Week 1-2: Discovery & Planning**
-- Understand your workflows, pain points, goals
-- Design the solution approach
-- Create a project roadmap with milestones
+Understand your workflows, pain points, and goals. Design the solution approach. Deliver a project roadmap with milestones.
 
 **Week 3+: Implementation**
-- Build in sprints with weekly check-ins
-- Share progress early and often (no "big reveal" at the end)
-- Iterate based on your feedback
+Build in sprints with weekly check-ins. You see progress early and often — no surprises.
 
 **Post-Launch: Handoff & Support**
-- Full documentation and knowledge transfer
-- 30-day support window included
-- Available for ongoing maintenance if needed
+Full documentation, knowledge transfer, and a 30-day support window included.
 
-Typical projects take 4-8 weeks from kickoff to production.
+Typical projects: 4-8 weeks from kickoff to production. Some proof-of-concepts land in under 2 weeks.
 
-Sound good?`,
+[Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) and I'll give you a rough timeline for your project.`,
   },
 
   // Portfolio / Examples
   {
     keywords: ['portfolio', 'examples', 'case studies', 'projects', 'work', 'built'],
-    response: `Recent projects include:
+    response: `Recent projects:
 
-**HomeAI** — ML pipeline for analyzing home inspection reports and photos. Combines computer vision with document extraction to identify structural issues automatically.
+**HomeAI** — ML pipeline for analyzing home inspection reports and photos. Computer vision + document extraction to identify structural issues automatically.
 
 **Webscope** — Agentic web scraper using Playwright + Claude to reverse-engineer web applications. Captures user flows, API calls, and data models.
 
-**Custom Chatbots** — Built several RAG-based chatbots for domain-specific knowledge (legal, medical, technical documentation).
+**Custom RAG Chatbots** — Domain-specific knowledge systems for legal, medical, and technical documentation.
 
-I also built this site and its AI chat system — creative.badalien.works and void.badalien.works show the artistic side.
+I also built this site and its chat system. Check out [creative.badalien.works](https://creative.badalien.works) for the artistic side.
 
-Want details on any of these?`,
+Curious how something similar could work for you? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult).`,
   },
 
-  // General / Catch-all
+  // General greetings
   {
     keywords: ['hi', 'hello', 'hey', 'start', 'begin'],
-    response: `Hey! I can help you with:
-- **Services** — what I offer and how I can help
+    response: `Hey! Here's what I can tell you about:
+- **How I help** — AI strategy, automation, and team enablement
 - **Pricing** — rates and project costs
 - **Process** — how we'd work together
 - **Background** — my experience and past projects
-- **Booking** — scheduling a call
 
-What would you like to know?`,
+Or skip the chat and [book a free 15-minute consult](https://cal.com/bad-alien/free-consult) to talk specifics. What would you like to know?`,
   },
 ];
 
-const fallbackResponse = `That's a great question! I'm still learning (this is a scripted chatbot in Phase 1).
+const fallbackResponse = `Good question — let me point you in the right direction.
 
-For now, the best way to get detailed answers is to **book a call** with me directly. I can walk through your specific situation and give you a tailored recommendation.
+I can tell you about my **services**, **pricing**, **process**, or **past projects**. Or if you'd rather just talk through your situation directly:
 
-Or ask about:
-- Services & offerings
-- Pricing & process
-- My background & past work
-- Booking a call
+**[Book a free 15-minute consult](https://cal.com/bad-alien/free-consult)** — available Monday through Friday, 9am-6pm. No commitment, just a conversation.
 
 What else can I help with?`;
 

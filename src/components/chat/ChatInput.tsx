@@ -16,7 +16,6 @@ export default function ChatInput({
   placeholder = 'Ask about our services...'
 }: ChatInputProps) {
   const [input, setInput] = useState('');
-  const [, setIsFocused] = useState(false);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -28,16 +27,15 @@ export default function ChatInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative flex items-center gap-4 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-4 transition-all duration-300 border border-primary/30"
+      className="relative flex items-center gap-4 bg-black/40 backdrop-blur-sm rounded-2xl px-6 py-4 transition-all duration-300 border border-primary/30 outline-none focus-within:outline-none ring-0 focus-within:ring-0"
     >
       <input
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
         placeholder={placeholder}
         disabled={disabled}
+        autoFocus
         aria-label="Chat message input"
         className="flex-1 bg-transparent border-none text-white placeholder-[#5A5A5A] outline-none focus-visible:outline-none disabled:opacity-50"
         style={{

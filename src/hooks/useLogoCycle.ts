@@ -90,9 +90,9 @@ export function useLogoCycle({
   const decelerate = useCallback(() => {
     setIsDecelerating(true);
 
-    // Gradually slow down: 156ms → 220ms → 300ms → 400ms → stop
-    // Total duration: ~1076ms
-    const sequence = [156, 220, 300, 400];
+    // Gradually slow down: 109ms → 154ms → 210ms → 280ms → stop
+    // Total duration: ~753ms
+    const sequence = [109, 154, 210, 280];
     let step = 0;
 
     const runStep = () => {
