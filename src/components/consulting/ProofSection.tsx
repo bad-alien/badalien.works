@@ -13,38 +13,18 @@ export default function ProofSection() {
   return (
     <section className="relative py-24 px-6">
       <div className="max-w-6xl mx-auto">
-        {/* Background statement */}
+        {/* Approach */}
         <motion.div
-          className="text-center mb-20"
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8 }}
         >
           <h2
-            className="text-4xl sm:text-5xl md:text-6xl mb-8 font-display"
-          >
-            8 Years Building Products
-          </h2>
-          <p
-            className="text-2xl sm:text-3xl text-text-body max-w-3xl mx-auto"
-          >
-            Across finance, defense, and healthtech — from product strategy to technical implementation
-          </p>
-        </motion.div>
-
-        {/* Approach */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-        >
-          <h3
-            className="text-3xl sm:text-4xl mb-12 text-center font-display"
+            className="text-4xl sm:text-5xl md:text-6xl mb-12 text-center font-display"
           >
             My Approach
-          </h3>
+          </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {approach.map((item, index) => (
               <motion.div

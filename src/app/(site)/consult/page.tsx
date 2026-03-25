@@ -1,6 +1,7 @@
 import ConsultHero from '@/components/consulting/ConsultHero';
 import ProblemSection from '@/components/consulting/ProblemSection';
 import SolutionSection from '@/components/consulting/SolutionSection';
+import ConsultSelectedWork from '@/components/consulting/ConsultSelectedWork';
 import ProofSection from '@/components/consulting/ProofSection';
 import ConsultCta from '@/components/consulting/ConsultCta';
 
@@ -15,6 +16,7 @@ export default function ConsultPage() {
       <ConsultHero />
       <ProblemSection />
       <SolutionSection />
+      <ConsultSelectedWork />
       <ProofSection />
       <ConsultCta />
     </main>
