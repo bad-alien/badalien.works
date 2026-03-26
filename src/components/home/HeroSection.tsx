@@ -13,7 +13,12 @@ interface HeroSectionProps {
 
 export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectionProps) {
   const [introComplete, setIntroComplete] = useState(false);
-  const [phase, setPhase] = useState<'animating' | 'complete'>('animating');
+  const [phase, setPhase] = useState<'animating' | 'complete'>(() => {
+    if (typeof window !== 'undefined' && sessionStorage.getItem('animation_seen')) {
+      return 'complete';
+    }
+    return 'animating';
+  });
   const [scope, animate] = useAnimate();
   const interactiveRef = useRef<HTMLDivElement>(null);
   const isExitingRef = useRef(false);
@@ -88,6 +93,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     await exitOverlay();
     onChatActivated();
     await animate(scope.current!, { opacity: 0 }, { duration: 0.3, ease: 'easeIn' });
+    sessionStorage.setItem('animation_seen', 'true');
     setPhase('complete');
   }, [animate, scope, onChatActivated, exitOverlay]);
 
@@ -96,6 +102,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     await exitOverlay();
     onLearnMore?.();
     await animate(scope.current!, { opacity: 0 }, { duration: 0.5, ease: 'easeIn' });
+    sessionStorage.setItem('animation_seen', 'true');
     setPhase('complete');
   }, [animate, scope, onLearnMore, exitOverlay]);
 
