@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import DualCta from '@/components/shared/DualCta';
 
 interface CtaSectionProps {
   scrollToChat?: () => void;
@@ -27,26 +28,11 @@ export default function CtaSection({ scrollToChat }: CtaSectionProps) {
           Let&apos;s talk about your AI strategy and how I can help
         </p>
 
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
-          {/* Primary CTA */}
-          <a
-            href="/contact"
-            className="px-10 py-5 bg-primary text-white text-lg font-bold rounded-xl hover:bg-primary-light transition-all duration-300 hover:scale-105"
-          >
-            Book a Call
-          </a>
-
-          {/* Secondary CTA */}
-          <button
-            onClick={scrollToChat}
-            className="group px-10 py-5 bg-surface border border-border text-text-heading text-lg font-semibold rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300"
-          >
-            Or Ask My AI
-            <span className="inline-block ml-2 group-hover:translate-x-1 transition-transform duration-300">
-              ↑
-            </span>
-          </button>
-        </div>
+        <DualCta
+          primary={{ type: 'link', label: 'Book a Call', href: '/contact' }}
+          secondary={{ type: 'button', label: 'Or Ask My AI', onClick: scrollToChat ?? (() => {}) }}
+          size="large"
+        />
       </motion.div>
     </section>
   );

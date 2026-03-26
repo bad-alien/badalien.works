@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useChat } from '@/contexts/ChatContext';
+import DualCta from '@/components/shared/DualCta';
 
 export default function ConsultCta() {
   const { openChat, setEntryPoint } = useChat();
@@ -28,23 +29,11 @@ export default function ConsultCta() {
         </h2>
 
         {/* CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-          {/* Primary CTA - Talk to AI */}
-          <button
-            onClick={handleChatOpen}
-            className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-black bg-white rounded-lg transition-all duration-300 hover:scale-105"
-          >
-            <span className="relative z-10">Talk to My AI</span>
-          </button>
-
-          {/* Secondary CTA - Book a Call */}
-          <a
-            href="/contact"
-            className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-white bg-surface border border-border rounded-xl transition-all duration-300 hover:bg-elevated"
-          >
-            <span className="relative z-10">Book a Call</span>
-          </a>
-        </div>
+        <DualCta
+          primary={{ type: 'button', label: 'Talk to My AI', onClick: handleChatOpen }}
+          secondary={{ type: 'link', label: 'Book a Call', href: '/contact' }}
+          className="mb-12"
+        />
 
         {/* Email alternative */}
         <motion.p
