@@ -1,9 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import Logo from '@/components/shared/Logo';
+import Header from '@/components/shared/Header';
 import { useChat } from '@/contexts/ChatContext';
+import DualCta from '@/components/shared/DualCta';
 
 export default function ConsultHero() {
   const { openChat, setEntryPoint } = useChat();
@@ -15,26 +15,7 @@ export default function ConsultHero() {
 
   return (
     <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-[#0A0A0A]/80 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-center relative h-24 md:h-28">
-          <Link
-            href="/"
-            className="absolute left-6 lg:left-8 flex items-center gap-2 text-sm font-light tracking-wider text-white/70 hover:text-white transition-colors"
-          >
-            <span aria-hidden="true">&larr;</span> Back to Home
-          </Link>
-
-          <Logo size="md" className="!h-[77px]" />
-
-          <Link
-            href="/contact"
-            className="absolute right-6 lg:right-8 px-6 py-2.5 bg-white text-black font-sans text-lg hover:bg-white/90 transition-colors rounded"
-          >
-            Let&apos;s Talk
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       {/* Subtle atmospheric background gradient - minimal animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -74,26 +55,14 @@ export default function ConsultHero() {
 
         {/* CTAs */}
         <motion.div
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
         >
-          {/* Primary CTA - Talk to AI */}
-          <button
-            onClick={handleChatOpen}
-            className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-black bg-white rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)]"
-          >
-            <span className="relative z-10">Talk to My AI</span>
-          </button>
-
-          {/* Secondary CTA - Book a Call */}
-          <a
-            href="/contact"
-            className="group relative px-8 py-4 min-h-[44px] text-lg font-medium text-white bg-surface border border-border rounded-xl overflow-hidden transition-all duration-300 hover:bg-elevated"
-          >
-            <span className="relative z-10">Book a Call</span>
-          </a>
+          <DualCta
+            primary={{ type: 'button', label: 'Talk to My AI', onClick: handleChatOpen }}
+            secondary={{ type: 'link', label: 'Book a Call', href: '/contact' }}
+          />
         </motion.div>
       </motion.div>
 

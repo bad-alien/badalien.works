@@ -41,11 +41,12 @@ export default function ChatMessage({ message, index }: ChatMessageProps) {
               ul: ({...props}) => <ul className="list-disc list-inside mb-3 space-y-1 ml-2" {...props} />,
               ol: ({...props}) => <ol className="list-decimal list-inside mb-3 space-y-1 ml-2" {...props} />,
               li: ({...props}) => <li className="ml-2" {...props} />,
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              code: ({inline, ...props}: any) =>
-                inline
+              code: ({node, ...props}: {node?: {type: string; tagName?: string; parent?: {type: string; tagName?: string}}; [key: string]: unknown}) => {
+                const isInline = node?.parent?.tagName !== 'pre';
+                return isInline
                   ? <code className="bg-primary/10 px-1.5 py-0.5 rounded text-primary-light font-mono text-sm" {...props} />
-                  : <code className="block bg-primary/10 p-3 rounded my-2 text-primary-light font-mono text-sm overflow-x-auto" {...props} />,
+                  : <code className="block bg-primary/10 p-3 rounded my-2 text-primary-light font-mono text-sm overflow-x-auto" {...props} />;
+              },
               pre: ({...props}) => <pre className="my-2" {...props} />,
               a: ({...props}) => <a className="text-primary-light underline hover:text-white transition-colors" {...props} />,
               strong: ({...props}) => <strong className="font-bold text-primary-light" {...props} />,

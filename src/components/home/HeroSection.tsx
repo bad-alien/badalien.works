@@ -13,6 +13,7 @@ interface HeroSectionProps {
 
 export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectionProps) {
   const [introComplete, setIntroComplete] = useState(false);
+  const [phase, setPhase] = useState<'animating' | 'complete'>('animating');
   const [scope, animate] = useAnimate();
   const interactiveRef = useRef<HTMLDivElement>(null);
   const isExitingRef = useRef(false);
@@ -87,9 +88,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     await exitOverlay();
     onChatActivated();
     await animate(scope.current!, { opacity: 0 }, { duration: 0.3, ease: 'easeIn' });
-    if (scope.current) {
-      scope.current.style.display = 'none';
-    }
+    setPhase('complete');
   }, [animate, scope, onChatActivated, exitOverlay]);
 
   const runLearnMoreSequence = useCallback(async () => {
@@ -97,9 +96,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     await exitOverlay();
     onLearnMore?.();
     await animate(scope.current!, { opacity: 0 }, { duration: 0.5, ease: 'easeIn' });
-    if (scope.current) {
-      scope.current.style.display = 'none';
-    }
+    setPhase('complete');
   }, [animate, scope, onLearnMore, exitOverlay]);
 
   // Scroll/swipe down triggers learn-more exit
@@ -134,6 +131,8 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
   const handleActivateChat = () => {
     runChatSequence();
   };
+
+  if (phase === 'complete') return null;
 
   return (
     <motion.div
