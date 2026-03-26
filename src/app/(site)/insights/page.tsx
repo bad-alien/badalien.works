@@ -30,9 +30,9 @@ export default async function InsightsPage({
     : allPosts;
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-24">
+    <main id="main-content" className="max-w-6xl mx-auto px-6 py-24">
       {/* Header */}
-      <div className="mb-16">
+      <section aria-label="Insights overview" className="mb-16">
         <p className="font-mono text-xs uppercase tracking-wider text-secondary mb-4">
           {'// insights'}
         </p>
@@ -43,25 +43,27 @@ export default async function InsightsPage({
           Technical deep-dives, AI strategy, and field notes from the front
           lines of AI consulting and engineering.
         </p>
-      </div>
+      </section>
 
       {/* Category Filter */}
       <CategoryFilter categories={categories} />
 
       {/* Posts Grid */}
-      {filteredPosts.length === 0 ? (
-        <div className="text-center py-16">
-          <p className="font-sans text-text-secondary">
-            No posts found in this category.
-          </p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {filteredPosts.map((post, index) => (
-            <PostCard key={post.slug} post={post} index={index} />
-          ))}
-        </div>
-      )}
-    </div>
+      <section aria-label="Articles">
+        {filteredPosts.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="font-sans text-text-secondary">
+              No posts found in this category.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {filteredPosts.map((post, index) => (
+              <PostCard key={post.slug} post={post} index={index} />
+            ))}
+          </div>
+        )}
+      </section>
+    </main>
   );
 }

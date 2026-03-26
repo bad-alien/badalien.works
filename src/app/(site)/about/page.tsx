@@ -7,6 +7,7 @@ import { User, Briefcase, Shield, Activity } from 'lucide-react';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import { useChat } from '@/contexts/ChatContext';
+import DualCta from '@/components/shared/DualCta';
 
 const containerVariants = {
   hidden: {},
@@ -72,7 +73,7 @@ export default function AboutPage() {
       <main id="main-content">
 
       {/* Hero Section */}
-      <section ref={heroRef} className="pt-32 pb-20 px-6">
+      <section ref={heroRef} aria-label="Introduction" className="pt-32 pb-20 px-6">
         <div className="container mx-auto max-w-4xl">
           <motion.div
             variants={containerVariants}
@@ -101,7 +102,7 @@ export default function AboutPage() {
       </section>
 
       {/* Bio Section */}
-      <section ref={bioRef} className="py-16 px-6 border-t border-border">
+      <section ref={bioRef} aria-label="Bio" className="py-16 px-6 border-t border-border">
         <div className="container mx-auto max-w-3xl">
           <motion.div
             variants={containerVariants}
@@ -125,7 +126,7 @@ export default function AboutPage() {
       </section>
 
       {/* Experience Highlights */}
-      <section ref={experienceRef} className="py-20 px-6 border-t border-border">
+      <section ref={experienceRef} aria-label="Experience" className="py-20 px-6 border-t border-border">
         <div className="container mx-auto max-w-5xl">
           <motion.div
             variants={containerVariants}
@@ -163,7 +164,7 @@ export default function AboutPage() {
       </section>
 
       {/* Client Work Section */}
-      <section ref={clientRef} className="py-20 px-6 border-t border-border">
+      <section ref={clientRef} aria-label="Client work" className="py-20 px-6 border-t border-border">
         <div className="container mx-auto max-w-4xl">
           <motion.div
             variants={containerVariants}
@@ -194,7 +195,7 @@ export default function AboutPage() {
       </section>
 
       {/* Personal Section */}
-      <section ref={personalRef} className="py-20 px-6 border-t border-border">
+      <section ref={personalRef} aria-label="Personal" className="py-20 px-6 border-t border-border">
         <div className="container mx-auto max-w-3xl">
           <motion.div
             variants={containerVariants}
@@ -226,7 +227,7 @@ export default function AboutPage() {
       </section>
 
       {/* CTA Section */}
-      <section ref={ctaRef} className="py-24 px-6 border-t border-border">
+      <section ref={ctaRef} aria-label="Contact call to action" className="py-24 px-6 border-t border-border">
         <div className="container mx-auto max-w-3xl text-center">
           <motion.div
             variants={containerVariants}
@@ -239,22 +240,11 @@ export default function AboutPage() {
             >
               Let&apos;s work together
             </motion.h2>
-            <motion.div
-              variants={itemVariants}
-              className="flex flex-col sm:flex-row items-center justify-center gap-6"
-            >
-              <Link
-                href="/contact"
-                className="px-8 py-4 rounded-md bg-white text-black font-light tracking-wide hover:bg-white/90 transition-all duration-300 text-lg"
-              >
-                Book a Call
-              </Link>
-              <button
-                className="px-8 py-4 rounded-md bg-surface border border-border text-text-heading font-light tracking-wide hover:border-border/80 transition-all duration-300 text-lg"
-                onClick={() => { setEntryPoint('widget'); openChat(); }}
-              >
-                Or ask my AI
-              </button>
+            <motion.div variants={itemVariants}>
+              <DualCta
+                primary={{ type: 'link', label: 'Book a Call', href: '/contact' }}
+                secondary={{ type: 'button', label: 'Or ask my AI', onClick: () => { setEntryPoint('widget'); openChat(); } }}
+              />
             </motion.div>
           </motion.div>
         </div>

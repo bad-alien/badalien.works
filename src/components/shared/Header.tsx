@@ -33,6 +33,12 @@ export default function Header({ variant = 'default' }: HeaderProps) {
           : 'bg-transparent'
       }`}
     >
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-[#FF6B35] focus:text-white focus:rounded focus:font-medium"
+      >
+        Skip to content
+      </a>
       <div className="mx-auto max-w-7xl px-6 lg:px-8">
         <div className="relative flex items-center justify-center h-24 md:h-28">
           {/* Left Nav - Desktop only */}

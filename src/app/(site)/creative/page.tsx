@@ -59,7 +59,7 @@ export default function CreativePage() {
       />
 
       {/* Photo Grid */}
-      <main className="container mx-auto px-6 pt-32 pb-16">
+      <main id="main-content" aria-label="Creative portfolio" className="container mx-auto px-6 pt-32 pb-16">
         <Masonry
           breakpointCols={{
             default: 3,

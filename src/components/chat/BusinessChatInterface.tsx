@@ -104,6 +104,7 @@ export default function BusinessChatInterface({
                     className="flex gap-3 mt-6 mb-8 flex-wrap"
                   >
                     <motion.button
+                      type="button"
                       onClick={() => handleQuickAction('help')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -112,6 +113,7 @@ export default function BusinessChatInterface({
                       How I Help
                     </motion.button>
                     <motion.button
+                      type="button"
                       onClick={() => handleQuickAction('book')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -120,6 +122,7 @@ export default function BusinessChatInterface({
                       Free Intro Call
                     </motion.button>
                     <motion.button
+                      type="button"
                       onClick={() => handleQuickAction('approach')}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
