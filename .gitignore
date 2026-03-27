@@ -29,6 +29,9 @@
 Thumbs.db
 .claude
 commit.md
+consulting-philosophies.md
+capture-*.js
+record-*.js
 
 # debug
 npm-debug.log*

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 
 export default function AboutPreview() {
@@ -17,14 +18,14 @@ export default function AboutPreview() {
           {/* Photo placeholder */}
           <div className="flex-shrink-0">
             <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-4">03 / About</span>
-            <div className="w-48 h-48 md:w-64 md:h-64 rounded-xl bg-gradient-to-br from-surface to-elevated flex items-center justify-center overflow-hidden">
-              <svg
-                className="w-24 h-24 md:w-32 md:h-32 text-muted"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-              </svg>
+            <div className="w-48 h-48 md:w-64 md:h-64 rounded-xl overflow-hidden relative">
+              <Image
+                src="/images/profile.jpg"
+                alt="Rasheed Akbarut"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 192px, 256px"
+              />
             </div>
           </div>
 
@@ -42,26 +43,22 @@ export default function AboutPreview() {
                 intelligence platforms, and shipped diagnostic automation tools for clinical workflows.
               </p>
               <p>
-                Now I help businesses adopt AI honestly — with the technical depth to deploy reliable
-                systems and the design instinct to make them beautiful.
+                Now I help businesses adopt AI honestly. Years of experience across wildly different industries meant working
+                with every type of user and stakeholder imaginable — I know how to meet people where
+                they are. And AI is too important for anyone to stay dependent on someone else to use it.
+                My goal is to make you capable, not just a recurring client.
               </p>
               <p>
-                I&apos;d rather teach you to fish than sell you fish. My default is enablement — giving
-                you the knowledge, frameworks, and tools to make your own AI decisions. Only you know
-                your business best.
-              </p>
-              <p>
-                When you need something built, I build it with you — not for you. You&apos;ll understand
-                the system, be able to use it fully, and maintain it without depending on me.
-              </p>
-              <p>
-                I can also build the whole thing independently if that&apos;s what you need. Custom
-                automation, full-stack applications, polished frontends — from concept to deployed
-                and working.
-              </p>
-              <p>
-                Outside of consulting, I shoot film photography, build interactive data visualizations,
-                and experiment with generative media. Check out{' '}
+                Outside of Bad Alien, I do photography, build data visualizations in the spirit of{' '}
+                <a
+                  href="https://en.wikipedia.org/wiki/Edward_Tufte"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-text-heading hover:text-primary underline underline-offset-2 transition-colors duration-200"
+                >
+                  Tufte
+                </a>
+                , and lose myself in whatever new tech, medium, or subject has my attention. Check out{' '}
                 <Link
                   href="/creative"
                   className="text-text-heading hover:text-primary underline underline-offset-2 transition-colors duration-200"
