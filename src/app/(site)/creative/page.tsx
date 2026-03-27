@@ -4,7 +4,6 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Masonry from 'react-masonry-css'
 import Logo from '@/components/shared/Logo'
-import FilterBar from '@/components/creative/FilterBar'
 import PhotoCard from '@/components/creative/PhotoCard'
 import Lightbox from '@/components/creative/Lightbox'
 import { portfolioItems, portfolioFilters, type PortfolioCategory } from '@/data/portfolio'
@@ -24,42 +23,53 @@ export default function CreativePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       {/* Header */}
-      <header
-        className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled
-            ? 'bg-black/80 backdrop-blur-md'
-            : 'bg-transparent'
-        }`}
-      >
-        <div className="mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-center relative h-24 md:h-28">
-          <Link
-            href="/"
-            className="absolute left-6 lg:left-8 flex items-center gap-2 text-sm font-light tracking-wider text-white/70 hover:text-white transition-colors"
-          >
-            <span aria-hidden="true">&larr;</span> Back to Home
-          </Link>
+      <header className="fixed top-0 left-0 right-0 z-40">
+        <div
+          className={`transition-all duration-300 ${
+            isScrolled ? 'bg-black/80 backdrop-blur-md' : 'bg-transparent'
+          }`}
+        >
+          <div className={`mx-auto max-w-7xl px-6 lg:px-8 flex items-center justify-center relative transition-all duration-300 ${
+            isScrolled ? 'h-20' : 'h-24 md:h-28'
+          }`}>
+            <Link
+              href="/"
+              className="absolute left-6 lg:left-8 flex items-center gap-2 text-sm font-light tracking-wider text-white/70 hover:text-white transition-colors"
+            >
+              <span aria-hidden="true">&larr;</span> Back to Home
+            </Link>
 
-          <Logo size="md" className="!h-[77px]" />
+            <Logo size="md" className={`transition-all duration-300 ${isScrolled ? '!h-[40px]' : '!h-[77px]'}`} />
 
-          <Link
-            href="/contact"
-            className="absolute right-6 text-sm font-light tracking-wider hover:text-gray-400 transition-colors"
-          >
-            CONTACT
-          </Link>
+            <Link
+              href="/contact"
+              className="absolute right-6 text-sm font-light tracking-wider hover:text-gray-400 transition-colors"
+            >
+              CONTACT
+            </Link>
+          </div>
+        </div>
+
+        {/* Filter buttons — below header nav, each individually glassy */}
+        <div className={`flex justify-center gap-3 transition-all duration-300 ${isScrolled ? 'py-2' : 'py-3'}`}>
+          {portfolioFilters.map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-6 py-2 font-light tracking-wider text-sm rounded-md transition-all duration-300 ${
+                activeFilter === filter
+                  ? 'bg-[#FF6B35] text-white backdrop-blur-md'
+                  : 'bg-black/80 backdrop-blur-md text-white border border-white/20 hover:border-white/50 hover:bg-black/60'
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
       </header>
 
-      {/* Filter Bar */}
-      <FilterBar
-        filters={portfolioFilters}
-        activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
-        isScrolled={isScrolled}
-      />
-
       {/* Photo Grid */}
-      <main id="main-content" aria-label="Creative portfolio" className="container mx-auto px-6 pt-32 pb-16">
+      <main id="main-content" aria-label="Creative portfolio" className="container mx-auto px-6 pt-44 pb-16">
         <Masonry
           breakpointCols={{
             default: 3,

@@ -3,10 +3,10 @@
 import { motion } from 'framer-motion';
 
 const approach = [
-  { step: '01', title: 'Discovery', description: 'Deep-dive into your business and challenges' },
-  { step: '02', title: 'Strategy', description: 'Design the right solution for your needs' },
-  { step: '03', title: 'Implementation', description: 'Build and deploy with precision' },
-  { step: '04', title: 'Support', description: 'Ensure your team is fully enabled' },
+  { step: '01', title: 'Discovery', description: 'Deep-dive into your business, challenges, and what you\'ve already tried. No solutions until I understand the problem.' },
+  { step: '02', title: 'Strategy', description: 'Design the right approach — whether that\'s enablement, automation, a full build, or a combination.' },
+  { step: '03', title: 'Build in Sprints', description: 'Weekly check-ins, visible progress. You see what\'s happening and can course-correct early.' },
+  { step: '04', title: 'Capability Transfer', description: 'I succeed when you stop needing me. Every engagement ends with your team able to operate independently.' },
 ];
 
 export default function ProofSection() {
@@ -23,7 +23,7 @@ export default function ProofSection() {
           <h2
             className="text-4xl sm:text-5xl md:text-6xl mb-12 text-center font-display"
           >
-            My Approach
+            How I Work
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {approach.map((item, index) => (

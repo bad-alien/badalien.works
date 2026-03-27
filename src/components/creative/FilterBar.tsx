@@ -11,10 +11,10 @@ interface FilterBarProps {
 function FilterBar({ filters, activeFilter, onFilterChange, isScrolled }: FilterBarProps) {
   return (
     <div
-      className={`sticky z-40 bg-transparent transition-all duration-300 ${
+      className={`sticky z-40 transition-all duration-300 ${
         isScrolled
-          ? 'top-[72px] py-4'
-          : 'top-[112px] py-6'
+          ? 'top-[72px] py-4 bg-black/90 backdrop-blur-md'
+          : 'top-[112px] py-6 bg-transparent'
       }`}
     >
       <div className="container mx-auto px-6">

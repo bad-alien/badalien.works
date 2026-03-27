@@ -5,98 +5,104 @@ import Image from 'next/image';
 
 const heroProjects = [
   {
-    id: 'lead-gen',
-    title: 'Autonomous Lead Gen & Outreach',
-    category: 'AI Automation',
-    metric: '10-20 hot leads/week',
+    id: 'coaching',
+    title: 'AI Enablement Sprint',
+    category: 'Consulting',
+    chip: 'In Progress',
+    chipType: 'progress' as const,
     description:
-      'Autonomous LangChain pipeline for B2B wholesaler. Setup in 3 days, runs reliably without any human oversight.',
+      'Enablement sprint for a social ad agency. Coaching their team to confidently use AI tools, build repeatable workflows, and operate independently after the engagement ends. Not a build-and-deliver — a capability transfer.',
+    image: '/images/work/enablement-hero.png',
+    imageCenter: true,
   },
   {
     id: 'openclaw',
-    title: 'OpenClaw Personal Assistant',
+    title: 'OpenClaw Assistant',
     category: 'AI Assistant',
-    metric: '3 clients managed',
+    chip: '3 Active Clients',
+    chipType: 'active' as const,
     description:
-      'Safe, reliable AI assistant for elderly clients — managing finances, bills, health appointments, and family communication.',
+      'AI assistant built for elderly clients and their families. Manages bills, appointments, finances, and communication — designed around data security and privacy first, reliability second, everything else after.',
+    image: '/images/work/openclaw-hero.png',
+    imageContain: true,
   },
   {
-    id: 'coaching',
-    title: 'AI Enablement Coaching Sprint',
-    category: 'Consulting',
-    metric: null,
-    inProgress: true,
+    id: 'lead-gen',
+    title: 'Intelligent Prospecting Engine',
+    category: 'AI Automation',
+    chip: 'In Prod',
+    chipType: 'built' as const,
     description:
-      '20-hour coaching sprint for a social ad agency. Teaching the team to independently design, operate, and extend AI-enabled workflows.',
+      'Multi-agent LangChain system that finds, researches, and contacts leads for a B2B wholesaler. From discovery to production in 6 days. Runs on its own, delivers 10-20 qualified leads per week.',
+    image: '/images/work/leadgen-hero.png',
   },
   {
     id: 'home-inspection',
-    title: 'Home Inspection ML Pipeline',
+    title: 'Inspection Report Automation',
     category: 'AI/ML',
-    metric: '1.5hrs → 30min',
+    chip: 'Built',
+    chipType: 'built' as const,
     description:
-      'Computer vision system automating report analysis and photo classification. Hundreds of reports processed.',
+      'Multimodal AI that processes inspection reports end-to-end — parses documents, analyzes photos, surfaces what matters. Hundreds of reports through production, processing time cut by two-thirds.',
     image: '/images/work/homeai-triage-hero.png',
   },
 ];
 
 const gridProjects = [
   {
-    id: 'property-power',
-    title: 'Property Power',
-    category: 'AI Tool',
-    description: 'Automated property analysis and reporting for real estate investment firm',
-  },
-  {
-    id: 'crm-sales',
-    title: 'CRM Sales Intelligence',
-    category: 'AI Automation',
-    description: 'Autonomous pipeline analyzing CRM data and local competition to serve sales recommendations',
-  },
-  {
-    id: 'decoded',
-    title: 'Decoded',
-    category: 'Data Viz',
-    description: 'Interactive data visualization exploring societal metrics and trends',
-    url: 'https://decoded.badalien.works',
-    image: '/images/work/decoded-loop.gif',
+    id: 'primari',
+    title: 'primarihealth.com',
+    category: 'Web',
+    description: 'Website for a primary care practice. Design to deployment, with backend automation handling intake and scheduling.',
+    url: 'https://primarihealth.com',
+    image: '/images/work/primari-health-hero.png',
   },
   {
     id: 'camcoig',
     title: 'camcoig.com',
     category: 'Web',
-    description: 'Corporate website for commercial real estate investment group',
+    description: 'Client website for a commercial real estate group. End-to-end build with integrated visitor analytics and performance tracking.',
     url: 'https://camcoig.com',
     image: '/images/work/camcoig-hero.png',
-  },
-  {
-    id: 'primari',
-    title: 'primarihealth.com',
-    category: 'Web',
-    description: 'Client website for primary care medical practice',
-    url: 'https://primarihealth.com',
-    image: '/images/work/primari-health-hero.png',
-  },
-  {
-    id: 'void',
-    title: 'The Void',
-    category: 'AI Chat',
-    description: 'Experimental AI chat interface with custom personality and atmosphere',
-    url: 'https://void.badalien.works',
-    image: '/images/work/void-enter.png',
   },
   {
     id: 'badalien',
     title: 'badalien.works',
     category: 'Web',
-    description: 'This site — portfolio and AI consulting showcase',
+    description: 'Home of Bad Alien. A consulting sales tool, portfolio showcase, chat assistant, and a few experiments under one roof.',
     image: '/images/work/badalien-hero.png',
+  },
+  {
+    id: 'decoded',
+    title: 'Decoded',
+    category: 'Data Viz',
+    description: 'Year-in-review for a shared UNRAID server. Interactive data viz celebrating curated taste over algorithmic feeds.',
+    url: 'https://decoded.badalien.works',
+    image: '/images/work/decoded-loop.gif',
+  },
+  {
+    id: 'void',
+    title: 'The Void',
+    category: 'AI Chat',
+    description: 'Local LLMs on a secured VPS. An experimental chat experience with its own personality and aesthetic.',
+  },
+  {
+    id: 'property-power',
+    title: 'Property Power',
+    category: 'AI Tool',
+    description: 'Analyzes public records, satellite imagery, and news to assess power availability and expansion potential.',
+  },
+  {
+    id: 'crm-sales',
+    title: 'CRM Sales Intelligence',
+    category: 'AI Automation',
+    description: 'Pulls CRM data and competitive intel to generate targeted sales recommendations automatically.',
   },
   {
     id: 'webscope',
     title: 'WebScope',
     category: 'Dev Tool',
-    description: 'Web app reverse-engineering crawler using Playwright and Claude',
+    description: 'Crawls sites with Playwright, analyzes with Claude, outputs full architecture maps.',
   },
 ];
 
@@ -112,13 +118,13 @@ export default function WorkPreview() {
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
           <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary">
-            02 / Selected Work
+            02 / Work
           </span>
           <h2 className="text-5xl md:text-6xl font-bold text-text-heading mb-4 font-display">
-            Selected Work
+            What I&apos;ve Done
           </h2>
           <p className="text-xl text-text-secondary mb-16 max-w-2xl">
-            AI systems, autonomous pipelines, and the tools behind them
+            From consulting engagements to personal experiments
           </p>
         </motion.div>
 
@@ -137,15 +143,36 @@ export default function WorkPreview() {
               }}
             >
               <div className="group h-full">
-                <div className="h-full flex flex-col p-6 bg-surface border border-border rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300">
+                <div className="h-full flex flex-col p-6 bg-surface border border-border rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300 relative">
+                  {/* Status chip */}
+                  <span className={`absolute top-4 right-4 z-10 inline-flex items-center gap-2 px-3 py-1 rounded-md font-mono text-xs font-semibold uppercase tracking-wider ${
+                    project.chipType === 'progress' || project.chipType === 'active'
+                      ? 'bg-orange-950/80 border border-[#FF6B35]/40 text-[#FF6B35] backdrop-blur-sm'
+                      : 'bg-emerald-950/80 border border-emerald-500/40 text-emerald-400 backdrop-blur-sm'
+                  }`}>
+                    {project.chipType === 'progress' && (
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
+                      </span>
+                    )}
+                    {project.chipType === 'active' && (
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
+                      </span>
+                    )}
+                    {project.chip}
+                  </span>
+
                   {/* Image */}
-                  <div className="w-full aspect-video bg-gradient-to-br from-surface to-elevated rounded-lg mb-4 overflow-hidden relative">
+                  <div className={`w-full aspect-video rounded-lg mb-4 overflow-hidden relative ${project.imageContain ? 'bg-black' : 'bg-gradient-to-br from-surface to-elevated'}`}>
                     {project.image ? (
                       <Image
                         src={project.image}
                         alt={project.title}
                         fill
-                        className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                        className={`${project.imageContain ? 'object-contain p-4' : `object-cover ${project.imageCenter ? 'object-center' : 'object-top'}`} group-hover:scale-105 transition-transform duration-300`}
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     ) : (
@@ -162,27 +189,6 @@ export default function WorkPreview() {
                   <h3 className="text-xl font-bold text-text-heading mb-3 group-hover:text-white transition-colors duration-300">
                     {project.title}
                   </h3>
-
-                  {/* Metric or In Progress badge */}
-                  {project.inProgress ? (
-                    <div className="flex items-center gap-2 mb-3">
-                      <span className="inline-flex items-center gap-2 px-3 py-1 bg-[#FF6B35]/10 border border-[#FF6B35]/30 rounded-md">
-                        <span className="relative flex h-2 w-2">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
-                        </span>
-                        <span className="font-mono text-xs font-semibold text-[#FF6B35] uppercase tracking-wider">
-                          In Progress
-                        </span>
-                      </span>
-                    </div>
-                  ) : (
-                    <div className="mb-3">
-                      <span className="font-mono text-2xl font-bold text-[#FF6B35]">
-                        {project.metric}
-                      </span>
-                    </div>
-                  )}
 
                   {/* Description */}
                   <p className="text-text-body text-sm leading-relaxed">
@@ -234,9 +240,12 @@ export default function WorkPreview() {
                       href={project.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-base font-bold text-text-heading mb-2 hover:text-[#FF6B35] transition-colors duration-300"
+                      className="inline-flex items-center gap-2 text-base font-bold text-text-heading mb-2 hover:text-[#FF6B35] transition-colors duration-300"
                     >
                       {project.title}
+                      <svg className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
+                      </svg>
                     </a>
                   ) : (
                     <h4 className="text-base font-bold text-text-heading mb-2 group-hover:text-white transition-colors duration-300">

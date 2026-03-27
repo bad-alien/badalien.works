@@ -16,7 +16,7 @@ export default function ProblemSection() {
           className="text-xl sm:text-2xl md:text-3xl leading-relaxed text-text-body"
           style={{ fontSize: 'clamp(1rem, 3vw, 1.875rem)' }}
         >
-          Everyone in AI is overcharging and exploiting the massive information gap between those in the know and those outside it. Over-promise, over-charge, under-deliver is the norm. You deserve better than half-baked systems at prices that don&apos;t reflect the ease of doing things.
+          The AI consulting market is full of hype — overcharging, over-promising, and exploiting the massive information gap between those in the know and those outside it. You deserve better than half-baked systems at prices that don&apos;t reflect the ease of doing things. Whether I&apos;m teaching your team, cutting your costs, or building your system — transparency is fundamental, and my focus is making you capable of navigating AI on your own.
         </p>
       </motion.div>
     </section>

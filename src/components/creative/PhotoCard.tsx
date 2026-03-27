@@ -19,6 +19,7 @@ function PhotoCard({ photo, onClick }: PhotoCardProps) {
         width={photo.width}
         height={photo.height}
         className="w-full h-auto transition-opacity group-hover:opacity-90"
+        {...(photo.unoptimized ? { unoptimized: true } : {})}
       />
 
       {/* Category label overlay */}

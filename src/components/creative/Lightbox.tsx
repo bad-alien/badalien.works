@@ -51,7 +51,7 @@ function Lightbox({ photo, onClose, onPrevious, onNext }: LightboxProps) {
 
       {/* Photo and Info Container */}
       <div
-        className="relative flex flex-col items-center max-w-[90vw]"
+        className="relative flex flex-col items-center max-w-[90vw] max-h-[90vh]"
         onClick={(e) => e.stopPropagation()}
       >
         <Image
@@ -59,19 +59,20 @@ function Lightbox({ photo, onClose, onPrevious, onNext }: LightboxProps) {
           alt={photo.alt}
           width={photo.width}
           height={photo.height}
-          className="max-w-full max-h-[75vh] w-auto h-auto object-contain"
+          className="max-w-full max-h-[70vh] w-auto h-auto object-contain"
+          {...(photo.unoptimized ? { unoptimized: true } : {})}
         />
 
-        {/* Info Panel - only render if title, notes, or url exist */}
+        {/* Info Panel */}
         {(photo.title || photo.notes || photo.url) && (
-          <div className="mt-6 max-w-2xl w-full px-4 text-center">
+          <div className="mt-4 max-w-2xl w-full px-4 text-center">
             {photo.title && (
-              <h3 className="text-2xl font-display text-[#F0F0F0] mb-3">
+              <h3 className="text-xl font-display text-[#F0F0F0] mb-2">
                 {photo.title}
               </h3>
             )}
             {photo.notes && (
-              <p className="text-base font-sans text-[#C5C5C5] leading-relaxed mb-4 line-clamp-2">
+              <p className="text-sm font-mono text-[#C5C5C5] uppercase tracking-wider">
                 {photo.notes}
               </p>
             )}
@@ -80,7 +81,7 @@ function Lightbox({ photo, onClose, onPrevious, onNext }: LightboxProps) {
                 href={photo.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block font-mono text-sm text-[#FF6B35] hover:text-[#FF8C5A] uppercase tracking-[0.08em] transition-colors"
+                className="inline-block mt-2 font-mono text-sm text-[#FF6B35] hover:text-[#FF8C5A] uppercase tracking-[0.08em] transition-colors"
                 onClick={(e) => e.stopPropagation()}
               >
                 Visit Site →
