@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const heroProjects = [
   {
@@ -35,6 +36,7 @@ const heroProjects = [
     metric: '1.5hrs → 30min',
     description:
       'Computer vision system automating report analysis and photo classification. Hundreds of reports processed.',
+    image: '/images/work/homeai-triage-hero.png',
   },
 ];
 
@@ -58,6 +60,64 @@ export default function ConsultSelectedWork() {
           </p>
         </motion.div>
 
+        {/* Client Websites */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          {[
+            {
+              id: 'camcoig',
+              title: 'camcoig.com',
+              category: 'Web',
+              description: 'Corporate website for commercial real estate investment group',
+              url: 'https://camcoig.com',
+              image: '/images/work/camcoig-hero.png',
+            },
+            {
+              id: 'primari',
+              title: 'primarihealth.com',
+              category: 'Web',
+              description: 'Client website for primary care medical practice',
+              url: 'https://primarihealth.com',
+              image: '/images/work/primari-health-hero.png',
+            },
+          ].map((project, index) => (
+            <motion.div
+              key={project.id}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: 'easeOut' }}
+            >
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group block h-full"
+              >
+                <div className="h-full flex flex-col p-6 bg-surface border border-border rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300">
+                  <div className="w-full aspect-video rounded-lg mb-4 overflow-hidden relative">
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                    />
+                  </div>
+                  <span className="font-mono text-[11px] font-semibold text-[#0284C7] uppercase tracking-[0.08em] mb-2">
+                    {project.category}
+                  </span>
+                  <h3 className="text-xl font-bold text-text-heading mb-3 group-hover:text-[#FF6B35] transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                  <p className="text-text-body text-sm leading-relaxed">
+                    {project.description}
+                  </p>
+                </div>
+              </a>
+            </motion.div>
+          ))}
+        </div>
+
         {/* Hero Tier - 2x2 grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {heroProjects.map((project, index) => (
@@ -74,9 +134,19 @@ export default function ConsultSelectedWork() {
             >
               <div className="group h-full">
                 <div className="h-full flex flex-col p-6 bg-surface border border-border rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300">
-                  {/* Image placeholder */}
+                  {/* Image */}
                   <div className="w-full aspect-video bg-gradient-to-br from-surface to-elevated rounded-lg mb-4 overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {project.image ? (
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    )}
                   </div>
 
                   {/* Category */}

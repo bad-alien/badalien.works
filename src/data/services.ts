@@ -41,19 +41,19 @@ export const services: Service[] = [
     ctaUrl: '/contact',
   },
   {
-    id: 'secure-infrastructure',
+    id: 'cost-intelligence',
     number: '04',
-    title: 'Secure Business Infrastructure',
+    title: 'Operations & Cost Intelligence',
     description:
-      'Protecting your competitive advantage with high-performance, always-on server environments. I architect private infrastructure that guarantees total data ownership and 24/7 reliability, insulating your critical business assets from third-party outages and escalating subscription costs.',
+      'Most businesses are bleeding money on legacy software contracts, redundant subscriptions, and manual workarounds they\'ve stopped questioning. AI has collapsed the cost of building custom software — tools that once required six-figure contracts can now be built for a fraction of the price. I audit your full operation and show you exactly where to cut, consolidate, or replace with modern alternatives.',
     status: 'Active',
-    categories: ['Infrastructure'],
-    techStack: ['Linux', 'Cloudflare', 'Nginx', 'Tailscale', 'OpenClaw'],
+    categories: ['Automation'],
+    techStack: ['Stack Audit', 'SaaS Rationalization', 'Build vs. Buy Analysis', 'Cost Modeling', 'Vendor Benchmarking'],
     demo: { type: 'placeholder' },
     ctaLabel: "Let's Talk →",
     ctaUrl: '/contact',
   },
 ];
 
-export const serviceFilters = ['All', 'AI', 'Automation', 'Infrastructure', 'Design'] as const;
+export const serviceFilters = ['All', 'AI', 'Automation', 'Design'] as const;
 export type ServiceFilter = (typeof serviceFilters)[number];

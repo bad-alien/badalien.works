@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 const heroProjects = [
   {
@@ -35,6 +36,7 @@ const heroProjects = [
     metric: '1.5hrs → 30min',
     description:
       'Computer vision system automating report analysis and photo classification. Hundreds of reports processed.',
+    image: '/images/work/homeai-triage-hero.png',
   },
 ];
 
@@ -57,13 +59,15 @@ const gridProjects = [
     category: 'Data Viz',
     description: 'Interactive data visualization exploring societal metrics and trends',
     url: 'https://decoded.badalien.works',
+    image: '/images/work/decoded-loop.gif',
   },
   {
     id: 'camcoig',
     title: 'camcoig.com',
     category: 'Web',
-    description: 'Client website for creative professional',
+    description: 'Corporate website for commercial real estate investment group',
     url: 'https://camcoig.com',
+    image: '/images/work/camcoig-hero.png',
   },
   {
     id: 'primari',
@@ -71,12 +75,22 @@ const gridProjects = [
     category: 'Web',
     description: 'Client website for primary care medical practice',
     url: 'https://primarihealth.com',
+    image: '/images/work/primari-health-hero.png',
+  },
+  {
+    id: 'void',
+    title: 'The Void',
+    category: 'AI Chat',
+    description: 'Experimental AI chat interface with custom personality and atmosphere',
+    url: 'https://void.badalien.works',
+    image: '/images/work/void-enter.png',
   },
   {
     id: 'badalien',
     title: 'badalien.works',
     category: 'Web',
     description: 'This site — portfolio and AI consulting showcase',
+    image: '/images/work/badalien-hero.png',
   },
   {
     id: 'webscope',
@@ -124,9 +138,19 @@ export default function WorkPreview() {
             >
               <div className="group h-full">
                 <div className="h-full flex flex-col p-6 bg-surface border border-border rounded-xl hover:bg-elevated hover:border-muted transition-all duration-300">
-                  {/* Image placeholder */}
+                  {/* Image */}
                   <div className="w-full aspect-video bg-gradient-to-br from-surface to-elevated rounded-lg mb-4 overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    {project.image ? (
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    )}
                   </div>
 
                   {/* Category */}
@@ -186,6 +210,19 @@ export default function WorkPreview() {
             >
               <div className="group h-full">
                 <div className="h-full flex flex-col p-4 bg-surface border border-border rounded-lg hover:bg-elevated hover:border-muted transition-all duration-300">
+                  {/* Image */}
+                  {project.image && (
+                    <div className="w-full aspect-video rounded-md mb-3 overflow-hidden relative">
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 25vw"
+                        {...(project.image.endsWith('.gif') ? { unoptimized: true } : {})}
+                      />
+                    </div>
+                  )}
                   {/* Category */}
                   <span className="font-mono text-[11px] font-semibold text-[#0284C7] uppercase tracking-[0.08em] mb-2">
                     {project.category}

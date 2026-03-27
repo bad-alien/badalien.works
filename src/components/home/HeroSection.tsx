@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
 import { motion, useAnimate } from 'framer-motion';
 import { useLogoCycle } from '@/hooks/useLogoCycle';
 import HeroInteractive from './HeroInteractive';
@@ -13,12 +13,8 @@ interface HeroSectionProps {
 
 export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectionProps) {
   const [introComplete, setIntroComplete] = useState(false);
-  const [phase, setPhase] = useState<'animating' | 'complete'>(() => {
-    if (typeof window !== 'undefined' && sessionStorage.getItem('animation_seen')) {
-      return 'complete';
-    }
-    return 'animating';
-  });
+  const [phase, setPhase] = useState<'animating' | 'complete'>('animating');
+
   const [scope, animate] = useAnimate();
   const interactiveRef = useRef<HTMLDivElement>(null);
   const isExitingRef = useRef(false);
@@ -68,10 +64,22 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     setIntroComplete(true);
   }, [animate]);
 
-  // Run the main hero animation sequence
-  useEffect(() => {
+  // Check sessionStorage first — skip animation for return visitors, otherwise run it
+  useLayoutEffect(() => {
+    if (sessionStorage.getItem('animation_seen')) {
+      setPhase('complete');
+      // Show main content immediately for return visitors (avoid blank screen)
+      // Using setTimeout to defer callback until after render cycle completes
+      setTimeout(() => {
+        if (onLearnMore) {
+          onLearnMore();
+        }
+      }, 0);
+      return;
+    }
     runHeroSequence();
-  }, [runHeroSequence]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runHeroSequence]); // onLearnMore intentionally omitted - only called once on mount
 
   const exitOverlay = useCallback(async () => {
     if (isExitingRef.current) return;
