@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 const approach = [
   { step: '01', title: 'Discovery', description: 'Deep-dive into your business, challenges, and what you\'ve already tried. No solutions until I understand the problem.' },
   { step: '02', title: 'Strategy', description: 'Design the right approach — whether that\'s enablement, automation, a full build, or a combination.' },
-  { step: '03', title: 'Build in Sprints', description: 'Weekly check-ins, visible progress. You see what\'s happening and can course-correct early.' },
-  { step: '04', title: 'Capability Transfer', description: 'I succeed when you stop needing me. Every engagement ends with your team able to operate independently.' },
+  { step: '03', title: 'Build Together', description: 'When I build, I build with you. Weekly check-ins, visible progress, and you understand every decision along the way.' },
+  { step: '04', title: 'Handoff & Beyond', description: 'Every engagement ends with your team able to operate independently. And if you need me again — for a new challenge, a second opinion, or just a gut check — I\'m here.' },
 ];
 
 export default function ProofSection() {
