@@ -19,6 +19,14 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
   const interactiveRef = useRef<HTMLDivElement>(null);
   const isExitingRef = useRef(false);
 
+  const [isMobile, setIsMobile] = useState(false);
+  useLayoutEffect(() => {
+    setIsMobile(window.innerWidth < 640);
+  }, []);
+  const logoSize = isMobile ? 260 : 400;
+  const logoShrunk = isMobile ? 140 : 200;
+  const logoRise = isMobile ? -50 : -80;
+
   const { currentLogo, decelerate } = useLogoCycle({
     logoCount: 7,
     interval: 125,
@@ -51,7 +59,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     await new Promise(r => setTimeout(r, 390));
 
     // Logo rises + shrinks (0.35s)
-    animate('.logo-container', { width: 200, height: 200, y: -80 }, { duration: 0.35, ease: 'easeInOut' });
+    animate('.logo-container', { width: logoShrunk, height: logoShrunk, y: logoRise }, { duration: 0.35, ease: 'easeInOut' });
 
     // Interactive fades in with slight delay (112ms after logo starts moving)
     await new Promise(r => setTimeout(r, 112));
@@ -62,7 +70,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
 
     // Intro animation complete - allow clicks to pass through overlay
     setIntroComplete(true);
-  }, [animate]);
+  }, [animate, logoShrunk, logoRise]);
 
   // Check sessionStorage first — skip animation for return visitors, otherwise run it
   useLayoutEffect(() => {
@@ -91,10 +99,10 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
       animate(interactiveRef.current, { opacity: 0 }, { duration: 0.2 });
     }
     // Shrink + fade logo
-    await animate('.logo-container', { width: 77, height: 77, opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
+    await animate('.logo-container', { width: isMobile ? 50 : 77, height: isMobile ? 50 : 77, opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
 
     return scope;
-  }, [animate, scope]);
+  }, [animate, scope, isMobile]);
 
   const runChatSequence = useCallback(async () => {
     if (isExitingRef.current) return;
@@ -158,20 +166,20 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
       {/* Logo container - shrinks through phases, fades out during chat */}
       <div
         className="logo-container relative flex-shrink-0"
-        style={{ width: 400, height: 400 }}
+        style={{ width: logoSize, height: logoSize }}
       >
         {/* Cycling logos - fades out when resolved logo appears */}
         <div
           className="cycling-logos absolute inset-0 flex items-center justify-center"
-          style={{ transform: 'scale(1.3)', opacity: 0.8 }}
+          style={{ transform: isMobile ? 'scale(1.1)' : 'scale(1.3)', opacity: 0.8 }}
         >
           {[1, 2, 3, 4, 5, 6, 7].map((logoNum) => (
             <Image
               key={logoNum}
               src={`/logos/ba-logo-${logoNum}.svg`}
               alt="Bad Alien"
-              width={400}
-              height={400}
+              width={logoSize}
+              height={logoSize}
               priority={logoNum <= 2}
               className={`absolute w-full h-full object-contain select-none filter invert ${
                 currentLogo === logoNum ? 'opacity-100' : 'opacity-0'
@@ -189,7 +197,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
             src="/logos/ba-logo-trans-white.png"
             alt="Bad Alien"
             fill
-            sizes="400px"
+            sizes={`${logoSize}px`}
             priority
             className="object-contain select-none"
           />
