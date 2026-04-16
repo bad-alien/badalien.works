@@ -56,7 +56,9 @@ export default function ChatWidget() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.3, ease: 'easeOut' }}
-            className="fixed bottom-6 right-6 z-[200] w-[420px] h-[560px] max-h-[80vh] flex flex-col rounded-2xl overflow-hidden shadow-2xl"
+            className="fixed z-[200] flex flex-col overflow-hidden shadow-2xl
+              bottom-0 right-0 w-full h-[100dvh] rounded-none
+              sm:bottom-6 sm:right-6 sm:w-[420px] sm:h-[560px] sm:max-h-[80vh] sm:rounded-2xl"
             style={{
               background: '#0A0A0A',
               border: '1px solid rgba(255, 107, 53, 0.3)',

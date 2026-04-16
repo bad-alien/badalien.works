@@ -167,7 +167,7 @@ export default function BusinessChatInterface({
       </div>
 
       {/* Input Area */}
-      <div className={`${compact ? 'px-4 pb-4 pt-2' : 'px-6 pb-4 md:px-12 lg:px-24'}`}>
+      <div className={`${compact ? 'px-4 pb-[env(safe-area-inset-bottom,16px)] pt-2' : 'px-6 pb-4 md:px-12 lg:px-24'}`}>
         <div className={compact ? 'max-w-full' : 'max-w-5xl mx-auto'}>
           <ChatInput
             onSend={handleSendMessage}
