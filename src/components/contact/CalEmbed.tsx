@@ -32,7 +32,7 @@ export default function CalEmbed() {
       {/* Mask Cal.com branding footer — free tier doesn't support hideBranding */}
       <div
         aria-hidden="true"
-        className="absolute bottom-0 left-0 right-0 h-10 bg-base pointer-events-none"
+        className="absolute bottom-0 left-0 right-0 h-14 bg-base pointer-events-none"
       />
     </div>
   );
