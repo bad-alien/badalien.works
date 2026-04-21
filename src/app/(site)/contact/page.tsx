@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import type { ChangeEvent } from 'react';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
+import CalEmbed from '@/components/contact/CalEmbed';
 
 interface ContactFormData {
   name: string;
@@ -75,7 +76,6 @@ export default function ContactPage() {
     <div className="min-h-screen w-full bg-base relative grain-texture">
       <Header />
 
-      {/* Main Content */}
       <main id="main-content" className="pt-36 pb-16 px-6">
         <div className="max-w-4xl mx-auto">
           {/* Heading */}
@@ -83,23 +83,41 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center mb-12"
+            className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-6xl font-display font-bold text-text-heading mb-4">
-              Let&apos;s Connect
+              Let&apos;s Talk
             </h1>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Have a project in mind? Let&apos;s discuss how AI can work for your business.
+              Pick a time that works for you, or send a note below.
             </p>
           </motion.div>
 
-          {/* Form */}
-          <motion.div
+          {/* Calendar Section */}
+          <motion.section
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="mb-24"
+          >
+            <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-6">
+              01 / Book a Call
+            </span>
+            <CalEmbed />
+          </motion.section>
+
+          {/* Form Section */}
+          <motion.section
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="bg-elevated border border-border rounded-xl p-8 md:p-10 mb-16"
+            className="mb-16"
           >
+            <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-6">
+              02 / Or Send a Note
+            </span>
+
+            <div className="bg-elevated border border-border rounded-xl p-8 md:p-10">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name */}
               <div>
@@ -227,7 +245,8 @@ export default function ContactPage() {
                 </motion.div>
               )}
             </form>
-          </motion.div>
+            </div>
+          </motion.section>
         </div>
       </main>
 

@@ -12,6 +12,7 @@
     "test:e2e": "playwright test"
   },
   "dependencies": {
+    "@calcom/embed-react": "^1.5.3",
     "@mdx-js/loader": "^3.1.1",
     "@mdx-js/mdx": "^3.1.1",
     "@mdx-js/react": "^3.1.1",

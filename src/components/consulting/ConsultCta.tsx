@@ -31,7 +31,7 @@ export default function ConsultCta() {
         {/* CTAs */}
         <DualCta
           primary={{ type: 'button', label: 'Talk to My AI', onClick: handleChatOpen }}
-          secondary={{ type: 'link', label: 'Book a Call', href: '/contact' }}
+          secondary={{ type: 'link', label: 'Book a Call', href: '/contact#book' }}
           className="mb-12"
         />
 
