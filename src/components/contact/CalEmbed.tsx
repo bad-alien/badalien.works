@@ -9,7 +9,6 @@ export default function CalEmbed() {
       const cal = await getCalApi({});
       cal("ui", {
         theme: "dark",
-        hideBranding: true,
         cssVarsPerTheme: {
           light: { "cal-brand": "#FF6B35" },
           dark: { "cal-brand": "#FF6B35" },
