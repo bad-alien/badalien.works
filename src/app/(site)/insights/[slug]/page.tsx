@@ -156,7 +156,7 @@ export default async function PostPage({
         <div className="mt-16 pt-8 border-t border-border">
           <p className="font-sans text-lg text-body mb-4">Want to discuss this?</p>
           <Link
-            href="/consult"
+            href="/contact#book"
             className="inline-flex items-center gap-2 px-6 py-3 bg-primary hover:bg-primary-light text-white font-sans font-medium rounded-md transition-colors"
           >
             Book a Consultation
