@@ -9,7 +9,10 @@ export default function CalEmbed() {
       const cal = await getCalApi({});
       cal("ui", {
         theme: "dark",
-        styles: { branding: { brandColor: "#FF6B35" } },
+        cssVarsPerTheme: {
+          light: { "cal-brand": "#FF6B35" },
+          dark: { "cal-brand": "#FF6B35" },
+        },
         hideEventTypeDetails: false,
         layout: "month_view",
       });
@@ -20,11 +23,10 @@ export default function CalEmbed() {
     <div
       id="book"
       className="w-full rounded-xl overflow-hidden"
-      style={{ minHeight: "650px" }}
     >
       <Cal
         calLink="bad-alien/free-consult"
-        style={{ width: "100%", height: "100%", overflow: "scroll" }}
+        style={{ width: "100%", overflow: "scroll" }}
         config={{ layout: "month_view" }}
       />
     </div>
