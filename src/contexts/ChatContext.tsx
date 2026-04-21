@@ -30,7 +30,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     {
       id: 'initial',
       role: 'assistant',
-      content: "Hey! I help businesses figure out where AI can actually move the needle — no fluff, just practical results. Ask me anything, or grab a [free 15-minute intro call](https://cal.com/bad-alien/free-consult) to talk specifics.",
+      content: "Hey! I help businesses figure out where AI can actually move the needle — no fluff, just practical results. Ask me anything, or grab a [free 15-minute intro call](/contact#book) to talk specifics.",
       timestamp: Date.now(),
     }
   ]);

@@ -20,7 +20,7 @@ const responses: ResponseMatch[] = [
 
 **Technical Enablement** — Hands-on workshops that teach your team to work effectively with tools like Claude, ChatGPT, and Cursor. Tailored to your actual workflow.
 
-Which area is closest to what you need? Or [book a free 15-minute consult](https://cal.com/bad-alien/free-consult) and we can figure it out together.`,
+Which area is closest to what you need? Or [book a free 15-minute consult](/contact#book) and we can figure it out together.`,
   },
 
   // Strategy / Approach
@@ -35,7 +35,7 @@ Which area is closest to what you need? Or [book a free 15-minute consult](https
 
 No black-box handoffs. You understand what was built and why. I've run this playbook across finance, healthcare, and defense.
 
-Want to walk through how this would look for your business? [Grab a free 15-minute consult](https://cal.com/bad-alien/free-consult) — available Monday through Friday, 9am-6pm.`,
+Want to walk through how this would look for your business? [Grab a free 15-minute consult](/contact#book) — available Monday through Friday, 9am-6pm.`,
   },
 
   // Automation
@@ -50,7 +50,7 @@ Recent builds:
 
 These aren't chatbot wrappers — they're production systems that replace hours of manual work every day.
 
-Got a workflow that's eating up your team's time? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) and I'll tell you if it's a good fit for automation.`,
+Got a workflow that's eating up your team's time? [Book a free 15-minute consult](/contact#book) and I'll tell you if it's a good fit for automation.`,
   },
 
   // Enablement / Training
@@ -65,7 +65,7 @@ I run hands-on workshops covering:
 
 The result: your team becomes self-sufficient with AI in their daily work. Most teams see productivity gains within the first week.
 
-Interested in enablement for your team? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) and we'll scope out what makes sense.`,
+Interested in enablement for your team? [Book a free 15-minute consult](/contact#book) and we'll scope out what makes sense.`,
   },
 
   // Pricing
@@ -81,7 +81,7 @@ Interested in enablement for your team? [Book a free 15-minute consult](https://
 
 I'm flexible on structure — hourly, project-based, or retainer. The best way to get an accurate number is to talk through your specific needs.
 
-[Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) — no commitment, just a conversation. Available Monday through Friday, 9am-6pm.`,
+[Book a free 15-minute consult](/contact#book) — no commitment, just a conversation. Available Monday through Friday, 9am-6pm.`,
   },
 
   // Booking / Call
@@ -89,7 +89,7 @@ I'm flexible on structure — hourly, project-based, or retainer. The best way t
     keywords: ['book', 'call', 'meeting', 'schedule', 'calendar', 'talk', 'discuss', 'intro', 'consult'],
     response: `Let's do it. The intro call is free, 15 minutes, and zero pressure. We'll talk through what you're working on and whether I can help.
 
-**[Book your free consult here](https://cal.com/bad-alien/free-consult)**
+**[Book your free consult here](/contact#book)**
 Available Monday through Friday, 9am-6pm.
 
 Or keep asking questions here first — happy to answer anything upfront.`,
@@ -106,7 +106,7 @@ Now I help businesses put AI to work — practical implementations that solve re
 
 I work solo on most projects, occasionally pulling in specialists for design or infrastructure. That keeps overhead low and quality high.
 
-Want to see if I'm the right fit? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) — I'll give you an honest assessment.`,
+Want to see if I'm the right fit? [Book a free 15-minute consult](/contact#book) — I'll give you an honest assessment.`,
   },
 
   // Process / Timeline
@@ -125,7 +125,7 @@ Full documentation, knowledge transfer, and a 30-day support window included.
 
 Typical projects: 4-8 weeks from kickoff to production. Some proof-of-concepts land in under 2 weeks.
 
-[Book a free 15-minute consult](https://cal.com/bad-alien/free-consult) and I'll give you a rough timeline for your project.`,
+[Book a free 15-minute consult](/contact#book) and I'll give you a rough timeline for your project.`,
   },
 
   // Portfolio / Examples
@@ -141,7 +141,7 @@ Typical projects: 4-8 weeks from kickoff to production. Some proof-of-concepts l
 
 I also built this site and its chat system. Check out my [creative portfolio](/creative) for the artistic side.
 
-Curious how something similar could work for you? [Book a free 15-minute consult](https://cal.com/bad-alien/free-consult).`,
+Curious how something similar could work for you? [Book a free 15-minute consult](/contact#book).`,
   },
 
   // General greetings
@@ -153,7 +153,7 @@ Curious how something similar could work for you? [Book a free 15-minute consult
 - **Process** — how we'd work together
 - **Background** — my experience and past projects
 
-Or skip the chat and [book a free 15-minute consult](https://cal.com/bad-alien/free-consult) to talk specifics. What would you like to know?`,
+Or skip the chat and [book a free 15-minute consult](/contact#book) to talk specifics. What would you like to know?`,
   },
 ];
 
@@ -161,7 +161,7 @@ const fallbackResponse = `Good question — let me point you in the right direct
 
 I can tell you about my **services**, **pricing**, **process**, or **past projects**. Or if you'd rather just talk through your situation directly:
 
-**[Book a free 15-minute consult](https://cal.com/bad-alien/free-consult)** — available Monday through Friday, 9am-6pm. No commitment, just a conversation.
+**[Book a free 15-minute consult](/contact#book)** — available Monday through Friday, 9am-6pm. No commitment, just a conversation.
 
 What else can I help with?`;
 
