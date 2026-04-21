@@ -1,0 +1,72 @@
+---
+title: "MCP Won. The Agent Wire Protocol War Is Over."
+date: "2026-04-03"
+description: "Model Context Protocol hit 97M monthly SDK downloads, every major AI provider ships it, and the Linux Foundation now stewards it. Here's what that means for buying, building, and securing AI tools."
+category: "Engineering"
+tags:
+  - MCP
+  - AI Agents
+  - Infrastructure
+  - Interoperability
+  - Anthropic
+---
+
+Eighteen months ago, every AI agent platform had its own way of connecting to external tools. OpenAI had function calling. Anthropic had tool use. Every vendor had a proprietary plugin format and every integration had to be rewritten for every runtime.
+
+That's over. **[Model Context Protocol](https://modelcontextprotocol.io) hit 97 million monthly SDK downloads in March 2026** — up from ~100,000 at launch. OpenAI, Google, Microsoft, AWS, Salesforce, and Cloudflare all ship it. Anthropic [donated the protocol](https://www.anthropic.com/news/donating-the-model-context-protocol-and-establishing-of-the-agentic-ai-foundation) to the Linux Foundation in December 2025, and the Agentic AI Foundation is holding its first MCP Dev Summit in New York this month.
+
+The agent wire protocol war is decided. MCP is the USB-C of AI tooling.
+
+## What MCP Is
+
+A vendor-neutral protocol that lets any agent talk to any tool through a standard interface. Write one MCP server for your Salesforce data, and Claude, ChatGPT, Gemini, and your in-house agent can all use it. Write one for your internal wiki, and every agent your team uses reads from it immediately.
+
+It's boring in the way good infrastructure is boring: once it's there, you stop noticing it.
+
+## Why It Won So Fast
+
+Protocol standardization usually takes a decade. MCP took thirteen months. Three things lined up:
+
+- **The integration problem scales quadratically.** N agent platforms × M tools = N×M connectors nobody could maintain. Every major lab hit the wall at the same time.
+- **Enterprises demanded portability.** "If we build against your SDK, are we locked in?" The honest answer was yes. MCP let vendors say no without giving up their model advantage.
+- **Anthropic moved first, then didn't own it.** Donated to a neutral Linux Foundation body. That made it safe for competitors to adopt. OpenAI shipped support in March 2025; Google in April. By the time Microsoft and AWS came on board, the question was when holdouts would capitulate, not whether MCP would win.
+
+## What It Means for Buyers
+
+**Vendor lock-in just got weaker.** Your integration layer is portable — your Salesforce MCP server works with whichever model you pick today and whichever you pick in two years.
+
+**Add MCP compatibility to every tool evaluation.** Ask vendors: do you support MCP as both host (your tools can plug in) and server (you expose capabilities to others)? "Not yet" is telling you something.
+
+**Your data platform is now the center of gravity.** Agents are converging on protocol — they differ on reasoning and UX. The moat moves to "whose systems can the agent reach, and with what permissions?" That's your warehouse, your CRM, your codebase. Expect the next wave of enterprise AI deals to be about putting agents next to data, not next to models.
+
+## What It Means for Builders
+
+- **Write one MCP server, not N custom integrations.** If your team has been building tool wrappers for every agent framework, stop. Build once. Every agent — now and later — gets it for free.
+- **The SDKs are good enough.** Python and TypeScript are mature. A basic MCP server is a few hours of work.
+- **Compose against MCP, not framework-specific tool abstractions.** LangChain, LlamaIndex, and CrewAI now treat MCP as first-class. Build portable; dodge the tax of whichever orchestration framework loses relevance next.
+- **Check the registry first.** An [independent Q1 2026 census](https://thenewstack.io/why-the-model-context-protocol-won/) indexed 17,000+ MCP servers. Vet before you install — but often someone already shipped what you need.
+
+## The Security Part You Can't Skip
+
+Open protocol means open attack surface.
+
+- **Over-permissioned servers.** If an MCP server runs with full production database access, any agent you connect has full production database access. Least privilege is per-server, per-agent, per-tool.
+- **Untrusted servers.** Public MCP registries are not curated. Installing a random server is installing middleware inside your agent — prompt injection, credential harvesting, and exfiltration are all live threats, the same pattern [Snyk documented in OpenClaw](/insights/openclaw-security-guide) last month.
+- **Tool impersonation.** Agents discover tools dynamically. Malicious servers can present themselves as trusted tool names. Enterprise deployments need server authentication and allowlists, not "install from anywhere."
+
+The [Agentic AI Foundation's 2026 roadmap](https://blog.modelcontextprotocol.io/posts/2026-mcp-roadmap/) puts scoped permissions, signed servers, and provenance front and center — but the protocol's surface is ahead of its safeguards. Treat every MCP server like a third-party dependency.
+
+## What to Do This Quarter
+
+1. **Inventory.** Which of your AI tools support MCP as host, server, or both? The ones that don't are short-timer risks.
+2. **Build one server.** Pick your most-valuable internal system — CRM, wiki, or codebase — and expose a read-only MCP server behind proper auth. Days, not weeks.
+3. **Require MCP in buy decisions.** Vendors without it are signaling either technical debt or strategic lock-in.
+4. **Harden before you install.** Least privilege, verified provenance, constrained scope. Don't run servers as root. Don't connect production databases without a read-only layer.
+
+The protocol itself is becoming invisible infrastructure. The interesting work — and the differentiation — moves up the stack to what agents do with the tools they can now reach. For the next year, the winners won't be the organizations with the best model access. Everyone has the same models. The winners will be the ones with the richest, best-governed, most agent-ready view into their own systems.
+
+MCP just made that the only race that matters.
+
+---
+
+If you're evaluating your AI tooling stack and want help figuring out where MCP fits — what to adopt, what to build, how to get the security model right — [let's talk](/contact).

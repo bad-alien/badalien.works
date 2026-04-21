@@ -1,0 +1,57 @@
+---
+title: "Sonnet 4.6, Gemini 3.1 Pro, Grok 4.20 — All Shipped in One Week. Build Portable."
+date: "2026-02-20"
+description: "Three frontier models shipped in 48 hours, each topping different benchmarks. The lesson isn't which to pick — it's that if your stack depends on any one of them, you've already lost the next round."
+category: "AI Strategy"
+tags:
+  - Anthropic
+  - Google
+  - xAI
+  - Model Portability
+  - AI Strategy
+---
+
+This week, three frontier models shipped inside a 48-hour window:
+
+- **Feb 17 — [Claude Sonnet 4.6](https://platform.claude.com/docs/en/release-notes/overview)** reaches near-Opus performance on coding, document comprehension, and computer use, at Sonnet pricing. Leading the GDPval-AA Elo benchmark at 1,633.
+- **Feb 17–18 — Grok 4.20 Beta** lands from xAI with aggressive benchmark scores and native multimodal reasoning.
+- **Feb 19 — Gemini 3.1 Pro** tops 13 of 16 reasoning benchmarks, including 94.3% on GPQA Diamond and 77.1% on ARC-AGI-2 (more than double the prior generation).
+
+Three labs. Three leaders. One week.
+
+If your AI stack is built on the assumption that any of them is "the best model," you've built on sand. The question isn't which one to pick. It's how to stay flexible enough to swap in whichever one is leading your specific use case this quarter.
+
+## The Pattern: Leadership Rotates Monthly
+
+Look at the last four months:
+
+- **November 2025** — OpenAI owned reasoning benchmarks with o3-pro.
+- **December 2025** — Anthropic retook coding with Opus 4.5.
+- **January 2026** — Google leapt ahead on long-context with Gemini 3.
+- **February 2026** — leadership splits three ways across coding, reasoning, and agentic computer use, depending on which benchmark you cite.
+
+This isn't ending. The three labs are locked in a cadence where a new frontier release lands roughly every 30 days, and leadership on any given dimension changes between cycles. Whatever model you picked for "best at X" six months ago is probably no longer the best at X.
+
+## What Portability Actually Means
+
+"Build portable" is easy to say and often poorly executed. Three things separate real portability from wishful thinking:
+
+**Model-agnostic integration layers.** Don't call OpenAI's API directly, or Anthropic's, or Google's. Use an abstraction — whether that's a routing proxy, a framework like LangChain or LiteLLM, or an emerging protocol like MCP — that lets you swap providers without rewriting the calling code. The half-day cost of setting this up pays back the first time you change providers.
+
+**Prompt and output contract stability.** If your prompts rely on a specific model's quirks, every switch breaks. Design for the capability you want (structured output, tool calls, a specific reasoning format), not for the provider you're using this month. Validate outputs against a schema. Treat model responses like any other untrusted input.
+
+**Eval infrastructure.** The only way to know whether a new model is actually better for your use case is to test it against your task, not against the provider's benchmarks. Set up a small eval suite — ten to fifty representative prompts with expected outputs — and run it every time a new model releases. This takes one afternoon to build and will save you from a lot of marketing copy.
+
+## What To Do This Month
+
+Three concrete moves:
+
+1. **Put a routing layer in front of any model call.** If you don't have one, add one. It's the lowest-effort, highest-leverage portability work you can do.
+2. **Build a ten-prompt eval harness for your top use case.** Run it against Sonnet 4.6, Gemini 3.1 Pro, and whatever you're currently using. You may be surprised.
+3. **Stop writing model names into your documentation.** Write capability descriptions instead. "Uses a frontier-class model optimized for long-context reasoning" beats "uses GPT-4" the next time GPT-4 isn't the right answer.
+
+The labs are not slowing down. If anything, the release cycle is accelerating as reinforcement-learning improvements compound faster than pre-training advances. The teams that win this year will be the ones who treat "which model" as a tactical question — swappable, evaluated, and measured — rather than a strategic commitment.
+
+---
+
+If you're picking the wrong layer to commit to in your AI stack — or don't know which layer to commit to — [let's talk](/contact).
