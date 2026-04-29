@@ -77,10 +77,18 @@ const PRIVATE_RANGES = [
 ];
 
 async function isPrivateHostname(hostname: string): Promise<boolean> {
+  // Strip brackets from IPv6 literals (e.g. "[::1]" → "::1") and check directly
+  // before DNS lookup — dns.promises.lookup rejects bracketed hostnames with ENOTFOUND,
+  // which would let IPv6 loopback/private addresses slip through.
+  const bare = hostname.startsWith('[') && hostname.endsWith(']')
+    ? hostname.slice(1, -1)
+    : hostname;
+
+  if (PRIVATE_RANGES.some((re) => re.test(bare))) return true;
+
   try {
-    const result = await dnsPromises.lookup(hostname);
-    const addr = result.address;
-    return PRIVATE_RANGES.some((re) => re.test(addr));
+    const result = await dnsPromises.lookup(bare);
+    return PRIVATE_RANGES.some((re) => re.test(result.address));
   } catch {
     return false;
   }
