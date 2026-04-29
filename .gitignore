@@ -44,6 +44,9 @@ yarn-error.log*
   !.env*.example
   !.env.example
 
+# audit transcripts (local only — read before scaling spend)
+/audit_logs/
+
 # vercel
 .vercel
 
