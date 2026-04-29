@@ -9,17 +9,9 @@ export default function Footer() {
     { href: '/contact', label: 'Contact' },
   ];
 
-  const connectLinks = [
-    {
-      href: '/creative',
-      label: 'creative',
-      external: false,
-    },
-    {
-      href: 'https://decoded.badalien.works',
-      label: 'decoded.badalien.works',
-      external: true,
-    },
+  const legalLinks = [
+    { href: '/privacy-policy', label: 'Privacy Policy' },
+    { href: '/terms-and-conditions', label: 'Terms & Conditions' },
   ];
 
   return (
@@ -36,66 +28,63 @@ export default function Footer() {
           </div>
 
           {/* Middle Column - Pages */}
-          <nav aria-label="Footer navigation">
-            <div>
-              <h3 className="text-white font-sans text-lg mb-6">Pages</h3>
-              <ul className="space-y-3">
-                {pageLinks.map((link) => (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      className="text-text-secondary hover:text-white transition-colors font-sans text-base"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Right Column - Connect */}
-            <div className="min-w-0">
-              <h3 className="text-white font-sans text-lg mb-6">Connect</h3>
-              <ul className="space-y-3">
-                <li>
-                  <a
-                    href="mailto:contact@badalien.works"
-                    className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
+          <nav aria-label="Footer pages">
+            <h3 className="text-white font-sans text-lg mb-6">Pages</h3>
+            <ul className="space-y-3">
+              {pageLinks.map((link) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    className="text-text-secondary hover:text-white transition-colors font-sans text-base"
                   >
-                    contact@badalien.works
-                  </a>
+                    {link.label}
+                  </Link>
                 </li>
-                {connectLinks.map((link) => (
-                  <li key={link.href}>
-                    {link.external ? (
-                      <a
-                        href={link.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
-                      >
-                        {link.label}
-                      </a>
-                    ) : (
-                      <Link
-                        href={link.href}
-                        className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
-                      >
-                        {link.label}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Right Column - Connect */}
+          <nav aria-label="Connect" className="min-w-0">
+            <h3 className="text-white font-sans text-lg mb-6">Connect</h3>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="mailto:contact@badalien.works"
+                  className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
+                >
+                  contact@badalien.works
+                </a>
+              </li>
+              <li>
+                <a
+                  href="tel:+16264695839"
+                  className="text-text-secondary hover:text-white transition-colors font-sans text-base"
+                >
+                  (626) 469-5839
+                </a>
+              </li>
+            </ul>
           </nav>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-border">
-          <p className="text-white/40 text-sm font-sans text-center">
-            © 2026 Bad Alien. All rights reserved.
+        <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-white/40 text-sm font-sans text-center md:text-left">
+            © 2026 Bad Alien LLC. All rights reserved.
           </p>
+          <ul className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+            {legalLinks.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  className="text-white/40 hover:text-white transition-colors font-sans text-sm"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>

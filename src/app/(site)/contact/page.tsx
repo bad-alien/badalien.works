@@ -1,18 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
-import type { ChangeEvent } from 'react';
+import type { CSSProperties, ChangeEvent } from 'react';
+import Link from 'next/link';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import CalEmbed from '@/components/contact/CalEmbed';
+
+const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
 interface ContactFormData {
   name: string;
   email: string;
   company: string;
+  phone: string;
   serviceInterest: string;
   message: string;
+  smsConsent: boolean;
 }
 
 type SubmitStatus = 'idle' | 'success' | 'error';
@@ -22,14 +27,33 @@ export default function ContactPage() {
     name: '',
     email: '',
     company: '',
+    phone: '',
     serviceInterest: '',
-    message: ''
+    message: '',
+    smsConsent: false,
   });
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>('idle');
 
+  const formCardRef = useRef<HTMLDivElement>(null);
+  const [formHeight, setFormHeight] = useState<number | null>(null);
+
+  useIsoLayoutEffect(() => {
+    const node = formCardRef.current;
+    if (!node) return;
+    const update = () => setFormHeight(node.offsetHeight);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(node);
+    return () => ro.disconnect();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+    if (formData.smsConsent && !formData.phone.trim()) {
+      setSubmitStatus('error');
+      return;
+    }
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
@@ -44,7 +68,15 @@ export default function ContactPage() {
 
       if (response.ok) {
         setSubmitStatus('success');
-        setFormData({ name: '', email: '', company: '', serviceInterest: '', message: '' });
+        setFormData({
+          name: '',
+          email: '',
+          company: '',
+          phone: '',
+          serviceInterest: '',
+          message: '',
+          smsConsent: false,
+        });
       } else {
         setSubmitStatus('error');
       }
@@ -57,9 +89,17 @@ export default function ContactPage() {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const target = e.target;
+    if (target instanceof HTMLInputElement && target.type === 'checkbox') {
+      setFormData({
+        ...formData,
+        [target.name]: target.checked,
+      });
+      return;
+    }
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [target.name]: target.value,
     });
   };
 
@@ -77,7 +117,7 @@ export default function ContactPage() {
       <Header />
 
       <main id="main-content" className="pt-36 pb-16 px-6">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           {/* Heading */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -86,38 +126,52 @@ export default function ContactPage() {
             className="text-center mb-16"
           >
             <h1 className="text-5xl md:text-6xl font-display font-bold text-text-heading mb-4">
-              Let&apos;s Talk
+              Here to Help
             </h1>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              Pick a time that works for you, or send a note below.
+              Pick a time that works for you, or send a note.
             </p>
           </motion.div>
 
-          {/* Calendar Section */}
-          <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-24"
+          {/* Two-column layout: book on the left, note form on the right */}
+          <div
+            className="grid grid-cols-1 lg:grid-cols-[5fr_7fr] gap-12 lg:gap-10 items-start"
+            style={
+              formHeight
+                ? ({ '--form-h': `${formHeight}px` } as CSSProperties)
+                : undefined
+            }
           >
-            <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-6">
-              01 / Book a Call
-            </span>
-            <CalEmbed />
-          </motion.section>
+            {/* Calendar Section */}
+            <motion.section
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="flex flex-col min-w-0"
+            >
+              <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-6">
+                01 / Book a Call
+              </span>
+              <div className="bg-elevated border border-border rounded-xl overflow-hidden lg:max-h-[var(--form-h,900px)] lg:overflow-y-auto">
+                <CalEmbed />
+              </div>
+            </motion.section>
 
-          {/* Form Section */}
-          <motion.section
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-16"
-          >
-            <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-6">
-              02 / Or Send a Note
-            </span>
+            {/* Form Section */}
+            <motion.section
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex flex-col min-w-0"
+            >
+              <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-6">
+                02 / Or Send a Note
+              </span>
 
-            <div className="bg-elevated border border-border rounded-xl p-8 md:p-10">
+              <div
+                ref={formCardRef}
+                className="bg-elevated border border-border rounded-xl p-8 md:p-10"
+              >
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name */}
               <div>
@@ -169,6 +223,24 @@ export default function ContactPage() {
                 />
               </div>
 
+              {/* Phone */}
+              <div>
+                <label htmlFor="phone" className="block text-sm font-medium text-text-body mb-2">
+                  Mobile Phone <span className="text-text-secondary text-xs font-normal">(optional, only required if you opt in to SMS)</span>
+                </label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  autoComplete="tel"
+                  inputMode="tel"
+                  className="w-full px-4 py-3 bg-base border border-border rounded-lg text-text-heading placeholder-muted focus:outline-none focus:border-primary/30 transition-colors"
+                  placeholder="(555) 555-5555"
+                />
+              </div>
+
               {/* Service Interest */}
               <div>
                 <label htmlFor="serviceInterest" className="block text-sm font-medium text-text-body mb-2">
@@ -211,6 +283,34 @@ export default function ContactPage() {
                 />
               </div>
 
+              {/* SMS Consent */}
+              <div>
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="smsConsent"
+                    name="smsConsent"
+                    checked={formData.smsConsent}
+                    onChange={handleChange}
+                    className="mt-1 h-4 w-4 flex-shrink-0 cursor-pointer accent-primary"
+                  />
+                  <label htmlFor="smsConsent" className="text-sm text-text-body leading-relaxed cursor-pointer">
+                    I agree to receive text messages from Bad Alien LLC.
+                  </label>
+                </div>
+                <p className="mt-2 ml-7 text-xs text-text-secondary leading-relaxed">
+                  Follow-ups, reminders &amp; service updates. Reply STOP to opt out, HELP for
+                  help.{' '}
+                  <Link href="/privacy-policy" className="underline hover:text-text-body">
+                    Privacy
+                  </Link>{' '}
+                  &middot;{' '}
+                  <Link href="/terms-and-conditions#sms-terms" className="underline hover:text-text-body">
+                    SMS Terms
+                  </Link>
+                </p>
+              </div>
+
               {/* Submit Button */}
               <button
                 type="submit"
@@ -219,6 +319,18 @@ export default function ContactPage() {
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
+
+              <p className="text-xs text-text-secondary text-center leading-relaxed">
+                By submitting, you agree to our{' '}
+                <Link href="/privacy-policy" className="underline hover:text-text-body">
+                  Privacy Policy
+                </Link>{' '}
+                and{' '}
+                <Link href="/terms-and-conditions" className="underline hover:text-text-body">
+                  Terms &amp; Conditions
+                </Link>
+                .
+              </p>
 
               {/* Success Message */}
               {submitStatus === 'success' && (
@@ -245,8 +357,9 @@ export default function ContactPage() {
                 </motion.div>
               )}
             </form>
-            </div>
-          </motion.section>
+              </div>
+            </motion.section>
+          </div>
         </div>
       </main>
 

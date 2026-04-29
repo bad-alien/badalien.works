@@ -21,7 +21,7 @@ function escapeHtml(text: string): string {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, company, serviceInterest, message } = body;
+    const { name, email, company, phone, serviceInterest, message, smsConsent } = body;
 
     // Validate required fields
     if (!name || !email || !message) {
@@ -40,11 +40,21 @@ export async function POST(request: Request) {
       );
     }
 
+    // SMS consent requires a phone number
+    if (smsConsent === true && (!phone || !String(phone).trim())) {
+      return NextResponse.json(
+        { error: 'Phone number is required when opting in to SMS' },
+        { status: 400 }
+      );
+    }
+
     // Escape user input to prevent XSS
     const safeName = escapeHtml(name);
     const safeEmail = escapeHtml(email);
     const safeCompany = company ? escapeHtml(company) : '';
+    const safePhone = phone ? escapeHtml(String(phone)) : '';
     const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+    const consentTimestamp = new Date().toISOString();
 
     // Build email content
     let emailContent = `
@@ -55,6 +65,10 @@ export async function POST(request: Request) {
 
     if (safeCompany) {
       emailContent += `<p><strong>Company:</strong> ${safeCompany}</p>`;
+    }
+
+    if (safePhone) {
+      emailContent += `<p><strong>Phone:</strong> ${safePhone}</p>`;
     }
 
     if (serviceInterest) {
@@ -70,6 +84,7 @@ export async function POST(request: Request) {
     }
 
     emailContent += `
+      <p><strong>SMS opt-in:</strong> ${smsConsent === true ? `YES — recorded at ${consentTimestamp}` : 'No'}</p>
       <p><strong>Message:</strong></p>
       <p>${safeMessage}</p>
     `;
