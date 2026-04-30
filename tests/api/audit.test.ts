@@ -280,6 +280,8 @@ describe('POST /api/audit/run', () => {
       { url: 'http://10.0.0.1', desc: 'private class A', ip: '10.0.0.202' },
       { url: 'http://192.168.1.1', desc: 'private class C', ip: '10.0.0.203' },
       { url: 'http://[::1]', desc: 'loopback IPv6', ip: '10.0.0.206' },
+      { url: 'http://[fe80::1]', desc: 'link-local IPv6 (fe80)', ip: '10.0.0.207' },
+      { url: 'http://[fe80::dead:beef]', desc: 'link-local IPv6 (fe80 with suffix)', ip: '10.0.0.208' },
       { url: 'file:///etc/passwd', desc: 'file protocol', ip: '10.0.0.204' },
       { url: 'ftp://example.com', desc: 'ftp protocol', ip: '10.0.0.205' },
     ]

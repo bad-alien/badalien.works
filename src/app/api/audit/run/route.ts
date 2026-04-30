@@ -74,6 +74,7 @@ const PRIVATE_RANGES = [
   /^::1$/,
   /^fc[0-9a-f]{2}:/i,
   /^fd[0-9a-f]{2}:/i,
+  /^fe[89ab][0-9a-f]:/i,
 ];
 
 async function isPrivateHostname(hostname: string): Promise<boolean> {
