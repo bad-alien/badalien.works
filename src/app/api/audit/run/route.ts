@@ -5,7 +5,7 @@ import { getSession, setInputs, setBrief } from '@/lib/auditSession';
 import { runAudit, calculateAuditCostUSD } from '@/lib/auditClient';
 import { fetchPageText, isPrivateHostname } from '@/lib/auditFetch';
 import { checkAuditRateLimit, isBudgetExceeded, recordAuditCost } from '@/lib/auditRateLimit';
-import { sendAuditEmail as sendAuditBriefEmail } from '@/lib/leadEmail';
+import { sendAuditEmail } from '@/lib/leadEmail';
 
 // ---------------------------------------------------------------------------
 // Transcript logging
@@ -228,7 +228,7 @@ export async function POST(request: NextRequest) {
           // Send audit email via leadEmail (non-blocking, errors swallowed)
           const updatedSession = getSession(session_id);
           if (updatedSession) {
-            sendAuditBriefEmail(updatedSession).catch((e) => {
+            sendAuditEmail(updatedSession).catch((e) => {
               console.error('[audit/run] email send error:', e instanceof Error ? e.message : e);
             });
           }
