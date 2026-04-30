@@ -1,173 +1,11 @@
 import { NextRequest } from 'next/server';
-import { JSDOM } from 'jsdom';
 import { promises as fs } from 'fs';
 import path from 'path';
-import dns from 'dns';
-import { Resend } from 'resend';
-import { getSession, setInputs, setBrief, type AuditBrief } from '@/lib/auditSession';
+import { getSession, setInputs, setBrief } from '@/lib/auditSession';
 import { runAudit, calculateAuditCostUSD } from '@/lib/auditClient';
-
-const dnsPromises = dns.promises;
-
-// ---------------------------------------------------------------------------
-// Per-IP audit rate limit: 3 per 24h
-// ---------------------------------------------------------------------------
-const auditRateMap = new Map<string, { count: number; resetTime: number }>();
-const AUDIT_RATE_LIMIT = 3;
-const AUDIT_RATE_WINDOW_MS = 24 * 60 * 60 * 1000;
-
-function checkAuditRateLimit(ip: string): boolean {
-  const now = Date.now();
-  const record = auditRateMap.get(ip);
-  if (!record || now > record.resetTime) {
-    auditRateMap.set(ip, { count: 1, resetTime: now + AUDIT_RATE_WINDOW_MS });
-    return true;
-  }
-  if (record.count >= AUDIT_RATE_LIMIT) return false;
-  record.count++;
-  return true;
-}
-
-// ---------------------------------------------------------------------------
-// Daily budget kill switch
-// ---------------------------------------------------------------------------
-let dailySpendUSD = 0;
-let budgetResetAt = nextMidnightUTC();
-
-function nextMidnightUTC(): number {
-  const now = new Date();
-  const midnight = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate() + 1));
-  return midnight.getTime();
-}
-
-function checkBudget(costUSD: number): boolean {
-  const now = Date.now();
-  if (now > budgetResetAt) {
-    dailySpendUSD = 0;
-    budgetResetAt = nextMidnightUTC();
-  }
-  const limit = parseFloat(process.env.AUDIT_DAILY_BUDGET_USD || '10');
-  if (dailySpendUSD >= limit) return false;
-  dailySpendUSD += costUSD;
-  return true;
-}
-
-function isBudgetExceeded(): boolean {
-  const now = Date.now();
-  if (now > budgetResetAt) {
-    dailySpendUSD = 0;
-    budgetResetAt = nextMidnightUTC();
-  }
-  const limit = parseFloat(process.env.AUDIT_DAILY_BUDGET_USD || '10');
-  return dailySpendUSD >= limit;
-}
-
-// ---------------------------------------------------------------------------
-// SSRF guard: resolve hostname, reject private/loopback ranges
-// ---------------------------------------------------------------------------
-const PRIVATE_RANGES = [
-  /^127\./,
-  /^10\./,
-  /^172\.(1[6-9]|2[0-9]|3[01])\./,
-  /^192\.168\./,
-  /^169\.254\./,
-  /^::1$/,
-  /^fc[0-9a-f]{2}:/i,
-  /^fd[0-9a-f]{2}:/i,
-  /^fe[89ab][0-9a-f]:/i,
-];
-
-async function isPrivateHostname(hostname: string): Promise<boolean> {
-  // Strip brackets from IPv6 literals (e.g. "[::1]" → "::1") and check directly
-  // before DNS lookup — dns.promises.lookup rejects bracketed hostnames with ENOTFOUND,
-  // which would let IPv6 loopback/private addresses slip through.
-  const bare = hostname.startsWith('[') && hostname.endsWith(']')
-    ? hostname.slice(1, -1)
-    : hostname;
-
-  if (PRIVATE_RANGES.some((re) => re.test(bare))) return true;
-
-  try {
-    const result = await dnsPromises.lookup(bare);
-    return PRIVATE_RANGES.some((re) => re.test(result.address));
-  } catch {
-    return false;
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Fetch page text with SSRF guards
-// ---------------------------------------------------------------------------
-async function fetchPageText(url: string): Promise<{ text: string; blocked: boolean }> {
-  let parsed: URL;
-  try {
-    parsed = new URL(url);
-  } catch {
-    return { text: '', blocked: true };
-  }
-
-  if (!['http:', 'https:'].includes(parsed.protocol)) {
-    return { text: '', blocked: true };
-  }
-
-  if (await isPrivateHostname(parsed.hostname)) {
-    return { text: '', blocked: true };
-  }
-
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8000);
-
-    const response = await fetch(url, {
-      signal: controller.signal,
-      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; AuditBot/1.0)' },
-    });
-    clearTimeout(timeout);
-
-    if (!response.ok) {
-      return { text: '', blocked: false };
-    }
-
-    // Cap at 2 MB
-    const reader = response.body?.getReader();
-    if (!reader) return { text: '', blocked: false };
-
-    const chunks: Uint8Array[] = [];
-    let totalBytes = 0;
-    const MAX_BYTES = 2 * 1024 * 1024;
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done || !value) break;
-      totalBytes += value.length;
-      if (totalBytes > MAX_BYTES) break;
-      chunks.push(value);
-    }
-    reader.cancel();
-
-    const html = Buffer.concat(chunks).toString('utf-8');
-
-    // Parse with jsdom and extract clean text
-    const dom = new JSDOM(html, { url });
-    const doc = dom.window.document;
-
-    // Remove noisy elements
-    for (const tag of ['script', 'style', 'nav', 'footer', 'header', 'noscript', 'iframe', 'svg']) {
-      for (const el of doc.querySelectorAll(tag)) {
-        el.remove();
-      }
-    }
-
-    const text = (doc.body?.textContent || '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 8000);
-
-    return { text, blocked: false };
-  } catch {
-    return { text: '', blocked: false };
-  }
-}
+import { fetchPageText, isPrivateHostname } from '@/lib/auditFetch';
+import { checkAuditRateLimit, isBudgetExceeded, recordAuditCost } from '@/lib/auditRateLimit';
+import { sendAuditEmail as sendAuditBriefEmail } from '@/lib/leadEmail';
 
 // ---------------------------------------------------------------------------
 // Transcript logging
@@ -181,64 +19,6 @@ async function appendTranscriptEvent(session_id: string, event: Record<string, u
     await fs.appendFile(file, JSON.stringify(event) + '\n', 'utf-8');
   } catch (e) {
     console.error('[audit/run] transcript log error:', e instanceof Error ? e.message : e);
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Resend email on brief completion
-// ---------------------------------------------------------------------------
-function getResend() {
-  return new Resend(process.env.RESEND_API_KEY);
-}
-
-function escapeHtml(text: string): string {
-  return text.replace(/[&<>"'/]/g, (c) =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#x27;', '/': '&#x2F;' }[c] || c)
-  );
-}
-
-async function sendAuditEmail(params: {
-  url: string;
-  bottleneck: string;
-  sensitive_docs: string;
-  brief: AuditBrief;
-  session_id: string;
-  ip: string;
-}): Promise<void> {
-  try {
-    const { url, bottleneck, sensitive_docs, brief, session_id } = params;
-    const hostname = (() => { try { return new URL(url).hostname; } catch { return url; } })();
-
-    const opportunitiesHtml = brief.opportunities
-      .map(
-        (o, i) =>
-          `<li><strong>${i + 1}. ${escapeHtml(o.title)}</strong><br/>${escapeHtml(o.solves)}<br/><em>Effort: ${o.effort} · ROI: ${o.roi}</em></li>`
-      )
-      .join('');
-
-    const html = `
-      <h2>[Audit] ${escapeHtml(hostname)} — score ${brief.score}/10</h2>
-      <p><strong>URL:</strong> ${escapeHtml(url)}</p>
-      <p><strong>Bottleneck:</strong> ${escapeHtml(bottleneck)}</p>
-      <p><strong>Sensitive docs:</strong> ${escapeHtml(sensitive_docs)}</p>
-      <p><strong>Score:</strong> ${brief.score}/10 — ${escapeHtml(brief.score_label)}</p>
-      <h3>Observations</h3>
-      <ul>${brief.observations.map((o) => `<li>${escapeHtml(o)}</li>`).join('')}</ul>
-      <h3>Opportunities</h3>
-      <ol>${opportunitiesHtml}</ol>
-      ${brief.sovereignty_callout ? `<h3>Data Sovereignty Note</h3><p>${escapeHtml(brief.sovereignty_callout)}</p>` : ''}
-      <hr/>
-      <p><small>Session: ${escapeHtml(session_id)} · ${new Date().toISOString()}</small></p>
-    `;
-
-    await getResend().emails.send({
-      from: 'Audit Bot <r@badalien.works>',
-      to: 'r@badalien.works',
-      subject: `[Audit] ${hostname} — score ${brief.score}/10`,
-      html,
-    });
-  } catch (e) {
-    console.error('[audit/run] email send error:', e instanceof Error ? e.message : e);
   }
 }
 
@@ -422,7 +202,7 @@ export async function POST(request: NextRequest) {
           // Track budget
           if (!result.stub) {
             const costUSD = calculateAuditCostUSD(result.usage);
-            if (!checkBudget(costUSD)) {
+            if (!recordAuditCost(costUSD)) {
               enqueue('error', { code: 'BUDGET_EXCEEDED', message: 'Daily audit budget exhausted.' });
               controller.close();
               return;
@@ -445,15 +225,13 @@ export async function POST(request: NextRequest) {
           // Step 4: Done
           enqueue('done', { status: 'done', brief: result.brief });
 
-          // Send email (non-blocking, errors swallowed)
-          sendAuditEmail({
-            url,
-            bottleneck,
-            sensitive_docs,
-            brief: result.brief,
-            session_id,
-            ip,
-          });
+          // Send audit email via leadEmail (non-blocking, errors swallowed)
+          const updatedSession = getSession(session_id);
+          if (updatedSession) {
+            sendAuditBriefEmail(updatedSession).catch((e) => {
+              console.error('[audit/run] email send error:', e instanceof Error ? e.message : e);
+            });
+          }
         } catch (e) {
           const message = e instanceof Error ? e.message : 'Unknown error';
           console.error('[audit/run] pipeline error:', message);
