@@ -275,13 +275,11 @@ describe('POST /api/audit/run', () => {
 
   describe('SSRF rejection', () => {
     // Each test uses a unique IP to avoid triggering the 3/24h per-IP audit rate limit.
-    // Note: http://[::1] (IPv6 loopback) is NOT tested here — dns.lookup('[::1]') fails in
-    // the sandbox because Node strips brackets incorrectly, so isPrivateHostname returns false.
-    // That is a known gap in B1's implementation (IPv6 literal SSRF bypass) — filed separately.
     const ssrfCases = [
       { url: 'http://127.0.0.1', desc: 'loopback IPv4', ip: '10.0.0.201' },
       { url: 'http://10.0.0.1', desc: 'private class A', ip: '10.0.0.202' },
       { url: 'http://192.168.1.1', desc: 'private class C', ip: '10.0.0.203' },
+      { url: 'http://[::1]', desc: 'loopback IPv6', ip: '10.0.0.206' },
       { url: 'file:///etc/passwd', desc: 'file protocol', ip: '10.0.0.204' },
       { url: 'ftp://example.com', desc: 'ftp protocol', ip: '10.0.0.205' },
     ]
