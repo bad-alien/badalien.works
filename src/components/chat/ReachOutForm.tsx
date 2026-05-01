@@ -108,7 +108,7 @@ export default function ReachOutForm({ sessionId, onSuccess }: ReachOutFormProps
   return (
     <form onSubmit={handleSubmit} noValidate className="mt-4 flex flex-col gap-4">
       {visibleErrors.form && (
-        <p className="text-[#EF4444] text-xs font-mono" role="alert">
+        <p className="text-[#EF4444] text-xs" style={{ fontFamily: 'var(--font-geist-mono)' }} role="alert">
           {visibleErrors.form}
         </p>
       )}
@@ -116,7 +116,8 @@ export default function ReachOutForm({ sessionId, onSuccess }: ReachOutFormProps
       <div className="flex flex-col gap-1">
         <label
           htmlFor="reachout-email"
-          className="text-xs font-mono text-[#8A8A8A] uppercase tracking-widest"
+          className="text-xs text-[#8A8A8A] uppercase tracking-widest"
+          style={{ fontFamily: 'var(--font-geist-mono)' }}
         >
           Email <span className="text-[#FF6B35]" aria-hidden="true">*</span>
         </label>
@@ -142,7 +143,8 @@ export default function ReachOutForm({ sessionId, onSuccess }: ReachOutFormProps
       <div className="flex flex-col gap-1">
         <label
           htmlFor="reachout-best-time"
-          className="text-xs font-mono text-[#8A8A8A] uppercase tracking-widest"
+          className="text-xs text-[#8A8A8A] uppercase tracking-widest"
+          style={{ fontFamily: 'var(--font-geist-mono)' }}
         >
           Best time to reach you <span className="text-[#FF6B35]" aria-hidden="true">*</span>
         </label>
@@ -167,7 +169,8 @@ export default function ReachOutForm({ sessionId, onSuccess }: ReachOutFormProps
       <div className="flex flex-col gap-1">
         <label
           htmlFor="reachout-phone"
-          className="text-xs font-mono text-[#8A8A8A] uppercase tracking-widest"
+          className="text-xs text-[#8A8A8A] uppercase tracking-widest"
+          style={{ fontFamily: 'var(--font-geist-mono)' }}
         >
           Phone{' '}
           <span className="text-xs normal-case tracking-normal text-[#3A3A3A]">(optional)</span>
