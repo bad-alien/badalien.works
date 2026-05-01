@@ -539,7 +539,12 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
 
       {/* Input Area */}
       <div
-        className={`${compact ? 'px-5 pt-3 pb-[env(safe-area-inset-bottom,20px)]' : 'px-6 pb-4 md:px-12 lg:px-24'}`}
+        className={`${compact ? 'px-4 pt-3 pb-4' : 'px-6 pb-4 md:px-12 lg:px-24'}`}
+        style={
+          compact
+            ? { paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 16px)' }
+            : undefined
+        }
       >
         <div className={compact ? 'max-w-full' : 'max-w-5xl mx-auto'}>
           <ChatInput

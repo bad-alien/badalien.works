@@ -93,8 +93,7 @@ export default function ChatMessage({
         className="py-3 flex justify-start"
       >
         <div
-          className="text-primary"
-          style={{ fontSize: '0.9375rem', lineHeight: '1.5', letterSpacing: '0.025em' }}
+          style={{ color: '#E8E8E8', fontSize: '0.9375rem', lineHeight: '1.55', letterSpacing: '0.01em' }}
         >
           Got it — I&apos;ll be in touch. Talk soon.
         </div>
@@ -113,11 +112,12 @@ export default function ChatMessage({
       className={`py-3 flex ${isUser ? 'justify-end' : 'justify-start'}`}
     >
       <div
-        className={`markdown-content ${isUser ? 'text-white text-right' : 'text-primary text-left w-full'}`}
+        className={`markdown-content ${isUser ? 'text-right' : 'text-left w-full'}`}
         style={{
+          color: isUser ? '#FFFFFF' : '#E8E8E8',
           fontSize: '0.9375rem',
-          lineHeight: '1.5',
-          letterSpacing: '0.025em',
+          lineHeight: '1.55',
+          letterSpacing: '0.01em',
         }}
       >
         {isUser ? (
@@ -137,15 +137,15 @@ export default function ChatMessage({
               code: ({ node, ...props }: any) => {
                 const isInline = node?.parent?.tagName !== 'pre';
                 return isInline
-                  ? <code className="bg-primary/10 px-1.5 py-0.5 rounded text-primary-light font-mono text-sm" {...props} />
-                  : <code className="block bg-primary/10 p-3 rounded my-2 text-primary-light font-mono text-sm overflow-x-auto" {...props} />;
+                  ? <code className="px-1.5 py-0.5 rounded font-mono text-sm" style={{ background: 'rgba(255,255,255,0.06)', color: '#FFB088' }} {...props} />
+                  : <code className="block p-3 rounded my-2 font-mono text-sm overflow-x-auto" style={{ background: 'rgba(255,255,255,0.04)', color: '#FFB088' }} {...props} />;
               },
               pre: ({ ...props }) => <pre className="my-2" {...props} />,
-              a: ({ ...props }) => <a className="text-primary-light underline hover:text-white transition-colors" {...props} />,
-              strong: ({ ...props }) => <strong className="font-bold text-primary-light" {...props} />,
+              a: ({ ...props }) => <a className="underline hover:text-white transition-colors" style={{ color: '#FF8C5A', textUnderlineOffset: '2px' }} {...props} />,
+              strong: ({ ...props }) => <strong className="font-semibold" style={{ color: '#FFFFFF' }} {...props} />,
               em: ({ ...props }) => <em className="italic" {...props} />,
-              blockquote: ({ ...props }) => <blockquote className="border-l-4 border-primary/50 pl-4 italic my-3" {...props} />,
-              hr: ({ ...props }) => <hr className="border-primary/30 my-4" {...props} />,
+              blockquote: ({ ...props }) => <blockquote className="pl-4 italic my-3" style={{ borderLeft: '3px solid rgba(255,255,255,0.12)', color: '#C5C5C5' }} {...props} />,
+              hr: ({ ...props }) => <hr className="my-4" style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.08)' }} {...props} />,
             }}
           >
             {message.content}
