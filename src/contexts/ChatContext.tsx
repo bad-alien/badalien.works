@@ -1,13 +1,18 @@
 'use client';
 
 import { createContext, useContext, useState, ReactNode } from 'react';
+import type { AuditBrief } from '@/lib/auditSession';
 
-export type Message = {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  timestamp: number;
-};
+export type ChatBranch = 'intro' | 'audit' | 'faq' | 'post_audit';
+export type AuditStep = 'awaiting_url' | 'awaiting_pain' | 'awaiting_sensitive' | 'running' | 'rendered';
+
+export type Message =
+  | { id: string; kind: 'text'; role: 'user' | 'assistant'; content: string; timestamp: number }
+  | { id: string; kind: 'status'; text: string; timestamp: number }
+  | { id: string; kind: 'brief_card'; brief: AuditBrief; url: string; timestamp: number }
+  | { id: string; kind: 'cta_buttons'; timestamp: number }
+  | { id: string; kind: 'reachout_form'; timestamp: number }
+  | { id: string; kind: 'reachout_confirm'; timestamp: number };
 
 export type EntryPoint = 'hero' | 'widget' | 'page';
 export type ChatView = 'closed' | 'open' | 'minimized';
@@ -21,6 +26,20 @@ type ChatContextType = {
   closeChat: () => void;
   entryPoint: EntryPoint;
   setEntryPoint: (entryPoint: EntryPoint) => void;
+  branch: ChatBranch;
+  setBranch: (branch: ChatBranch) => void;
+  auditStep: AuditStep;
+  setAuditStep: (step: AuditStep) => void;
+  sessionId: string | null;
+  setSessionId: (id: string | null) => void;
+  auditBrief: AuditBrief | null;
+  setAuditBrief: (brief: AuditBrief | null) => void;
+  auditUrl: string | null;
+  setAuditUrl: (url: string | null) => void;
+  postAuditTurnCount: number;
+  setPostAuditTurnCount: (n: number | ((prev: number) => number)) => void;
+  lastCtaInsertTurn: number;
+  setLastCtaInsertTurn: (n: number) => void;
 };
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -29,13 +48,21 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 'initial',
+      kind: 'text',
       role: 'assistant',
-      content: "Hey! I help businesses figure out where AI can actually move the needle — no fluff, just practical results. Ask me anything, or grab a [free 15-minute intro call](/contact#book) to talk specifics.",
+      content: "Hey! I help businesses figure out where AI can actually move the needle — no fluff, just practical results. Ask me anything, or run a free 60-second AI audit on your site.",
       timestamp: Date.now(),
     }
   ]);
   const [chatView, setChatView] = useState<ChatView>('minimized');
   const [entryPoint, setEntryPoint] = useState<EntryPoint>('page');
+  const [branch, setBranch] = useState<ChatBranch>('intro');
+  const [auditStep, setAuditStep] = useState<AuditStep>('awaiting_url');
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [auditBrief, setAuditBrief] = useState<AuditBrief | null>(null);
+  const [auditUrl, setAuditUrl] = useState<string | null>(null);
+  const [postAuditTurnCount, setPostAuditTurnCount] = useState(0);
+  const [lastCtaInsertTurn, setLastCtaInsertTurn] = useState(0);
 
   const openChat = () => setChatView('open');
   const minimizeChat = () => setChatView('minimized');
@@ -52,6 +79,20 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         closeChat,
         entryPoint,
         setEntryPoint,
+        branch,
+        setBranch,
+        auditStep,
+        setAuditStep,
+        sessionId,
+        setSessionId,
+        auditBrief,
+        setAuditBrief,
+        auditUrl,
+        setAuditUrl,
+        postAuditTurnCount,
+        setPostAuditTurnCount,
+        lastCtaInsertTurn,
+        setLastCtaInsertTurn,
       }}
     >
       {children}

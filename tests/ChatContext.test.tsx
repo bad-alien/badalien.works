@@ -17,8 +17,10 @@ describe('ChatContext', () => {
   it('provides initial assistant message', () => {
     const { result } = renderHook(() => useChat(), { wrapper })
     expect(result.current.messages).toHaveLength(1)
-    expect(result.current.messages[0].role).toBe('assistant')
-    expect(result.current.messages[0].id).toBe('initial')
+    const first = result.current.messages[0]
+    expect(first.kind).toBe('text')
+    if (first.kind === 'text') expect(first.role).toBe('assistant')
+    expect(first.id).toBe('initial')
   })
 
   it('initializes with chat minimized', () => {
