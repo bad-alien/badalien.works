@@ -1,14 +1,11 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Minus } from 'lucide-react';
+import { MessageCircle, X, Minus } from 'lucide-react';
 import { usePathname } from 'next/navigation';
 import { useChat } from '@/contexts/ChatContext';
 import { useNudge } from '@/hooks/useNudge';
 import BusinessChatInterface from '@/components/chat/BusinessChatInterface';
-import AIAvatar from '@/components/chat/AIAvatar';
-
-const EASING = [0.2, 0.8, 0.2, 1] as const;
 
 export default function ChatWidget() {
   const pathname = usePathname();
@@ -29,7 +26,7 @@ export default function ChatWidget() {
                   initial={{ opacity: 0, y: 6, scale: 0.9 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 4, scale: 0.9 }}
-                  transition={{ duration: 0.24, ease: EASING }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
                   onMouseEnter={dismiss}
                   onClick={dismiss}
                   className="relative cursor-pointer select-none"
@@ -62,50 +59,41 @@ export default function ChatWidget() {
               )}
             </AnimatePresence>
 
-            {/* Launcher pill */}
             <motion.button
               onClick={() => {
                 setEntryPoint('widget');
                 openChat();
               }}
-              initial={{ scale: 0.85, opacity: 0 }}
+              initial={{ scale: 0, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.85, opacity: 0 }}
-              transition={{ duration: 0.24, ease: EASING }}
-              whileHover={{ y: -2 }}
-              whileTap={{ scale: 0.97 }}
-              aria-label="Open chat with the AI Assistant"
-              className="group inline-flex items-center gap-3 pl-4 pr-5 py-2.5 rounded-full transition-colors"
+              exit={{ scale: 0, opacity: 0 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-4 bg-primary rounded-full shadow-lg hover:shadow-xl transition-shadow"
+              aria-label="Open chat"
               style={{
-                background: '#161616',
-                border: '1px solid #2A2A2A',
-                boxShadow:
-                  '0 30px 80px -20px rgba(0,0,0,0.6), 0 8px 24px -6px rgba(255, 107, 53, 0.18)',
+                boxShadow: '0 0 30px rgba(255, 107, 53, 0.6), 0 4px 20px rgba(0, 0, 0, 0.4)',
               }}
             >
-              <motion.span
+              <motion.div
                 animate={
                   showNudge
-                    ? { scale: [1, 1.18, 1, 1.12, 1] }
-                    : { opacity: [0.85, 1, 0.85] }
+                    ? {
+                        scale: [1, 1.2, 1, 1.15, 1],
+                        opacity: [1, 1, 1, 1, 1],
+                      }
+                    : {
+                        opacity: [0.7, 1, 0.7],
+                      }
                 }
                 transition={
                   showNudge
                     ? { duration: 0.5, ease: 'easeInOut', times: [0, 0.2, 0.4, 0.7, 1] }
-                    : { duration: 2.4, repeat: Infinity, ease: 'easeInOut' }
+                    : { duration: 2, repeat: Infinity, ease: 'easeInOut' }
                 }
-                className="inline-flex"
               >
-                <AIAvatar size={28} showStatus statusBorderColor="#161616" />
-              </motion.span>
-              <span
-                className="text-primary font-medium text-sm"
-                style={{
-                  fontFamily: 'var(--font-instrument-sans, "Instrument Sans", sans-serif)',
-                }}
-              >
-                Chat with the AI Assistant
-              </span>
+                <MessageCircle className="w-6 h-6 text-background" />
+              </motion.div>
             </motion.button>
           </div>
         )}
@@ -114,67 +102,37 @@ export default function ChatWidget() {
       <AnimatePresence>
         {chatView === 'open' && (
           <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.96 }}
-            transition={{ duration: 0.28, ease: EASING }}
-            className="fixed z-[200] flex flex-col overflow-hidden
-              bottom-0 left-0 right-0 h-[68vh] max-h-[560px] rounded-t-2xl
-              sm:left-auto sm:bottom-6 sm:right-6 sm:w-[420px] sm:h-[640px] sm:max-h-[calc(100vh-56px)] sm:rounded-2xl"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 40 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="fixed z-[200] flex flex-col overflow-hidden shadow-2xl
+              bottom-0 left-0 right-0 h-[55vh] max-h-[480px] rounded-t-2xl
+              sm:left-auto sm:bottom-6 sm:right-6 sm:w-[420px] sm:h-[560px] sm:max-h-[80vh] sm:rounded-2xl"
             style={{
-              background: '#161616',
-              border: '1px solid #2A2A2A',
-              boxShadow:
-                '0 30px 80px -20px rgba(0,0,0,0.6), 0 8px 24px -6px rgba(255, 107, 53, 0.10)',
+              background: '#0A0A0A',
+              border: '1px solid rgba(255, 107, 53, 0.3)',
+              boxShadow: '0 0 40px rgba(255, 107, 53, 0.15), 0 8px 32px rgba(0, 0, 0, 0.6)',
             }}
             role="dialog"
             aria-label="AI Assistant chat"
           >
-            {/* Header */}
-            <div
-              className="flex items-center justify-between px-5 py-4 border-b shrink-0"
-              style={{ borderColor: '#222222' }}
-            >
-              <div className="flex items-center gap-3 min-w-0">
-                <AIAvatar size={32} showStatus statusBorderColor="#161616" />
-                <div className="flex flex-col leading-tight min-w-0">
-                  <span
-                    className="text-sm font-semibold truncate"
-                    style={{
-                      color: '#F0F0F0',
-                      fontFamily: 'var(--font-outfit, "Outfit", sans-serif)',
-                    }}
-                  >
-                    AI Assistant
-                  </span>
-                  <span
-                    className="text-xs"
-                    style={{
-                      color: '#8A8A8A',
-                      fontFamily:
-                        'var(--font-instrument-sans, "Instrument Sans", sans-serif)',
-                    }}
-                  >
-                    Usually replies in seconds
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-1 shrink-0">
-                <button
-                  onClick={minimizeChat}
-                  className="p-1.5 rounded-lg transition-colors hover:bg-primary/10 text-[#8A8A8A] hover:text-primary"
-                  aria-label="Minimize chat"
-                >
-                  <Minus className="w-4 h-4" />
-                </button>
-                <button
-                  onClick={minimizeChat}
-                  className="p-1.5 rounded-lg transition-colors hover:bg-primary/10 text-[#8A8A8A] hover:text-primary"
-                  aria-label="Close chat"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
+            {/* Minimal header — just the action buttons */}
+            <div className="flex items-center justify-end px-3 pt-3 pb-1 shrink-0">
+              <button
+                onClick={minimizeChat}
+                className="p-1.5 hover:bg-primary/10 rounded-lg transition-colors"
+                aria-label="Minimize chat"
+              >
+                <Minus className="w-4 h-4 text-primary/60" />
+              </button>
+              <button
+                onClick={minimizeChat}
+                className="p-1.5 hover:bg-primary/10 rounded-lg transition-colors"
+                aria-label="Close chat"
+              >
+                <X className="w-4 h-4 text-primary/60" />
+              </button>
             </div>
 
             <div className="flex-1 overflow-hidden">

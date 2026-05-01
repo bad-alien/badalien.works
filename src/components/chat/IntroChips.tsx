@@ -13,8 +13,8 @@ export default function IntroChips({ onAudit, onFaq }: IntroChipsProps) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.32, delay: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
-      className="flex gap-2 mt-3 mb-3 flex-wrap pl-[34px]"
+      transition={{ duration: 0.4, delay: 0.3 }}
+      className="flex gap-2 mt-2 mb-4 flex-wrap"
       role="group"
       aria-label="Quick actions"
     >

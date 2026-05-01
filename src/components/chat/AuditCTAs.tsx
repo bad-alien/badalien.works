@@ -97,11 +97,11 @@ export default function AuditCTAs({ onBookCall, onTellGoodTime }: AuditCTAsProps
   return (
     <div className="flex flex-col gap-2.5 mt-3">
       <CtaCard
-        title="Book a free consult"
-        sub="30 minutes, no slides, real talk"
+        title="Book a free 15-min intro call"
+        sub="See if we're a fit — no pitch"
         icon={<Calendar className="w-4 h-4" strokeWidth={2.25} />}
         onClick={handleBookCall}
-        ariaLabel="Book a free consult"
+        ariaLabel="Book a free 15-minute intro call"
       />
       <CtaCard
         title="Tell me a good time"
