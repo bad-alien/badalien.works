@@ -2,49 +2,110 @@
 
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Minus } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 import { useChat } from '@/contexts/ChatContext';
+import { useNudge } from '@/hooks/useNudge';
 import BusinessChatInterface from '@/components/chat/BusinessChatInterface';
 
 export default function ChatWidget() {
+  const pathname = usePathname();
   const { chatView, openChat, minimizeChat, closeChat, setEntryPoint } = useChat();
+  const { showNudge, dismiss } = useNudge();
+
+  // Hide on blog pages and contact
+  if (pathname.startsWith('/blog') || pathname === '/contact') return null;
 
   // Don't render anything when closed
   if (chatView === 'closed') return null;
 
   return (
     <>
-      {/* Minimized Icon Button */}
+      {/* Minimized Icon Button + Nudge Badge */}
       <AnimatePresence>
         {chatView === 'minimized' && (
-          <motion.button
-            onClick={() => {
-              setEntryPoint('widget');
-              openChat();
-            }}
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="fixed bottom-6 right-6 z-[200] p-4 bg-primary rounded-full shadow-lg hover:shadow-xl transition-shadow"
-            aria-label="Open chat"
-            style={{
-              boxShadow: '0 0 30px rgba(255, 107, 53, 0.6), 0 4px 20px rgba(0, 0, 0, 0.4)',
-            }}
-          >
-            <motion.div
-              animate={{
-                opacity: [0.7, 1, 0.7],
+          <div className="fixed bottom-6 right-6 z-[200] flex flex-col items-end gap-2">
+            {/* Nudge badge */}
+            <AnimatePresence>
+              {showNudge && (
+                <motion.div
+                  initial={{ opacity: 0, y: 6, scale: 0.9 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 4, scale: 0.9 }}
+                  transition={{ duration: 0.2, ease: 'easeOut' }}
+                  onMouseEnter={dismiss}
+                  onClick={dismiss}
+                  className="relative cursor-pointer select-none"
+                  role="button"
+                  aria-label="Dismiss nudge"
+                >
+                  <div
+                    className="px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap"
+                    style={{
+                      background: '#FF6B35',
+                      color: '#0A0A0A',
+                      fontFamily: 'var(--font-geist-mono, monospace)',
+                      letterSpacing: '0.04em',
+                      boxShadow: '0 0 16px rgba(255, 107, 53, 0.5)',
+                    }}
+                  >
+                    Free AI audit?
+                  </div>
+                  {/* Pointer arrow pointing down toward icon */}
+                  <div
+                    className="absolute left-1/2 -bottom-1.5 -translate-x-1/2"
+                    style={{
+                      width: 0,
+                      height: 0,
+                      borderLeft: '6px solid transparent',
+                      borderRight: '6px solid transparent',
+                      borderTop: '7px solid #FF6B35',
+                    }}
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Icon button — pulses once when nudge fires */}
+            <motion.button
+              onClick={() => {
+                setEntryPoint('widget');
+                openChat();
               }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{
+                scale: 1,
+                opacity: 1,
+              }}
+              exit={{ scale: 0, opacity: 0 }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-4 bg-primary rounded-full shadow-lg hover:shadow-xl transition-shadow"
+              aria-label="Open chat"
+              style={{
+                boxShadow: '0 0 30px rgba(255, 107, 53, 0.6), 0 4px 20px rgba(0, 0, 0, 0.4)',
               }}
             >
-              <MessageCircle className="w-6 h-6 text-background" />
-            </motion.div>
-          </motion.button>
+              <motion.div
+                animate={
+                  showNudge
+                    ? {
+                        scale: [1, 1.2, 1, 1.15, 1],
+                        opacity: [1, 1, 1, 1, 1],
+                      }
+                    : {
+                        opacity: [0.7, 1, 0.7],
+                      }
+                }
+                transition={
+                  showNudge
+                    ? { duration: 0.5, ease: 'easeInOut', times: [0, 0.2, 0.4, 0.7, 1] }
+                    : { duration: 2, repeat: Infinity, ease: 'easeInOut' }
+                }
+              >
+                <MessageCircle className="w-6 h-6 text-background" />
+              </motion.div>
+            </motion.button>
+          </div>
         )}
       </AnimatePresence>
 
