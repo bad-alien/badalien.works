@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Send } from 'lucide-react';
 
@@ -10,49 +10,96 @@ interface ChatInputProps {
   placeholder?: string;
 }
 
+const MAX_HEIGHT = 120;
+
 export default function ChatInput({
   onSend,
   disabled = false,
-  placeholder = 'Ask about our services...'
+  placeholder = 'Ask about our services...',
 }: ChatInputProps) {
   const [input, setInput] = useState('');
+  const [focused, setFocused] = useState(false);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${Math.min(el.scrollHeight, MAX_HEIGHT)}px`;
+  }, [input]);
+
+  const submit = () => {
     if (!input.trim() || disabled) return;
     onSend(input.trim());
     setInput('');
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    submit();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      submit();
+    }
+  };
+
+  const canSend = input.trim().length > 0 && !disabled;
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="relative flex items-center gap-3 bg-black/40 backdrop-blur-sm rounded-2xl px-4 py-3 sm:px-6 sm:py-4 sm:gap-4 transition-all duration-300 border border-primary/30 outline-none focus-within:outline-none focus-visible:outline-none ring-0 focus-within:ring-0"
+      className="flex items-end gap-2 transition-shadow duration-150"
+      style={{
+        background: '#1E1E1E',
+        border: `1px solid ${focused ? '#FF6B35' : '#2A2A2A'}`,
+        borderRadius: '14px',
+        padding: '6px 6px 6px 14px',
+        boxShadow: focused ? '0 0 0 3px rgba(255, 107, 53, 0.10)' : 'none',
+      }}
     >
-      <input
-        type="text"
+      <textarea
+        ref={textareaRef}
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        onKeyDown={handleKeyDown}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
         placeholder={placeholder}
         disabled={disabled}
+        rows={1}
         aria-label="Chat message input"
-        className="flex-1 bg-transparent border-none text-white placeholder-[#5A5A5A] outline-none disabled:opacity-50 text-base"
-        style={{
-          fontSize: '16px',
-          caretColor: '#FF6B35',
-          outline: 'none',
-        }}
         maxLength={8000}
+        className="flex-1 bg-transparent border-none resize-none disabled:opacity-50 outline-none"
+        style={{
+          color: '#F0F0F0',
+          fontSize: '15px',
+          lineHeight: '1.5',
+          padding: '8px 0',
+          caretColor: '#FF6B35',
+          maxHeight: MAX_HEIGHT,
+          fontFamily: 'var(--font-instrument-sans, "Instrument Sans", sans-serif)',
+        }}
       />
       <motion.button
         type="submit"
-        disabled={!input.trim() || disabled}
-        whileHover={{ scale: 1.1 }}
-        whileTap={{ scale: 0.9 }}
-        className="text-primary hover:text-primary-light disabled:opacity-30 disabled:cursor-not-allowed transition-colors duration-300"
+        disabled={!canSend}
+        whileHover={canSend ? { scale: 1.05 } : undefined}
+        whileTap={canSend ? { scale: 0.95 } : undefined}
+        transition={{ duration: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
         aria-label="Send message"
+        className="inline-flex items-center justify-center transition-colors duration-150 disabled:cursor-not-allowed shrink-0"
+        style={{
+          width: 36,
+          height: 36,
+          borderRadius: '10px',
+          background: canSend ? '#FF6B35' : '#2A2A2A',
+          color: canSend ? '#1A0A04' : '#8A8A8A',
+        }}
       >
-        <Send className="w-6 h-6" />
+        <Send className="w-4 h-4" strokeWidth={2.25} />
       </motion.button>
     </form>
   );

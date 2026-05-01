@@ -2,10 +2,74 @@
 
 import { getCalApi } from '@calcom/embed-react';
 import { useEffect } from 'react';
+import { Calendar, Clock, ChevronRight } from 'lucide-react';
 
 interface AuditCTAsProps {
   onBookCall: () => void;
   onTellGoodTime: () => void;
+}
+
+interface CtaCardProps {
+  title: string;
+  sub: string;
+  icon: React.ReactNode;
+  onClick: () => void;
+  ariaLabel: string;
+}
+
+function CtaCard({ title, sub, icon, onClick, ariaLabel }: CtaCardProps) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={ariaLabel}
+      className="group w-full flex items-center gap-3 text-left transition-all duration-150"
+      style={{
+        background:
+          'linear-gradient(180deg, rgba(255, 107, 53, 0.12), rgba(255, 107, 53, 0.04))',
+        border: '1px solid rgba(255, 107, 53, 0.25)',
+        borderRadius: '12px',
+        padding: '14px 16px',
+      }}
+    >
+      <span
+        className="inline-flex items-center justify-center shrink-0"
+        style={{
+          width: 36,
+          height: 36,
+          borderRadius: '10px',
+          background: 'rgba(255, 107, 53, 0.15)',
+          color: '#FF6B35',
+        }}
+      >
+        {icon}
+      </span>
+      <span className="flex-1 min-w-0 flex flex-col leading-tight">
+        <span
+          className="text-[13px] font-semibold truncate"
+          style={{
+            color: '#F0F0F0',
+            fontFamily: 'var(--font-outfit, "Outfit", sans-serif)',
+          }}
+        >
+          {title}
+        </span>
+        <span
+          className="text-xs"
+          style={{
+            color: '#8A8A8A',
+            fontFamily: 'var(--font-instrument-sans, "Instrument Sans", sans-serif)',
+          }}
+        >
+          {sub}
+        </span>
+      </span>
+      <ChevronRight
+        className="w-4 h-4 shrink-0 transition-transform duration-150 group-hover:translate-x-0.5"
+        style={{ color: '#FF6B35' }}
+      />
+    </button>
+  );
 }
 
 export default function AuditCTAs({ onBookCall, onTellGoodTime }: AuditCTAsProps) {
@@ -26,30 +90,26 @@ export default function AuditCTAs({ onBookCall, onTellGoodTime }: AuditCTAsProps
 
   const handleBookCall = async () => {
     const cal = await getCalApi({});
-    cal('modal', {
-      calLink: 'bad-alien/free-consult',
-    });
+    cal('modal', { calLink: 'bad-alien/free-consult' });
     onBookCall();
   };
 
   return (
-    <div className="flex flex-col sm:flex-row gap-3 mt-4">
-      <button
+    <div className="flex flex-col gap-2.5 mt-3">
+      <CtaCard
+        title="Book a free consult"
+        sub="30 minutes, no slides, real talk"
+        icon={<Calendar className="w-4 h-4" strokeWidth={2.25} />}
         onClick={handleBookCall}
-        className="flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-medium text-sm transition-all duration-150 bg-[#FF6B35] text-white hover:bg-[#FF8C5A] active:bg-[#E05A2A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6B35]"
-        aria-label="Book a call"
-      >
-        Book a call
-        <span aria-hidden="true">→</span>
-      </button>
-
-      <button
+        ariaLabel="Book a free consult"
+      />
+      <CtaCard
+        title="Tell me a good time"
+        sub="I'll reach out at your convenience"
+        icon={<Clock className="w-4 h-4" strokeWidth={2.25} />}
         onClick={onTellGoodTime}
-        className="flex-1 flex items-center justify-center px-5 py-3 rounded-lg font-medium text-sm transition-all duration-150 border border-[#FF6B35] text-[#FF6B35] hover:bg-[#FF6B35]/10 active:bg-[#FF6B35]/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6B35]"
-        aria-label="Tell me a good time to reach you"
-      >
-        Tell me a good time
-      </button>
+        ariaLabel="Tell me a good time to reach you"
+      />
     </div>
   );
 }

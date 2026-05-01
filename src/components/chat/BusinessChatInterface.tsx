@@ -486,13 +486,29 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
         role="log"
         aria-live="polite"
         aria-atomic="false"
-        className={`flex-1 overflow-y-auto ${compact ? 'px-4 py-6' : 'px-6 py-8 md:px-12 lg:px-24'}`}
+        className={`flex-1 overflow-y-auto ${compact ? 'px-5 pt-6 pb-2' : 'px-6 py-8 md:px-12 lg:px-24'}`}
         style={{
           scrollbarWidth: 'thin',
-          scrollbarColor: 'rgba(255, 107, 53, 0.4) transparent',
+          scrollbarColor: 'rgba(255, 255, 255, 0.10) transparent',
         }}
       >
         <div className={compact ? 'max-w-full' : 'max-w-5xl mx-auto'}>
+          {/* TODAY separator */}
+          <div className="flex items-center gap-3 mb-5" aria-hidden="true">
+            <span className="flex-1 h-px" style={{ background: '#222222' }} />
+            <span
+              className="text-[11px] uppercase"
+              style={{
+                color: '#5A5A5A',
+                letterSpacing: '0.1em',
+                fontFamily: 'var(--font-geist-mono, monospace)',
+              }}
+            >
+              Today
+            </span>
+            <span className="flex-1 h-px" style={{ background: '#222222' }} />
+          </div>
+
           <AnimatePresence mode="popLayout">
             {messages.map((message, index) => (
               <div key={message.id}>
@@ -519,25 +535,32 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="py-6"
+              className="py-3 flex items-center gap-1.5"
+              aria-label="AI is typing"
             >
-              <div className="flex gap-1">
-                {[0, 1, 2].map((i) => (
-                  <motion.div
-                    key={i}
-                    animate={{ opacity: [0.3, 1, 0.3] }}
-                    transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
-                    className="w-1.5 h-1.5 rounded-full bg-primary"
-                  />
-                ))}
-              </div>
+              {[0, 1, 2].map((i) => (
+                <motion.span
+                  key={i}
+                  animate={{ y: [0, -4, 0], opacity: [0.4, 1, 0.4] }}
+                  transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.15, ease: 'easeInOut' }}
+                  className="inline-block rounded-full"
+                  style={{ width: 6, height: 6, background: '#FF6B35' }}
+                />
+              ))}
             </motion.div>
           )}
         </div>
       </div>
 
       {/* Input Area */}
-      <div className={`${compact ? 'px-4 pb-[env(safe-area-inset-bottom,16px)] pt-2' : 'px-6 pb-4 md:px-12 lg:px-24'}`}>
+      <div
+        className={`${compact ? 'px-5 pb-[env(safe-area-inset-bottom,20px)] pt-3' : 'px-6 pb-4 md:px-12 lg:px-24'}`}
+        style={
+          compact
+            ? { borderTop: '1px solid #222222', background: '#161616' }
+            : undefined
+        }
+      >
         <div className={compact ? 'max-w-full' : 'max-w-5xl mx-auto'}>
           <ChatInput
             onSend={handleSendMessage}

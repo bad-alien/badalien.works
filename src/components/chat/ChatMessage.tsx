@@ -8,6 +8,7 @@ import AuditBriefCard from './AuditBriefCard';
 import AuditStatusBubble from './AuditStatusBubble';
 import AuditCTAs from './AuditCTAs';
 import ReachOutForm from './ReachOutForm';
+import AIAvatar from './AIAvatar';
 
 interface ChatMessageProps {
   message: Message;
@@ -105,25 +106,55 @@ export default function ChatMessage({
   // kind === 'text'
   const isUser = message.role === 'user';
 
+  if (isUser) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.32, ease: [0.2, 0.8, 0.2, 1] }}
+        className="py-2 flex justify-end"
+      >
+        <div
+          className="px-3.5 py-2.5 max-w-[85%]"
+          style={{
+            background: '#1E1E1E',
+            border: '1px solid rgba(255,255,255,0.06)',
+            borderRadius: '14px 14px 4px 14px',
+            color: '#F0F0F0',
+            fontSize: '0.9375rem',
+            lineHeight: '1.5',
+            letterSpacing: '0.01em',
+            whiteSpace: 'pre-wrap',
+            fontFamily: 'var(--font-instrument-sans, "Instrument Sans", sans-serif)',
+          }}
+        >
+          {message.content}
+        </div>
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: index * 0.08 }}
-      className={`py-3 flex ${isUser ? 'justify-end' : 'justify-start'}`}
+      transition={{ duration: 0.32, ease: [0.2, 0.8, 0.2, 1], delay: index * 0.04 }}
+      className="py-2 flex items-start gap-2.5"
     >
+      <span className="mt-0.5">
+        <AIAvatar size={24} />
+      </span>
       <div
-        className={`markdown-content ${isUser ? 'text-white text-right' : 'text-primary text-left w-full'}`}
+        className="markdown-content flex-1 min-w-0"
         style={{
+          color: '#C5C5C5',
           fontSize: '0.9375rem',
-          lineHeight: '1.5',
-          letterSpacing: '0.025em',
+          lineHeight: '1.55',
+          letterSpacing: '0.01em',
+          fontFamily: 'var(--font-instrument-sans, "Instrument Sans", sans-serif)',
         }}
       >
-        {isUser ? (
-          <span style={{ whiteSpace: 'pre-wrap' }}>{message.content}</span>
-        ) : (
-          <ReactMarkdown
+        <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             components={{
               h1: ({ ...props }) => <h1 className="text-2xl md:text-3xl font-bold mb-4 mt-6" {...props} />,
@@ -148,9 +179,8 @@ export default function ChatMessage({
               hr: ({ ...props }) => <hr className="border-primary/30 my-4" {...props} />,
             }}
           >
-            {message.content}
-          </ReactMarkdown>
-        )}
+          {message.content}
+        </ReactMarkdown>
       </div>
     </motion.div>
   );
