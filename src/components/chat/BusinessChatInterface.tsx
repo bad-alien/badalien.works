@@ -238,7 +238,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
 
       const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Surface': 'business' },
         body: JSON.stringify({ messages: apiMessages, session_id: sid, mode }),
       });
 
@@ -247,8 +247,8 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
         return null;
       }
 
-      const json = await res.json() as { message?: string; content?: string };
-      const reply = json.message ?? json.content ?? '';
+      const json = await res.json() as { reply?: string; message?: string; content?: string };
+      const reply = json.reply ?? json.message ?? json.content ?? '';
       if (reply) appendAssistantText(reply);
       return reply;
     } catch {
