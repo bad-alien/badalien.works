@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import Anthropic from '@anthropic-ai/sdk';
 import { generateCompletion } from '@/lib/llmClient';
-import { anthropic } from '@/lib/auditClient';
 import { getSession } from '@/lib/auditSession';
 import { FAQ_SYSTEM_PROMPT, AUDIT_FOLLOWUP_SYSTEM_PROMPT } from '@/lib/chatPrompts';
 
@@ -10,7 +10,7 @@ type ChatMessage = {
 };
 
 type ChatRequest = {
-  session_id: string;
+  session_id?: string;
   messages: ChatMessage[];
   mode?: 'faq' | 'audit_followup';
   max_new_tokens?: number;
@@ -53,12 +53,16 @@ function checkRateLimit(ip: string): boolean {
 
 function validateRequest(body: unknown): { valid: boolean; error?: string } {
   const data = body as Record<string, unknown>;
-  if (!data.session_id || typeof data.session_id !== 'string') {
-    return { valid: false, error: 'session_id is required and must be a string' };
-  }
 
-  if (data.session_id.length > 128) {
-    return { valid: false, error: 'session_id must be ≤ 128 characters' };
+  // session_id required for non-audit_followup paths too, but audit_followup
+  // has its own error path — only enforce format when present
+  if (data.session_id !== undefined) {
+    if (typeof data.session_id !== 'string') {
+      return { valid: false, error: 'session_id must be a string' };
+    }
+    if (data.session_id.length > 128) {
+      return { valid: false, error: 'session_id must be ≤ 128 characters' };
+    }
   }
 
   if (!Array.isArray(data.messages) || data.messages.length === 0) {
@@ -108,14 +112,17 @@ async function handleBusinessChat(
 
   if (mode === 'audit_followup') {
     if (!body.session_id) {
-      throw Object.assign(new Error('session_id is required for audit_followup mode'), { status: 400, code: 'MISSING_SESSION_ID' });
+      return NextResponse.json(
+        { error: { code: 'MISSING_SESSION_ID', message: 'session_id is required for audit_followup mode' } },
+        { status: 400 }
+      ) as unknown as ChatResponse;
     }
     const session = getSession(body.session_id);
-    if (!session) {
-      throw Object.assign(new Error('Session not found'), { status: 400, code: 'SESSION_NOT_FOUND' });
-    }
-    if (!session.brief) {
-      throw Object.assign(new Error('No audit brief found for this session'), { status: 400, code: 'NO_BRIEF' });
+    if (!session || !session.brief) {
+      return NextResponse.json(
+        { error: { code: 'SESSION_NOT_FOUND', message: 'No audit session or brief found for this session_id' } },
+        { status: 400 }
+      ) as unknown as ChatResponse;
     }
     systemPrompt = AUDIT_FOLLOWUP_SYSTEM_PROMPT(session.brief);
   } else {
@@ -126,19 +133,22 @@ async function handleBusinessChat(
   if (!process.env.ANTHROPIC_API_KEY) {
     await new Promise((resolve) => setTimeout(resolve, 300));
     return {
-      reply: mode === 'faq'
-        ? "I'd be happy to tell you about our AI consulting services. What would you like to know — offerings, process, timeline, or why local LLMs matter for data-sensitive businesses?"
-        : "Happy to dig deeper into your audit results. Which opportunity would you like to explore further?",
+      reply:
+        mode === 'faq'
+          ? "I'd be happy to tell you about our AI consulting services. What would you like to know — offerings, process, timeline, or why local LLMs matter for data-sensitive businesses?"
+          : "Happy to dig deeper into your audit results. Which opportunity would you like to explore further?",
       usage: { prompt_tokens: 50, completion_tokens: 30, total_tokens: 80 },
       session_id: body.session_id,
     };
   }
 
+  const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+
   const userMessages = body.messages
     .filter((m) => m.role !== 'system')
     .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }));
 
-  const response = await anthropic.messages.create({
+  const response = await client.messages.create({
     model: 'claude-sonnet-4-6',
     system: systemPrompt,
     messages: userMessages,
@@ -197,10 +207,10 @@ export async function POST(request: NextRequest) {
     const topP = body.top_p ?? 0.9;
     const topK = body.top_k ?? 50;
 
-    let response: ChatResponse;
+    let chatResponse: ChatResponse;
 
     if (surface === 'business') {
-      // Audit-followup mode requires a session with a brief
+      // Validate session requirements before delegating to handler
       if (mode === 'audit_followup') {
         if (!body.session_id) {
           return NextResponse.json(
@@ -217,7 +227,7 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      response = await handleBusinessChat(body, mode, maxTokens, temperature);
+      chatResponse = await handleBusinessChat(body, mode, maxTokens, temperature);
     } else {
       // Void surface — existing behavior unchanged
       const llmResponse = await generateCompletion({
@@ -227,7 +237,7 @@ export async function POST(request: NextRequest) {
         top_p: topP,
         top_k: topK,
       });
-      response = {
+      chatResponse = {
         reply: llmResponse.reply,
         usage: llmResponse.usage,
         session_id: body.session_id,
@@ -241,22 +251,13 @@ export async function POST(request: NextRequest) {
       mode: surface === 'business' ? mode : undefined,
       latency_ms: latency,
       status_code: 200,
-      response_length: response.reply.length,
+      response_length: chatResponse.reply.length,
       timestamp: new Date().toISOString(),
     });
 
-    return NextResponse.json(response, { status: 200 });
+    return NextResponse.json(chatResponse, { status: 200 });
   } catch (error) {
     const latency = Date.now() - startTime;
-
-    // Propagate structured errors from handleBusinessChat
-    if (error instanceof Error && 'status' in error) {
-      const typedErr = error as Error & { status: number; code: string };
-      return NextResponse.json(
-        { error: { code: typedErr.code, message: typedErr.message } },
-        { status: typedErr.status }
-      );
-    }
 
     if (error instanceof Error && error.message.includes('fetch')) {
       console.error('[Service Unavailable]', { latency_ms: latency, timestamp: new Date().toISOString() });

@@ -1,5 +1,3 @@
-import { anthropic } from '@/lib/auditClient';
-
 type ChatMessage = {
   role: 'system' | 'user' | 'assistant';
   content: string;
@@ -55,8 +53,8 @@ export async function generateCompletion(
   const max_new_tokens = req.max_new_tokens ?? 256;
   const temperature = req.temperature ?? 0.8;
 
-  // STUB MODE: No Anthropic API key configured
-  if (!process.env.ANTHROPIC_API_KEY) {
+  // STUB MODE: No LLM configured (Void-specific — checks LLM_API_URL only)
+  if (!process.env.LLM_API_URL) {
     console.log('[LLM Stub Mode]', {
       message_count: messages.length,
       timestamp: new Date().toISOString(),
@@ -74,52 +72,39 @@ export async function generateCompletion(
     };
   }
 
-  // PRODUCTION MODE: Anthropic SDK
-  const startTime = Date.now();
+  // Legacy OpenAI-compat path if LLM_API_URL is set
+  if (process.env.LLM_API_URL) {
+    const modelName = process.env.LLM_MODEL_NAME || 'closex/neuraldaredevil-8b-abliterated';
+    const startTime = Date.now();
 
-  try {
-    const systemMessage = messages.find((m) => m.role === 'system');
-    const userMessages = messages
-      .filter((m) => m.role !== 'system')
-      .map((m) => ({ role: m.role as 'user' | 'assistant', content: m.content }));
-
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      system: systemMessage?.content ?? VOID_SYSTEM_PROMPT,
-      messages: userMessages,
-      max_tokens: max_new_tokens,
-      temperature,
+    const response = await fetch(process.env.LLM_API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: modelName,
+        messages,
+        max_tokens: max_new_tokens,
+        temperature,
+        top_p: req.top_p ?? 0.9,
+      }),
     });
 
     const latency = Date.now() - startTime;
-    const reply = response.content
-      .filter((block) => block.type === 'text')
-      .map((block) => (block as { type: 'text'; text: string }).text)
-      .join('');
 
-    console.log('[LLM Success]', {
-      latency_ms: latency,
-      response_length: reply.length,
-      timestamp: new Date().toISOString(),
-    });
+    if (!response.ok) {
+      console.error('[LLM Error]', { status: response.status, latency_ms: latency, timestamp: new Date().toISOString() });
+      throw new Error(`LLM API returned ${response.status}`);
+    }
 
-    return {
-      reply,
-      usage: {
-        prompt_tokens: response.usage.input_tokens,
-        completion_tokens: response.usage.output_tokens,
-        total_tokens: response.usage.input_tokens + response.usage.output_tokens,
-      },
-    };
-  } catch (error) {
-    const latency = Date.now() - startTime;
-    console.error('[LLM Connection Error]', {
-      error: error instanceof Error ? error.message : 'Unknown error',
-      latency_ms: latency,
-      timestamp: new Date().toISOString(),
-    });
-    throw error;
+    const data = await response.json();
+    const reply = data.choices?.[0]?.message?.content || '';
+    console.log('[LLM Success]', { latency_ms: latency, response_length: reply.length, timestamp: new Date().toISOString() });
+
+    return { reply, usage: data.usage };
   }
+
+  // Should not be reached — LLM_API_URL guard above handles all cases
+  throw new Error('No LLM backend configured');
 }
 
 function prependSystemPrompt(messages: ChatMessage[]): ChatMessage[] {
