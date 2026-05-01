@@ -9,7 +9,7 @@ import BusinessChatInterface from '@/components/chat/BusinessChatInterface';
 
 export default function ChatWidget() {
   const pathname = usePathname();
-  const { chatView, openChat, minimizeChat, closeChat, setEntryPoint } = useChat();
+  const { chatView, openChat, minimizeChat, setEntryPoint } = useChat();
   const { showNudge, dismiss } = useNudge();
 
   // Hide on blog pages and contact
@@ -144,7 +144,7 @@ export default function ChatWidget() {
                   <Minus className="w-4 h-4 text-primary/60" />
                 </button>
                 <button
-                  onClick={closeChat}
+                  onClick={minimizeChat}
                   className="p-1.5 hover:bg-primary/10 rounded-lg transition-colors"
                   aria-label="Close chat"
                 >
