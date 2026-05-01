@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useChat, Message, AuditStep } from '@/contexts/ChatContext';
 import ChatMessage from './ChatMessage';
@@ -90,7 +90,8 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
   } = useChat();
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const isRunningRef = useRef(false);
+  const isRunningRef = useRef(false); // guards async callbacks against stale closures
+  const [isRunning, setIsRunning] = useState(false); // drives re-renders (typing indicator + input disabled)
 
   // Auto-scroll to bottom when new messages arrive
   useEffect(() => {
@@ -158,6 +159,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
     sensitive_docs: 'yes' | 'sometimes' | 'no';
   }) => {
     isRunningRef.current = true;
+    setIsRunning(true);
     setAuditStep('running');
 
     try {
@@ -213,6 +215,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
       appendCtaButtons();
     } finally {
       isRunningRef.current = false;
+      setIsRunning(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -226,6 +229,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
     currentMessages: Message[]
   ) => {
     isRunningRef.current = true;
+    setIsRunning(true);
 
     try {
       const apiMessages = currentMessages
@@ -252,6 +256,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
       return null;
     } finally {
       isRunningRef.current = false;
+      setIsRunning(false);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -462,7 +467,6 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
   // --------------------------------------------------------------------------
   // Render helpers
   // --------------------------------------------------------------------------
-  const isRunning = isRunningRef.current;
   const showIntroChips = branch === 'intro' && messages.length === 1 && messages[0]?.kind === 'text' && messages[0].role === 'assistant';
 
   const inputPlaceholder = (() => {
