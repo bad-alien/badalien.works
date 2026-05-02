@@ -54,7 +54,7 @@ export default function ChatInput({
       className="flex items-end gap-2 transition-colors duration-150"
       style={{
         background: '#1E1E1E',
-        border: `1px solid ${focused ? '#3A3A3A' : '#2A2A2A'}`,
+        border: `1px solid ${focused ? 'rgba(255,255,255,0.10)' : 'rgba(255,255,255,0.06)'}`,
         borderRadius: '14px',
         padding: '6px 6px 6px 14px',
       }}
