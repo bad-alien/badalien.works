@@ -51,13 +51,12 @@ export default function ChatInput({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-end gap-2 transition-shadow duration-150"
+      className="flex items-end gap-2 transition-colors duration-150"
       style={{
         background: '#1E1E1E',
-        border: `1px solid ${focused ? '#FF6B35' : '#2A2A2A'}`,
+        border: `1px solid ${focused ? '#3A3A3A' : '#2A2A2A'}`,
         borderRadius: '14px',
         padding: '6px 6px 6px 14px',
-        boxShadow: focused ? '0 0 0 3px rgba(255, 107, 53, 0.10)' : 'none',
       }}
     >
       <textarea
@@ -90,13 +89,14 @@ export default function ChatInput({
         whileTap={canSend ? { scale: 0.95 } : undefined}
         transition={{ duration: 0.15, ease: [0.2, 0.8, 0.2, 1] }}
         aria-label="Send message"
-        className="inline-flex items-center justify-center transition-colors duration-150 disabled:cursor-not-allowed shrink-0"
+        className="inline-flex items-center justify-center transition-colors duration-150 disabled:cursor-not-allowed shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
         style={{
-          width: 36,
-          height: 36,
-          borderRadius: '10px',
-          background: canSend ? '#FF6B35' : '#2A2A2A',
-          color: canSend ? '#1A0A04' : '#8A8A8A',
+          width: 32,
+          height: 32,
+          borderRadius: '8px',
+          border: 'none',
+          background: 'transparent',
+          color: canSend ? '#FF6B35' : '#5A5A5A',
         }}
       >
         <Send className="w-4 h-4" strokeWidth={2.25} />
