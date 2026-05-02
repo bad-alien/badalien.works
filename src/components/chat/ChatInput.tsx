@@ -71,7 +71,7 @@ export default function ChatInput({
         rows={1}
         aria-label="Chat message input"
         maxLength={8000}
-        className="flex-1 bg-transparent border-none resize-none disabled:opacity-50 outline-none"
+        className="flex-1 bg-transparent border-none resize-none disabled:opacity-50 outline-none focus:outline-none focus-visible:outline-none"
         style={{
           color: '#F0F0F0',
           fontSize: '15px',
