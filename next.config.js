@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Files read with fs at request time must be traced into the serverless
+  // bundle; the per-post OG image route reads these (see src/lib/og.tsx).
+  outputFileTracingIncludes: {
+    '/**/insights/**': ['./src/app/fonts/*.woff', './public/logos/ba-logo-trans-white.png'],
+    '/insights/**': ['./src/app/fonts/*.woff', './public/logos/ba-logo-trans-white.png'],
+  },
   // Allow connections from Windows host
   async headers() {
     return [
