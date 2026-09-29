@@ -1,4 +1,3 @@
-import { JSDOM } from 'jsdom';
 import dns from 'dns';
 
 const dnsPromises = dns.promises;
@@ -32,6 +31,70 @@ export async function isPrivateHostname(hostname: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+// ---------------------------------------------------------------------------
+// HTML → text. Deliberately not a DOM parser: jsdom's ESM-only deps crash on
+// Vercel's Node runtime, and the output only feeds an LLM prompt. Every scan
+// is linear so a hostile page (unclosed tags, "<<<<") can't stall the function.
+// ---------------------------------------------------------------------------
+const STRIPPED_BLOCKS = ['head', 'script', 'style', 'nav', 'footer', 'header', 'noscript', 'iframe', 'svg', 'template'];
+
+const NAMED_ENTITIES: Record<string, string> = {
+  amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ',
+  mdash: '—', ndash: '–', hellip: '…', rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', copy: '©', reg: '®', trade: '™',
+};
+
+// Removes everything from `open` to the end of `close` (case-insensitive).
+// An unclosed block swallows the rest of the document, like a browser would.
+function stripBetween(html: string, open: string, close: string, isTag: boolean): string {
+  const lower = html.toLowerCase();
+  let out = '';
+  let i = 0;
+  while (i < html.length) {
+    const start = lower.indexOf(open, i);
+    if (start === -1) {
+      out += html.slice(i);
+      break;
+    }
+    // "<header" must not match "<headline": require a tag-name boundary
+    const after = lower.charAt(start + open.length);
+    if (isTag && after && !/[\s>/]/.test(after)) {
+      out += html.slice(i, start + open.length);
+      i = start + open.length;
+      continue;
+    }
+    out += html.slice(i, start) + ' ';
+    const end = lower.indexOf(close, start + open.length);
+    if (end === -1) break;
+    if (!isTag) {
+      i = end + close.length;
+      continue;
+    }
+    const gt = lower.indexOf('>', end);
+    i = gt === -1 ? html.length : gt + 1;
+  }
+  return out;
+}
+
+function decodeEntities(text: string): string {
+  return text.replace(/&(#x[0-9a-f]{1,6}|#[0-9]{1,7}|[a-z]{2,8});/gi, (match, ent: string) => {
+    if (ent[0] === '#') {
+      const code = ent[1] === 'x' || ent[1] === 'X' ? parseInt(ent.slice(2), 16) : parseInt(ent.slice(1), 10);
+      return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : ' ';
+    }
+    return NAMED_ENTITIES[ent.toLowerCase()] ?? match;
+  });
+}
+
+export function htmlToText(html: string): string {
+  let text = stripBetween(html, '<!--', '-->', false);
+  for (const tag of STRIPPED_BLOCKS) {
+    text = stripBetween(text, `<${tag}`, `</${tag}`, true);
+  }
+  // [^<>] keeps this linear: a stray "<" can't make the scan run to end-of-input
+  text = text.replace(/<[^<>]*>/g, ' ');
+  return decodeEntities(text).replace(/\s+/g, ' ').trim();
 }
 
 export type FetchPageResult = {
@@ -86,21 +149,7 @@ export async function fetchPageText(url: string): Promise<FetchPageResult> {
     reader.cancel();
 
     const html = Buffer.concat(chunks).toString('utf-8');
-    const dom = new JSDOM(html, { url });
-    const doc = dom.window.document;
-
-    for (const tag of ['script', 'style', 'nav', 'footer', 'header', 'noscript', 'iframe', 'svg']) {
-      for (const el of doc.querySelectorAll(tag)) {
-        el.remove();
-      }
-    }
-
-    const text = (doc.body?.textContent || '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 8000);
-
-    return { text, blocked: false };
+    return { text: htmlToText(html).slice(0, 8000), blocked: false };
   } catch {
     return { text: '', blocked: false };
   }
