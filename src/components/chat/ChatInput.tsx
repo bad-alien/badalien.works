@@ -71,8 +71,11 @@ export default function ChatInput({
         rows={1}
         aria-label="Chat message input"
         maxLength={8000}
-        className="flex-1 bg-transparent border-none resize-none disabled:opacity-50 outline-none focus:outline-none focus-visible:outline-none"
+        className="flex-1 bg-transparent border-none resize-none disabled:opacity-50"
         style={{
+          // Inline so it beats the unlayered global *:focus-visible outline in globals.css
+          // (Tailwind v4 utilities live in a cascade layer and lose to it); the pill border shows focus.
+          outline: 'none',
           color: '#F0F0F0',
           fontSize: '15px',
           lineHeight: '1.5',
