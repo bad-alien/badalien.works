@@ -7,7 +7,7 @@ export default function InsightsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-base grain-texture">
+    <div className="relative min-h-screen bg-base grain-texture">
       <Header />
       <main>{children}</main>
       <Footer />

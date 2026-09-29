@@ -1,0 +1,67 @@
+---
+title: "Jev: The AI Model that Makes Decisions"
+date: "2026-09-29"
+description: "TypeSafe AI's Jev doesn't generate text. It picks from choices you define and returns a confidence score, in milliseconds. It became the fastest-adopted model in Vercel AI Gateway history, and it points to where cheap business automation is heading."
+category: "AI Pulse"
+tags:
+  - TypeSafe AI
+  - Jev
+  - Vercel
+  - AI Automation
+  - AI Strategy
+---
+
+Most AI tools are built to generate something: an email, an answer, a report, a piece of code.
+
+Jev is different.
+
+[Released by TypeSafe AI on September 15](https://rits.shanghai.nyu.edu/ai/typesafe-jev-system-one-model), Jev makes **small, fast decisions inside software**. Instead of asking an AI to write a paragraph about what should happen, you give Jev a few options and it picks one, with a confidence score.
+
+A customer writes in:
+
+> "I was charged twice for my order."
+
+A chatbot-style model would analyze the message and write an explanation. Jev would return something like:
+
+**Billing issue — 96% confidence**
+
+Your software then routes the customer to billing, in well under a second.
+
+That sounds like a small distinction, but businesses make thousands of these micro-decisions:
+
+- Is this lead high priority?
+- Which employee should handle this request?
+- Does this invoice need review?
+- Is this customer message urgent?
+- Should this task be automated or sent to a person?
+- Which AI model should handle this request?
+
+Running every one of those through ChatGPT or Claude is slow and expensive. Jev is built for exactly this narrower job.
+
+## Why people are paying attention
+
+Adoption has been unusually fast. Vercel reported that within 24 hours of Jev launching on its AI Gateway, nearly **13% of its paid teams** had used it, [more than twice the first-day share of any other recent model launch](https://vercel.com/blog/ai-gateway-jev-model-launch). Jev was [free on the gateway through September 25](https://runtimewire.com/article/typesafe-investors-discuss-a-higher-valuation-after-jev-reaches-nearly-13-of-one), which helped that first-day number.
+
+As of September 29, [Vercel's AI Gateway leaderboard](https://vercel.com/ai-gateway/leaderboards) shows Jev used by **28.7% of teams**, and it is the primary model for **22.9%** of them, the highest of any model on the platform. Teams use several models, so this isn't market share, but nearly three in ten teams on the gateway have put Jev to work.
+
+Part of the appeal is economics. Jev costs [$42 per billion input tokens](https://rits.shanghai.nyu.edu/ai/typesafe-jev-system-one-model), and output is free. In its own workflow tests, TypeSafe reports Jev was up to [roughly 194× faster and 445× cheaper](https://www.eesel.ai/blog/jev-ultrafast) than conventional language models. TypeSafe itself calls those numbers the high end of real-world gains, and [no independent lab has reproduced them yet](https://www.remio.ai/post/typesafe-ai-jev-funding-puts-a-445-cost-claim-under-scrutiny). Even a fraction of that gap changes the math on automation.
+
+## Why this matters for small businesses
+
+Jev won't replace ChatGPT or Claude. Think of it as a **decision layer underneath them**.
+
+A business automation system can use a model like Jev for hundreds of routine decisions and save the powerful models for work that actually needs writing, analysis or complex reasoning. It's the same [tiered approach that took shape with June's model releases](/insights/june-2026-model-tiers), pushed one step further.
+
+That makes automation considerably cheaper and faster, especially for workflows that run all day rather than the occasional chatbot question.
+
+## What to do
+
+1. **List the yes/no and pick-one decisions in your workflows.** Ticket routing, lead scoring and approval checks are the usual suspects.
+2. **Check whether a large model is making them today.** If so, you're likely paying for paragraphs you throw away.
+3. **Pilot a decision model on one high-volume step.** Measure speed, cost and accuracy against what you run now before rolling it out.
+
+The next wave of AI for small businesses may be less about a smarter chatbot and more about quietly putting inexpensive decisions into everyday operations.
+
+---
+
+Want to find the decisions in your business that could run on autopilot? [Let's talk](/contact).

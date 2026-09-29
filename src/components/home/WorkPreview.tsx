@@ -17,12 +17,12 @@ const heroProjects = [
   },
   {
     id: 'openclaw',
-    title: 'OpenClaw Assistant',
+    title: 'Personal AI Assistant',
     category: 'AI Assistant',
     chip: '3 Active Clients',
     chipType: 'active' as const,
     description:
-      'AI assistant built for elderly clients and their families. Manages bills, appointments, finances, and communication — designed around data security and privacy first, reliability second, everything else after.',
+      'Assistants for busy executives and families caring for elderly relatives. Claude Cowork or ChatGPT Work when that\'s enough; a private, self-hosted assistant when the data is sensitive. Bills, appointments, finances, communication, with security first.',
     image: '/images/work/openclaw-hero.png',
     imageContain: true,
   },

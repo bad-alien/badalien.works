@@ -35,7 +35,7 @@ export const services: Service[] = [
       'Discovery comes first — I map your actual business needs before writing a line of code. When I build, I build with you, not for you. You\'ll understand how it works, own the result, and be capable of adapting it as your business evolves. No black boxes, no lock-in.',
     status: 'Active',
     categories: ['Automation'],
-    techStack: ['Claude Code', 'n8n', 'AWS / GCP', 'UI/UX Design', 'iOS / Android / Web', 'OpenClaw', 'Marketing & Sales Agent Teams'],
+    techStack: ['Claude Code', 'n8n', 'AWS / GCP', 'UI/UX Design', 'iOS / Android / Web', 'Claude Cowork / ChatGPT Work', 'Self-hosted agents', 'Marketing & Sales Agent Teams'],
     demo: { type: 'placeholder' },
     ctaLabel: "Let's Talk →",
     ctaUrl: '/contact',
