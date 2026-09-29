@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { services } from '@/data/services';
+import Link from 'next/link';
 
 export default function ServicesPreview() {
   const displayServices = services.slice(0, 4);
@@ -51,6 +52,11 @@ export default function ServicesPreview() {
             </motion.div>
           ))}
         </div>
+        <p className="mt-10 text-lg">
+          <Link href="/services" className="text-text-heading hover:text-primary underline underline-offset-4 transition-colors duration-200">
+            All services and tooling →
+          </Link>
+        </p>
       </div>
     </section>
   );

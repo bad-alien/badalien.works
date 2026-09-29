@@ -1,79 +1,69 @@
 import Link from 'next/link';
 import Logo from './Logo';
 
+const pageLinks = [
+  { href: '/consult', label: 'Consult' },
+  { href: '/services', label: 'Services' },
+  { href: '/about', label: 'About' },
+  { href: '/ai-consultant-pasadena', label: 'AI Consultant in Pasadena' },
+  { href: '/creative', label: 'Creative' },
+  { href: '/insights', label: 'Insights' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const legalLinks = [
+  { href: '/privacy-policy', label: 'Privacy Policy' },
+  { href: '/terms-and-conditions', label: 'Terms & Conditions' },
+];
+
+const linkClass = 'text-text-secondary hover:text-white transition-colors font-sans text-base';
+
 export default function Footer() {
-  const pageLinks = [
-    { href: '/consult', label: 'Consult' },
-    { href: '/ai-consultant-pasadena', label: 'AI Consultant in Pasadena' },
-    { href: '/creative', label: 'Creative' },
-    { href: '/insights', label: 'Insights' },
-    { href: '/contact', label: 'Contact' },
-  ];
-
-  const legalLinks = [
-    { href: '/privacy-policy', label: 'Privacy Policy' },
-    { href: '/terms-and-conditions', label: 'Terms & Conditions' },
-  ];
-
   return (
     <footer className="bg-surface border-t border-border">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-16 lg:py-20">
-        {/* Main Footer Content */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
-          {/* Left Column - Logo + Tagline */}
-          <div className="space-y-4">
-            <Logo size="md" linkToHome={false} />
-            <p className="text-text-secondary text-sm font-sans leading-relaxed max-w-xs">
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12 lg:py-16">
+        {/* Brand row */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
+          <Logo size="md" linkToHome={false} />
+          <div className="space-y-1">
+            <p className="text-text-secondary text-sm font-sans leading-relaxed">
               AI strategy and creative technology for ambitious organizations
             </p>
-            <p className="text-text-secondary text-sm font-sans leading-relaxed max-w-xs">
+            <p className="text-text-secondary text-sm font-sans leading-relaxed">
               Based in Pasadena, CA. Working with teams across Los Angeles and remotely.
             </p>
           </div>
+        </div>
 
-          {/* Middle Column - Pages */}
-          <nav aria-label="Footer pages">
-            <h3 className="text-white font-sans text-lg mb-6">Pages</h3>
-            <ul className="space-y-3">
+        {/* Nav + contact row */}
+        <div className="mt-10 flex flex-col lg:flex-row lg:items-start lg:justify-between gap-6">
+          <nav aria-label="Footer">
+            <ul className="flex flex-wrap gap-x-8 gap-y-3">
               {pageLinks.map((link) => (
                 <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="text-text-secondary hover:text-white transition-colors font-sans text-base"
-                  >
+                  <Link href={link.href} className={linkClass}>
                     {link.label}
                   </Link>
                 </li>
               ))}
             </ul>
           </nav>
-
-          {/* Right Column - Connect */}
-          <nav aria-label="Connect" className="min-w-0">
-            <h3 className="text-white font-sans text-lg mb-6">Connect</h3>
-            <ul className="space-y-3">
-              <li>
-                <a
-                  href="mailto:contact@badalien.works"
-                  className="text-text-secondary hover:text-white transition-colors font-sans text-base break-all"
-                >
-                  contact@badalien.works
-                </a>
-              </li>
-              <li>
-                <a
-                  href="tel:+16264695839"
-                  className="text-text-secondary hover:text-white transition-colors font-sans text-base"
-                >
-                  (626) 469-5839
-                </a>
-              </li>
-            </ul>
-          </nav>
+          <ul className="flex flex-wrap gap-x-8 gap-y-3 lg:justify-end lg:shrink-0">
+            <li>
+              <a href="mailto:contact@badalien.works" className={`${linkClass} break-all`}>
+                contact@badalien.works
+              </a>
+            </li>
+            <li>
+              <a href="tel:+16264695839" className={linkClass}>
+                (626) 469-5839
+              </a>
+            </li>
+          </ul>
         </div>
 
-        {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+        {/* Bottom bar */}
+        <div className="mt-10 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-sm font-sans text-center md:text-left">
             © 2026 Bad Alien LLC. All rights reserved.
           </p>

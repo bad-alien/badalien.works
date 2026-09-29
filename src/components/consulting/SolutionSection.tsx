@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 const solutions = [
   {
@@ -95,6 +96,11 @@ export default function SolutionSection() {
             </motion.div>
           ))}
         </div>
+        <p className="mt-10 text-lg">
+          <Link href="/services" className="text-text-heading hover:text-primary underline underline-offset-4 transition-colors duration-200">
+            See all services and tooling →
+          </Link>
+        </p>
       </div>
     </section>
   );

@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useChat } from '@/contexts/ChatContext';
 import DualCta from '@/components/shared/DualCta';
+import Link from 'next/link';
 
 export default function ConsultCta() {
   const { openChat, setEntryPoint } = useChat();
@@ -50,6 +51,19 @@ export default function ConsultCta() {
           >
             contact@badalien.works
           </a>
+        </motion.p>
+        <motion.p
+          className="mt-8 text-base text-white/50"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+        >
+          Based in Pasadena or LA?{' '}
+          <Link href="/ai-consultant-pasadena" className="text-white/70 hover:text-white border-b border-white/30 hover:border-white transition-colors">
+            See how I work with local businesses
+          </Link>
+          .
         </motion.p>
       </motion.div>
     </section>

@@ -51,14 +51,12 @@ export default function AboutPage() {
   const { openChat, setEntryPoint } = useChat();
 
   const heroRef = useRef<HTMLDivElement>(null);
-  const bioRef = useRef<HTMLDivElement>(null);
   const experienceRef = useRef<HTMLDivElement>(null);
   const clientRef = useRef<HTMLDivElement>(null);
   const personalRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
 
   const heroInView = useInView(heroRef, { once: true, amount: 0.3 });
-  const bioInView = useInView(bioRef, { once: true, amount: 0.3 });
   const experienceInView = useInView(experienceRef, { once: true, amount: 0.3 });
   const clientInView = useInView(clientRef, { once: true, amount: 0.3 });
   const personalInView = useInView(personalRef, { once: true, amount: 0.3 });
@@ -70,24 +68,18 @@ export default function AboutPage() {
       <main id="main-content">
 
       {/* Hero Section */}
-      <section ref={heroRef} aria-label="Introduction" className="pt-32 pb-20 px-6">
-        <div className="container mx-auto max-w-4xl">
+      <section ref={heroRef} aria-label="Introduction" className="pt-32 pb-16 px-6">
+        <div className="container mx-auto max-w-3xl">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate={heroInView ? 'visible' : 'hidden'}
           >
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl md:text-7xl font-display font-light tracking-tight text-text-heading mb-16"
-            >
-              The Person Behind Bad Alien
-            </motion.h1>
+            <h1 className="sr-only">About Rasheed, founder of Bad Alien — AI consultant in Pasadena, CA</h1>
 
-            {/* Photo Placeholder */}
             <motion.div
               variants={itemVariants}
-              className="flex justify-center md:justify-start mb-12"
+              className="flex justify-center mb-10"
             >
               <div className="w-64 h-64 rounded-full overflow-hidden relative border border-border">
                 <Image
@@ -100,27 +92,16 @@ export default function AboutPage() {
                 />
               </div>
             </motion.div>
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Bio Section */}
-      <section ref={bioRef} aria-label="Bio" className="py-16 px-6 border-t border-border">
-        <div className="container mx-auto max-w-3xl">
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={bioInView ? 'visible' : 'hidden'}
-          >
             <motion.p
               variants={itemVariants}
-              className="text-text-body font-light leading-relaxed text-lg md:text-xl mb-6"
+              className="text-text-body font-light leading-relaxed text-lg md:text-xl mb-6 text-center"
             >
               I&apos;m Rasheed. I run Bad Alien, an independent AI consultancy in Pasadena, California, working with businesses across Los Angeles and remotely. Before that: 8 years as a product manager shipping products across finance, defense contracting, and healthtech. I&apos;ve seen how AI transforms organizations from the inside — and how it fails when adopted without strategy.
             </motion.p>
             <motion.p
               variants={itemVariants}
-              className="text-text-body font-light leading-relaxed text-lg md:text-xl"
+              className="text-text-body font-light leading-relaxed text-lg md:text-xl text-center"
             >
               Now I help businesses adopt AI that actually works — from team enablement to custom-built systems.
             </motion.p>

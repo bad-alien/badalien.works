@@ -73,6 +73,14 @@ export default function AboutPreview() {
                 .
               </p>
             </div>
+            <p className="text-lg">
+              <Link
+                href="/about"
+                className="text-text-heading hover:text-primary underline underline-offset-4 transition-colors duration-200"
+              >
+                More about me →
+              </Link>
+            </p>
 
           </div>
         </motion.div>
