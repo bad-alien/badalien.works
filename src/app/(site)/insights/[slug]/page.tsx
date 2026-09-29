@@ -138,6 +138,8 @@ export default async function PostPage({
                 month: 'long',
                 day: 'numeric',
                 year: 'numeric',
+                // Frontmatter dates are calendar days; format in UTC so viewers west of UTC don't see the day before
+                timeZone: 'UTC',
               })}
             </time>
             <span>·</span>
