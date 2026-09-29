@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
+import { trackConversion } from '@/lib/analytics';
 import type { AuditBrief } from '@/lib/auditSession';
 
 export type ChatBranch = 'intro' | 'audit' | 'faq' | 'post_audit';
@@ -66,6 +67,15 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [auditUrl, setAuditUrl] = useState<string | null>(null);
   const [postAuditTurnCount, setPostAuditTurnCount] = useState(0);
   const [lastCtaInsertTurn, setLastCtaInsertTurn] = useState(0);
+
+  // Fire on the transition into 'open' (any launcher), after setEntryPoint has landed
+  const prevChatView = useRef(chatView);
+  useEffect(() => {
+    if (chatView === 'open' && prevChatView.current !== 'open') {
+      trackConversion('Chat Opened', { entry: entryPoint });
+    }
+    prevChatView.current = chatView;
+  }, [chatView, entryPoint]);
 
   const openChat = () => setChatView('open');
   const minimizeChat = () => setChatView('minimized');

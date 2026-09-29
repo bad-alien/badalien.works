@@ -2,8 +2,11 @@
 
 import Cal, { getCalApi } from "@calcom/embed-react";
 import { useEffect } from "react";
+import { useCalBookedTracking } from "@/hooks/useCalBookedTracking";
 
 export default function CalEmbed() {
+  useCalBookedTracking('contact');
+
   useEffect(() => {
     (async function () {
       const cal = await getCalApi({});

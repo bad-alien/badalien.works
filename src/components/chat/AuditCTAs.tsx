@@ -1,6 +1,8 @@
 'use client';
 
 import { getCalApi } from '@calcom/embed-react';
+import { trackConversion } from '@/lib/analytics';
+import { useCalBookedTracking } from '@/hooks/useCalBookedTracking';
 import { useEffect } from 'react';
 import { Calendar, Clock, ChevronRight } from 'lucide-react';
 
@@ -88,7 +90,10 @@ export default function AuditCTAs({ onBookCall, onTellGoodTime }: AuditCTAsProps
     })();
   }, []);
 
+  useCalBookedTracking('chat');
+
   const handleBookCall = async () => {
+    trackConversion('Book Call Clicked');
     const cal = await getCalApi({});
     cal('modal', { calLink: 'bad-alien/free-consult' });
     onBookCall();
@@ -107,7 +112,10 @@ export default function AuditCTAs({ onBookCall, onTellGoodTime }: AuditCTAsProps
         title="Tell me a good time"
         sub="I'll reach out at your convenience"
         icon={<Clock className="w-4 h-4" strokeWidth={2.25} />}
-        onClick={onTellGoodTime}
+        onClick={() => {
+          trackConversion('Reach Out Clicked');
+          onTellGoodTime();
+        }}
         ariaLabel="Tell me a good time to reach you"
       />
     </div>

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import CalEmbed from '@/components/contact/CalEmbed';
+import { trackConversion } from '@/lib/analytics';
 
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
@@ -67,6 +68,7 @@ export default function ContactPage() {
       });
 
       if (response.ok) {
+        trackConversion('Contact Form Sent');
         setSubmitStatus('success');
         setFormData({
           name: '',

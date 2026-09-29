@@ -7,6 +7,7 @@ import ChatMessage from './ChatMessage';
 import ChatInput from './ChatInput';
 import IntroChips from './IntroChips';
 import type { AuditBrief } from '@/lib/auditSession';
+import { trackConversion } from '@/lib/analytics';
 
 interface BusinessChatInterfaceProps {
   compact?: boolean;
@@ -163,6 +164,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
     isRunningRef.current = true;
     setIsRunning(true);
     setAuditStep('running');
+    trackConversion('Audit Started');
 
     try {
       const res = await fetch('/api/audit/run', {
@@ -196,6 +198,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
         } else if (event === 'done') {
           const doneData = data as { brief?: AuditBrief; audit_token?: string };
           if (doneData.brief) {
+            trackConversion('Audit Completed', { score: doneData.brief.score });
             setAuditBrief(doneData.brief);
             setAuditToken(doneData.audit_token ?? null);
             appendBriefCard(doneData.brief, params.url);

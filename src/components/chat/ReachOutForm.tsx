@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { trackConversion } from '@/lib/analytics';
 
 interface ReachOutFormProps {
   sessionId: string;
@@ -100,6 +101,7 @@ export default function ReachOutForm({ sessionId, auditToken, onSuccess }: Reach
         return;
       }
 
+      trackConversion('Reach Out Sent', { audit: Boolean(auditToken) });
       onSuccess();
     } catch {
       setErrors({ form: 'Network error. Please check your connection and try again.' });
