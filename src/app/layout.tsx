@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Outfit, Instrument_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
+import { Analytics } from "@vercel/analytics/next";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -51,6 +52,7 @@ export default function RootLayout({
           </a>
           {children}
         </Providers>
+        <Analytics />
       </body>
     </html>
   );
