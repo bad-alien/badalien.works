@@ -213,7 +213,7 @@ export default function ReachOutForm({ sessionId, auditToken, onSuccess }: Reach
         type="submit"
         disabled={submitting}
         className="flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-medium text-sm transition-all duration-150 bg-[#FF6B35] text-white hover:bg-[#FF8C5A] active:bg-[#E05A2A] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6B35]"
-        aria-label={submitting ? 'Sending…' : 'Send to Rauf'}
+        aria-label={submitting ? 'Sending…' : 'Send to Rasheed'}
       >
         {submitting ? (
           <>
@@ -235,7 +235,7 @@ export default function ReachOutForm({ sessionId, auditToken, onSuccess }: Reach
           </>
         ) : (
           <>
-            Send to Rauf <span aria-hidden="true">→</span>
+            Send to Rasheed <span aria-hidden="true">→</span>
           </>
         )}
       </button>

@@ -21,7 +21,7 @@ export default function AboutPreview() {
             <div className="w-48 h-48 md:w-64 md:h-64 rounded-xl overflow-hidden relative">
               <Image
                 src="/images/profile.jpg"
-                alt="Rasheed Akbarut"
+                alt="Rasheed, founder of Bad Alien"
                 fill
                 className="object-cover"
                 sizes="(max-width: 768px) 192px, 256px"
