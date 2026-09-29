@@ -11,6 +11,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { useMDXComponents as getMDXComponents } from '@/mdx-components';
+import { SITE_URL, SITE_NAME, ORGANIZATION_ID, FOUNDER_ID } from '@/lib/site';
 
 const contentDirectory = path.join(process.cwd(), 'src/content/insights');
 
@@ -47,16 +48,19 @@ export async function generateMetadata({
   return {
     title: `${data.title} | Bad Alien`,
     description: data.description,
+    alternates: { canonical: `/insights/${slug}` },
     openGraph: {
       title: data.title,
       description: data.description,
+      url: `/insights/${slug}`,
+      siteName: SITE_NAME,
       type: 'article',
       publishedTime: data.date,
       tags: data.tags || [],
       images: data.image ? [{ url: data.image }] : [],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: data.image ? 'summary_large_image' : 'summary',
       title: data.title,
       description: data.description,
       images: data.image ? [data.image] : [],
@@ -92,16 +96,10 @@ export default async function PostPage({
     headline: data.title,
     description: data.description,
     datePublished: data.date,
-    author: {
-      '@type': 'Person',
-      name: 'Bad Alien',
-      url: 'https://badalien.works/about',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'Bad Alien',
-      url: 'https://badalien.works',
-    },
+    url: `${SITE_URL}/insights/${slug}`,
+    mainEntityOfPage: `${SITE_URL}/insights/${slug}`,
+    author: { '@type': 'Person', '@id': FOUNDER_ID, name: 'Rasheed', url: `${SITE_URL}/about` },
+    publisher: { '@type': 'ProfessionalService', '@id': ORGANIZATION_ID, name: SITE_NAME, url: SITE_URL },
     keywords: (data.tags || []).join(', '),
   };
 

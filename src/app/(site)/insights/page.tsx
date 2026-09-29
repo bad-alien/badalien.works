@@ -2,18 +2,14 @@ import { Metadata } from 'next';
 import { getAllPosts, getAllCategories, type Category } from '@/lib/blog';
 import CategoryFilter from '@/components/insights/CategoryFilter';
 import PostCard from '@/components/insights/PostCard';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata: Metadata = {
+export const metadata: Metadata = pageMetadata({
+  path: '/insights',
   title: 'Insights | Bad Alien',
   description:
     'Technical deep-dives, AI strategy, and field notes from the front lines of AI consulting and engineering.',
-  openGraph: {
-    title: 'Insights | Bad Alien',
-    description:
-      'Technical deep-dives, AI strategy, and field notes from the front lines of AI consulting and engineering.',
-    type: 'website',
-  },
-};
+});
 
 export default async function InsightsPage({
   searchParams,

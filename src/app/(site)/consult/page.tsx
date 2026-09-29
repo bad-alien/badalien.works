@@ -4,11 +4,13 @@ import SolutionSection from '@/components/consulting/SolutionSection';
 import ConsultSelectedWork from '@/components/consulting/ConsultSelectedWork';
 import ProofSection from '@/components/consulting/ProofSection';
 import ConsultCta from '@/components/consulting/ConsultCta';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata = {
+export const metadata = pageMetadata({
+  path: '/consult',
   title: 'AI Consulting & Enablement | Bad Alien',
-  description: 'From strategy to production — AI that saves time, reduces costs, and scales. 8 years building products across finance, defense, and healthtech.',
-};
+  description: 'From strategy to production — AI that saves time, reduces costs, and scales. 8 years building products across finance, defense, and healthtech. Based in Pasadena, CA.',
+});
 
 export default function ConsultPage() {
   return (

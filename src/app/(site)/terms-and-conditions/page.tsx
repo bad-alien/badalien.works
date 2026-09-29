@@ -35,7 +35,7 @@ export default function TermsPage() {
             <section>
               <p>
                 These Terms &amp; Conditions (the &ldquo;Terms&rdquo;) govern your use of{' '}
-                <a href="https://badalien.works" className="text-primary hover:text-primary-light underline">
+                <a href="https://www.badalien.works" className="text-primary hover:text-primary-light underline">
                   badalien.works
                 </a>{' '}
                 and its subdomains (the &ldquo;Site&rdquo;), the contact form, the call-booking

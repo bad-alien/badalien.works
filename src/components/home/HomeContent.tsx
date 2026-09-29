@@ -59,7 +59,7 @@ export default function HomeContent({ latestPosts }: HomeContentProps) {
         animate={{ opacity: headerVisible ? 1 : 0 }}
         transition={{ duration: 0.8, delay: 0.3 }}
       >
-        <h1 className="sr-only">Bad Alien — AI Consulting &amp; Enablement</h1>
+        <h1 className="sr-only">Bad Alien — AI Consulting &amp; Enablement in Pasadena, CA</h1>
 
         <ServicesPreview />
         <WorkPreview />

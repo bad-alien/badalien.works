@@ -25,6 +25,9 @@ export default function Footer() {
             <p className="text-text-secondary text-sm font-sans leading-relaxed max-w-xs">
               AI strategy and creative technology for ambitious organizations
             </p>
+            <p className="text-text-secondary text-sm font-sans leading-relaxed max-w-xs">
+              Based in Pasadena, CA. Working with teams across Los Angeles and remotely.
+            </p>
           </div>
 
           {/* Middle Column - Pages */}
