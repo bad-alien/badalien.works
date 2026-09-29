@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Anthropic from '@anthropic-ai/sdk';
 import { generateCompletion } from '@/lib/llmClient';
-import { getSession } from '@/lib/auditSession';
+import { verifyAuditToken } from '@/lib/auditToken';
 import { FAQ_SYSTEM_PROMPT, AUDIT_FOLLOWUP_SYSTEM_PROMPT } from '@/lib/chatPrompts';
 
 type ChatMessage = {
@@ -11,6 +11,7 @@ type ChatMessage = {
 
 type ChatRequest = {
   session_id?: string;
+  audit_token?: string;
   messages: ChatMessage[];
   mode?: 'faq' | 'audit_followup';
   max_new_tokens?: number;
@@ -111,20 +112,14 @@ async function handleBusinessChat(
   let systemPrompt: string;
 
   if (mode === 'audit_followup') {
-    if (!body.session_id) {
+    const audit = verifyAuditToken(body.audit_token);
+    if (!audit) {
       return NextResponse.json(
-        { error: { code: 'MISSING_SESSION_ID', message: 'session_id is required for audit_followup mode' } },
+        { error: { code: 'SESSION_NOT_FOUND', message: 'A valid audit_token is required for audit_followup mode' } },
         { status: 400 }
       ) as unknown as ChatResponse;
     }
-    const session = getSession(body.session_id);
-    if (!session || !session.brief) {
-      return NextResponse.json(
-        { error: { code: 'SESSION_NOT_FOUND', message: 'No audit session or brief found for this session_id' } },
-        { status: 400 }
-      ) as unknown as ChatResponse;
-    }
-    systemPrompt = AUDIT_FOLLOWUP_SYSTEM_PROMPT(session.brief);
+    systemPrompt = AUDIT_FOLLOWUP_SYSTEM_PROMPT(audit.brief);
   } else {
     systemPrompt = FAQ_SYSTEM_PROMPT;
   }
@@ -212,16 +207,9 @@ export async function POST(request: NextRequest) {
     if (surface === 'business') {
       // Validate session requirements before delegating to handler
       if (mode === 'audit_followup') {
-        if (!body.session_id) {
+        if (!verifyAuditToken(body.audit_token)) {
           return NextResponse.json(
-            { error: { code: 'MISSING_SESSION_ID', message: 'session_id is required for audit_followup mode' } },
-            { status: 400 }
-          );
-        }
-        const session = getSession(body.session_id);
-        if (!session || !session.brief) {
-          return NextResponse.json(
-            { error: { code: 'SESSION_NOT_FOUND', message: 'No audit session or brief found for this session_id' } },
+            { error: { code: 'SESSION_NOT_FOUND', message: 'A valid audit_token is required for audit_followup mode' } },
             { status: 400 }
           );
         }

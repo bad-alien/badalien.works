@@ -3,7 +3,7 @@ import {
   makePostRequest,
   LEAD_EMAIL,
   createTestSession,
-  seedSessionWithBrief,
+  makeAuditToken,
 } from './_helpers'
 
 // ── Mocks ──────────────────────────────────────────────────────────────────
@@ -40,13 +40,13 @@ describe('POST /api/audit/reachout — happy path', () => {
 
   it('valid submit → 200 ok=true, Resend called once with [Lead] subject to lead email', async () => {
     const session_id = await createTestSession()
-    await seedSessionWithBrief(session_id)
+    const audit_token = await makeAuditToken(session_id)
 
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
       {
-        session_id,
+        session_id, audit_token,
         email: 'prospect@company.com',
         best_time: 'Tuesday afternoons',
       },
@@ -64,13 +64,13 @@ describe('POST /api/audit/reachout — happy path', () => {
 
   it('email body contains brief content and lead details', async () => {
     const session_id = await createTestSession()
-    await seedSessionWithBrief(session_id)
+    const audit_token = await makeAuditToken(session_id)
 
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
       {
-        session_id,
+        session_id, audit_token,
         email: 'prospect@company.com',
         best_time: 'Tuesday afternoons',
         phone: '+1-555-0100',
@@ -89,12 +89,12 @@ describe('POST /api/audit/reachout — happy path', () => {
 
   it('optional phone omitted → 200 ok=true', async () => {
     const session_id = await createTestSession()
-    await seedSessionWithBrief(session_id)
+    const audit_token = await makeAuditToken(session_id)
 
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
-      { session_id, email: 'nophone@company.com', best_time: 'Any morning' },
+      { session_id, audit_token, email: 'nophone@company.com', best_time: 'Any morning' },
       { 'x-forwarded-for': '11.11.11.13' }
     )
     const res = await POST(req as any)
@@ -103,7 +103,7 @@ describe('POST /api/audit/reachout — happy path', () => {
   })
 })
 
-describe('POST /api/audit/reachout — missing session / no brief → error', () => {
+describe('POST /api/audit/reachout — no audit context (FAQ-only leads)', () => {
   beforeEach(() => {
     vi.clearAllMocks()
     vi.unstubAllEnvs()
@@ -115,7 +115,7 @@ describe('POST /api/audit/reachout — missing session / no brief → error', ()
     vi.unstubAllEnvs()
   })
 
-  it('nonexistent session_id → 400 SESSION_NOT_FOUND', async () => {
+  it('unknown session_id with no token → 200, lead still emailed', async () => {
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
@@ -123,22 +123,24 @@ describe('POST /api/audit/reachout — missing session / no brief → error', ()
       { 'x-forwarded-for': '11.11.12.1' }
     )
     const res = await POST(req as any)
-    expect(res.status).toBe(400)
-    expect(JSON.stringify(res.body)).toMatch(/SESSION_NOT_FOUND/i)
+    expect(res.status).toBe(200)
+    expect(mockResendSend).toHaveBeenCalledTimes(1)
+    expect(mockResendSend.mock.calls[0][0].subject).toMatch(/\[Lead\]/)
   })
 
-  it('session exists but no brief → 400 SESSION_NOT_FOUND', async () => {
+  it('expired or garbage audit token → 200, lead emailed without brief', async () => {
     const session_id = await createTestSession()
     // No brief seeded — session has no brief
 
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
-      { session_id, email: 'a@b.com', best_time: 'Tuesday' },
+      { session_id, audit_token: 'not.a-valid-token', email: 'a@b.com', best_time: 'Tuesday' },
       { 'x-forwarded-for': '11.11.12.2' }
     )
     const res = await POST(req as any)
-    expect(res.status).toBe(400)
+    expect(res.status).toBe(200)
+    expect(mockResendSend.mock.calls[0][0].text).toMatch(/no audit/i)
   })
 })
 
@@ -156,12 +158,12 @@ describe('POST /api/audit/reachout — validation', () => {
 
   it('invalid email format → 400', async () => {
     const session_id = await createTestSession()
-    await seedSessionWithBrief(session_id)
+    const audit_token = await makeAuditToken(session_id)
 
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
-      { session_id, email: 'not-an-email', best_time: 'Tuesday' },
+      { session_id, audit_token, email: 'not-an-email', best_time: 'Tuesday' },
       { 'x-forwarded-for': '11.11.13.1' }
     )
     const res = await POST(req as any)
@@ -170,19 +172,19 @@ describe('POST /api/audit/reachout — validation', () => {
 
   it('empty best_time → 400', async () => {
     const session_id = await createTestSession()
-    await seedSessionWithBrief(session_id)
+    const audit_token = await makeAuditToken(session_id)
 
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
-      { session_id, email: 'a@b.com', best_time: '' },
+      { session_id, audit_token, email: 'a@b.com', best_time: '' },
       { 'x-forwarded-for': '11.11.13.2' }
     )
     const res = await POST(req as any)
     expect(res.status).toBe(400)
   })
 
-  it('missing session_id → 400', async () => {
+  it('missing session_id → 200 (session is optional)', async () => {
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
@@ -190,17 +192,17 @@ describe('POST /api/audit/reachout — validation', () => {
       { 'x-forwarded-for': '11.11.13.3' }
     )
     const res = await POST(req as any)
-    expect(res.status).toBe(400)
+    expect(res.status).toBe(200)
   })
 
   it('missing email → 400', async () => {
     const session_id = await createTestSession()
-    await seedSessionWithBrief(session_id)
+    const audit_token = await makeAuditToken(session_id)
 
     const { POST } = await import('@/app/api/audit/reachout/route')
     const req = makePostRequest(
       'http://localhost/api/audit/reachout',
-      { session_id, best_time: 'Tuesday' },
+      { session_id, audit_token, best_time: 'Tuesday' },
       { 'x-forwarded-for': '11.11.13.4' }
     )
     const res = await POST(req as any)

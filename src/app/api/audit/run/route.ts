@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { getSession, setInputs, setBrief } from '@/lib/auditSession';
+import { signAuditContext, isAuditSigningConfigured } from '@/lib/auditToken';
 import { runAudit, calculateAuditCostUSD } from '@/lib/auditClient';
 import { fetchPageText, isPrivateHostname } from '@/lib/auditFetch';
 import { checkAuditRateLimit, isBudgetExceeded, recordAuditCost } from '@/lib/auditRateLimit';
@@ -22,6 +22,8 @@ async function appendTranscriptEvent(session_id: string, event: Record<string, u
   }
 }
 
+const SESSION_ID_RE = /^[A-Za-z0-9-]{1,128}$/;
+
 // ---------------------------------------------------------------------------
 // SSE helper
 // ---------------------------------------------------------------------------
@@ -37,6 +39,15 @@ export async function POST(request: NextRequest) {
     request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
     request.headers.get('x-real-ip') ||
     'unknown';
+
+  // Without a signing secret the brief can't be handed back; fail before spending on the audit
+  if (!isAuditSigningConfigured()) {
+    console.error('[audit/run] AUDIT_SIGNING_SECRET is not set');
+    return new Response(
+      JSON.stringify({ error: { code: 'INTERNAL_ERROR', message: 'Audit is temporarily unavailable.' } }),
+      { status: 503, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
 
   // Budget pre-check before any processing
   if (isBudgetExceeded()) {
@@ -74,6 +85,14 @@ export async function POST(request: NextRequest) {
   if (!session_id || typeof session_id !== 'string') {
     return new Response(
       JSON.stringify({ error: { code: 'VALIDATION_ERROR', message: 'session_id is required.' } }),
+      { status: 400, headers: { 'Content-Type': 'application/json' } }
+    );
+  }
+
+  // session_id names the transcript file — restrict to UUID-safe chars (no path traversal)
+  if (!SESSION_ID_RE.test(session_id)) {
+    return new Response(
+      JSON.stringify({ error: { code: 'VALIDATION_ERROR', message: 'session_id is malformed.' } }),
       { status: 400, headers: { 'Content-Type': 'application/json' } }
     );
   }
@@ -132,20 +151,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const session = getSession(session_id);
-  if (!session) {
-    return new Response(
-      JSON.stringify({ error: { code: 'SESSION_NOT_FOUND', message: 'Session not found or expired.' } }),
-      { status: 404, headers: { 'Content-Type': 'application/json' } }
-    );
-  }
-
-  // Persist inputs to session
-  setInputs(session_id, {
-    url,
-    bottleneck,
-    sensitive_docs: sensitive_docs as 'yes' | 'sometimes' | 'no',
-  });
+  const sensitiveDocs = sensitive_docs as 'yes' | 'sometimes' | 'no';
 
   const encoder = new TextEncoder();
 
@@ -196,7 +202,7 @@ export async function POST(request: NextRequest) {
             url,
             page_text,
             bottleneck,
-            sensitive_docs: sensitive_docs as 'yes' | 'sometimes' | 'no',
+            sensitive_docs: sensitiveDocs,
           });
 
           // Track budget
@@ -209,8 +215,20 @@ export async function POST(request: NextRequest) {
             }
           }
 
-          // Persist brief to session
-          setBrief(session_id, result.brief);
+          const auditContext = {
+            session_id,
+            url,
+            bottleneck,
+            sensitive_docs: sensitiveDocs,
+            brief: result.brief,
+          };
+          const audit_token = signAuditContext({
+            sid: session_id,
+            url,
+            bottleneck,
+            sensitive_docs: sensitiveDocs,
+            brief: result.brief,
+          });
 
           // Log to transcript
           await appendTranscriptEvent(session_id, {
@@ -223,15 +241,12 @@ export async function POST(request: NextRequest) {
           });
 
           // Step 4: Done
-          enqueue('done', { status: 'done', brief: result.brief });
+          enqueue('done', { status: 'done', brief: result.brief, audit_token });
 
           // Send audit email via leadEmail (non-blocking, errors swallowed)
-          const updatedSession = getSession(session_id);
-          if (updatedSession) {
-            sendAuditEmail(updatedSession).catch((e) => {
-              console.error('[audit/run] email send error:', e instanceof Error ? e.message : e);
-            });
-          }
+          sendAuditEmail(auditContext).catch((e) => {
+            console.error('[audit/run] email send error:', e instanceof Error ? e.message : e);
+          });
         } catch (e) {
           const message = e instanceof Error ? e.message : 'Unknown error';
           console.error('[audit/run] pipeline error:', message);

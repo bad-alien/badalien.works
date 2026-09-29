@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 interface ReachOutFormProps {
   sessionId: string;
+  auditToken?: string | null;
   onSuccess: () => void;
 }
 
@@ -11,6 +12,7 @@ interface FormValues {
   email: string;
   best_time: string;
   phone: string;
+  website: string; // honeypot, hidden from humans
 }
 
 interface FormErrors {
@@ -34,8 +36,8 @@ function validate(values: FormValues): FormErrors {
   return errors;
 }
 
-export default function ReachOutForm({ sessionId, onSuccess }: ReachOutFormProps) {
-  const [values, setValues] = useState<FormValues>({ email: '', best_time: '', phone: '' });
+export default function ReachOutForm({ sessionId, auditToken, onSuccess }: ReachOutFormProps) {
+  const [values, setValues] = useState<FormValues>({ email: '', best_time: '', phone: '', website: '' });
   const [errors, setErrors] = useState<FormErrors>({});
   const [touched, setTouched] = useState<Partial<Record<keyof FormValues, boolean>>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -76,6 +78,12 @@ export default function ReachOutForm({ sessionId, onSuccess }: ReachOutFormProps
       };
       if (values.phone.trim()) {
         body.phone = values.phone.trim();
+      }
+      if (auditToken) {
+        body.audit_token = auditToken;
+      }
+      if (values.website) {
+        body.website = values.website;
       }
 
       const res = await fetch('/api/audit/reachout', {
@@ -184,6 +192,20 @@ export default function ReachOutForm({ sessionId, onSuccess }: ReachOutFormProps
           onChange={handleChange('phone')}
           onBlur={handleBlur('phone')}
           className={inputNormal}
+        />
+      </div>
+
+      {/* Honeypot: off-screen, skipped by keyboard and screen readers; bots that fill every field get dropped server-side */}
+      <div aria-hidden="true" className="absolute -left-[9999px] w-px h-px overflow-hidden">
+        <label htmlFor="reachout-website">Website</label>
+        <input
+          id="reachout-website"
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          value={values.website}
+          onChange={handleChange('website')}
         />
       </div>
 

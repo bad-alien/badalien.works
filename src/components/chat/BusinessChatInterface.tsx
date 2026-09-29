@@ -81,6 +81,8 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
     sessionId,
     setSessionId,
     setAuditBrief,
+    auditToken,
+    setAuditToken,
     auditUrl,
     setAuditUrl,
     postAuditTurnCount,
@@ -192,9 +194,10 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
           const statusData = data as { status: string; message?: string };
           if (statusData.message) appendStatus(statusData.message);
         } else if (event === 'done') {
-          const doneData = data as { brief?: AuditBrief };
+          const doneData = data as { brief?: AuditBrief; audit_token?: string };
           if (doneData.brief) {
             setAuditBrief(doneData.brief);
+            setAuditToken(doneData.audit_token ?? null);
             appendBriefCard(doneData.brief, params.url);
             appendCtaButtons();
             setAuditStep('rendered');
@@ -226,7 +229,8 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
   const sendFreeChatMessage = useCallback(async (
     mode: 'faq' | 'audit_followup',
     sid: string,
-    currentMessages: Message[]
+    currentMessages: Message[],
+    token?: string | null
   ) => {
     isRunningRef.current = true;
     setIsRunning(true);
@@ -239,7 +243,12 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
       const res = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Surface': 'business' },
-        body: JSON.stringify({ messages: apiMessages, session_id: sid, mode }),
+        body: JSON.stringify({
+          messages: apiMessages,
+          session_id: sid,
+          mode,
+          ...(mode === 'audit_followup' && token ? { audit_token: token } : {}),
+        }),
       });
 
       if (!res.ok) {
@@ -395,7 +404,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
       const newTurnCount = postAuditTurnCount + 1;
       setPostAuditTurnCount(newTurnCount);
 
-      await sendFreeChatMessage('audit_followup', sessionId ?? '', currentMessages);
+      await sendFreeChatMessage('audit_followup', sessionId ?? '', currentMessages, auditToken);
 
       // Resurface CTAs every 2+ assistant turns since last insertion
       if (newTurnCount - lastCtaInsertTurn >= 2) {
@@ -419,7 +428,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
       return;
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [branch, auditStep, auditUrl, sessionId, messages, postAuditTurnCount, lastCtaInsertTurn, handleAuditStep, sendFreeChatMessage]);
+  }, [branch, auditStep, auditUrl, sessionId, auditToken, messages, postAuditTurnCount, lastCtaInsertTurn, handleAuditStep, sendFreeChatMessage]);
 
   // --------------------------------------------------------------------------
   // Chip actions
@@ -503,6 +512,7 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
                   onTellGoodTime={handleTellGoodTime}
                   onReachOutSuccess={handleReachOutSuccess}
                   sessionId={sessionId}
+                  auditToken={auditToken}
                 />
 
                 {/* Intro chips — shown below the first assistant message */}

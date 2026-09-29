@@ -148,6 +148,12 @@ describe('POST /api/audit/run', () => {
       expect(brief.observations).toHaveLength(3)
       expect(brief.opportunities).toHaveLength(3)
       expect(brief.sovereignty_callout).toBeUndefined()
+
+      // Brief comes back as a signed token the client returns to /api/chat and /api/audit/reachout
+      const { verifyAuditToken } = await import('@/lib/auditToken')
+      const ctx = verifyAuditToken(doneData.audit_token)
+      expect(ctx).not.toBeNull()
+      expect(ctx!.brief).toEqual(brief)
     })
   })
 
@@ -261,15 +267,15 @@ describe('POST /api/audit/run', () => {
       expect(res.status).toBe(400)
     })
 
-    it('returns 404 when session_id is not found', async () => {
+    it('returns 400 when session_id contains path characters', async () => {
       const { POST } = await import('@/app/api/audit/run/route')
       const req = makePostRequest(
         'http://localhost/api/audit/run',
-        makeAuditRunRequest({ session_id: 'nonexistent-session-xyz' }),
+        makeAuditRunRequest({ session_id: '../nonexistent-session-xyz' }),
         { 'x-forwarded-for': '1.2.3.105' }
       )
       const res = await POST(req as any)
-      expect(res.status).toBe(404)
+      expect(res.status).toBe(400)
     })
   })
 

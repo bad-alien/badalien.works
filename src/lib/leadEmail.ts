@@ -116,33 +116,37 @@ export async function sendLeadEmail(
   session: AuditSession,
   lead: LeadDetails
 ): Promise<void> {
-  const hostname = session.url ? new URL(session.url).hostname : 'unknown';
+  const hostname = session.url ? new URL(session.url).hostname : null;
+  const sessionId = session.session_id || 'n/a';
   const ts = new Date().toISOString();
+  const source = session.brief ? `AI audit of ${hostname ?? 'unknown site'}` : 'Chat (no audit run)';
+  const transcript = session.brief ? `audit_logs/${ts.slice(0, 10)}/${sessionId}.jsonl` : 'n/a';
 
   const briefSection = session.brief
     ? `<hr>${renderBriefHtml(session.brief)}`
-    : '<p><em>No brief available for this session.</em></p>';
+    : '<p><em>No audit brief — this lead came from the chat without running an audit.</em></p>';
 
   const briefTextSection = session.brief
     ? `\n\n${renderBriefText(session.brief)}`
-    : '\n\n(No brief available)';
+    : '\n\n(No audit brief — lead came from chat without running an audit)';
 
   const html = `
 <h2>New Lead: ${escapeHtml(lead.email)}</h2>
 <p><strong>Email:</strong> ${escapeHtml(lead.email)}</p>
 <p><strong>Best time:</strong> ${escapeHtml(lead.best_time)}</p>
 ${lead.phone ? `<p><strong>Phone:</strong> ${escapeHtml(lead.phone)}</p>` : ''}
-<p><strong>Site audited:</strong> ${escapeHtml(hostname)}</p>
-<p><strong>Session ID:</strong> ${escapeHtml(session.session_id)}</p>
-<p><strong>Transcript path:</strong> audit_logs/${ts.slice(0, 10)}/${escapeHtml(session.session_id)}.jsonl</p>
+<p><strong>Source:</strong> ${escapeHtml(source)}</p>
+${session.bottleneck ? `<p><strong>Bottleneck:</strong> ${escapeHtml(session.bottleneck)}</p>` : ''}
+<p><strong>Session ID:</strong> ${escapeHtml(sessionId)}</p>
+<p><strong>Transcript path:</strong> ${escapeHtml(transcript)}</p>
 <p><strong>Timestamp:</strong> ${ts}</p>
 ${briefSection}`;
 
   const text = `New Lead: ${lead.email}
 Best time: ${lead.best_time}
-${lead.phone ? `Phone: ${lead.phone}\n` : ''}Site: ${hostname}
-Session: ${session.session_id}
-Transcript: audit_logs/${ts.slice(0, 10)}/${session.session_id}.jsonl
+${lead.phone ? `Phone: ${lead.phone}\n` : ''}Source: ${source}
+${session.bottleneck ? `Bottleneck: ${session.bottleneck}\n` : ''}Session: ${sessionId}
+Transcript: ${transcript}
 Timestamp: ${ts}${briefTextSection}`;
 
   try {

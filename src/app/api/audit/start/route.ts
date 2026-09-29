@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createSession } from '@/lib/auditSession';
+import { createSessionId } from '@/lib/auditSession';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { url, branch = 'audit' } = body as { url?: string; branch?: string };
+    const { url } = body as { url?: string };
 
     if (!url || typeof url !== 'string') {
       return NextResponse.json(
@@ -38,8 +38,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const sessionBranch = branch === 'faq' ? 'faq' : 'audit';
-    const session_id = createSession(sessionBranch);
+    const session_id = createSessionId();
 
     return NextResponse.json({ session_id }, { status: 200 });
   } catch {

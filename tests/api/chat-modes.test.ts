@@ -3,7 +3,7 @@ import {
   STUB_BRIEF,
   makePostRequest,
   createTestSession,
-  seedSessionWithBrief,
+  makeAuditToken,
 } from './_helpers'
 
 // ── Mocks ──────────────────────────────────────────────────────────────────
@@ -131,7 +131,7 @@ describe('POST /api/chat — audit_followup mode', () => {
 
   it('"tell me more about #2" pulls opportunity #2 from auditSession and returns a relevant reply', async () => {
     const session_id = await createTestSession()
-    await seedSessionWithBrief(session_id)
+    const audit_token = await makeAuditToken(session_id)
 
     const opp2Title = STUB_BRIEF.opportunities[1].title
 
@@ -145,7 +145,7 @@ describe('POST /api/chat — audit_followup mode', () => {
     const req = makePostRequest(
       'http://localhost/api/chat',
       {
-        session_id,
+        session_id, audit_token,
         mode: 'audit_followup',
         messages: [{ role: 'user', content: 'Tell me more about opportunity 2.' }],
       },
@@ -159,7 +159,7 @@ describe('POST /api/chat — audit_followup mode', () => {
 
   it('brief is injected into the Anthropic SDK call context', async () => {
     const session_id = await createTestSession()
-    await seedSessionWithBrief(session_id)
+    const audit_token = await makeAuditToken(session_id)
 
     mockMessagesCreate.mockResolvedValue(
       makeTextResponse('Here is more detail...')
@@ -169,7 +169,7 @@ describe('POST /api/chat — audit_followup mode', () => {
     const req = makePostRequest(
       'http://localhost/api/chat',
       {
-        session_id,
+        session_id, audit_token,
         mode: 'audit_followup',
         messages: [{ role: 'user', content: 'What about opportunity 1?' }],
       },

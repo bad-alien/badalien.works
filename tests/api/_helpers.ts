@@ -55,18 +55,19 @@ export async function createTestSession(): Promise<string> {
   return body.session_id
 }
 
-/** Seed an audit session with a brief directly via module internals */
-export async function seedSessionWithBrief(
+/** Mint a signed audit token carrying a brief, as /api/audit/run would */
+export async function makeAuditToken(
   sessionId: string,
   brief: AuditBrief = STUB_BRIEF
-): Promise<void> {
-  const { setBrief, setInputs } = await import('@/lib/auditSession')
-  setInputs(sessionId, {
+): Promise<string> {
+  const { signAuditContext } = await import('@/lib/auditToken')
+  return signAuditContext({
+    sid: sessionId,
     url: VALID_URL,
     bottleneck: VALID_BOTTLENECK,
     sensitive_docs: 'no',
+    brief,
   })
-  setBrief(sessionId, brief)
 }
 
 export function makeAuditRunRequest(

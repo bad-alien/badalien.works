@@ -3,7 +3,7 @@ import {
   STUB_BRIEF,
   makePostRequest,
   createTestSession,
-  seedSessionWithBrief,
+  makeAuditToken,
 } from './_helpers'
 
 // ── Mocks ──────────────────────────────────────────────────────────────────
@@ -165,7 +165,7 @@ describe('POST /api/chat', () => {
 
     it('references brief opportunity title in response when session has a brief', async () => {
       const session_id = await createTestSession()
-      await seedSessionWithBrief(session_id)
+      const audit_token = await makeAuditToken(session_id)
 
       mockMessagesCreate.mockResolvedValue(
         makeTextResponse(
@@ -177,7 +177,7 @@ describe('POST /api/chat', () => {
       const req = makePostRequest(
         'http://localhost/api/chat',
         {
-          session_id,
+          session_id, audit_token,
           mode: 'audit_followup',
           messages: [{ role: 'user', content: 'Tell me more about opportunity 2.' }],
         },
@@ -191,7 +191,7 @@ describe('POST /api/chat', () => {
 
     it('injects the brief into the Anthropic API call context', async () => {
       const session_id = await createTestSession()
-      await seedSessionWithBrief(session_id)
+      const audit_token = await makeAuditToken(session_id)
 
       mockMessagesCreate.mockResolvedValue(
         makeTextResponse('Here is more detail about that opportunity...')
@@ -201,7 +201,7 @@ describe('POST /api/chat', () => {
       const req = makePostRequest(
         'http://localhost/api/chat',
         {
-          session_id,
+          session_id, audit_token,
           mode: 'audit_followup',
           messages: [{ role: 'user', content: 'What about opportunity 1?' }],
         },
@@ -287,13 +287,13 @@ describe('POST /api/chat', () => {
       vi.stubEnv('ANTHROPIC_API_KEY', '')
       vi.stubEnv('LLM_API_URL', '')
       const session_id = await createTestSession()
-      await seedSessionWithBrief(session_id)
+      const audit_token = await makeAuditToken(session_id)
 
       const { POST } = await import('@/app/api/chat/route')
       const req = makePostRequest(
         'http://localhost/api/chat',
         {
-          session_id,
+          session_id, audit_token,
           mode: 'audit_followup',
           messages: [{ role: 'user', content: 'Tell me more.' }],
         },

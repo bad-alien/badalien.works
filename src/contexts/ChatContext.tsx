@@ -34,6 +34,8 @@ type ChatContextType = {
   setSessionId: (id: string | null) => void;
   auditBrief: AuditBrief | null;
   setAuditBrief: (brief: AuditBrief | null) => void;
+  auditToken: string | null;
+  setAuditToken: (token: string | null) => void;
   auditUrl: string | null;
   setAuditUrl: (url: string | null) => void;
   postAuditTurnCount: number;
@@ -60,6 +62,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [auditStep, setAuditStep] = useState<AuditStep>('awaiting_url');
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [auditBrief, setAuditBrief] = useState<AuditBrief | null>(null);
+  const [auditToken, setAuditToken] = useState<string | null>(null);
   const [auditUrl, setAuditUrl] = useState<string | null>(null);
   const [postAuditTurnCount, setPostAuditTurnCount] = useState(0);
   const [lastCtaInsertTurn, setLastCtaInsertTurn] = useState(0);
@@ -87,6 +90,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         setSessionId,
         auditBrief,
         setAuditBrief,
+        auditToken,
+        setAuditToken,
         auditUrl,
         setAuditUrl,
         postAuditTurnCount,

@@ -214,15 +214,15 @@ describe('POST /api/audit/run — validation', () => {
     expect(res.status).toBe(400)
   })
 
-  it('non-existent session_id → 404', async () => {
+  it('path-traversal session_id → 400 (it names the transcript file)', async () => {
     const { POST } = await import('@/app/api/audit/run/route')
     const req = makePostRequest(
       'http://localhost/api/audit/run',
-      makeAuditRunRequest({ session_id: 'no-such-session-xyz' }),
+      makeAuditRunRequest({ session_id: '../../etc/cron.d/x' }),
       { 'x-forwarded-for': '2.3.100.6' }
     )
     const res = await POST(req as any)
-    expect(res.status).toBe(404)
+    expect(res.status).toBe(400)
   })
 })
 

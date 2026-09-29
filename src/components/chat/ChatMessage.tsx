@@ -16,6 +16,7 @@ interface ChatMessageProps {
   onTellGoodTime?: () => void;
   onReachOutSuccess?: () => void;
   sessionId?: string | null;
+  auditToken?: string | null;
 }
 
 export default function ChatMessage({
@@ -25,6 +26,7 @@ export default function ChatMessage({
   onTellGoodTime,
   onReachOutSuccess,
   sessionId,
+  auditToken,
 }: ChatMessageProps) {
   if (message.kind === 'status') {
     return (
@@ -78,6 +80,7 @@ export default function ChatMessage({
       >
         <ReachOutForm
           sessionId={sessionId ?? ''}
+          auditToken={auditToken ?? null}
           onSuccess={onReachOutSuccess ?? (() => {})}
         />
       </motion.div>
