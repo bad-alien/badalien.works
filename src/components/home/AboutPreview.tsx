@@ -37,6 +37,11 @@ export default function AboutPreview() {
 
             <div className="space-y-4 text-text-body text-lg leading-relaxed mb-8">
               <p>
+                I&apos;m Rasheed. I run Bad Alien, an independent AI consultancy in Pasadena,
+                California, working with small and mid-sized businesses across Los Angeles and
+                remotely.
+              </p>
+              <p>
                 I started in tech as a machine learning researcher, then spent 8 years as a product
                 manager shipping AI-powered systems across finance, defense contracting, and healthtech.
                 I built data products for institutional teams, led development on mission-critical

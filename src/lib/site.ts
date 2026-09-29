@@ -63,6 +63,11 @@ export const DEFAULT_DESCRIPTION =
 
 // Full per-page metadata. Next replaces (not merges) a parent's openGraph and
 // twitter blocks, so every page sets them completely, with a self canonical.
+// Next replaces (not merges) a parent's openGraph object, so the root
+// opengraph-image.tsx is lost on any page that sets openGraph. Reference it
+// explicitly; routes with their own opengraph-image.tsx (blog posts) override.
+export const DEFAULT_OG_IMAGE = { url: '/opengraph-image', width: 1200, height: 630, alt: 'Bad Alien — AI consulting in Pasadena, CA' };
+
 export function pageMetadata({
   path,
   title = DEFAULT_TITLE,
@@ -76,8 +81,22 @@ export function pageMetadata({
     title,
     description,
     alternates: { canonical: path },
-    openGraph: { title, description, url: path, siteName: SITE_NAME, type: 'website', locale: 'en_US' },
-    twitter: { card: 'summary', title, description },
+    openGraph: { title, description, url: path, siteName: SITE_NAME, type: 'website', locale: 'en_US', images: [DEFAULT_OG_IMAGE] },
+    twitter: { card: 'summary_large_image', title, description },
+  };
+}
+
+export type FaqItem = { question: string; answer: string };
+
+export function faqJsonLd(items: FaqItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
   };
 }
 

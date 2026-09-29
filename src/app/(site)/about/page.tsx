@@ -3,7 +3,9 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import Link from 'next/link';
-import { User, Briefcase, Shield, Activity } from 'lucide-react';
+import Image from 'next/image';
+import { Briefcase, Shield, Activity } from 'lucide-react';
+import { caseStudies } from '@/data/caseStudies';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import { useChat } from '@/contexts/ChatContext';
@@ -43,11 +45,6 @@ const experienceHighlights = [
     industry: 'HealthTech',
     description: 'Shipped AI-powered diagnostic and workflow automation tools for clinical teams',
   },
-];
-
-const clientPlaceholders = [
-  'Case study details arriving Q2 2026',
-  'Case study details arriving Q2 2026',
 ];
 
 export default function AboutPage() {
@@ -92,9 +89,15 @@ export default function AboutPage() {
               variants={itemVariants}
               className="flex justify-center md:justify-start mb-12"
             >
-              <div className="w-64 h-64 rounded-full bg-surface border border-border flex flex-col items-center justify-center gap-4">
-                <User className="w-20 h-20 text-muted" strokeWidth={1} />
-                <span className="text-sm text-text-secondary font-light">Photo coming soon</span>
+              <div className="w-64 h-64 rounded-full overflow-hidden relative border border-border">
+                <Image
+                  src="/images/profile.jpg"
+                  alt="Rasheed, founder of Bad Alien"
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="256px"
+                />
               </div>
             </motion.div>
           </motion.div>
@@ -113,7 +116,7 @@ export default function AboutPage() {
               variants={itemVariants}
               className="text-text-body font-light leading-relaxed text-lg md:text-xl mb-6"
             >
-              8 years as a product manager shipping products across finance, defense contracting, and healthtech. I&apos;ve seen how AI transforms organizations from the inside — and how it fails when adopted without strategy.
+              I&apos;m Rasheed. I run Bad Alien, an independent AI consultancy in Pasadena, California, working with businesses across Los Angeles and remotely. Before that: 8 years as a product manager shipping products across finance, defense contracting, and healthtech. I&apos;ve seen how AI transforms organizations from the inside — and how it fails when adopted without strategy.
             </motion.p>
             <motion.p
               variants={itemVariants}
@@ -178,18 +181,33 @@ export default function AboutPage() {
               What I&apos;ve Delivered
             </motion.h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {clientPlaceholders.map((text, index) => (
+              {caseStudies.map((study) => (
                 <motion.div
-                  key={index}
+                  key={study.id}
                   variants={itemVariants}
-                  className="p-10 rounded-xl bg-surface border border-border flex items-center justify-center min-h-[200px]"
+                  className="p-8 rounded-xl bg-surface border border-border"
                 >
-                  <p className="text-text-secondary font-light text-center italic">
-                    {text}
-                  </p>
+                  <div className="flex items-center justify-between gap-4 mb-4">
+                    <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary">
+                      {study.category}
+                    </span>
+                    <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-primary">
+                      {study.chip}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-light text-text-heading mb-3 tracking-wide">{study.title}</h3>
+                  <p className="text-text-secondary font-light text-sm leading-relaxed">{study.description}</p>
                 </motion.div>
               ))}
             </div>
+            <motion.p variants={itemVariants} className="mt-8 text-center">
+              <Link
+                href="/consult"
+                className="text-text-secondary hover:text-text-heading transition-colors duration-300 font-light underline underline-offset-4"
+              >
+                See all work →
+              </Link>
+            </motion.p>
           </motion.div>
         </div>
       </section>
@@ -246,6 +264,13 @@ export default function AboutPage() {
                 secondary={{ type: 'button', label: 'Or ask my AI', onClick: () => { setEntryPoint('widget'); openChat(); } }}
               />
             </motion.div>
+            <motion.p variants={itemVariants} className="mt-10 text-text-secondary font-light">
+              Based in Pasadena?{' '}
+              <Link href="/ai-consultant-pasadena" className="text-text-heading hover:text-primary underline underline-offset-4 transition-colors duration-200">
+                See how I work with local businesses
+              </Link>
+              .
+            </motion.p>
           </motion.div>
         </div>
       </section>

@@ -1,10 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import fs from 'fs';
-import path from 'path';
-import matter from 'gray-matter';
-import readingTime from 'reading-time';
 import { evaluate } from '@mdx-js/mdx';
 import * as runtime from 'react/jsx-runtime';
 import remarkGfm from 'remark-gfm';
@@ -12,27 +8,11 @@ import rehypeSlug from 'rehype-slug';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { useMDXComponents as getMDXComponents } from '@/mdx-components';
 import { SITE_URL, SITE_NAME, ORGANIZATION_ID, FOUNDER_ID } from '@/lib/site';
+import { getPost, getAllPosts } from '@/lib/blog';
 
-const contentDirectory = path.join(process.cwd(), 'src/content/insights');
-
-function getPost(slug: string) {
-  const fullPath = path.join(contentDirectory, `${slug}.mdx`);
-  if (!fs.existsSync(fullPath)) return null;
-
-  const fileContents = fs.readFileSync(fullPath, 'utf-8');
-  const { data, content } = matter(fileContents);
-  const time = readingTime(fileContents);
-
-  return { data, content, readingTime: time.text };
-}
 
 export async function generateStaticParams() {
-  if (!fs.existsSync(contentDirectory)) return [];
-
-  return fs
-    .readdirSync(contentDirectory)
-    .filter((f) => f.endsWith('.mdx'))
-    .map((f) => ({ slug: f.replace(/\.mdx$/, '') }));
+  return getAllPosts().map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
@@ -57,13 +37,11 @@ export async function generateMetadata({
       type: 'article',
       publishedTime: data.date,
       tags: data.tags || [],
-      images: data.image ? [{ url: data.image }] : [],
     },
     twitter: {
-      card: data.image ? 'summary_large_image' : 'summary',
+      card: 'summary_large_image',
       title: data.title,
       description: data.description,
-      images: data.image ? [data.image] : [],
     },
   };
 }

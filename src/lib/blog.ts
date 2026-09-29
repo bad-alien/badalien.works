@@ -54,3 +54,15 @@ export function getPostsByCategory(category: Category): PostMeta[] {
 export function getAllCategories(): Category[] {
   return ['AI Strategy', 'Engineering', 'AI Pulse', 'Field Notes'];
 }
+
+/** Full post (frontmatter + raw MDX) for the post page and its OG image. */
+export function getPost(slug: string) {
+  const fullPath = path.join(contentDirectory, `${slug}.mdx`);
+  if (!fs.existsSync(fullPath)) return null;
+
+  const fileContents = fs.readFileSync(fullPath, 'utf-8');
+  const { data, content } = matter(fileContents);
+  const time = readingTime(fileContents);
+
+  return { data, content, readingTime: time.text };
+}

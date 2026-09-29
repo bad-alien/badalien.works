@@ -2,51 +2,8 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import { caseStudies as heroProjects } from '@/data/caseStudies';
 
-const heroProjects = [
-  {
-    id: 'coaching',
-    title: 'AI Enablement Sprint',
-    category: 'Consulting',
-    chip: 'In Progress',
-    chipType: 'progress' as const,
-    description:
-      'Enablement sprint for a social ad agency. Coaching their team to confidently use AI tools, build repeatable workflows, and operate independently after the engagement ends.',
-    image: '/images/work/enablement-hero.png',
-    imageCenter: true,
-  },
-  {
-    id: 'openclaw',
-    title: 'Personal AI Assistant',
-    category: 'AI Assistant',
-    chip: '3 Active Clients',
-    chipType: 'active' as const,
-    description:
-      'Assistants for busy executives and families caring for elderly relatives. Claude Cowork or ChatGPT Work when that\'s enough; a private, self-hosted assistant when the data is sensitive. Bills, appointments, finances, communication, with security first.',
-    image: '/images/work/openclaw-hero.png',
-    imageContain: true,
-  },
-  {
-    id: 'lead-gen',
-    title: 'Intelligent Prospecting Engine',
-    category: 'AI Automation',
-    chip: 'In Prod',
-    chipType: 'built' as const,
-    description:
-      'Multi-agent LangChain system that finds, researches, and contacts leads for a B2B wholesaler. From discovery to production in 6 days. Delivers 10-20 qualified leads per week.',
-    image: '/images/work/leadgen-hero.png',
-  },
-  {
-    id: 'home-inspection',
-    title: 'Inspection Report Automation',
-    category: 'AI/ML',
-    chip: 'Built',
-    chipType: 'built' as const,
-    description:
-      'Multimodal AI that processes inspection reports end-to-end — parses documents, analyzes photos, surfaces what matters. Processing time cut by two-thirds.',
-    image: '/images/work/homeai-triage-hero.png',
-  },
-];
 
 const gridProjects = [
   {
