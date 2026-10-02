@@ -2,16 +2,17 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import type { CaseStudy } from '@/data/caseStudies';
 
-const heroProjects = [
+const heroProjects: CaseStudy[] = [
   {
     id: 'coaching',
     title: 'AI Enablement Sprint',
     category: 'Consulting',
-    chip: 'In Progress',
-    chipType: 'progress' as const,
+    chip: 'Completed',
+    chipType: 'built' as const,
     description:
-      'Enablement sprint for a social ad agency. Coaching their team to confidently use AI tools, build repeatable workflows, and operate independently after the engagement ends. Not a build-and-deliver — a capability transfer.',
+      'Enablement sprint for a social ad agency. Coached their team to confidently use AI tools, build repeatable workflows, and operate independently after the engagement ended. Not a build-and-deliver — a capability transfer.',
     image: '/images/work/enablement-hero.png',
     imageCenter: true,
   },

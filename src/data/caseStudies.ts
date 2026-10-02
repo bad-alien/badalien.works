@@ -16,10 +16,10 @@ export const caseStudies: CaseStudy[] = [
     id: 'coaching',
     title: 'AI Enablement Sprint',
     category: 'Consulting',
-    chip: 'In Progress',
-    chipType: 'progress',
+    chip: 'Completed',
+    chipType: 'built',
     description:
-      'Enablement sprint for a social ad agency. Coaching their team to confidently use AI tools, build repeatable workflows, and operate independently after the engagement ends.',
+      'Enablement sprint for a social ad agency. Coached their team to confidently use AI tools, build repeatable workflows, and operate independently after the engagement ended.',
     image: '/images/work/enablement-hero.png',
     imageCenter: true,
   },

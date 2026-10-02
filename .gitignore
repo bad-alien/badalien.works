@@ -56,3 +56,7 @@ next-env.d.ts
 repomix-output.xml
 .gstack/
 .claude/gstack
+
+# QA artifacts
+.playwright-mcp/
+/*.png
