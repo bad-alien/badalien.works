@@ -21,7 +21,8 @@ const linkClass = 'text-text-secondary hover:text-white transition-colors font-s
 export default function Footer() {
   return (
     <footer className="bg-surface border-t border-border">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8 py-12 lg:py-16">
+      {/* Extra bottom padding below md keeps the bottom bar clear of the fixed chat launcher */}
+      <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-12 lg:pt-16 pb-28 md:pb-12 lg:pb-16">
         {/* Brand row */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
           <Logo size="md" linkToHome={false} />
@@ -63,7 +64,7 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 pt-8 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="mt-10 pt-8 md:pr-24 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-white/40 text-sm font-sans text-center md:text-left">
             © 2026 Bad Alien LLC. All rights reserved.
           </p>

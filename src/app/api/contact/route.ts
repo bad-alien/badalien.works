@@ -5,6 +5,26 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
+// Each accepted request sends an email, so keep the per-IP budget tight.
+// In-memory and per-instance: a speed bump, not a hard guarantee.
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_MAX = 5;
+const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
+const MAX_BODY_BYTES = 32 * 1024;
+const MAX_FIELD_CHARS = { name: 200, email: 254, company: 200, phone: 40, message: 5000 } as const;
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const record = rateLimitMap.get(ip);
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW_MS });
+    return true;
+  }
+  if (record.count >= RATE_LIMIT_MAX) return false;
+  record.count++;
+  return true;
+}
+
 // Escape HTML entities to prevent XSS
 function escapeHtml(text: string): string {
   const htmlEntities: { [key: string]: string } = {
@@ -19,9 +39,32 @@ function escapeHtml(text: string): string {
 }
 
 export async function POST(request: Request) {
+  const ip =
+    request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    request.headers.get('x-real-ip') ||
+    'unknown';
+
+  if (!checkRateLimit(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests. Try again in a few minutes.' },
+      { status: 429 }
+    );
+  }
+
+  const contentLength = Number(request.headers.get('content-length') ?? 0);
+  if (contentLength > MAX_BODY_BYTES) {
+    return NextResponse.json({ error: 'Request body is too large' }, { status: 413 });
+  }
+
   try {
     const body = await request.json();
-    const { name, email, company, phone, serviceInterest, message, smsConsent } = body;
+    const { name, email, company, phone, serviceInterest, message, smsConsent, website } = body;
+
+    // Honeypot: the form's hidden "website" field is never filled by people.
+    // Answer as if it succeeded so bots don't learn they were caught.
+    if (typeof website === 'string' && website.trim() !== '') {
+      return NextResponse.json({ success: true }, { status: 200 });
+    }
 
     // Validate required fields
     if (!name || !email || !message) {
@@ -29,6 +72,16 @@ export async function POST(request: Request) {
         { error: 'Missing required fields' },
         { status: 400 }
       );
+    }
+
+    const tooLong =
+      String(name).length > MAX_FIELD_CHARS.name ||
+      String(email).length > MAX_FIELD_CHARS.email ||
+      (company && String(company).length > MAX_FIELD_CHARS.company) ||
+      (phone && String(phone).length > MAX_FIELD_CHARS.phone) ||
+      String(message).length > MAX_FIELD_CHARS.message;
+    if (tooLong) {
+      return NextResponse.json({ error: 'A field is too long' }, { status: 400 });
     }
 
     // Validate email format

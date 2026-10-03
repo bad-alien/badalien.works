@@ -13,12 +13,12 @@ import { usePhotoNavigation } from '@/hooks/usePhotoNavigation'
 export default function CreativePage() {
   const isScrolled = useScrollState(50)
   const [activeFilter, setActiveFilter] = useState<PortfolioCategory | 'All'>('All')
-  const { selectedPhoto, selectPhoto, clearSelection, goToPrevious, goToNext } = usePhotoNavigation(portfolioItems)
-
   const filteredPhotos = useMemo(
     () => (activeFilter === 'All' ? portfolioItems : portfolioItems.filter(item => item.category === activeFilter)),
     [activeFilter]
   )
+  // Navigate within the active filter so next/prev never leak items from other categories
+  const { selectedPhoto, selectPhoto, clearSelection, goToPrevious, goToNext } = usePhotoNavigation(filteredPhotos)
 
   return (
     <div className="min-h-screen bg-black text-white">

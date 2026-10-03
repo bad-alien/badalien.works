@@ -58,13 +58,16 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    // Honeypot field lives outside React state so autofill/state resets never touch it
+    const website = String(new FormData(e.currentTarget).get('website') ?? '');
+
     try {
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, website }),
       });
 
       if (response.ok) {
@@ -154,7 +157,8 @@ export default function ContactPage() {
               <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary block mb-6">
                 01 / Book a Call
               </span>
-              <div className="bg-elevated border border-border rounded-xl overflow-hidden lg:max-h-[var(--form-h,900px)] lg:overflow-y-auto">
+              {/* Cal's iframe over-reports its height in stacked layouts; cap the card and scroll inside it */}
+              <div className="bg-elevated border border-border rounded-xl overflow-hidden max-h-[70vh] overflow-y-auto lg:max-h-[var(--form-h,900px)]">
                 <CalEmbed />
               </div>
             </motion.section>
@@ -283,6 +287,12 @@ export default function ContactPage() {
                   className="w-full px-4 py-3 bg-base border border-border rounded-lg text-text-heading placeholder-muted focus:outline-none focus:border-primary/30 transition-colors resize-none"
                   placeholder="Tell me about your project..."
                 />
+              </div>
+
+              {/* Honeypot: hidden from people and assistive tech; bots that fill every field trip it */}
+              <div className="absolute -left-[9999px] top-0 h-0 w-0 overflow-hidden" aria-hidden="true">
+                <label htmlFor="website">Website</label>
+                <input type="text" id="website" name="website" tabIndex={-1} autoComplete="off" defaultValue="" />
               </div>
 
               {/* SMS Consent */}

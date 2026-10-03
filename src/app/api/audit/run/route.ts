@@ -10,7 +10,10 @@ import { sendAuditEmail } from '@/lib/leadEmail';
 // ---------------------------------------------------------------------------
 // Transcript logging
 // ---------------------------------------------------------------------------
+// Local-dev only: the function filesystem on Vercel is read-only, so skip there
+// instead of logging an error per event.
 async function appendTranscriptEvent(session_id: string, event: Record<string, unknown>): Promise<void> {
+  if (process.env.VERCEL) return;
   try {
     const date = new Date().toISOString().slice(0, 10);
     const dir = path.join(process.cwd(), 'audit_logs', date);

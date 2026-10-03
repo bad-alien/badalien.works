@@ -18,6 +18,7 @@ function PhotoCard({ photo, onClick }: PhotoCardProps) {
         alt={photo.alt}
         width={photo.width}
         height={photo.height}
+        sizes="(max-width: 639px) 100vw, (max-width: 1279px) 50vw, 33vw"
         className="w-full h-auto transition-opacity group-hover:opacity-90"
         {...(photo.unoptimized ? { unoptimized: true } : {})}
       />

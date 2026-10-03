@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { PortfolioItem } from '@/data/portfolio';
 
@@ -9,11 +9,47 @@ interface LightboxProps {
   onNext: () => void;
 }
 
+const SWIPE_THRESHOLD_PX = 50;
+
 function Lightbox({ photo, onClose, onPrevious, onNext }: LightboxProps) {
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+
+  // Keyboard: Escape closes, arrow keys navigate
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+      else if (e.key === 'ArrowLeft') onPrevious();
+      else if (e.key === 'ArrowRight') onNext();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [onClose, onPrevious, onNext]);
+
+  // Touch: horizontal swipe navigates (ignored when the gesture is mostly vertical)
+  const handleTouchStart = (e: React.TouchEvent) => {
+    const t = e.touches[0];
+    touchStart.current = { x: t.clientX, y: t.clientY };
+  };
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchStart.current) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStart.current.x;
+    const dy = t.clientY - touchStart.current.y;
+    touchStart.current = null;
+    if (Math.abs(dx) < SWIPE_THRESHOLD_PX || Math.abs(dx) < Math.abs(dy)) return;
+    if (dx < 0) onNext();
+    else onPrevious();
+  };
+
   return (
     <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={photo.title || photo.alt}
       className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center lightbox-fade-in"
       onClick={onClose}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
     >
       <style jsx>{`
         @keyframes fadeIn {
@@ -34,6 +70,7 @@ function Lightbox({ photo, onClose, onPrevious, onNext }: LightboxProps) {
       <button
         className="absolute top-8 right-8 text-white text-4xl hover:text-gray-400 transition-colors z-10"
         onClick={onClose}
+        aria-label="Close"
       >
         ×
       </button>
@@ -45,6 +82,7 @@ function Lightbox({ photo, onClose, onPrevious, onNext }: LightboxProps) {
           e.stopPropagation();
           onPrevious();
         }}
+        aria-label="Previous"
       >
         ‹
       </button>
@@ -98,6 +136,7 @@ function Lightbox({ photo, onClose, onPrevious, onNext }: LightboxProps) {
           e.stopPropagation();
           onNext();
         }}
+        aria-label="Next"
       >
         ›
       </button>

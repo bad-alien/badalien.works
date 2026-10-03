@@ -92,7 +92,8 @@ export default function CalEmbed() {
   }, []);
 
   return (
-    <div id="book" className="w-full">
+    // scroll-mt covers the fixed header plus the section's 30px entrance offset
+    <div id="book" className="w-full scroll-mt-40">
       <Cal
         calLink="bad-alien/free-consult"
         style={{ width: "100%", overflow: "scroll" }}

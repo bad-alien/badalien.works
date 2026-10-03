@@ -120,7 +120,6 @@ export async function sendLeadEmail(
   const sessionId = session.session_id || 'n/a';
   const ts = new Date().toISOString();
   const source = session.brief ? `AI audit of ${hostname ?? 'unknown site'}` : 'Chat (no audit run)';
-  const transcript = session.brief ? `audit_logs/${ts.slice(0, 10)}/${sessionId}.jsonl` : 'n/a';
 
   const briefSection = session.brief
     ? `<hr>${renderBriefHtml(session.brief)}`
@@ -138,7 +137,6 @@ ${lead.phone ? `<p><strong>Phone:</strong> ${escapeHtml(lead.phone)}</p>` : ''}
 <p><strong>Source:</strong> ${escapeHtml(source)}</p>
 ${session.bottleneck ? `<p><strong>Bottleneck:</strong> ${escapeHtml(session.bottleneck)}</p>` : ''}
 <p><strong>Session ID:</strong> ${escapeHtml(sessionId)}</p>
-<p><strong>Transcript path:</strong> ${escapeHtml(transcript)}</p>
 <p><strong>Timestamp:</strong> ${ts}</p>
 ${briefSection}`;
 
@@ -146,7 +144,6 @@ ${briefSection}`;
 Best time: ${lead.best_time}
 ${lead.phone ? `Phone: ${lead.phone}\n` : ''}Source: ${source}
 ${session.bottleneck ? `Bottleneck: ${session.bottleneck}\n` : ''}Session: ${sessionId}
-Transcript: ${transcript}
 Timestamp: ${ts}${briefTextSection}`;
 
   try {
