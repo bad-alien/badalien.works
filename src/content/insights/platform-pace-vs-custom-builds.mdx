@@ -1,0 +1,61 @@
+---
+title: "The Labs Ship Faster Than You Can Build. Build Less."
+date: "2026-10-06"
+description: "Anthropic and OpenAI spent 2026 shipping the agents, schedulers, plugins and orchestration that small businesses used to pay consultants to build. The custom layer is getting thinner, and most of what's left is friction."
+category: "AI Strategy"
+tags:
+  - Anthropic
+  - OpenAI
+  - AI Strategy
+  - Build vs Buy
+  - Small Business
+---
+
+This is an awkward post for me to write. I build custom AI solutions for small businesses. For a growing share of the requests I get, the honest answer is now: don't build that. Wait a month.
+
+## What the labs shipped this year
+
+Each of these replaced something I used to get paid to build.
+
+- **January: [Claude Cowork](/insights/what-claude-cowork-means-for-business).** A desktop agent with file, calendar and email access. That was the "AI assistant for the ops team."
+- **February: [OpenAI Frontier](https://techcrunch.com/2026/02/05/openai-launches-a-way-for-enterprises-to-build-and-manage-ai-agents/) and [Cowork plugins and scheduled tasks](https://www.eesel.ai/blog/claude-cowork-plugins-updates).** Governed agents with identity and audit trails from one lab, prebuilt department plugins and recurring background jobs from the other. That was the nightly report bot and its governance wrapper.
+- **April: [Claude Design](/insights/anthropic-april-enterprise-lead).** Prototypes, slides and one-pagers by conversation. That was the internal doc generator.
+- **June: [GPT-5.6 in three tiers](/insights/june-2026-model-tiers).** Sol, Terra and Luna, with the cheapest at $1 per million tokens. That was the "can we afford to run this daily" conversation.
+- **September 17: [Claude Code Projects](https://alphasignal.ai/news/anthropic-rebuilds-claude-projects-to-run-parallel-ai-coding-agents).** A coordinator that fans work out to parallel cloud agents with shared memory. That was the orchestration layer, the most expensive thing here to build and maintain.
+- **September 22 to 28: [Opus 5.5](/insights/claude-opus-5-5) and [Sonnet 5.5](https://www.unite.ai/anthropic-releases-claude-sonnet-5-5-at-unchanged-sonnet-5-pricing/).** Top-tier capability at 40% less. Mid-tier faster at the same price.
+- **September 29: [OpenAI DevDay](https://www.nocode.mba/articles/openai-devday-2026-recap).** GPT-6.1 Sol at one fifth of Astra's price. Computer use and context compaction in the Agents API. [Dots](https://decrypt.co/379584/openai-ai-agents-computers-devday-2026-everything-announced), always-on agents with their own cloud computer and 4,000 app integrations. ChatGPT Space, a shared workspace for teams and their agents. And a [Decisions API](https://daily.dev/posts/openai-answers-typesafe-s-jev-with-a-decision-api-built-on-luna-sttlgbzxk) that answered [Jev](/insights/jev-decision-model) within two weeks. That was the agent harness, the classifier and the team workspace, in one afternoon.
+- **October 1 to 6: [Claude Code mods](https://clauding.de/en/posts/claude-code-mods/) and [Claude Startups](https://qz.com/anthropic-claude-startups-program-expansion-100626).** TypeScript hooks that gate permissions and redact secrets, and a free year of Claude Team with $1,000 in credits. That was the guardrail wrapper and the budget line.
+
+Two labs, ten months, roughly one release a month from each. Whichever ships first, the other closes the gap within weeks.
+
+## The math changed
+
+A custom AI build for a small business takes six to twelve weeks. The labs ship meaningful features roughly every thirty days. By the time a custom build lands, there is a fair chance one of them ships the same capability, better integrated and maintained by someone else.
+
+Custom work used to be the only way to get a capability. Now it is a bet that neither lab gets there first. In 2026 that bet has been losing.
+
+The friction shows up after launch. A custom build has to be kept working as models change, as platform features overlap it, and as the person who built it moves on. Every release widens the gap between what you built and what you could turn on.
+
+## What still earns a custom build
+
+The custom layer is thinner and sits in a different place:
+
+- **Your data.** No platform cleans, structures or connects your proprietary data for you, and that is still the biggest driver of whether the result is useful.
+- **Compliance.** In healthcare, finance or legal, [where the data goes](/insights/securing-llm-infrastructure) is still your problem.
+- **Workflows that cross systems the platform can't see.** The handoffs between your CRM, billing and inbox are specific to you.
+- **Security hardening.** Opening a repository can [run attacker code before any prompt](https://labs.cloudsecurityalliance.org/research/csa-research-note-ai-coding-agent-git-config-rce-20260904-cs/). No platform ships safe defaults.
+- **Evaluation.** Knowing whether a new feature works on your task, not the vendor's demo.
+
+Not on the list: the agent, the orchestration, the scheduler, the integrations and the UI. That is what the labs now ship.
+
+## What to do
+
+1. **Default to the platform.** Before scoping custom work, spend a day in Cowork or ChatGPT Space with your real files. Most requests are already a plugin.
+2. **Apply a ninety-day test.** If Anthropic, OpenAI or Google will likely ship it within ninety days, configure what exists and wait.
+3. **Spend the custom budget on the thin layer, and keep it [portable](/insights/build-model-portable).** Data, permissions, evals and cross-system glue compound. Agent wrappers depreciate.
+
+The firms that get the most out of AI this year will not have the most custom code. They will have turned on the right features fastest and built only what nobody else could.
+
+---
+
+Not sure which of your AI projects is still worth building? [Let's talk](/contact).

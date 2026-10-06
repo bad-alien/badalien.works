@@ -26,89 +26,85 @@ export default function Header({ variant = 'default' }: HeaderProps) {
   ];
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[#0A0A0A]/80 backdrop-blur-md'
-          : 'bg-transparent'
-      }`}
-    >
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-[#FF6B35] focus:text-white focus:rounded focus:font-medium"
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled
+            ? 'bg-[#0A0A0A]/80 backdrop-blur-md'
+            : 'bg-transparent'
+        }`}
       >
-        Skip to content
-      </a>
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="relative flex items-center justify-center h-24 md:h-28">
-          {/* Left Nav - Desktop only */}
-          {variant === 'default' && (
-            <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-8 absolute left-0">
-              {leftLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`${
-                    pathname === link.href ? 'text-white' : 'text-white/80'
-                  } hover:text-white transition-colors text-lg font-sans`}
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </nav>
-          )}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[200] focus:px-4 focus:py-2 focus:bg-[#FF6B35] focus:text-white focus:rounded focus:font-medium"
+        >
+          Skip to content
+        </a>
+        <div className="mx-auto max-w-7xl px-6 lg:px-8">
+          <div className="relative flex items-center justify-center h-24 md:h-28">
+            {/* Left Nav - Desktop only */}
+            {variant === 'default' && (
+              <nav aria-label="Primary navigation" className="hidden md:flex items-center gap-8 absolute left-0">
+                {leftLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`${
+                      pathname === link.href ? 'text-white' : 'text-white/80'
+                    } hover:text-white transition-colors text-lg font-sans`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+              </nav>
+            )}
 
-          {/* Centered Logo - Custom size ~15% larger than md (64px → 74px) */}
-          <Logo size="md" className="!h-[77px]" />
+            {/* Centered Logo - Custom size ~15% larger than md (64px → 74px) */}
+            <Logo size="md" className="!h-[77px]" />
 
-          {/* Right Nav - Desktop only */}
-          {variant === 'default' && (
-            <nav className="hidden md:flex items-center gap-8 absolute right-0">
-              {rightLinks.map((link) => (
+            {/* Right Nav - Desktop only */}
+            {variant === 'default' && (
+              <nav className="hidden md:flex items-center gap-8 absolute right-0">
+                {rightLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`${
+                      pathname === link.href ? 'text-white' : 'text-white/80'
+                    } hover:text-white transition-colors text-lg font-sans`}
+                  >
+                    {link.label}
+                  </Link>
+                ))}
                 <Link
-                  key={link.href}
-                  href={link.href}
-                  className={`${
-                    pathname === link.href ? 'text-white' : 'text-white/80'
-                  } hover:text-white transition-colors text-lg font-sans`}
+                  href="/contact"
+                  className="px-6 py-2.5 bg-white text-black font-sans text-lg hover:bg-white/90 transition-colors rounded"
                 >
-                  {link.label}
+                  Let&apos;s Talk
                 </Link>
-              ))}
-              <Link
-                href="/contact"
-                className="px-6 py-2.5 bg-white text-black font-sans text-lg hover:bg-white/90 transition-colors rounded"
+              </nav>
+            )}
+
+            {/* Mobile Hamburger - only show in default variant */}
+            {variant === 'default' && (
+              <button
+                className="md:hidden absolute right-0 flex w-10 h-10 items-center justify-center text-white"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open menu"
+                aria-expanded={mobileMenuOpen}
               >
-                Let&apos;s Talk
-              </Link>
-            </nav>
-          )}
-
-          {/* Mobile Hamburger - only show in default variant */}
-          {variant === 'default' && (
-            <button
-              className="md:hidden absolute right-0 flex flex-col gap-1.5 w-8 h-8 justify-center items-center"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              aria-label="Toggle menu"
-            >
-              <motion.span
-                animate={mobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                className="w-full h-0.5 bg-white block transition-all"
-              />
-              <motion.span
-                animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                className="w-full h-0.5 bg-white block transition-all"
-              />
-              <motion.span
-                animate={mobileMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                className="w-full h-0.5 bg-white block transition-all"
-              />
-            </button>
-          )}
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              </button>
+            )}
+          </div>
         </div>
-      </div>
+      </header>
 
-      {/* Mobile Menu */}
+      {/* Mobile menu lives outside <header>: its backdrop-filter would otherwise become the containing block for these fixed elements and clip them to the header bar */}
       <AnimatePresence>
         {mobileMenuOpen && variant === 'default' && (
           <>
@@ -134,11 +130,13 @@ export default function Header({ variant = 'default' }: HeaderProps) {
               <div className="flex justify-end p-6">
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex flex-col gap-1.5 w-8 h-8 justify-center items-center"
+                  className="flex w-10 h-10 items-center justify-center text-white"
                   aria-label="Close menu"
                 >
-                  <span className="w-full h-0.5 bg-white block rotate-45 translate-y-2" />
-                  <span className="w-full h-0.5 bg-white block -rotate-45 -translate-y-2" />
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                    <line x1="5" y1="5" x2="19" y2="19" />
+                    <line x1="19" y1="5" x2="5" y2="19" />
+                  </svg>
                 </button>
               </div>
 
@@ -182,6 +180,6 @@ export default function Header({ variant = 'default' }: HeaderProps) {
           </>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
