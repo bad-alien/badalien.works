@@ -88,22 +88,16 @@ export default function Header({ variant = 'default' }: HeaderProps) {
             {/* Mobile Hamburger - only show in default variant */}
             {variant === 'default' && (
               <button
-                className="md:hidden absolute right-0 flex flex-col gap-1.5 w-8 h-8 justify-center items-center"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                aria-label="Toggle menu"
+                className="md:hidden absolute right-0 flex w-10 h-10 items-center justify-center text-white"
+                onClick={() => setMobileMenuOpen(true)}
+                aria-label="Open menu"
+                aria-expanded={mobileMenuOpen}
               >
-                <motion.span
-                  animate={mobileMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                  className="w-full h-0.5 bg-white block transition-all"
-                />
-                <motion.span
-                  animate={mobileMenuOpen ? { opacity: 0 } : { opacity: 1 }}
-                  className="w-full h-0.5 bg-white block transition-all"
-                />
-                <motion.span
-                  animate={mobileMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                  className="w-full h-0.5 bg-white block transition-all"
-                />
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
               </button>
             )}
           </div>
@@ -136,11 +130,13 @@ export default function Header({ variant = 'default' }: HeaderProps) {
               <div className="flex justify-end p-6">
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex flex-col gap-1.5 w-8 h-8 justify-center items-center"
+                  className="flex w-10 h-10 items-center justify-center text-white"
                   aria-label="Close menu"
                 >
-                  <span className="w-full h-0.5 bg-white block rotate-45 translate-y-2" />
-                  <span className="w-full h-0.5 bg-white block -rotate-45 -translate-y-2" />
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+                    <line x1="5" y1="5" x2="19" y2="19" />
+                    <line x1="19" y1="5" x2="5" y2="19" />
+                  </svg>
                 </button>
               </div>
 
