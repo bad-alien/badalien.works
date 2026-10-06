@@ -25,7 +25,8 @@ export default function Footer() {
       <div className="mx-auto max-w-7xl px-6 lg:px-8 pt-12 lg:pt-16 pb-28 md:pb-12 lg:pb-16">
         {/* Brand row */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-6 sm:gap-8">
-          <Logo size="md" linkToHome={false} />
+          {/* self-start keeps the column flexbox from stretching the logo to full width below sm */}
+          <Logo size="md" linkToHome={false} className="self-start sm:self-center" />
           <div className="space-y-1">
             <p className="text-text-secondary text-sm font-sans leading-relaxed">
               AI strategy and creative technology for ambitious organizations
