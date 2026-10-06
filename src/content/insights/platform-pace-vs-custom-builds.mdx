@@ -1,0 +1,61 @@
+---
+title: "Anthropic Ships Faster Than You Can Build. Build Less."
+date: "2026-10-06"
+description: "In ten months Anthropic shipped the desktop agent, the scheduler, the plugin system, the design tool and the multi-agent coordinator that small businesses used to pay consultants to build. The custom layer is getting thinner, and most of what's left is friction."
+category: "AI Strategy"
+tags:
+  - Anthropic
+  - Claude
+  - AI Strategy
+  - Build vs Buy
+  - Small Business
+---
+
+This is an awkward post for me to write. I build custom AI solutions for small businesses. And for a growing share of the requests I get, the honest answer is now: don't build that. Wait a month.
+
+## Ten months of features that used to be projects
+
+Here is what Anthropic shipped in 2026, next to what each one replaced:
+
+- **January: [Cowork](/insights/what-claude-cowork-means-for-business).** A desktop agent with file, calendar and email access. This was the "AI assistant for our ops team" project, usually six to eight weeks of custom work.
+- **February: [Windows, plugins and scheduled tasks](https://www.eesel.ai/blog/claude-cowork-plugins-updates).** Prebuilt plugins for sales, finance, legal, HR and ops. Recurring jobs that run in the background. That was the "nightly report bot" and the "weekly pipeline digest."
+- **April: [Claude Design](/insights/anthropic-april-enterprise-lead).** Prototypes, slides and one-pagers by conversation. That was the "internal doc generator."
+- **September 17: [Claude Code Projects](https://alphasignal.ai/news/anthropic-rebuilds-claude-projects-to-run-parallel-ai-coding-agents).** A coordinator that splits work across parallel cloud agents with shared memory. That was the multi-agent orchestration layer, the most expensive thing on this list to build and the most expensive to maintain.
+- **September 22 and 28: [Opus 5.5](/insights/claude-opus-5-5) and [Sonnet 5.5](https://www.unite.ai/anthropic-releases-claude-sonnet-5-5-at-unchanged-sonnet-5-pricing/).** Top-tier capability at 40% less, and a mid-tier model that got faster at the same price. That was the "can we afford to run this daily" conversation.
+- **October 1: [Claude Code mods](https://clauding.de/en/posts/claude-code-mods/).** Small TypeScript functions that can rewrite prompts, block tool calls, redact secrets and gate permissions. That was the custom guardrail wrapper.
+- **October 6: [Claude Startups](https://qz.com/anthropic-claude-startups-program-expansion-100626).** A free year of Claude Team and $1,000 in API credits for companies under five years old. That was the budget line.
+
+OpenAI is running the same play. Its [Decisions API](https://daily.dev/posts/openai-answers-typesafe-s-jev-with-a-decision-api-built-on-luna-sttlgbzxk) shipped two weeks after [Jev](/insights/jev-decision-model) made fast classification a product category. The classifier you would have fine-tuned last year is now an API call from two vendors.
+
+## The math changed
+
+A custom AI build for a small business takes six to twelve weeks. The frontier labs are shipping meaningful features roughly every thirty days. So by the time a custom build lands, there is a fair chance the platform ships the same capability for free, better integrated, and maintained by someone else.
+
+That flips the calculation. Custom work used to be the only way to get a capability. Now it is a bet that the platform won't get there first. In 2026 that bet has been losing.
+
+The friction shows up after launch, not before. A custom build has to be kept working as models change, as the platform adds features that overlap it, and as the person who built it moves on. Every month the labs ship, the gap between "what we built" and "what we could just turn on" widens, and someone has to decide whether to close it.
+
+## What still earns a custom build
+
+The custom layer is not gone. It is thinner and sits in a different place:
+
+- **Your data.** The platform cannot clean, structure or connect your proprietary data for you. Getting the right information in front of the model is still work, and still the biggest driver of whether the result is useful.
+- **Compliance.** If you are in healthcare, finance or legal, [where the data goes](/insights/securing-llm-infrastructure) is still your problem, not the vendor's.
+- **Workflows that cross systems the platform can't see.** The order of operations between your CRM, your billing tool and your inbox is specific to you.
+- **Security hardening.** The defaults are not safe. Opening a repository can [run attacker code before any prompt](https://labs.cloudsecurityalliance.org/research/csa-research-note-ai-coding-agent-git-config-rce-20260904-cs/), and a census of 15,465 public MCP servers found [no governance at all](https://www.unite.ai/ox-security-finds-mcp-servers-reaching-china-russia-and-home-networks/).
+- **Evaluation.** Knowing whether the new feature works on your task, not the vendor's demo.
+
+Notice what is not on the list: the agent itself, the orchestration, the scheduler, the integrations and the UI. That is what the labs now ship.
+
+## What to do
+
+1. **Default to the platform.** Before scoping any custom AI work, spend a day in Cowork and Claude Code with your real files. Most of the "we need a tool for X" requests I see are already a plugin.
+2. **Apply a ninety-day test.** If a feature is likely to ship from Anthropic, OpenAI or Google within ninety days, don't build it. Configure what exists and wait.
+3. **Spend the custom budget on the thin layer.** Data, permissions, evals and the cross-system glue. That work compounds. The agent wrapper you build this quarter depreciates.
+4. **Keep whatever you build [portable](/insights/build-model-portable).** The platform will ship the feature eventually. Make sure switching off your version is a one-day job.
+
+The firms that get the most out of AI this year will not be the ones with the most custom code. They will be the ones who turned on the right features fastest and built only what nobody else could.
+
+---
+
+Not sure which of your AI projects is still worth building? [Let's talk](/contact).
