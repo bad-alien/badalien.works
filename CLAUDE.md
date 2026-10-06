@@ -39,6 +39,19 @@ npm run test:e2e   # Playwright e2e tests
 
 - Keep commit messages brief — one short sentence, no body unless essential
 - Do **not** add `Co-Authored-By` or any attribution trailers
+- Never `git reset --hard`, `git clean -fdx`, or force-push
+
+### Deploys
+
+- Vercel is connected to GitHub: every PR gets a preview URL, and merging to `main` deploys production (badalien.works, decoded., void.)
+- Work on a branch and open a PR; never push to `main` directly. The owner reviews the preview and merges
+- Run `npm test` and `npm run lint` before pushing. Do not run `npm run build` while `npm run dev` is running (both write `.next/`)
+
+### Content rules
+
+- Founder's public name is **Rasheed** — first name only, no surname anywhere (copy, schema, alt text, chat prompts). Business: "Bad Alien" (legal "Bad Alien LLC"). No street address
+- Blog posts (`src/content/insights/*.mdx`): terse, roughly half a "thorough" draft; no "About the author" footer; booking CTAs link to `/contact` (Cal embed), not `/consult`
+- No emojis in code, comments, or docs
 
 ## Design System
 

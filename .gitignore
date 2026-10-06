@@ -27,7 +27,8 @@
 *:com.apple.macl
 *:com.apple.lastuseddate*
 Thumbs.db
-.claude
+.claude/*
+!.claude/settings.json
 commit.md
 consulting-philosophies.md
 capture-*.js
