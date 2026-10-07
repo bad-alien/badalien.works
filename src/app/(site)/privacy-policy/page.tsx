@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy — Bad Alien',
+export const metadata: Metadata = pageMetadata({
+  path: '/privacy-policy',
+  title: 'Privacy Policy | Bad Alien',
   description:
     'How Bad Alien LLC collects, uses, and protects information you provide through the website, contact form, and SMS messaging program.',
-  alternates: { canonical: '/privacy-policy' },
-};
+});
 
 const EFFECTIVE_DATE = 'April 29, 2026';
 
@@ -37,7 +38,7 @@ export default function PrivacyPolicyPage() {
                 This Privacy Policy describes how Bad Alien LLC (&ldquo;Bad Alien,&rdquo; &ldquo;we,&rdquo;
                 &ldquo;us,&rdquo; or &ldquo;our&rdquo;) collects, uses, and shares information when you
                 visit{' '}
-                <a href="https://badalien.works" className="text-primary hover:text-primary-light underline">
+                <a href="https://www.badalien.works" className="text-primary hover:text-primary-light underline">
                   badalien.works
                 </a>{' '}
                 and any related subdomains, submit our contact form, book a call, or receive SMS text

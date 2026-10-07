@@ -34,6 +34,7 @@ export default function ServiceSection({ service }: ServiceSectionProps) {
   return (
     <section
       ref={ref}
+      id={service.id}
       className="min-h-0 py-12 md:py-16 border-b border-border last:border-0 scroll-mt-28"
       aria-labelledby={`service-title-${service.id}`}
     >

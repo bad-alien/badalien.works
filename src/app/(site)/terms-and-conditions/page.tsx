@@ -2,13 +2,14 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
+import { pageMetadata } from '@/lib/site';
 
-export const metadata: Metadata = {
-  title: 'Terms & Conditions — Bad Alien',
+export const metadata: Metadata = pageMetadata({
+  path: '/terms-and-conditions',
+  title: 'Terms & Conditions | Bad Alien',
   description:
     'Terms governing your use of badalien.works, the contact form, and the Bad Alien LLC SMS messaging program.',
-  alternates: { canonical: '/terms-and-conditions' },
-};
+});
 
 const EFFECTIVE_DATE = 'April 29, 2026';
 

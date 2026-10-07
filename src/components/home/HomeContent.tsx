@@ -53,12 +53,10 @@ export default function HomeContent({ latestPosts }: HomeContentProps) {
         <Header />
       </motion.div>
 
-      <motion.main
-        id="main-content"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: headerVisible ? 1 : 0 }}
-        transition={{ duration: 0.8, delay: 0.3 }}
-      >
+      {/* Not opacity-gated: the hero overlay (fixed, opaque, z-100) already covers it
+          until the visitor leaves the hero, and crawlers never trigger that exit.
+          Keeping the body visible means Google indexes it as visible content. */}
+      <main id="main-content">
         <h1 className="sr-only">Bad Alien — AI Consulting &amp; Enablement in Pasadena, CA</h1>
 
         <ServicesPreview />
@@ -66,7 +64,7 @@ export default function HomeContent({ latestPosts }: HomeContentProps) {
         <AboutPreview />
         <InsightsPreview posts={latestPosts} />
         <CtaSection />
-      </motion.main>
+      </main>
 
       <Footer />
     </div>
