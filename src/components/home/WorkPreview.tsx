@@ -78,7 +78,6 @@ const gridProjects = [
     title: 'Decoded',
     category: 'Data Viz',
     description: 'Year-in-review for a shared UNRAID server. Interactive data viz celebrating curated taste over algorithmic feeds.',
-    url: 'https://decoded.badalien.works',
     image: '/images/work/decoded-loop.gif',
   },
   {

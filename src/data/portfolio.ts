@@ -16,7 +16,7 @@ export interface PortfolioItem {
 export const portfolioItems: PortfolioItem[] = [
   // Row 1
   { id: 18, src: '/web/hummingbird-double.jpeg', width: 1600, height: 1200, alt: 'Hummingbird feeder double exposure at sunset', category: 'Photo', notes: '35mm, double exposure' },
-  { id: 41, src: '/images/work/decoded-loop.gif', width: 1600, height: 900, alt: 'Decoded — year-in-review data visualization', category: 'Data Viz', title: 'Decoded', url: 'https://decoded.badalien.works', unoptimized: true },
+  { id: 41, src: '/images/work/decoded-loop.gif', width: 1600, height: 900, alt: 'Decoded — year-in-review data visualization', category: 'Data Viz', title: 'Decoded', unoptimized: true },
   { id: 27, src: '/web/night-liquor-120.jpeg', width: 1600, height: 1200, alt: 'Night liquor store', category: 'Photo', notes: '120mm' },
   // Row 2
   { id: 1, src: '/web/CDMXtower-double.jpeg', width: 1600, height: 1200, alt: 'CDMX tower double exposure', category: 'Photo', notes: '35mm, double exposure' },

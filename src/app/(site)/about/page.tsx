@@ -214,12 +214,6 @@ export default function AboutPage() {
               >
                 creative
               </Link>
-              <a
-                href="https://decoded.badalien.works"
-                className="text-text-secondary hover:text-text-heading transition-colors duration-300 font-light"
-              >
-                decoded.badalien.works
-              </a>
             </motion.div>
           </motion.div>
         </div>
