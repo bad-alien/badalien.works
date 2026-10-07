@@ -11,27 +11,25 @@ export const metadata: Metadata = pageMetadata({
 });
 
 export default function InsightsPage() {
-  const posts = getAllPosts();
+  // getAllPosts sorts newest first, so the first post is the featured one
+  const [latest, ...rest] = getAllPosts();
 
   return (
-    <main id="main-content" className="max-w-6xl mx-auto px-6 py-24">
-      {/* Header: the page title is screen-reader-only, the mono label carries it visually */}
-      <section aria-label="Insights overview" className="mb-12">
-        <h1 className="sr-only">Insights</h1>
-        <p className="font-mono text-xs uppercase tracking-wider text-secondary mb-4">
-          {'// insights'}
-        </p>
-        <p className="font-sans text-lg text-body max-w-2xl">
-          Technical deep-dives, AI strategy, and field notes from the front
-          lines of AI consulting and engineering.
-        </p>
-      </section>
+    <main id="main-content" className="max-w-6xl mx-auto px-6 pt-32 md:pt-40 pb-24">
+      <h1 className="font-display text-5xl md:text-6xl font-bold text-heading mb-10">
+        Insights
+      </h1>
 
-      {/* Posts Grid */}
+      {latest && (
+        <section aria-label="Latest article" className="mb-6">
+          <PostCard post={latest} index={0} featured />
+        </section>
+      )}
+
       <section aria-label="Articles">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {posts.map((post, index) => (
-            <PostCard key={post.slug} post={post} index={index} />
+          {rest.map((post, index) => (
+            <PostCard key={post.slug} post={post} index={index + 1} />
           ))}
         </div>
       </section>
