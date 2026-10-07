@@ -54,9 +54,6 @@ export default function PrivacyPolicyPage() {
                 software, and creative technology services.
               </p>
               <p className="mt-3">
-                <strong className="text-text-heading font-medium">Mailing address:</strong> 275 Wallis
-                Street, Pasadena, CA 91106
-                <br />
                 <strong className="text-text-heading font-medium">Email:</strong>{' '}
                 <a href="mailto:contact@badalien.works" className="text-primary hover:text-primary-light underline">
                   contact@badalien.works
@@ -313,8 +310,7 @@ export default function PrivacyPolicyPage() {
                 Questions or requests about this Privacy Policy can be sent to{' '}
                 <a href="mailto:contact@badalien.works" className="text-primary hover:text-primary-light underline">
                   contact@badalien.works
-                </a>{' '}
-                or by mail to Bad Alien LLC, 275 Wallis Street, Pasadena, CA 91106.
+                </a>.
               </p>
             </section>
           </div>

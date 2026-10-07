@@ -294,8 +294,6 @@ export default function TermsPage() {
               <p>
                 Bad Alien LLC
                 <br />
-                275 Wallis Street, Pasadena, CA 91106
-                <br />
                 <a href="mailto:contact@badalien.works" className="text-primary hover:text-primary-light underline">
                   contact@badalien.works
                 </a>
