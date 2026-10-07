@@ -68,6 +68,8 @@ export const DEFAULT_DESCRIPTION =
 // explicitly; routes with their own opengraph-image.tsx (blog posts) override.
 export const DEFAULT_OG_IMAGE = { url: '/opengraph-image', width: 1200, height: 630, alt: 'Bad Alien — AI consulting in Pasadena, CA' };
 
+export const RSS_PATH = '/api/rss';
+
 export function pageMetadata({
   path,
   title = DEFAULT_TITLE,
@@ -80,7 +82,8 @@ export function pageMetadata({
   return {
     title,
     description,
-    alternates: { canonical: path },
+    // Next replaces (not merges) alternates too, so the feed link rides along with the canonical.
+    alternates: { canonical: path, types: { 'application/rss+xml': `${SITE_URL}${RSS_PATH}` } },
     openGraph: { title, description, url: path, siteName: SITE_NAME, type: 'website', locale: 'en_US', images: [DEFAULT_OG_IMAGE] },
     twitter: { card: 'summary_large_image', title, description },
   };
@@ -96,6 +99,21 @@ export function faqJsonLd(items: FaqItem[]) {
       '@type': 'Question',
       name: item.question,
       acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  };
+}
+
+export type BreadcrumbItem = { name: string; path: string };
+
+export function breadcrumbJsonLd(items: BreadcrumbItem[]) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      item: `${SITE_URL}${item.path}`,
     })),
   };
 }

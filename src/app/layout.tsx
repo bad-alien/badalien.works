@@ -3,6 +3,7 @@ import { Outfit, Instrument_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
 import { Analytics } from "@vercel/analytics/next";
+import { SITE_URL } from "@/lib/site";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -20,6 +21,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // Resolves relative OG/canonical URLs on every route, including the 404 page and subdomains.
+  metadataBase: new URL(SITE_URL),
   title: "Bad Alien",
   description: "Bad Alien - Creative and Consulting Services",
   icons: {

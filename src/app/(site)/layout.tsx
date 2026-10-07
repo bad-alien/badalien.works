@@ -1,10 +1,9 @@
 import type { Metadata } from 'next';
-import { SITE_URL, SITE_NAME, DEFAULT_TITLE, DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, organizationJsonLd, jsonLdScript } from '@/lib/site';
+import { SITE_NAME, DEFAULT_TITLE, DEFAULT_DESCRIPTION, DEFAULT_OG_IMAGE, organizationJsonLd, jsonLdScript } from '@/lib/site';
 
 // Main-domain only: the decoded/void subdomains share the root layout but not
 // this one, so their pages don't inherit main-site canonicals or org schema.
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
   title: DEFAULT_TITLE,
   description: DEFAULT_DESCRIPTION,
   openGraph: {
@@ -15,6 +14,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+  },
+  // Explicit snippet limits: Google and the AI answer engines default to short previews otherwise.
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 },
   },
 };
 

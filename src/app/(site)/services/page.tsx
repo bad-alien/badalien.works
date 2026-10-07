@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { AnimatePresence, motion } from 'framer-motion';
 import Header from '@/components/shared/Header';
+import Footer from '@/components/shared/Footer';
 import ServiceFilterBar from '@/components/services/ServiceFilterBar';
 import ServiceSection from '@/components/services/ServiceSection';
 import { services, serviceFilters, type ServiceFilter } from '@/data/services';
@@ -99,6 +100,7 @@ export default function TechPage() {
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 }

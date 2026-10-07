@@ -7,7 +7,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeSlug from 'rehype-slug';
 import rehypePrettyCode from 'rehype-pretty-code';
 import { useMDXComponents as getMDXComponents } from '@/mdx-components';
-import { SITE_URL, SITE_NAME, ORGANIZATION_ID, FOUNDER_ID } from '@/lib/site';
+import { SITE_URL, SITE_NAME, ORGANIZATION_ID, FOUNDER_ID, DEFAULT_OG_IMAGE, breadcrumbJsonLd, jsonLdScript } from '@/lib/site';
 import { getPost, getAllPosts } from '@/lib/blog';
 
 
@@ -36,6 +36,8 @@ export async function generateMetadata({
       siteName: SITE_NAME,
       type: 'article',
       publishedTime: data.date,
+      modifiedTime: data.updated ?? data.date,
+      authors: [`${SITE_URL}/about`],
       tags: data.tags || [],
     },
     twitter: {
@@ -68,27 +70,38 @@ export default async function PostPage({
     useMDXComponents: () => getMDXComponents({}),
   });
 
+  const postUrl = `${SITE_URL}/insights/${slug}`;
+  // Article rich results need an image. The per-post OG card lives at a hashed
+  // path Next assigns at build time, so point at the frontmatter image or the
+  // site-wide card, both of which have stable URLs.
+  const image = data.image ? `${SITE_URL}${data.image}` : `${SITE_URL}${DEFAULT_OG_IMAGE.url}`;
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: data.title,
     description: data.description,
+    image,
     datePublished: data.date,
-    url: `${SITE_URL}/insights/${slug}`,
-    mainEntityOfPage: `${SITE_URL}/insights/${slug}`,
+    dateModified: data.updated ?? data.date,
+    inLanguage: 'en-US',
+    url: postUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    isPartOf: { '@id': `${SITE_URL}/#website` },
     author: { '@type': 'Person', '@id': FOUNDER_ID, name: 'Rasheed', url: `${SITE_URL}/about` },
     publisher: { '@type': 'ProfessionalService', '@id': ORGANIZATION_ID, name: SITE_NAME, url: SITE_URL },
+    articleSection: data.category,
     keywords: (data.tags || []).join(', '),
   };
+  const breadcrumbs = breadcrumbJsonLd([
+    { name: 'Home', path: '' },
+    { name: 'Insights', path: '/insights' },
+    { name: data.title, path: `/insights/${slug}` },
+  ]);
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c'),
-        }}
-      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbs) }} />
 
       <article className="max-w-4xl mx-auto px-6 py-24">
         {/* Back Link */}

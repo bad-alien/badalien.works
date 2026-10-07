@@ -8,6 +8,8 @@ export type Category = 'AI Strategy' | 'Engineering' | 'AI Pulse' | 'Field Notes
 export interface PostMeta {
   title: string;
   date: string;
+  /** Optional ISO date of the last substantive edit; feeds sitemap lastmod and Article dateModified. */
+  updated?: string;
   description: string;
   category: Category;
   tags: string[];
@@ -35,6 +37,7 @@ export function getAllPosts(): PostMeta[] {
     return {
       title: data.title,
       date: data.date,
+      updated: data.updated,
       description: data.description,
       category: data.category as Category,
       tags: data.tags || [],
