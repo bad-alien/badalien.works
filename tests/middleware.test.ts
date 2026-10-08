@@ -60,7 +60,8 @@ describe('middleware routing logic', () => {
     const req = createMockRequest('void.badalien.works', '/')
     const result = middleware(req as any) as any
     expect(result.type).toBe('redirect')
-    expect(result.url).toBe('https://badalien.works/')
+    // Straight to the canonical www host, not the apex (which would add a second hop)
+    expect(result.url).toBe('https://www.badalien.works/')
     expect(result.status).toBe(301)
   })
 
@@ -70,7 +71,7 @@ describe('middleware routing logic', () => {
     const req = createMockRequest('badalien.works', '/void')
     const result = middleware(req as any) as any
     expect(result.type).toBe('redirect')
-    expect(result.url).toBe('https://badalien.works/')
+    expect(result.url).toBe('https://www.badalien.works/')
   })
 
   it('still redirects the /decoded path on the main domain to the decoded subdomain in production', async () => {

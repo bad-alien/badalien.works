@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { SITE_URL } from '@/lib/site';
 
 export function middleware(request: NextRequest) {
   const url = request.nextUrl;
@@ -43,8 +44,8 @@ export function middleware(request: NextRequest) {
     if (process.env.NODE_ENV === 'development') {
       return NextResponse.redirect(`${url.protocol}//${hostname.replace('void.', '')}/`, 301);
     }
-    const protocol = request.headers.get('x-forwarded-proto') || 'https';
-    return NextResponse.redirect(`${protocol}://${rootDomain}/`, 301);
+    // Straight to the canonical www host: the apex would add a second redirect hop.
+    return NextResponse.redirect(`${SITE_URL}/`, 301);
   }
 
   if (currentHost === 'decoded') {
@@ -57,7 +58,7 @@ export function middleware(request: NextRequest) {
   if (process.env.NODE_ENV !== 'development') {
     const protocol = request.headers.get('x-forwarded-proto') || 'https';
     if (url.pathname === '/void' || url.pathname.startsWith('/void/')) {
-      return NextResponse.redirect(`${protocol}://${rootDomain}/`, 301);
+      return NextResponse.redirect(`${SITE_URL}/`, 301);
     }
     if (url.pathname.startsWith('/decoded')) {
       const cleanPath = url.pathname.replace('/decoded', '') || '/';
