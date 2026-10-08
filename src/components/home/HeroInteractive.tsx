@@ -1,250 +1,107 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import { useRouter } from 'next/navigation';
-import { motion, useAnimate } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface HeroInteractiveProps {
   onActivateChat: () => void;
-  onLearnMore?: () => void;
+  onLearnMore: () => void;
 }
 
 const PROMPTS = [
-  "Help my team actually understand and use AI tools",
-  "What would it cost to automate our intake process?",
-  "Can you build us a custom system from scratch?",
-  "We just need a few sessions to get up to speed"
+  'Help my team actually understand and use AI tools',
+  'What would it cost to automate our intake process?',
+  'Can you build us a custom system from scratch?',
+  'We just need a few sessions to get up to speed',
 ];
 
+const NAV = [
+  { href: '/consult', label: 'Consult' },
+  { href: '/creative', label: 'Creative' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3, staggerChildren: 0.06 } },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 8 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.35 } },
+};
+
 export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInteractiveProps) {
-  const router = useRouter();
+  const reduceMotion = useReducedMotion();
   const [displayText, setDisplayText] = useState('');
-  const [isExiting, setIsExiting] = useState(false);
-  const [exitComplete, setExitComplete] = useState(false);
-  const [scope, animate] = useAnimate();
-  const inputRef = useRef<HTMLDivElement>(null);
 
-  // Typing animation effect
+  // Typing loop for the ghost input
   useEffect(() => {
-    if (isExiting) return;
-
-    let currentPromptIndex = 0;
-    let currentCharIndex = 0;
-    let isTyping = true;
-    let timeoutId: NodeJS.Timeout;
+    let promptIndex = 0;
+    let charIndex = 0;
+    let timeoutId: ReturnType<typeof setTimeout>;
 
     const typeNextChar = () => {
-      const currentPrompt = PROMPTS[currentPromptIndex];
-
-      if (isTyping) {
-        // Typing phase
-        if (currentCharIndex < currentPrompt.length) {
-          setDisplayText(currentPrompt.slice(0, currentCharIndex + 1));
-          currentCharIndex++;
-          timeoutId = setTimeout(typeNextChar, 30); // 30ms per character
-        } else {
-          // Finished typing, pause before erasing
-          timeoutId = setTimeout(() => {
-            isTyping = false;
-            setDisplayText('');
-            // Move to next prompt
-            currentPromptIndex = (currentPromptIndex + 1) % PROMPTS.length;
-            currentCharIndex = 0;
-            isTyping = true;
-            // Small pause before typing next prompt
-            timeoutId = setTimeout(typeNextChar, 200);
-          }, 1200); // 1.2 second pause
-        }
-      }
-    };
-
-    // Initial delay before starting (800ms to account for input animation)
-    const initialDelay = setTimeout(() => {
-      typeNextChar();
-    }, 800);
-
-    return () => {
-      clearTimeout(initialDelay);
-      clearTimeout(timeoutId);
-    };
-  }, [isExiting]);
-
-  // Global keydown listener for printable keys
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      // Filter out modifiers, function keys, control keys
-      if (
-        e.ctrlKey ||
-        e.metaKey ||
-        e.altKey ||
-        e.key.length > 1 || // Filter out special keys like "Enter", "Backspace", etc.
-        e.key === ' ' // Ignore space for now since it might trigger button clicks
-      ) {
+      const prompt = PROMPTS[promptIndex];
+      if (charIndex < prompt.length) {
+        setDisplayText(prompt.slice(0, charIndex + 1));
+        charIndex++;
+        timeoutId = setTimeout(typeNextChar, 30);
         return;
       }
-
-      // Printable key pressed - activate chat with exit animation
-      handleActivateChat();
+      timeoutId = setTimeout(() => {
+        setDisplayText('');
+        promptIndex = (promptIndex + 1) % PROMPTS.length;
+        charIndex = 0;
+        timeoutId = setTimeout(typeNextChar, 200);
+      }, 1200);
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    timeoutId = setTimeout(typeNextChar, 600);
+    return () => clearTimeout(timeoutId);
   }, []);
-
-  const handleActivateChat = async () => {
-    if (isExiting) return;
-    setIsExiting(true);
-
-    // Exit animation sequence
-    // 1. All hero elements fly UP and fade out
-    if (scope.current) {
-      await animate(
-        '#tagline, #nav-buttons, #ghost-input, #learn-more',
-        { opacity: 0, y: -40 },
-        { duration: 0.4, ease: [0.4, 0, 1, 1] } // ease-in
-      );
-    }
-
-    // 2. Trigger the chat activation
-    onActivateChat();
-    // 3. Unmount hero content now that animation is done
-    setExitComplete(true);
-  };
-
-  const handleNavigate = (path: string) => {
-    // Brief fade-out before navigation
-    setTimeout(() => {
-      router.push(path);
-    }, 300);
-  };
-
-  const handleLearnMoreClick = () => {
-    if (onLearnMore) {
-      onLearnMore();
-    } else {
-      // Fallback if no handler provided
-      const contentSection = document.querySelector('#main-content');
-      if (contentSection) {
-        contentSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  };
-
-  if (exitComplete) return null;
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const taglineVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-        delay: 0,
-      },
-    },
-  };
-
-  const buttonContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        delay: 0.2,
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const buttonVariants = {
-    hidden: { opacity: 0, y: 10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.4,
-      },
-    },
-  };
-
-  const inputVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        duration: 0.4,
-        delay: 0.5,
-      },
-    },
-  };
 
   return (
     <motion.div
-      ref={scope}
-      className="flex flex-col items-center gap-6 -mt-4"
+      className="mt-12 flex w-full flex-col items-center gap-6 sm:mt-14"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
-      {/* Tagline */}
       <motion.p
-        id="tagline"
-        variants={taglineVariants}
+        variants={itemVariants}
         className="font-sans text-lg text-text-body leading-relaxed max-w-2xl mx-auto text-center px-4"
       >
         Bringing AI to those ready to move from curiosity to capability.
       </motion.p>
 
-      {/* Navigation Buttons */}
-      <motion.div
-        id="nav-buttons"
-        variants={buttonContainerVariants}
-        className="flex flex-wrap items-center justify-center gap-4"
+      <motion.nav
+        variants={itemVariants}
+        aria-label="Hero navigation"
+        className="flex flex-wrap items-center justify-center gap-3 sm:gap-4"
       >
-        <motion.button
-          variants={buttonVariants}
-          onClick={() => handleNavigate('/consult')}
-          className="px-6 py-2.5 rounded-full border-2 border-primary bg-transparent text-primary font-sans font-medium transition-all duration-300 hover:bg-primary hover:text-background"
-        >
-          Consult
-        </motion.button>
-        <motion.button
-          variants={buttonVariants}
-          onClick={() => handleNavigate('/creative')}
-          className="px-6 py-2.5 rounded-full border-2 border-primary bg-transparent text-primary font-sans font-medium transition-all duration-300 hover:bg-primary hover:text-background"
-        >
-          Creative
-        </motion.button>
-        <motion.button
-          variants={buttonVariants}
-          onClick={() => handleNavigate('/contact')}
-          className="px-6 py-2.5 rounded-full border-2 border-primary bg-transparent text-primary font-sans font-medium transition-all duration-300 hover:bg-primary hover:text-background"
-        >
-          Contact
-        </motion.button>
-      </motion.div>
+        {NAV.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className="px-5 sm:px-6 py-2.5 rounded-full border-2 border-primary bg-transparent text-primary font-sans font-medium transition-all duration-300 hover:bg-primary hover:text-background"
+          >
+            {label}
+          </Link>
+        ))}
+      </motion.nav>
 
-      {/* Ghost Input */}
-      <motion.div id="ghost-input" variants={inputVariants} className="w-full max-w-2xl px-4">
+      <motion.div variants={itemVariants} className="w-full max-w-2xl px-4">
         <div
-          ref={inputRef}
           role="button"
           tabIndex={0}
-          onClick={handleActivateChat}
+          aria-label="Start a chat"
+          onClick={onActivateChat}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              handleActivateChat();
+              onActivateChat();
             }
           }}
           className="relative w-full px-5 py-4 bg-transparent border border-muted/20 rounded-lg cursor-text transition-all duration-300 hover:border-muted/40"
@@ -259,24 +116,19 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
         </div>
       </motion.div>
 
-      {/* Learn More Arrow */}
       <motion.button
-        id="learn-more"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.6 }}
+        variants={itemVariants}
+        type="button"
         className="mt-8 flex flex-col items-center gap-4 cursor-pointer bg-transparent border-0 p-0"
-        onClick={handleLearnMoreClick}
+        onClick={onLearnMore}
         aria-label="Scroll to learn more about our services"
       >
-        <span
-          className="text-primary text-sm font-mono uppercase tracking-[0.3em] drop-shadow-[0_0_10px_rgba(255,107,53,0.5)]"
-        >
+        <span className="text-primary text-sm font-mono uppercase tracking-[0.3em] drop-shadow-[0_0_10px_rgba(255,107,53,0.5)]">
           learn more
         </span>
         <motion.div
-          animate={{ y: [0, 12, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          animate={reduceMotion ? undefined : { y: [0, 12, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           className="relative"
         >
           <div className="absolute inset-0 blur-xl bg-primary/30 rounded-full scale-150" />

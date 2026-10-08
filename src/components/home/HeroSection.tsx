@@ -11,105 +11,65 @@ interface HeroSectionProps {
   onLearnMore?: () => void;
 }
 
+// Full-screen overlay: the marks cycle indefinitely at a flipbook pace, with the
+// controls present from the first paint. Scrolling, learn more, or the ghost input run
+// the exit choreography that reveals the header and the page beneath. Return visitors
+// in the same session skip it.
+const CYCLE_INTERVAL_MS = 137;
+const LOGO_COUNT = 7;
+const SEEN_KEY = 'animation_seen';
+
 export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectionProps) {
-  const [introComplete, setIntroComplete] = useState(false);
-  const [phase, setPhase] = useState<'animating' | 'complete'>('animating');
+  const [phase, setPhase] = useState<'overlay' | 'complete'>('overlay');
+  const [staticMark, setStaticMark] = useState(false);
 
   const [scope, animate] = useAnimate();
-  const interactiveRef = useRef<HTMLDivElement>(null);
   const isExitingRef = useRef(false);
 
   const [isMobile, setIsMobile] = useState(false);
   useLayoutEffect(() => {
     setIsMobile(window.innerWidth < 640);
   }, []);
-  const logoSize = isMobile ? 260 : 400;
-  const logoShrunk = isMobile ? 140 : 200;
-  const logoRise = isMobile ? -50 : -80;
+  const logoSize = isMobile ? 170 : 240;
 
-  const { currentLogo, decelerate } = useLogoCycle({
-    logoCount: 7,
-    interval: 125,
+  const { currentLogo, stopCycling } = useLogoCycle({
+    logoCount: LOGO_COUNT,
+    interval: CYCLE_INTERVAL_MS,
     autoStart: true,
   });
 
-  // Trigger deceleration at 3000ms
-  useEffect(() => {
-    const decelerateTimer = setTimeout(() => {
-      decelerate();
-    }, 2100);
-
-    return () => clearTimeout(decelerateTimer);
-  }, [decelerate]);
-
-  const runHeroSequence = useCallback(async () => {
-    // Initial state: interactive and chat hidden
-    if (interactiveRef.current) {
-      interactiveRef.current.style.opacity = '0';
-      interactiveRef.current.style.pointerEvents = 'none';
-    }
-    // Wait for logo cycling (1.785s)
-    await new Promise(r => setTimeout(r, 1785));
-
-    // Cross-fade: cycling out + resolved in (simultaneously, 0.42s)
-    animate('.cycling-logos', { opacity: 0 }, { duration: 0.42, ease: 'easeInOut' });
-    await animate('.resolved-logo', { opacity: 1, scale: 1 }, { duration: 0.42, ease: 'easeOut' });
-
-    // Wait for deceleration to finish
-    await new Promise(r => setTimeout(r, 390));
-
-    // Logo rises + shrinks (0.35s)
-    animate('.logo-container', { width: logoShrunk, height: logoShrunk, y: logoRise }, { duration: 0.35, ease: 'easeInOut' });
-
-    // Interactive fades in with slight delay (112ms after logo starts moving)
-    await new Promise(r => setTimeout(r, 112));
-    if (interactiveRef.current) {
-      interactiveRef.current.style.pointerEvents = 'auto';
-    }
-    await animate(interactiveRef.current!, { opacity: 1 }, { duration: 0.18 });
-
-    // Intro animation complete - allow clicks to pass through overlay
-    setIntroComplete(true);
-  }, [animate, logoShrunk, logoRise]);
-
-  // Check sessionStorage first — skip animation for return visitors, otherwise run it
+  // Return visitors go straight to the page. Reduced-motion visitors keep the overlay
+  // but see the static mark instead of the cycle.
   useLayoutEffect(() => {
-    if (sessionStorage.getItem('animation_seen')) {
+    if (sessionStorage.getItem(SEEN_KEY)) {
+      stopCycling();
       setPhase('complete');
-      // Show main content immediately for return visitors (avoid blank screen)
-      // Using setTimeout to defer callback until after render cycle completes
-      setTimeout(() => {
-        if (onLearnMore) {
-          onLearnMore();
-        }
-      }, 0);
+      // Defer so the parent reveals header and content after this render commits
+      setTimeout(() => onLearnMore?.(), 0);
       return;
     }
-    runHeroSequence();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      stopCycling();
+      setStaticMark(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runHeroSequence]); // onLearnMore intentionally omitted - only called once on mount
+  }, []);
 
   const exitOverlay = useCallback(async () => {
     if (isExitingRef.current) return;
     isExitingRef.current = true;
+    stopCycling();
 
-    // Fade out interactive
-    if (interactiveRef.current) {
-      interactiveRef.current.style.pointerEvents = 'none';
-      animate(interactiveRef.current, { opacity: 0 }, { duration: 0.2 });
-    }
-    // Shrink + fade logo
-    await animate('.logo-container', { width: isMobile ? 50 : 77, height: isMobile ? 50 : 77, opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
-
-    return scope;
-  }, [animate, scope, isMobile]);
+    animate('.hero-controls', { opacity: 0 }, { duration: 0.2 });
+    await animate('.logo-container', { scale: 0.28, opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
+  }, [animate, stopCycling]);
 
   const runChatSequence = useCallback(async () => {
     if (isExitingRef.current) return;
     await exitOverlay();
     onChatActivated();
     await animate(scope.current!, { opacity: 0 }, { duration: 0.3, ease: 'easeIn' });
-    sessionStorage.setItem('animation_seen', 'true');
+    sessionStorage.setItem(SEEN_KEY, 'true');
     setPhase('complete');
   }, [animate, scope, onChatActivated, exitOverlay]);
 
@@ -118,24 +78,22 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     await exitOverlay();
     onLearnMore?.();
     await animate(scope.current!, { opacity: 0 }, { duration: 0.5, ease: 'easeIn' });
-    sessionStorage.setItem('animation_seen', 'true');
+    sessionStorage.setItem(SEEN_KEY, 'true');
     setPhase('complete');
   }, [animate, scope, onLearnMore, exitOverlay]);
 
-  // Scroll/swipe down triggers learn-more exit
+  // Scroll or swipe down leaves the overlay the same way learn more does
   useEffect(() => {
-    if (!introComplete) return;
+    if (phase !== 'overlay') return;
 
     let touchStartY = 0;
 
     const handleWheel = (e: WheelEvent) => {
       if (e.deltaY > 0) runLearnMoreSequence();
     };
-
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
     };
-
     const handleTouchEnd = (e: TouchEvent) => {
       if (touchStartY - e.changedTouches[0].clientY > 50) runLearnMoreSequence();
     };
@@ -149,11 +107,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchend', handleTouchEnd);
     };
-  }, [introComplete, runLearnMoreSequence]);
-
-  const handleActivateChat = () => {
-    runChatSequence();
-  };
+  }, [phase, runLearnMoreSequence]);
 
   if (phase === 'complete') return null;
 
@@ -161,23 +115,19 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     <motion.div
       ref={scope}
       className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center overflow-hidden"
-      style={{ pointerEvents: introComplete ? 'none' : 'auto' }}
     >
-      {/* Logo container - shrinks through phases, fades out during chat */}
-      <div
-        className="logo-container relative flex-shrink-0"
-        style={{ width: logoSize, height: logoSize }}
-      >
-        {/* Cycling logos - fades out when resolved logo appears */}
+      <div className="logo-container relative flex-shrink-0" style={{ width: logoSize, height: logoSize }}>
+        {/* Cycling marks */}
         <div
-          className="cycling-logos absolute inset-0 flex items-center justify-center"
-          style={{ transform: isMobile ? 'scale(1.1)' : 'scale(1.3)', opacity: 0.8 }}
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ transform: isMobile ? 'scale(1.1)' : 'scale(1.3)', opacity: staticMark ? 0 : 0.8 }}
+          aria-hidden="true"
         >
-          {[1, 2, 3, 4, 5, 6, 7].map((logoNum) => (
+          {Array.from({ length: LOGO_COUNT }, (_, i) => i + 1).map((logoNum) => (
             <Image
               key={logoNum}
               src={`/logos/ba-logo-${logoNum}.svg`}
-              alt="Bad Alien"
+              alt=""
               width={logoSize}
               height={logoSize}
               priority={logoNum <= 2}
@@ -188,27 +138,25 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
           ))}
         </div>
 
-        {/* Static resolved logo - fades in during resolving phase */}
+        {/* Static mark for reduced-motion visitors */}
         <div
-          className="resolved-logo absolute inset-0 flex items-center justify-center"
-          style={{ opacity: 0, transform: 'scale(0.6)' }}
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ opacity: staticMark ? 1 : 0 }}
         >
           <Image
             src="/logos/ba-logo-trans-white.png"
             alt="Bad Alien"
             fill
             sizes={`${logoSize}px`}
-            priority
+            priority={staticMark}
             className="object-contain select-none"
           />
         </div>
       </div>
 
-      {/* Interactive content - flows below logo in flex column */}
-      <div ref={interactiveRef}>
-        <HeroInteractive onActivateChat={handleActivateChat} onLearnMore={runLearnMoreSequence} />
+      <div className="hero-controls w-full">
+        <HeroInteractive onActivateChat={runChatSequence} onLearnMore={runLearnMoreSequence} />
       </div>
-
     </motion.div>
   );
 }
