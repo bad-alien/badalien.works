@@ -1,4 +1,5 @@
 import { track } from '@vercel/analytics';
+import { reportGoogleAdsConversion } from '@/lib/googleAds';
 
 // Conversion funnel events (Vercel Web Analytics custom events).
 // Keep to one flat property per event: property count is plan-limited and
@@ -21,5 +22,10 @@ export function trackConversion(
     track(event, data);
   } catch {
     // Analytics must never break the UI
+  }
+  try {
+    reportGoogleAdsConversion(event);
+  } catch {
+    // Same rule for the ad tag
   }
 }
