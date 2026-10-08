@@ -4,7 +4,7 @@
 - **What this is:** Personal portfolio and AI consulting site — a hybrid that sells consulting services while showcasing creative/technical work
 - **Who it's for:** Product teams, CTOs, and business leaders looking for AI consulting; also creative/tech peers evaluating capabilities
 - **Space/industry:** AI consulting, creative technology, full-stack development
-- **Project type:** Multi-subdomain Next.js site (main consulting site + decoded + void + creative subdomains)
+- **Project type:** Multi-subdomain Next.js site (main consulting site + decoded + creative subdomains; the void subdomain is archived and redirects to the main site)
 
 ## Aesthetic Direction
 - **Direction:** Industrial/Retro-Futuristic hybrid — the "technical operator" look

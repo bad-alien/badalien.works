@@ -34,7 +34,7 @@ badalien.works/
 │   ├── app/           # Next.js App Router pages and API routes
 │   │   ├── (site)/    # Main domain route group
 │   │   ├── (decoded)/ # decoded subdomain
-│   │   ├── (void)/    # void subdomain
+│   │   ├── (void)/    # void subdomain (archived: middleware redirects it to the main site)
 │   │   └── api/       # API routes (contact, chat)
 │   ├── components/    # React components (shared, home, consulting, chat, services)
 │   ├── contexts/      # React context providers (ChatContext)

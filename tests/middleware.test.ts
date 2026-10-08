@@ -45,12 +45,41 @@ describe('middleware routing logic', () => {
     expect(result.type).toBe('next')
   })
 
-  it('rewrites void subdomain to /void path in development', async () => {
+  it('redirects the archived void subdomain to the main site in development', async () => {
     const { middleware } = await import('@/middleware')
-    const req = createMockRequest('void.localhost:3001', '/')
+    const req = createMockRequest('void.localhost:3001', '/chat')
     const result = middleware(req as any) as any
-    expect(result.type).toBe('rewrite')
-    expect(result.pathname).toBe('/void')
+    expect(result.type).toBe('redirect')
+    expect(result.url).toBe('http://localhost:3001/')
+    expect(result.status).toBe(301)
+  })
+
+  it('redirects the archived void subdomain to the main site in production', async () => {
+    vi.stubEnv('NODE_ENV', 'production')
+    const { middleware } = await import('@/middleware')
+    const req = createMockRequest('void.badalien.works', '/')
+    const result = middleware(req as any) as any
+    expect(result.type).toBe('redirect')
+    expect(result.url).toBe('https://badalien.works/')
+    expect(result.status).toBe(301)
+  })
+
+  it('redirects the /void path on the main domain to the home page in production', async () => {
+    vi.stubEnv('NODE_ENV', 'production')
+    const { middleware } = await import('@/middleware')
+    const req = createMockRequest('badalien.works', '/void')
+    const result = middleware(req as any) as any
+    expect(result.type).toBe('redirect')
+    expect(result.url).toBe('https://badalien.works/')
+  })
+
+  it('still redirects the /decoded path on the main domain to the decoded subdomain in production', async () => {
+    vi.stubEnv('NODE_ENV', 'production')
+    const { middleware } = await import('@/middleware')
+    const req = createMockRequest('badalien.works', '/decoded/stats')
+    const result = middleware(req as any) as any
+    expect(result.type).toBe('redirect')
+    expect(result.url).toBe('https://decoded.badalien.works/stats')
   })
 
   it('rewrites decoded subdomain to /decoded path in development', async () => {
