@@ -11,11 +11,11 @@ interface HeroSectionProps {
   onLearnMore?: () => void;
 }
 
-// Full-screen overlay: the marks cycle indefinitely, just under three swaps a second
-// so it reads as a flipbook rather than a flicker, with the controls present from the
-// first paint. Scrolling, learn more, or the ghost input run the exit choreography that
-// reveals the header and the page beneath. Return visitors in the same session skip it.
-const CYCLE_INTERVAL_MS = 350;
+// Full-screen overlay: the marks cycle indefinitely at a flipbook pace, with the
+// controls present from the first paint. Scrolling, learn more, or the ghost input run
+// the exit choreography that reveals the header and the page beneath. Return visitors
+// in the same session skip it.
+const CYCLE_INTERVAL_MS = 280;
 const LOGO_COUNT = 7;
 const SEEN_KEY = 'animation_seen';
 
@@ -30,7 +30,7 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
   useLayoutEffect(() => {
     setIsMobile(window.innerWidth < 640);
   }, []);
-  const logoSize = isMobile ? 200 : 280;
+  const logoSize = isMobile ? 170 : 240;
 
   const { currentLogo, stopCycling } = useLogoCycle({
     logoCount: LOGO_COUNT,

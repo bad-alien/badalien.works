@@ -64,7 +64,7 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
 
   return (
     <motion.div
-      className="mt-6 flex w-full flex-col items-center gap-6"
+      className="mt-12 flex w-full flex-col items-center gap-6 sm:mt-14"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
