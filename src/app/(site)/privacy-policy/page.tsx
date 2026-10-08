@@ -11,7 +11,7 @@ export const metadata: Metadata = pageMetadata({
     'How Bad Alien LLC collects, uses, and protects information you provide through the website, contact form, and SMS messaging program.',
 });
 
-const EFFECTIVE_DATE = 'April 29, 2026';
+const EFFECTIVE_DATE = 'October 8, 2026';
 
 export default function PrivacyPolicyPage() {
   return (
@@ -105,8 +105,16 @@ export default function PrivacyPolicyPage() {
                 </li>
                 <li>
                   Cookies and similar technologies that are strictly necessary for the site to function
-                  (for example, session and security cookies). We do not currently use third-party
-                  advertising or cross-site tracking cookies.
+                  (for example, session and security cookies).
+                </li>
+                <li>
+                  Ad measurement through Google Ads conversion tracking. It sets first-party cookies
+                  (such as <code>_gcl_au</code>, and <code>_gcl_aw</code> when you arrive from one of our
+                  Google ads) so we can tell whether an ad click led to a booked call or an inquiry.
+                  Google receives your IP address, browser information, the pages you visit on this site
+                  and, if you clicked an ad, the click identifier. We have turned off ad personalization
+                  for this tag, so it is not used to build remarketing audiences or to show you ads on
+                  other sites.
                 </li>
               </ul>
             </section>
@@ -123,6 +131,7 @@ export default function PrivacyPolicyPage() {
                   (consulting follow-ups, appointment reminders, and service notifications).
                 </li>
                 <li>To operate, secure, and improve the website.</li>
+                <li>To measure whether our Google ads lead to booked calls and inquiries.</li>
                 <li>To comply with legal obligations and enforce our Terms.</li>
               </ul>
               <p className="mt-3">
@@ -188,6 +197,19 @@ export default function PrivacyPolicyPage() {
                   delivery and carrier compliance.
                 </li>
               </ul>
+              <p className="mt-3">
+                We also use Google Ads conversion tracking, described in section 2. Google handles that
+                data under its own privacy policy; see{' '}
+                <a
+                  href="https://policies.google.com/technologies/partner-sites"
+                  className="text-primary hover:text-primary-light underline"
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  how Google uses information from sites that use its services
+                </a>
+                . You can block these cookies in your browser settings.
+              </p>
             </section>
 
             <section>
