@@ -1,7 +1,5 @@
 'use client';
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
 import HeroSection from '@/components/home/HeroSection';
@@ -18,44 +16,23 @@ interface HomeContentProps {
 }
 
 export default function HomeContent({ latestPosts }: HomeContentProps) {
-  const [headerVisible, setHeaderVisible] = useState(false);
   const { openChat, setEntryPoint } = useChat();
 
   const handleChatActivated = () => {
-    setHeaderVisible(true);
     setEntryPoint('hero');
     openChat();
   };
 
   const handleLearnMore = () => {
-    setHeaderVisible(true);
-
-    setTimeout(() => {
-      const contentSection = document.querySelector('#main-content');
-      if (contentSection) {
-        contentSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 300);
+    document.querySelector('#main-content')?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
     <div className="min-h-screen bg-base relative grain-texture">
-      <HeroSection
-        onChatActivated={handleChatActivated}
-        onLearnMore={handleLearnMore}
-      />
+      <Header />
 
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: headerVisible ? 1 : 0 }}
-        transition={{ duration: 0.8 }}
-      >
-        <Header />
-      </motion.div>
+      <HeroSection onChatActivated={handleChatActivated} onLearnMore={handleLearnMore} />
 
-      {/* Not opacity-gated: the hero overlay (fixed, opaque, z-100) already covers it
-          until the visitor leaves the hero, and crawlers never trigger that exit.
-          Keeping the body visible means Google indexes it as visible content. */}
       <main id="main-content">
         <h1 className="sr-only">Bad Alien — AI Consulting &amp; Enablement in Pasadena, CA</h1>
 
