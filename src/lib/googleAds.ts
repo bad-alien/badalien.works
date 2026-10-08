@@ -10,9 +10,9 @@ export const GOOGLE_ADS_ID = 'AW-787933005';
 // the part after the slash in its send_to value. An empty label leaves that event
 // unreported to Google Ads; it still reaches Vercel Analytics.
 export const GOOGLE_ADS_CONVERSION_LABELS: Partial<Record<ConversionEvent, string>> = {
-  'Call Booked': '',
-  'Contact Form Sent': '',
-  'Reach Out Sent': '',
+  'Call Booked': 'cSLRCK_XiZYdEM3O2_cC',
+  'Contact Form Sent': 'ZYhKCNjdg5YdEM3O2_cC',
+  'Reach Out Sent': 'g7oPCPfhg5YdEM3O2_cC',
 };
 
 // Inline bootstrap for the tag, equivalent to Google's snippet plus the
