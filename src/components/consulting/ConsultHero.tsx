@@ -14,7 +14,10 @@ export default function ConsultHero() {
   };
 
   return (
-    <section className="relative min-h-screen flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
+    // Capped: Google renders with a viewport about 12,000px tall, so an uncapped
+    // min-h-screen hero filled it and every scroll-reveal section below stayed at
+    // opacity 0 in the indexed render. 150rem is taller than any real screen.
+    <section className="relative min-h-[min(100vh,150rem)] flex flex-col items-center justify-center px-6 py-20 overflow-hidden">
       <Header />
 
       {/* Subtle atmospheric background gradient - minimal animation */}

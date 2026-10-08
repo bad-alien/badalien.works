@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import Link from 'next/link'
 import Masonry from 'react-masonry-css'
 import Logo from '@/components/shared/Logo'
+import Footer from '@/components/shared/Footer'
 import PhotoCard from '@/components/creative/PhotoCard'
 import Lightbox from '@/components/creative/Lightbox'
 import { portfolioItems, portfolioFilters, type PortfolioCategory } from '@/data/portfolio'
@@ -70,6 +71,7 @@ export default function CreativePage() {
 
       {/* Photo Grid */}
       <main id="main-content" aria-label="Creative portfolio" className="container mx-auto px-6 pt-44 pb-16">
+        <h1 className="sr-only">Creative work by Bad Alien: film photography, UI/UX and data visualization</h1>
         <Masonry
           breakpointCols={{
             default: 3,
@@ -90,6 +92,8 @@ export default function CreativePage() {
           ))}
         </Masonry>
       </main>
+
+      <Footer />
 
       {/* Lightbox */}
       {selectedPhoto && (

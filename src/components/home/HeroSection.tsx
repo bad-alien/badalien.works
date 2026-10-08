@@ -111,10 +111,12 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
 
   if (phase === 'complete') return null;
 
+  // max-h caps the overlay below Google's very tall render viewport (about 12,000px),
+  // so the indexed screenshot shows the page beneath it. Real screens never reach 150rem.
   return (
     <motion.div
       ref={scope}
-      className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center overflow-hidden"
+      className="fixed inset-0 max-h-[150rem] z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center overflow-hidden"
     >
       <div className="logo-container relative flex-shrink-0" style={{ width: logoSize, height: logoSize }}>
         {/* Cycling marks */}
