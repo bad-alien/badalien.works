@@ -81,12 +81,6 @@ const gridProjects = [
     image: '/images/work/decoded-loop.gif',
   },
   {
-    id: 'void',
-    title: 'The Void',
-    category: 'AI Chat',
-    description: 'Local LLMs on a secured VPS. An experimental chat experience with its own personality and aesthetic.',
-  },
-  {
     id: 'property-power',
     title: 'Property Power',
     category: 'AI Tool',

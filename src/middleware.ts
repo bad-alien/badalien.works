@@ -37,9 +37,14 @@ export function middleware(request: NextRequest) {
   }
 
   // Scenario 1: Accessing Subdomains
+  // The Void is archived: its subdomain sends visitors to the main site. The (void) route
+  // group and components stay in the repo so it can be revived by restoring the rewrite here.
   if (currentHost === 'void') {
-    url.pathname = `/void${url.pathname === '/' ? '' : url.pathname}`;
-    return NextResponse.rewrite(url);
+    if (process.env.NODE_ENV === 'development') {
+      return NextResponse.redirect(`${url.protocol}//${hostname.replace('void.', '')}/`, 301);
+    }
+    const protocol = request.headers.get('x-forwarded-proto') || 'https';
+    return NextResponse.redirect(`${protocol}://${rootDomain}/`, 301);
   }
 
   if (currentHost === 'decoded') {
@@ -50,11 +55,13 @@ export function middleware(request: NextRequest) {
   // Scenario 2: Prevent direct access to sub-paths from main domain (production only)
   // In development, allow direct path access for easier testing
   if (process.env.NODE_ENV !== 'development') {
-    if (url.pathname.startsWith('/void') || url.pathname.startsWith('/decoded')) {
-      const targetSubdomain = url.pathname.startsWith('/void') ? 'void' : 'decoded';
-      const cleanPath = url.pathname.replace(`/${targetSubdomain}`, '') || '/';
-      const protocol = request.headers.get('x-forwarded-proto') || 'https';
-      return NextResponse.redirect(`${protocol}://${targetSubdomain}.${rootDomain}${cleanPath}`, 301);
+    const protocol = request.headers.get('x-forwarded-proto') || 'https';
+    if (url.pathname === '/void' || url.pathname.startsWith('/void/')) {
+      return NextResponse.redirect(`${protocol}://${rootDomain}/`, 301);
+    }
+    if (url.pathname.startsWith('/decoded')) {
+      const cleanPath = url.pathname.replace('/decoded', '') || '/';
+      return NextResponse.redirect(`${protocol}://decoded.${rootDomain}${cleanPath}`, 301);
     }
   }
 
