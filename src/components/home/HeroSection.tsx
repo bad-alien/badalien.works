@@ -15,7 +15,7 @@ interface HeroSectionProps {
 // controls present from the first paint. Scrolling, learn more, or the ghost input run
 // the exit choreography that reveals the header and the page beneath. Return visitors
 // in the same session skip it.
-const CYCLE_INTERVAL_MS = 196;
+const CYCLE_INTERVAL_MS = 137;
 const LOGO_COUNT = 7;
 const SEEN_KEY = 'animation_seen';
 
