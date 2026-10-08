@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 
 interface HeroInteractiveProps {
-  /** Controls stay inert and invisible until the logo has resolved */
-  show: boolean;
   onActivateChat: () => void;
-  onLearnMore?: () => void;
+  onLearnMore: () => void;
 }
 
 const PROMPTS = [
@@ -34,14 +32,12 @@ const itemVariants = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.35 } },
 };
 
-export default function HeroInteractive({ show, onActivateChat, onLearnMore }: HeroInteractiveProps) {
+export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInteractiveProps) {
   const reduceMotion = useReducedMotion();
   const [displayText, setDisplayText] = useState('');
 
-  // Typing loop for the ghost input, only while the controls are on screen
+  // Typing loop for the ghost input
   useEffect(() => {
-    if (!show) return;
-
     let promptIndex = 0;
     let charIndex = 0;
     let timeoutId: ReturnType<typeof setTimeout>;
@@ -62,25 +58,16 @@ export default function HeroInteractive({ show, onActivateChat, onLearnMore }: H
       }, 1200);
     };
 
-    timeoutId = setTimeout(typeNextChar, 400);
+    timeoutId = setTimeout(typeNextChar, 600);
     return () => clearTimeout(timeoutId);
-  }, [show]);
-
-  const handleLearnMore = () => {
-    if (onLearnMore) {
-      onLearnMore();
-      return;
-    }
-    document.querySelector('#main-content')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  }, []);
 
   return (
     <motion.div
       className="mt-6 flex w-full flex-col items-center gap-6"
       variants={containerVariants}
-      initial={false}
-      animate={show ? 'visible' : 'hidden'}
-      inert={!show}
+      initial="hidden"
+      animate="visible"
     >
       <motion.p
         variants={itemVariants}
@@ -133,7 +120,7 @@ export default function HeroInteractive({ show, onActivateChat, onLearnMore }: H
         variants={itemVariants}
         type="button"
         className="mt-8 flex flex-col items-center gap-4 cursor-pointer bg-transparent border-0 p-0"
-        onClick={handleLearnMore}
+        onClick={onLearnMore}
         aria-label="Scroll to learn more about our services"
       >
         <span className="text-primary text-sm font-mono uppercase tracking-[0.3em] drop-shadow-[0_0_10px_rgba(255,107,53,0.5)]">

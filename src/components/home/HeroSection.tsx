@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useLayoutEffect } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useEffect, useLayoutEffect, useRef, useCallback } from 'react';
+import { motion, useAnimate } from 'framer-motion';
 import { useLogoCycle } from '@/hooks/useLogoCycle';
 import HeroInteractive from './HeroInteractive';
 
@@ -11,58 +11,116 @@ interface HeroSectionProps {
   onLearnMore?: () => void;
 }
 
-// The signature moment: cycle through the seven marks, then cross-fade to the
-// resolved logo while the controls fade in beneath it. The hero is a normal
-// in-flow section, so the page scrolls and the header is present throughout.
-const CYCLE_MS = 1785;
-const CROSSFADE_S = 0.42;
-const SEEN_KEY = 'animation_seen';
+// Full-screen overlay: the marks cycle indefinitely, just under three swaps a second
+// so it reads as a flipbook rather than a flicker, with the controls present from the
+// first paint. Scrolling, learn more, or the ghost input run the exit choreography that
+// reveals the header and the page beneath. Return visitors in the same session skip it.
+const CYCLE_INTERVAL_MS = 350;
 const LOGO_COUNT = 7;
+const SEEN_KEY = 'animation_seen';
 
 export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectionProps) {
-  const [resolved, setResolved] = useState(false);
+  const [phase, setPhase] = useState<'overlay' | 'complete'>('overlay');
+  const [staticMark, setStaticMark] = useState(false);
 
-  const { currentLogo, decelerate, stopCycling } = useLogoCycle({
+  const [scope, animate] = useAnimate();
+  const isExitingRef = useRef(false);
+
+  const [isMobile, setIsMobile] = useState(false);
+  useLayoutEffect(() => {
+    setIsMobile(window.innerWidth < 640);
+  }, []);
+  const logoSize = isMobile ? 200 : 280;
+
+  const { currentLogo, stopCycling } = useLogoCycle({
     logoCount: LOGO_COUNT,
-    interval: 125,
+    interval: CYCLE_INTERVAL_MS,
     autoStart: true,
   });
 
-  // Play the cycle once per session. Return visitors and reduced-motion users
-  // get the resolved logo and the controls straight away.
+  // Return visitors go straight to the page. Reduced-motion visitors keep the overlay
+  // but see the static mark instead of the cycle.
   useLayoutEffect(() => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (sessionStorage.getItem(SEEN_KEY) || reduceMotion) {
+    if (sessionStorage.getItem(SEEN_KEY)) {
       stopCycling();
-      setResolved(true);
+      setPhase('complete');
+      // Defer so the parent reveals header and content after this render commits
+      setTimeout(() => onLearnMore?.(), 0);
       return;
     }
-
-    const resolveTimer = setTimeout(() => {
-      setResolved(true);
-      sessionStorage.setItem(SEEN_KEY, 'true');
-    }, CYCLE_MS);
-    const decelerateTimer = setTimeout(decelerate, CYCLE_MS + 300);
-
-    return () => {
-      clearTimeout(resolveTimer);
-      clearTimeout(decelerateTimer);
-    };
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      stopCycling();
+      setStaticMark(true);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const exitOverlay = useCallback(async () => {
+    if (isExitingRef.current) return;
+    isExitingRef.current = true;
+    stopCycling();
+
+    animate('.hero-controls', { opacity: 0 }, { duration: 0.2 });
+    await animate('.logo-container', { scale: 0.28, opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
+  }, [animate, stopCycling]);
+
+  const runChatSequence = useCallback(async () => {
+    if (isExitingRef.current) return;
+    await exitOverlay();
+    onChatActivated();
+    await animate(scope.current!, { opacity: 0 }, { duration: 0.3, ease: 'easeIn' });
+    sessionStorage.setItem(SEEN_KEY, 'true');
+    setPhase('complete');
+  }, [animate, scope, onChatActivated, exitOverlay]);
+
+  const runLearnMoreSequence = useCallback(async () => {
+    if (isExitingRef.current) return;
+    await exitOverlay();
+    onLearnMore?.();
+    await animate(scope.current!, { opacity: 0 }, { duration: 0.5, ease: 'easeIn' });
+    sessionStorage.setItem(SEEN_KEY, 'true');
+    setPhase('complete');
+  }, [animate, scope, onLearnMore, exitOverlay]);
+
+  // Scroll or swipe down leaves the overlay the same way learn more does
+  useEffect(() => {
+    if (phase !== 'overlay') return;
+
+    let touchStartY = 0;
+
+    const handleWheel = (e: WheelEvent) => {
+      if (e.deltaY > 0) runLearnMoreSequence();
+    };
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.touches[0].clientY;
+    };
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (touchStartY - e.changedTouches[0].clientY > 50) runLearnMoreSequence();
+    };
+
+    window.addEventListener('wheel', handleWheel, { passive: true });
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchend', handleTouchEnd);
+    };
+  }, [phase, runLearnMoreSequence]);
+
+  if (phase === 'complete') return null;
+
   return (
-    <section
-      aria-label="Introduction"
-      className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-4 pb-12 pt-24 md:pt-28"
+    <motion.div
+      ref={scope}
+      className="fixed inset-0 z-[100] bg-[#0A0A0A] flex flex-col items-center justify-center overflow-hidden"
     >
-      {/* Fixed-size logo box, sized in CSS so hydration never resizes it and the cross-fade never shifts layout */}
-      <div className="relative h-[230px] w-[230px] flex-shrink-0 sm:h-[340px] sm:w-[340px]">
-        <motion.div
-          className="absolute inset-0 flex scale-110 items-center justify-center sm:scale-[1.3]"
-          initial={false}
-          animate={{ opacity: resolved ? 0 : 0.8 }}
-          transition={{ duration: CROSSFADE_S, ease: 'easeInOut' }}
+      <div className="logo-container relative flex-shrink-0" style={{ width: logoSize, height: logoSize }}>
+        {/* Cycling marks */}
+        <div
+          className="absolute inset-0 flex items-center justify-center"
+          style={{ transform: isMobile ? 'scale(1.1)' : 'scale(1.3)', opacity: staticMark ? 0 : 0.8 }}
           aria-hidden="true"
         >
           {Array.from({ length: LOGO_COUNT }, (_, i) => i + 1).map((logoNum) => (
@@ -70,34 +128,35 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
               key={logoNum}
               src={`/logos/ba-logo-${logoNum}.svg`}
               alt=""
-              width={340}
-              height={340}
+              width={logoSize}
+              height={logoSize}
               priority={logoNum <= 2}
               className={`absolute w-full h-full object-contain select-none filter invert ${
                 currentLogo === logoNum ? 'opacity-100' : 'opacity-0'
               }`}
             />
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div
+        {/* Static mark for reduced-motion visitors */}
+        <div
           className="absolute inset-0 flex items-center justify-center"
-          initial={false}
-          animate={{ opacity: resolved ? 1 : 0, scale: resolved ? 1 : 0.6 }}
-          transition={{ duration: CROSSFADE_S, ease: 'easeOut' }}
+          style={{ opacity: staticMark ? 1 : 0 }}
         >
           <Image
             src="/logos/ba-logo-trans-white.png"
             alt="Bad Alien"
             fill
-            sizes="(max-width: 639px) 230px, 340px"
-            priority
+            sizes={`${logoSize}px`}
+            priority={staticMark}
             className="object-contain select-none"
           />
-        </motion.div>
+        </div>
       </div>
 
-      <HeroInteractive show={resolved} onActivateChat={onChatActivated} onLearnMore={onLearnMore} />
-    </section>
+      <div className="hero-controls w-full">
+        <HeroInteractive onActivateChat={runChatSequence} onLearnMore={runLearnMoreSequence} />
+      </div>
+    </motion.div>
   );
 }

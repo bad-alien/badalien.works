@@ -11,7 +11,7 @@ vi.mock('next/link', () => ({
   ),
 }))
 
-// Mock framer-motion: strip animation props, keep DOM props so events and inert work
+// Mock framer-motion: strip animation props, keep DOM props so events work
 const stripMotion = ({ variants, initial, animate, transition, whileInView, viewport, ...rest }: any) => rest
 vi.mock('framer-motion', () => ({
   motion: {
@@ -25,7 +25,7 @@ vi.mock('framer-motion', () => ({
 
 describe('HeroInteractive', () => {
   it('renders the three section links as real anchors', () => {
-    render(<HeroInteractive show onActivateChat={vi.fn()} />)
+    render(<HeroInteractive onActivateChat={vi.fn()} onLearnMore={vi.fn()} />)
 
     expect(screen.getByRole('link', { name: 'Consult' })).toHaveAttribute('href', '/consult')
     expect(screen.getByRole('link', { name: 'Creative' })).toHaveAttribute('href', '/creative')
@@ -34,7 +34,7 @@ describe('HeroInteractive', () => {
 
   it('opens chat from the ghost input by click and by keyboard', () => {
     const onActivateChat = vi.fn()
-    render(<HeroInteractive show onActivateChat={onActivateChat} />)
+    render(<HeroInteractive onActivateChat={onActivateChat} onLearnMore={vi.fn()} />)
 
     const input = screen.getByRole('button', { name: 'Start a chat' })
     fireEvent.click(input)
@@ -46,7 +46,7 @@ describe('HeroInteractive', () => {
 
   it('does not open chat when a key is typed anywhere on the page', () => {
     const onActivateChat = vi.fn()
-    render(<HeroInteractive show onActivateChat={onActivateChat} />)
+    render(<HeroInteractive onActivateChat={onActivateChat} onLearnMore={vi.fn()} />)
 
     fireEvent.keyDown(window, { key: 'a' })
     fireEvent.keyDown(document.body, { key: 'h' })
@@ -56,20 +56,10 @@ describe('HeroInteractive', () => {
 
   it('calls onLearnMore from the learn more button', () => {
     const onLearnMore = vi.fn()
-    render(<HeroInteractive show onActivateChat={vi.fn()} onLearnMore={onLearnMore} />)
+    render(<HeroInteractive onActivateChat={vi.fn()} onLearnMore={onLearnMore} />)
 
     fireEvent.click(screen.getByRole('button', { name: /learn more/i }))
 
     expect(onLearnMore).toHaveBeenCalledTimes(1)
-  })
-
-  it('keeps the controls inert until the logo has resolved', () => {
-    const { rerender } = render(<HeroInteractive show={false} onActivateChat={vi.fn()} />)
-
-    const consult = screen.getByText('Consult')
-    expect(consult.closest('[inert]')).not.toBeNull()
-
-    rerender(<HeroInteractive show onActivateChat={vi.fn()} />)
-    expect(consult.closest('[inert]')).toBeNull()
   })
 })
