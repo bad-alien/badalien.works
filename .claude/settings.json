@@ -10,7 +10,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "if [ \"$CLAUDE_CODE_REMOTE\" = \"true\" ] && [ ! -d node_modules ]; then npm ci --no-audit --no-fund; fi",
+            "command": "if [ -n \"$CLAUDE_CODE_ENVIRONMENT_KIND\" ] && [ ! -d node_modules ]; then npm ci --no-audit --no-fund; fi",
             "timeout": 300,
             "statusMessage": "Installing dependencies"
           }
