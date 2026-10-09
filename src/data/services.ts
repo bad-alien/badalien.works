@@ -16,7 +16,7 @@ export const services: Service[] = [
       'Claude / Cowork / Claude Code',
       'ChatGPT / Codex',
       'Gemini / Google Workspace',
-      'Custom GPTs & Claude Skills',
+      'Custom GPTs & Skills',
       'Workshops & Coaching Sprints',
       'Team Playbooks',
     ],
@@ -30,7 +30,7 @@ export const services: Service[] = [
     title: 'AI Strategy',
     shortTitle: 'Strategy',
     description:
-      'Which tools are worth paying for, which model fits the job, and where your data should live. That might be the right Claude or OpenAI tier, or an open-source model that brings the cost way down. I compare the options against your budget and the work you actually do, then hand you a ranked plan: what to adopt, what to skip, what to build. No vendor to sell you.',
+      'Which tools are worth paying for, which model fits the job, and where your data should live. That might be the right model tier from Anthropic, OpenAI or Google, or an open-source model that brings the cost way down. I compare the options against your budget and the work you actually do, then hand you a ranked plan: what to adopt, what to skip, what to build. No vendor to sell you.',
     status: 'Active',
     techStack: [
       'Tool & Platform Selection',
@@ -54,8 +54,7 @@ export const services: Service[] = [
     status: 'Active',
     techStack: [
       'Claude Code & Cloud Sessions',
-      'Claude Agent SDK',
-      'OpenAI Agents SDK',
+      'Claude & OpenAI Agent SDKs',
       'Vercel AI SDK',
       'LangChain',
       'n8n',

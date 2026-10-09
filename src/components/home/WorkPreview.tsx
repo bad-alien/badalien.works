@@ -35,12 +35,6 @@ const gridProjects: GridProject[] = [
     category: 'AI Automation',
     description: 'Pulls CRM data and competitive intel to generate targeted sales recommendations automatically.',
   },
-  {
-    id: 'webscope',
-    title: 'WebScope',
-    category: 'Dev Tool',
-    description: 'Crawls sites with Playwright, analyzes with Claude, outputs full architecture maps.',
-  },
 ];
 
 export default function WorkPreview() {
@@ -86,7 +80,7 @@ export default function WorkPreview() {
         </div>
 
         {/* Grid Tier - 3-4 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {gridProjects.map((project, index) => (
             <motion.div
               key={project.id}

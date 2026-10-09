@@ -12,7 +12,7 @@ export type CaseStudy = {
   image?: string;
   imageContain?: boolean;
   imageCenter?: boolean;
-  // Spans the full grid row as a text-led card (large type when also featured)
+  // Spans the full grid row as a text-led card with large type
   wide?: boolean;
   // Shown on the homepage
   featured?: boolean;
@@ -26,30 +26,30 @@ export const caseStudies: CaseStudy[] = [
     chip: 'Active',
     chipType: 'active',
     description:
-      "Ongoing AI advisor to a commercial real estate group, remotely and through on-site enablement and training visits. I regularly teach partners and staff how to put AI to work in their daily workflows. I built Power Automate flows that scrub sensitive financial information from offering memoranda and other documents in SharePoint, with strict permissions on what Claude can and can't access. I also built a web app they can open anytime on a prospective property: it pulls from public records, satellite imagery, government announcements and recent news, then scores the property on power availability and expansion potential.",
+      "Ongoing AI advisor to a commercial real estate group, remotely and through on-site enablement and training visits. I regularly teach partners and staff how to put AI to work in their daily workflows. I built Power Automate flows that scrub sensitive financial information from offering memoranda and other documents in SharePoint, with strict permissions on what the AI can and can't access. I also built a web app they can open anytime on a prospective property: it pulls from public records, satellite imagery, government announcements and recent news, then scores the property on power availability and expansion potential.",
     wide: true,
     featured: true,
   },
   {
     id: 'agency-enablement',
-    title: 'An Agency That Builds Its Own AI Tools',
+    title: 'Social Ad Agency Enablement Sprint',
     services: ['Enablement', 'Strategy'],
     chip: 'Completed',
     chipType: 'built',
     description:
-      'A 40-person social ad agency where everyone used AI their own way: prompts lost in personal chats, the same custom GPT built twice by different teams. I coached their leads to build and run AI workflows themselves, then consolidated the agency onto one shared Claude setup, where each client account has a knowledge base everyone\'s AI reads from, and staff build and share their own Skills.',
+      'A 40-person social ad agency where everyone used AI their own way: prompts lost in personal chats, the same custom assistant built twice by different teams. I coached their leads to build and run AI workflows themselves, then moved the whole agency onto one standard AI platform, with a shared knowledge base for every client account and a library of reusable skills that staff build and maintain themselves.',
     image: '/images/work/enablement-hero.png',
     imageCenter: true,
     featured: true,
   },
   {
     id: 'back-office',
-    title: 'AI Back Office for a B2B Wholesaler',
+    title: 'AI Back Office: B2B Wholesaler',
     services: ['Deployment'],
-    chip: 'In Prod',
-    chipType: 'built',
+    chip: 'Active',
+    chipType: 'active',
     description:
-      'Agents that run the work between first contact and paid invoice. They find and research leads and email them, log every touch in the CRM, generate purchase orders and invoices, chase anything overdue, and answer customer questions by text and email, handing anything unusual to a person. 10-20 qualified leads a week.',
+      'LangChain agents that run the work between first contact and paid invoice. They find and research leads and email them, log every touch in the CRM, generate purchase orders and invoices, chase anything overdue, and answer customer questions by text and email, handing anything unusual to a person. 10-20 qualified leads a week.',
     image: '/images/work/leadgen-hero.png',
     featured: true,
   },
@@ -79,7 +79,6 @@ export const caseStudies: CaseStudy[] = [
     chipType: 'active',
     description:
       'Multimodal AI that processes inspection reports end-to-end — parses documents, analyzes photos, surfaces what matters. Hundreds of reports through production, processing time cut by two-thirds.',
-    wide: true,
   },
 ];
 

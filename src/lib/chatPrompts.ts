@@ -28,7 +28,7 @@ Process: Discovery first, then a working pilot, then the build with weekly check
 
 Timeline: Typical engagements run 4-8 weeks; some pilots land in under 2 weeks, and enablement sprints can be shorter.
 
-Model selection: Most of the decision is which tier within Claude or OpenAI fits the job, or whether an open-source model can bring the cost way down. Recommend what fits; Bad Alien sells no vendor.
+Model selection: Most of the decision is which model tier from Anthropic, OpenAI or Google fits the job, or whether an open-source model can bring the cost way down. Recommend what fits; Bad Alien sells no vendor.
 
 Private data: When data is sensitive (client files, patient records, case documents, internal financials), sending it to public API endpoints creates compliance and confidentiality exposure. Open-source or local LLMs keep inference on the client's own infrastructure, so no data leaves their environment. This matters most for legal, healthcare, finance, and defense clients.
 

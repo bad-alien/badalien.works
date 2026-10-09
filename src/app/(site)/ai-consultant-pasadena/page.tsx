@@ -23,7 +23,7 @@ const clientTypes = [
   },
   {
     title: 'Real estate and property groups',
-    body: 'Ongoing AI advisor to a commercial real estate group: regular training for partners and staff, Power Automate flows that scrub sensitive financials from documents before Claude sees them, and a web app that scores prospective properties on power availability.',
+    body: 'Ongoing AI advisor to a commercial real estate group: regular training for partners and staff, Power Automate flows that scrub sensitive financials from documents before the AI sees them, and a web app that scores prospective properties on power availability.',
   },
   {
     title: 'Wholesale, B2B and sales teams',
@@ -31,7 +31,7 @@ const clientTypes = [
   },
   {
     title: 'Agencies and creative teams',
-    body: 'Coached a 40-person social ad agency to build its own AI tools, then consolidated everyone onto one shared Claude setup with a knowledge base for each client account.',
+    body: 'Coached a 40-person social ad agency to build its own AI tools, then moved everyone onto one standard AI platform with a shared knowledge base for each client account.',
   },
   {
     title: 'Inspection, field and document-heavy work',

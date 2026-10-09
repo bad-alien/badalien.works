@@ -34,7 +34,7 @@ export function StatusChip({
 // the text with the chip floating on it; wide or image-less cards are text-led.
 export default function CaseStudyCard({ study }: { study: CaseStudy }) {
   const showImage = Boolean(study.image) && !study.wide;
-  const large = Boolean(study.wide && study.featured);
+  const large = Boolean(study.wide);
   const serviceLabel = (
     <span className="font-mono text-[11px] font-semibold text-[#0284C7] uppercase tracking-[0.08em]">
       {study.services.join(' · ')}

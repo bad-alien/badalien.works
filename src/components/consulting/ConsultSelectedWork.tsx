@@ -1,36 +1,23 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
-import CaseStudyCard, { StatusChip } from '@/components/shared/CaseStudyCard';
-import { caseStudies } from '@/data/caseStudies';
+import CaseStudyCard from '@/components/shared/CaseStudyCard';
+import { caseStudies, type CaseStudy } from '@/data/caseStudies';
 
-type GridProject = {
-  id: string;
-  title: string;
-  category: string;
-  description: string;
-  image?: string;
-  url?: string;
-  chip?: string;
-};
-
-const gridProjects: GridProject[] = [
+// Shown here only: CAMCO's card already covers this tool for /about and the chat
+const tools: CaseStudy[] = [
   {
     id: 'property-power',
     title: 'Property Power',
-    category: 'AI Tool',
-    description: 'Analyzes public records, satellite imagery, and news to assess power availability and expansion potential.',
+    services: ['Deployment'],
     chip: 'Built',
-  },
-  {
-    id: 'webscope',
-    title: 'WebScope',
-    category: 'Dev Tool',
-    description: 'Crawls sites with Playwright, analyzes with Claude, outputs full architecture maps.',
-    chip: 'Built',
+    chipType: 'built',
+    description:
+      'Analyzes public records, satellite imagery, and news to assess power availability and expansion potential.',
   },
 ];
+
+const work = [...caseStudies, ...tools];
 
 export default function ConsultSelectedWork() {
   return (
@@ -48,13 +35,15 @@ export default function ConsultSelectedWork() {
             What I&apos;ve Delivered
           </h2>
           <p className="text-xl text-text-secondary max-w-3xl mx-auto">
-            8 years shipping products across finance, defense, healthtech, and real estate — for startups, enterprises, and the government. Here&apos;s some of the recent work.
+            Before consulting, I spent eight years as a product manager across finance, defense and
+            healthtech, for startups, enterprises and government. The habit stuck: find the real
+            problem, ship something that works, and leave a team that can run it.
           </p>
         </motion.div>
 
         {/* Engagements: the wide one spans the row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {caseStudies.map((study, index) => (
+          {work.map((study, index) => (
             <motion.div
               key={study.id}
               className={study.wide ? 'md:col-span-2' : undefined}
@@ -72,70 +61,6 @@ export default function ConsultSelectedWork() {
           ))}
         </div>
 
-        {/* Grid Tier */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          {gridProjects.map((project, index) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{
-                duration: 0.6,
-                delay: index * 0.08,
-                ease: 'easeOut',
-              }}
-            >
-              <div className="group h-full">
-                <div className="h-full flex flex-col p-4 bg-surface border border-border rounded-lg hover:bg-elevated hover:border-muted transition-all duration-300">
-                  {/* Image */}
-                  {project.image && (
-                    <div className="w-full aspect-video rounded-md mb-3 overflow-hidden relative">
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        fill
-                        className="object-cover object-top group-hover:scale-105 transition-transform duration-300"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
-                    </div>
-                  )}
-                  {/* Category + status */}
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <span className="font-mono text-[11px] font-semibold text-[#0284C7] uppercase tracking-[0.08em] pt-1">
-                      {project.category}
-                    </span>
-                    {project.chip && <StatusChip chip={project.chip} chipType="built" />}
-                  </div>
-
-                  {/* Title */}
-                  {project.url ? (
-                    <a
-                      href={project.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-base font-bold text-text-heading mb-2 hover:text-[#FF6B35] transition-colors duration-300"
-                    >
-                      {project.title}
-                      <svg className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7v10" />
-                      </svg>
-                    </a>
-                  ) : (
-                    <h4 className="text-base font-bold text-text-heading mb-2 group-hover:text-white transition-colors duration-300">
-                      {project.title}
-                    </h4>
-                  )}
-
-                  {/* Description */}
-                  <p className="text-text-body text-sm leading-relaxed">
-                    {project.description}
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
       </div>
     </section>
   );
