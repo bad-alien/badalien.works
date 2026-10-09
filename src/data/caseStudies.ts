@@ -21,12 +21,12 @@ export type CaseStudy = {
 export const caseStudies: CaseStudy[] = [
   {
     id: 'camco',
-    title: 'CAMCO: Claude on Sensitive Financials, Safely',
+    title: 'CAMCO: Training the Team, Building the Tools',
     services: ['Strategy', 'Deployment', 'Enablement'],
     chip: 'Active',
     chipType: 'active',
     description:
-      'A commercial real estate group, across two onsites and remote work in between. Their SharePoint held sensitive financial data, so I built Power Automate flows that clean it out of their documents before Claude can read them, then built the Claude integration to their spec and trained the team to use it day to day. I also built them a web app they can open anytime to check power availability and expansion potential on a prospective property, drawing on public records, satellite imagery and news.',
+      "Ongoing AI advisor to a commercial real estate group, remotely and through on-site enablement and training visits. I regularly teach partners and staff how to put AI to work in their daily workflows. I built Power Automate flows that scrub sensitive financial information from offering memoranda and other documents in SharePoint, with strict permissions on what Claude can and can't access. I also built a web app they can open anytime on a prospective property: it pulls from public records, satellite imagery, government announcements and recent news, then scores the property on power availability and expansion potential.",
     wide: true,
     featured: true,
   },
@@ -60,7 +60,7 @@ export const caseStudies: CaseStudy[] = [
     chip: 'Completed',
     chipType: 'built',
     description:
-      'A new primary care practice, alongside its website. Automating front-desk work and patient outreach was the only way the doctor could open cost-effectively, but it had to stay HIPAA compliant, which limits where AI can touch patient data. We compared Practice Better and Healthie on what their APIs allow and what the AI build would cost, and chose Practice Better.',
+      'A new primary care practice, alongside its website. Automating front-desk work and patient outreach was the only way the doctor could open cost-effectively, but it had to stay HIPAA compliant, which limits where AI can touch patient data. I analyzed a range of telehealth platforms to find the best fit for the AI it needed now and the AI it would add later.',
   },
   {
     id: 'screening-agent',
@@ -69,7 +69,7 @@ export const caseStudies: CaseStudy[] = [
     chip: 'Active',
     chipType: 'active',
     description:
-      'For an independent documentary: an agent that takes screening requests from first inquiry to booked date. It answers questions about the film, qualifies the venue, schedules, and hands off to the crew when something needs approval. Traced and evaluated. Plus a session training the crew to use AI for outreach and marketing.',
+      'For an independent documentary: an agent that takes screening requests from first inquiry to booked date. It answers questions about the film and its academic context, qualifies the venue, schedules, and hands off to the crew when something needs approval. Built on the OpenAI Agents SDK with a FastAPI and PostgreSQL backend, OpenTelemetry tracing and automated evaluations. Plus a session training the crew to use AI for outreach and marketing.',
   },
   {
     id: 'home-inspection',

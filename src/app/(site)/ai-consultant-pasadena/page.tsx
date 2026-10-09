@@ -23,7 +23,7 @@ const clientTypes = [
   },
   {
     title: 'Real estate and property groups',
-    body: 'For a commercial real estate group: Power Automate flows that clean sensitive financial data out of their SharePoint documents so Claude can work on them safely, team training, and a web app for checking power availability on prospective properties.',
+    body: 'Ongoing AI advisor to a commercial real estate group: regular training for partners and staff, Power Automate flows that scrub sensitive financials from documents before Claude sees them, and a web app that scores prospective properties on power availability.',
   },
   {
     title: 'Wholesale, B2B and sales teams',
