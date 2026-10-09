@@ -31,25 +31,25 @@ export const caseStudies: CaseStudy[] = [
     featured: true,
   },
   {
-    id: 'agency-claude-migration',
-    title: 'Agency-Wide Move to Claude',
+    id: 'agency-enablement',
+    title: 'An Agency That Builds Its Own AI Tools',
     services: ['Enablement', 'Strategy'],
     chip: 'Completed',
     chipType: 'built',
     description:
-      'A 40-person social ad agency. What began as a 20-hour coaching sprint, hours capped from day one, became the agency\'s move from ChatGPT to Claude and Cowork: a 90-day migration playbook, Custom GPTs rebuilt as Claude Skills, a guide for staff to build their own Skills, and a ranked opportunity map for what comes next.',
+      'A 40-person social ad agency where everyone used AI their own way: prompts lost in personal chats, the same custom GPT built twice by different teams. I coached their leads to build and run AI workflows themselves, then consolidated the agency onto one shared Claude setup, where each client account has a knowledge base everyone\'s AI reads from, and staff build and share their own Skills.',
     image: '/images/work/enablement-hero.png',
     imageCenter: true,
     featured: true,
   },
   {
-    id: 'lead-gen',
-    title: 'Intelligent Prospecting Engine',
+    id: 'back-office',
+    title: 'AI Back Office for a B2B Wholesaler',
     services: ['Deployment'],
     chip: 'In Prod',
     chipType: 'built',
     description:
-      'Multi-agent LangChain system that finds, researches, and contacts leads for a B2B wholesaler. From discovery to production in 6 days. Runs on its own, delivers 10-20 qualified leads per week.',
+      'Agents that run the work between first contact and paid invoice. They find and research leads and email them, log every touch in the CRM, generate purchase orders and invoices, chase anything overdue, and answer customer questions by text and email, handing anything unusual to a person. 10-20 qualified leads a week.',
     image: '/images/work/leadgen-hero.png',
     featured: true,
   },
@@ -79,18 +79,15 @@ export const caseStudies: CaseStudy[] = [
     chipType: 'built',
     description:
       'Multimodal AI that processes inspection reports end-to-end — parses documents, analyzes photos, surfaces what matters. Hundreds of reports through production, processing time cut by two-thirds.',
-    image: '/images/work/homeai-triage-hero.png',
   },
   {
-    id: 'openclaw',
-    title: 'Personal AI Assistant',
+    id: 'private-assistants',
+    title: 'Private Assistants for Owners and Executives',
     services: ['Deployment'],
     chip: '3 Active Clients',
     chipType: 'active',
     description:
-      'Assistants for busy executives and families caring for elderly relatives. Claude Cowork or ChatGPT Work when that\'s enough; a private, self-hosted assistant when the data is sensitive. Bills, appointments, finances, communication, with security first.',
-    image: '/images/work/openclaw-hero.png',
-    imageContain: true,
+      'An assistant wired into email, calendar, documents and finances that drafts replies, keeps the schedule, tracks bills and follows up. Claude Cowork or ChatGPT Work when that\'s enough; a self-hosted open-source assistant when the data shouldn\'t leave their hands. Three running today.',
   },
 ];
 

@@ -1,5 +1,4 @@
 import ConsultHero from '@/components/consulting/ConsultHero';
-import ProblemSection from '@/components/consulting/ProblemSection';
 import SolutionSection from '@/components/consulting/SolutionSection';
 import ConsultSelectedWork from '@/components/consulting/ConsultSelectedWork';
 import ProofSection from '@/components/consulting/ProofSection';
@@ -16,7 +15,6 @@ export default function ConsultPage() {
   return (
     <main id="main-content" className="relative bg-base text-white overflow-hidden grain-texture">
       <ConsultHero />
-      <ProblemSection />
       <SolutionSection />
       <ConsultSelectedWork />
       <ProofSection />

@@ -27,19 +27,19 @@ const clientTypes = [
   },
   {
     title: 'Wholesale, B2B and sales teams',
-    body: 'A multi-agent prospecting engine for a B2B wholesaler that finds, researches and contacts leads on its own. From discovery to production in six days; 10 to 20 qualified leads a week.',
+    body: 'An AI back office for a B2B wholesaler: agents that find and email leads, log every touch in the CRM, handle purchase orders and invoices with follow-ups, and answer customer questions by text and email. 10 to 20 qualified leads a week.',
   },
   {
     title: 'Agencies and creative teams',
-    body: 'Moved a 40-person social ad agency from ChatGPT to Claude and Cowork: a capped coaching sprint, a 90-day migration playbook, and staff building their own Claude Skills.',
+    body: 'Coached a 40-person social ad agency to build its own AI tools, then consolidated everyone onto one shared Claude setup with a knowledge base for each client account.',
   },
   {
     title: 'Inspection, field and document-heavy work',
     body: 'Multimodal AI that reads inspection reports and photos end-to-end and surfaces what matters. Processing time cut by two-thirds.',
   },
   {
-    title: 'Executives and families',
-    body: 'Private, self-hosted assistants that manage bills, appointments, finances and communication for busy executives and families caring for elderly relatives.',
+    title: 'Owners and executives',
+    body: 'Private assistants wired into email, calendar, documents and finances, self-hosted when the data should not leave their hands. Three running today.',
   },
 ];
 
@@ -121,7 +121,7 @@ export default function PasadenaPage() {
                 <Reveal key={service.id} delay={index * 0.1} className={card}>
                   <span className="font-mono text-xs text-secondary block mb-3">{service.number} /</span>
                   <h3 className="text-xl md:text-2xl font-display font-semibold text-text-heading mb-3">
-                    {service.title}
+                    {service.shortTitle}
                   </h3>
                   <p className="text-text-body leading-relaxed">{service.description}</p>
                 </Reveal>

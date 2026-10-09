@@ -41,7 +41,7 @@ export default function ServicesPreview() {
                   {service.number}
                 </span>
                 <h3 className="text-2xl md:text-3xl font-bold text-text-heading mt-4 mb-4">
-                  {service.title}
+                  {service.shortTitle}
                 </h3>
                 <p className="text-text-body text-base md:text-lg leading-relaxed">
                   {service.description}

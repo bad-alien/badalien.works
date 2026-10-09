@@ -51,8 +51,8 @@ export default function SolutionSection() {
               transition={{ duration: 0.6, delay: index * 0.1 }}
               whileHover={{ y: -4 }}
             >
-              {/* Number + Icon */}
-              <div className="flex items-center gap-4 mb-6">
+              {/* Number left, icon top right */}
+              <div className="flex items-start justify-between gap-4 mb-6">
                 <span className="text-4xl font-bold text-text-secondary/30 font-display">
                   {solution.number}
                 </span>
@@ -63,7 +63,7 @@ export default function SolutionSection() {
 
               {/* Title */}
               <h3 className="text-2xl mb-4 font-display">
-                {solution.title}
+                {solution.shortTitle}
               </h3>
 
               {/* Description */}
