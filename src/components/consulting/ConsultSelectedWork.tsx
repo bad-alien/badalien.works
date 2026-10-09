@@ -44,10 +44,10 @@ export default function ConsultSelectedWork() {
           viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.6, ease: 'easeOut' }}
         >
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold text-text-heading mb-6 font-display">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl mb-8 font-display">
             What I&apos;ve Delivered
           </h2>
-          <p className="text-xl sm:text-2xl text-text-body max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl text-text-secondary max-w-3xl mx-auto">
             8 years shipping products across finance, defense, healthtech, and real estate — for startups, enterprises, and the government. Here&apos;s some of the recent work.
           </p>
         </motion.div>
