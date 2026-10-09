@@ -12,18 +12,18 @@ export const metadata: Metadata = pageMetadata({
   path: '/ai-consultant-pasadena',
   title: 'AI Consultant in Pasadena, CA | Bad Alien',
   description:
-    'Independent AI consultant in Pasadena, CA. Bad Alien helps small and mid-sized businesses in Pasadena, Los Angeles and remotely adopt AI: team enablement, automation, private LLMs and custom tools. Free 15-minute intro call.',
+    'Independent AI consultant in Pasadena, CA. Bad Alien helps small and mid-sized businesses in Pasadena, Los Angeles and remotely adopt AI: team enablement, tool and model strategy, and custom automations and agents. Free 15-minute intro call.',
 });
 
 // Every card maps to a real engagement shown on /consult. Keep it that way.
 const clientTypes = [
   {
     title: 'Medical and professional practices',
-    body: 'Built the website and intake/scheduling automation for a primary care practice. Patient data stays private, and the front desk stops retyping forms.',
+    body: 'Helped a new primary care practice choose its patient platform on what HIPAA-compliant AI it could support, so front-desk work and patient outreach could be automated from the start. Built its website too.',
   },
   {
     title: 'Real estate and property groups',
-    body: 'End-to-end site with visitor analytics for a commercial real estate group, plus an AI tool that reads public records, satellite imagery and news to assess power capacity for properties.',
+    body: 'Chose Claude with a commercial real estate group, connected it to their SharePoint and trained the team to use it, plus an AI tool that reads public records, satellite imagery and news to assess power capacity for properties.',
   },
   {
     title: 'Wholesale, B2B and sales teams',
@@ -31,7 +31,7 @@ const clientTypes = [
   },
   {
     title: 'Agencies and creative teams',
-    body: 'An AI enablement sprint for a social ad agency: coaching the team to use AI tools confidently, build repeatable workflows, and operate independently after the engagement ends.',
+    body: 'Moved a 40-person social ad agency from ChatGPT to Claude and Cowork: a capped coaching sprint, a 90-day migration playbook, and staff building their own Claude Skills.',
   },
   {
     title: 'Inspection, field and document-heavy work',
@@ -50,7 +50,7 @@ const whyLocal = [
   },
   {
     title: 'Sensitive data stays put',
-    body: 'Law firms, medical practices, accountants and anyone handling client files should not be pasting them into public chatbots. When the data is sensitive, I deploy private or local LLMs on your own infrastructure, so nothing leaves your environment.',
+    body: 'Law firms, medical practices, accountants and anyone handling client files should not be pasting them into public chatbots. When the data is sensitive, I deploy open-source or local LLMs on your own infrastructure, so nothing leaves your environment.',
   },
   {
     title: 'You own the result',
@@ -67,7 +67,7 @@ const faqs: FaqItem[] = [
   {
     question: 'What does AI consulting cost?',
     answer:
-      'It depends on the scope, so I do not quote numbers before understanding the problem. Every engagement starts with a free 15-minute intro call, then a discovery phase. After that you get a real, fixed number for the work.',
+      'It depends on the scope, so I do not quote numbers before understanding the problem. Every engagement starts with a free 15-minute intro call. Then you get a fixed scope and a capped budget, agreed before work starts, and I stay inside it.',
   },
   {
     question: 'How long does an engagement take?',
@@ -82,7 +82,7 @@ const faqs: FaqItem[] = [
   {
     question: 'Can our data stay private?',
     answer:
-      'Yes. For sensitive data such as client files, patient records or internal financials, I deploy private or local LLMs on your infrastructure. No data goes to public AI endpoints.',
+      'Yes. For sensitive data such as client files, patient records or internal financials, I deploy open-source or local LLMs on your infrastructure. No data goes to public AI endpoints.',
   },
   {
     question: 'What happens after the project ends?',
@@ -112,11 +112,11 @@ export default function PasadenaPage() {
                 What I do for Pasadena businesses
               </h2>
               <p className="text-lg text-text-secondary max-w-2xl mb-12">
-                Four ways to work together, from a few days of coaching to a full custom build. Most
-                clients start with enablement or an operations audit and grow from there.
+                Three ways to work together, from a few sessions of coaching to a full custom build.
+                Hire me for one or all three; most clients start with enablement and grow from there.
               </p>
             </Reveal>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {services.map((service, index) => (
                 <Reveal key={service.id} delay={index * 0.1} className={card}>
                   <span className="font-mono text-xs text-secondary block mb-3">{service.number} /</span>

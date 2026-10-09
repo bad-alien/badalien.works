@@ -17,7 +17,7 @@ export const organizationJsonLd = {
       name: SITE_NAME,
       alternateName: ['Bad Alien LLC', 'badalien.works'],
       description:
-        'AI consulting and enablement for small and mid-sized businesses: strategy, automation, private LLM deployment, and custom AI tools. Based in Pasadena, CA.',
+        'AI enablement, strategy and deployment for small and mid-sized businesses and organizations: team training, tool and model selection, and custom automations and agents, including open-source and local LLMs. Based in Pasadena, CA.',
       url: SITE_URL,
       logo: `${SITE_URL}/apple-touch-icon.png`,
       image: `${SITE_URL}/images/profile.jpg`,
@@ -34,7 +34,7 @@ export const organizationJsonLd = {
         { '@type': 'City', name: 'Los Angeles, CA' },
         { '@type': 'Country', name: 'United States' },
       ],
-      knowsAbout: ['AI consulting', 'AI automation', 'Private LLM deployment', 'Data visualization', 'Product design'],
+      knowsAbout: ['AI enablement', 'AI strategy', 'AI deployment', 'Model selection', 'AI automation', 'Open-source and local LLMs', 'Data visualization', 'Product design'],
       founder: { '@id': FOUNDER_ID },
       sameAs: ['https://github.com/bad-alien'],
     },
@@ -59,7 +59,7 @@ export const organizationJsonLd = {
 
 export const DEFAULT_TITLE = 'Bad Alien | AI Consulting & Enablement in Pasadena, CA';
 export const DEFAULT_DESCRIPTION =
-  'Bad Alien helps small and mid-sized businesses put AI to work: strategy, automation, private LLMs, and custom tools. Based in Pasadena, serving Los Angeles and remote clients.';
+  'Bad Alien helps small and mid-sized businesses put AI to work: team enablement, tool and model strategy, and deployments your team can run. Based in Pasadena, serving Los Angeles and remote clients.';
 
 // Full per-page metadata. Next replaces (not merges) a parent's openGraph and
 // twitter blocks, so every page sets them completely, with a self canonical.

@@ -126,10 +126,9 @@ export async function POST(request: Request) {
 
     if (serviceInterest) {
       const serviceLabels: { [key: string]: string } = {
-        'ai-adoption': 'AI Adoption & Enablement',
-        'custom-software': 'Custom Software & Automation',
-        'design-growth': 'Design & Growth',
-        'infrastructure': 'Infrastructure',
+        'ai-enablement': 'AI Enablement',
+        'ai-strategy': 'AI Strategy',
+        'ai-deployment': 'AI Deployment',
         'other': 'Other / Not Sure'
       };
       const serviceLabel = serviceLabels[serviceInterest] || serviceInterest;

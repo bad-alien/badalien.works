@@ -170,9 +170,9 @@ export default function AboutPage() {
                 >
                   <div className="flex items-center justify-between gap-4 mb-4">
                     <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-secondary">
-                      {study.category}
+                      {study.services.join(' · ')}
                     </span>
-                    <span className="font-mono text-[11px] tracking-[0.08em] uppercase text-primary">
+                    <span className="shrink-0 whitespace-nowrap font-mono text-[11px] tracking-[0.08em] uppercase text-primary">
                       {study.chip}
                     </span>
                   </div>

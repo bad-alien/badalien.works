@@ -26,7 +26,7 @@ export default function LocalHero() {
         <p className="text-lg md:text-2xl text-text-body leading-relaxed mb-10">
           Bad Alien is an independent AI consultancy in Pasadena, California. I help small and
           mid-sized businesses in Pasadena, Los Angeles, and remotely put AI to work: team
-          enablement, workflow automation, private LLMs, and custom tools. Discovery first, no
+          enablement, tool and model strategy, and deployments built with you. Discovery first, no
           black boxes, and your team runs it without me when we&apos;re done.
         </p>
         <DualCta

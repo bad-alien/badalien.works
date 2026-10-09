@@ -1,39 +1,16 @@
 'use client';
 
-import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Header from '@/components/shared/Header';
 import Footer from '@/components/shared/Footer';
-import ServiceFilterBar from '@/components/services/ServiceFilterBar';
 import ServiceSection from '@/components/services/ServiceSection';
-import { services, serviceFilters, type ServiceFilter } from '@/data/services';
-import { ServiceCategory } from '@/components/services/types';
-import { useScrollState } from '@/hooks/useScrollState';
+import { services, SERVICES_INTRO } from '@/data/services';
 
 export default function TechPage() {
-  const isScrolled = useScrollState(50);
-  const [activeFilter, setActiveFilter] = useState<ServiceFilter>('All');
-
-  const filteredServices = useMemo(
-    () =>
-      activeFilter === 'All'
-        ? services
-        : services.filter((s) => s.categories.includes(activeFilter as ServiceCategory)),
-    [activeFilter]
-  );
-
   return (
     <div className="min-h-screen bg-base text-white relative grain-texture">
       <Header />
-
-      {/* Filter bar — sticky below header */}
-      <ServiceFilterBar
-        filters={serviceFilters}
-        activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
-        isScrolled={isScrolled}
-      />
 
       {/* Hero */}
       <main id="main-content" className="pt-28 md:pt-32">
@@ -45,34 +22,15 @@ export default function TechPage() {
             transition={{ duration: 0.75, ease: 'easeOut' }}
           >
             <h1 className="text-2xl md:text-3xl font-light tracking-tight text-text-secondary leading-[1.3]">
-              End-to-end solutions across AI, automation, infrastructure, and design — built to last, engineered to scale, and designed to save you money.
+              {SERVICES_INTRO}
             </h1>
           </motion.div>
         </div>
 
         {/* Service sections */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFilter}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-          >
-            {filteredServices.map((service) => (
-              <ServiceSection key={service.id} service={service} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Empty state */}
-        {filteredServices.length === 0 && (
-          <div className="container mx-auto px-6 py-32 text-center">
-            <p className="text-text-secondary font-light tracking-wider text-sm">
-              No services in this category yet.
-            </p>
-          </div>
-        )}
+        {services.map((service) => (
+          <ServiceSection key={service.id} service={service} />
+        ))}
 
         {/* Footer CTA */}
         <section className="py-32 md:py-40 border-t border-border">

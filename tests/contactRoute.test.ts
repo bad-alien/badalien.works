@@ -87,12 +87,12 @@ describe('POST /api/contact', () => {
       name: 'Test',
       email: 'test@example.com',
       company: 'Acme Corp',
-      serviceInterest: 'ai-adoption',
+      serviceInterest: 'ai-enablement',
       message: 'Interested',
     })
     const callArgs = mockSend.mock.calls[0][0]
     expect(callArgs.html).toContain('Acme Corp')
-    expect(callArgs.html).toContain('AI Adoption')
+    expect(callArgs.html).toContain('AI Enablement')
   })
 
   it('escapes HTML in user input to prevent XSS', async () => {

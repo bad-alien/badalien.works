@@ -29,7 +29,7 @@ export default function Footer() {
           <Logo size="md" linkToHome={false} className="self-start sm:self-center" />
           <div className="space-y-1">
             <p className="text-text-secondary text-sm font-sans leading-relaxed">
-              AI strategy and creative technology for ambitious organizations
+              AI enablement, strategy and deployment.
             </p>
             <p className="text-text-secondary text-sm font-sans leading-relaxed">
               Based in Pasadena, CA. Working with teams across Los Angeles and remotely.

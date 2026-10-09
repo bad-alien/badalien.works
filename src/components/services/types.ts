@@ -30,7 +30,6 @@ export interface Project {
 }
 
 // Service types
-export type ServiceCategory = 'AI' | 'Automation' | 'Design';
 export type ServiceStatus = 'Active' | 'Completed' | 'In Progress' | 'Planned';
 
 export interface ServiceDemo {
@@ -45,7 +44,6 @@ export interface Service {
   title: string;
   description: string;
   status: ServiceStatus;
-  categories: ServiceCategory[];
   techStack: string[];
   demo: ServiceDemo;
   ctaLabel?: string;

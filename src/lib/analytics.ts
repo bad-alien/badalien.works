@@ -5,6 +5,7 @@ import { reportGoogleAdsConversion } from '@/lib/googleAds';
 // Keep to one flat property per event: property count is plan-limited and
 // values must be strings/numbers/booleans under 255 chars.
 export type ConversionEvent =
+  | 'Hero Prompt Clicked'
   | 'Chat Opened'
   | 'Audit Started'
   | 'Audit Completed'

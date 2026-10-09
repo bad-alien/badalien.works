@@ -6,7 +6,7 @@ export const metadata = pageMetadata({
   path: '/services',
   title: 'AI Consulting Services | Bad Alien',
   description:
-    'AI strategy, workflow automation, private LLM deployment, and custom AI tools for small and mid-sized businesses. Bad Alien is based in Pasadena, CA and works with teams across Los Angeles and remotely.',
+    'AI enablement, strategy and deployment for small and mid-sized businesses: team training, tool and model selection, and custom automations and agents. Bad Alien is based in Pasadena, CA and works with teams across Los Angeles and remotely.',
 });
 
 // Each service is a schema.org Service offered by the organization, so answer

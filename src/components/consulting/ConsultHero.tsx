@@ -53,7 +53,7 @@ export default function ConsultHero() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Discovery-first engagements. Transparent pricing. Systems that actually work.
+          Discovery first. Scope and budget agreed before work starts, and I stay inside them.
         </motion.p>
 
         {/* CTAs */}

@@ -11,6 +11,7 @@ import AboutPreview from '@/components/home/AboutPreview';
 import InsightsPreview from '@/components/home/InsightsPreview';
 import CtaSection from '@/components/home/CtaSection';
 import { useChat } from '@/contexts/ChatContext';
+import { trackConversion } from '@/lib/analytics';
 import type { PostMeta } from '@/lib/blog';
 
 interface HomeContentProps {
@@ -19,11 +20,14 @@ interface HomeContentProps {
 
 export default function HomeContent({ latestPosts }: HomeContentProps) {
   const [headerVisible, setHeaderVisible] = useState(false);
-  const { openChat, setEntryPoint } = useChat();
+  const { openChat, setEntryPoint, setDraft } = useChat();
 
-  const handleChatActivated = () => {
+  // The chat opens with the hero prompt as an editable draft; the visitor sends it
+  const handleChatActivated = (prompt: string) => {
     setHeaderVisible(true);
     setEntryPoint('hero');
+    setDraft(prompt);
+    trackConversion('Hero Prompt Clicked', { prompt });
     openChat();
   };
 

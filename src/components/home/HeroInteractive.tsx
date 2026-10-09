@@ -1,19 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useReducedMotion } from 'framer-motion';
 
 interface HeroInteractiveProps {
-  onActivateChat: () => void;
+  // Receives the prompt on screen, which the chat opens with as a draft
+  onActivateChat: (prompt: string) => void;
   onLearnMore: () => void;
 }
 
-const PROMPTS = [
-  'Help my team actually understand and use AI tools',
-  'What would it cost to automate our intake process?',
-  'Can you build us a custom system from scratch?',
-  'We just need a few sessions to get up to speed',
+// Two per service, alternating Enablement, Strategy, Deployment. Each is something the
+// chat can answer, so none asks for a price.
+export const PROMPTS = [
+  'My team has AI licenses and still does everything by hand',
+  'Do we need the most expensive model, or would an open-source one do?',
+  'We have three AI pilots and nothing in production',
+  'Staff use ChatGPT on their own. We need a policy and training.',
+  'No AI budget, no roadmap. Where do we start?',
+  'Can AI work on client files without the data leaving our walls?',
 ];
 
 const NAV = [
@@ -35,6 +40,7 @@ const itemVariants = {
 export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInteractiveProps) {
   const reduceMotion = useReducedMotion();
   const [displayText, setDisplayText] = useState('');
+  const promptIndexRef = useRef(0);
 
   // Typing loop for the ghost input
   useEffect(() => {
@@ -43,6 +49,7 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
     let timeoutId: ReturnType<typeof setTimeout>;
 
     const typeNextChar = () => {
+      promptIndexRef.current = promptIndex;
       const prompt = PROMPTS[promptIndex];
       if (charIndex < prompt.length) {
         setDisplayText(prompt.slice(0, charIndex + 1));
@@ -62,6 +69,8 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
     return () => clearTimeout(timeoutId);
   }, []);
 
+  const activate = () => onActivateChat(PROMPTS[promptIndexRef.current]);
+
   return (
     <motion.div
       className="mt-12 flex w-full flex-col items-center gap-6 sm:mt-14"
@@ -69,13 +78,6 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
       initial="hidden"
       animate="visible"
     >
-      <motion.p
-        variants={itemVariants}
-        className="font-sans text-lg text-text-body leading-relaxed max-w-2xl mx-auto text-center px-4"
-      >
-        Bringing AI to those ready to move from curiosity to capability.
-      </motion.p>
-
       <motion.nav
         variants={itemVariants}
         aria-label="Hero navigation"
@@ -93,18 +95,19 @@ export default function HeroInteractive({ onActivateChat, onLearnMore }: HeroInt
       </motion.nav>
 
       <motion.div variants={itemVariants} className="w-full max-w-2xl px-4">
+        {/* min-h holds two lines on phones so the page doesn't jump as prompts wrap */}
         <div
           role="button"
           tabIndex={0}
           aria-label="Start a chat"
-          onClick={onActivateChat}
+          onClick={activate}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
-              onActivateChat();
+              activate();
             }
           }}
-          className="relative w-full px-5 py-4 bg-transparent border border-muted/20 rounded-lg cursor-text transition-all duration-300 hover:border-muted/40"
+          className="relative w-full min-h-[5rem] sm:min-h-0 px-5 py-4 bg-transparent border border-muted/20 rounded-lg cursor-text transition-all duration-300 hover:border-muted/40"
         >
           <span className="text-primary/70 text-base font-sans select-none">
             {displayText}

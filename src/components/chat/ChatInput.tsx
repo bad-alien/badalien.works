@@ -8,6 +8,9 @@ interface ChatInputProps {
   onSend: (message: string) => void;
   disabled?: boolean;
   placeholder?: string;
+  // Replaces the input text when set, then onPrefillConsumed clears it upstream
+  prefill?: string | null;
+  onPrefillConsumed?: () => void;
 }
 
 const MAX_HEIGHT = 120;
@@ -16,16 +19,32 @@ export default function ChatInput({
   onSend,
   disabled = false,
   placeholder = 'Ask about our services...',
+  prefill,
+  onPrefillConsumed,
 }: ChatInputProps) {
   const [input, setInput] = useState('');
   const [focused, setFocused] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const focusAfterPrefillRef = useRef(false);
+
+  useEffect(() => {
+    if (!prefill) return;
+    setInput(prefill);
+    focusAfterPrefillRef.current = true;
+    onPrefillConsumed?.();
+  }, [prefill, onPrefillConsumed]);
 
   useEffect(() => {
     const el = textareaRef.current;
     if (!el) return;
     el.style.height = 'auto';
     el.style.height = `${Math.min(el.scrollHeight, MAX_HEIGHT)}px`;
+    // Focus once the prefilled text is in the DOM, caret at the end
+    if (focusAfterPrefillRef.current) {
+      focusAfterPrefillRef.current = false;
+      el.focus();
+      el.setSelectionRange(el.value.length, el.value.length);
+    }
   }, [input]);
 
   const submit = () => {
