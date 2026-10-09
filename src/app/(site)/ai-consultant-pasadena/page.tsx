@@ -23,7 +23,7 @@ const clientTypes = [
   },
   {
     title: 'Real estate and property groups',
-    body: 'Chose Claude with a commercial real estate group, connected it to their SharePoint and trained the team to use it, plus an AI tool that reads public records, satellite imagery and news to assess power capacity for properties.',
+    body: 'For a commercial real estate group: Power Automate flows that clean sensitive financial data out of their SharePoint documents so Claude can work on them safely, team training, and a web app for checking power availability on prospective properties.',
   },
   {
     title: 'Wholesale, B2B and sales teams',
@@ -38,8 +38,8 @@ const clientTypes = [
     body: 'Multimodal AI that reads inspection reports and photos end-to-end and surfaces what matters. Processing time cut by two-thirds.',
   },
   {
-    title: 'Owners and executives',
-    body: 'Private assistants wired into email, calendar, documents and finances, self-hosted when the data should not leave their hands. Three running today.',
+    title: 'Film, media and mission-driven projects',
+    body: 'An agent that coordinates screenings for an independent documentary, from first inquiry to booked date, plus training the crew to use AI for outreach and marketing.',
   },
 ];
 

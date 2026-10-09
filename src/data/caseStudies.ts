@@ -12,7 +12,7 @@ export type CaseStudy = {
   image?: string;
   imageContain?: boolean;
   imageCenter?: boolean;
-  // Spans the full grid row as a text-led card
+  // Spans the full grid row as a text-led card (large type when also featured)
   wide?: boolean;
   // Shown on the homepage
   featured?: boolean;
@@ -21,12 +21,12 @@ export type CaseStudy = {
 export const caseStudies: CaseStudy[] = [
   {
     id: 'camco',
-    title: 'CAMCO: From Model Choice to Daily Use',
+    title: 'CAMCO: Claude on Sensitive Financials, Safely',
     services: ['Strategy', 'Deployment', 'Enablement'],
-    chip: 'Repeat Client',
+    chip: 'Active',
     chipType: 'active',
     description:
-      'A commercial real estate group, across two onsites and remote work in between. We weighed the Claude and OpenAI tiers against open-source models and chose Claude. I built Property Power, which assesses power availability from public records, satellite imagery and news, then built a SharePoint integration to their spec, prepped their documents for it, and trained the team to use it inside Claude.',
+      'A commercial real estate group, across two onsites and remote work in between. Their SharePoint held sensitive financial data, so I built Power Automate flows that clean it out of their documents before Claude can read them, then built the Claude integration to their spec and trained the team to use it day to day. I also built them a web app they can open anytime to check power availability and expansion potential on a prospective property, drawing on public records, satellite imagery and news.',
     wide: true,
     featured: true,
   },
@@ -66,8 +66,8 @@ export const caseStudies: CaseStudy[] = [
     id: 'screening-agent',
     title: 'Screening Coordination Agent',
     services: ['Deployment', 'Enablement'],
-    chip: 'Built',
-    chipType: 'built',
+    chip: 'Active',
+    chipType: 'active',
     description:
       'For an independent documentary: an agent that takes screening requests from first inquiry to booked date. It answers questions about the film, qualifies the venue, schedules, and hands off to the crew when something needs approval. Traced and evaluated. Plus a session training the crew to use AI for outreach and marketing.',
   },
@@ -75,19 +75,11 @@ export const caseStudies: CaseStudy[] = [
     id: 'home-inspection',
     title: 'Inspection Report Automation',
     services: ['Deployment'],
-    chip: 'Built',
-    chipType: 'built',
-    description:
-      'Multimodal AI that processes inspection reports end-to-end — parses documents, analyzes photos, surfaces what matters. Hundreds of reports through production, processing time cut by two-thirds.',
-  },
-  {
-    id: 'private-assistants',
-    title: 'Private Assistants for Owners and Executives',
-    services: ['Deployment'],
-    chip: '3 Active Clients',
+    chip: 'Active',
     chipType: 'active',
     description:
-      'An assistant wired into email, calendar, documents and finances that drafts replies, keeps the schedule, tracks bills and follows up. Claude Cowork or ChatGPT Work when that\'s enough; a self-hosted open-source assistant when the data shouldn\'t leave their hands. Three running today.',
+      'Multimodal AI that processes inspection reports end-to-end — parses documents, analyzes photos, surfaces what matters. Hundreds of reports through production, processing time cut by two-thirds.',
+    wide: true,
   },
 ];
 

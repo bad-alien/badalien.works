@@ -68,9 +68,6 @@ export default function ConsultHero() {
             primary={{ type: 'button', label: 'Talk to My AI', onClick: handleChatOpen }}
             secondary={{ type: 'link', label: 'Book a Call', href: '/contact#book' }}
           />
-          <p className="mt-8 text-sm text-text-secondary">
-            Scope and budget agreed before work starts, and I stay inside them.
-          </p>
         </motion.div>
       </motion.div>
 

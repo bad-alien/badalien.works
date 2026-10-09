@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import CaseStudyCard from '@/components/shared/CaseStudyCard';
+import CaseStudyCard, { StatusChip } from '@/components/shared/CaseStudyCard';
 import { caseStudies } from '@/data/caseStudies';
 
 type GridProject = {
@@ -12,6 +12,7 @@ type GridProject = {
   description: string;
   image?: string;
   url?: string;
+  chip?: string;
 };
 
 const gridProjects: GridProject[] = [
@@ -20,12 +21,14 @@ const gridProjects: GridProject[] = [
     title: 'Property Power',
     category: 'AI Tool',
     description: 'Analyzes public records, satellite imagery, and news to assess power availability and expansion potential.',
+    chip: 'Built',
   },
   {
     id: 'webscope',
     title: 'WebScope',
     category: 'Dev Tool',
     description: 'Crawls sites with Playwright, analyzes with Claude, outputs full architecture maps.',
+    chip: 'Built',
   },
 ];
 
@@ -97,10 +100,13 @@ export default function ConsultSelectedWork() {
                       />
                     </div>
                   )}
-                  {/* Category */}
-                  <span className="font-mono text-[11px] font-semibold text-[#0284C7] uppercase tracking-[0.08em] mb-2">
-                    {project.category}
-                  </span>
+                  {/* Category + status */}
+                  <div className="flex items-start justify-between gap-4 mb-2">
+                    <span className="font-mono text-[11px] font-semibold text-[#0284C7] uppercase tracking-[0.08em] pt-1">
+                      {project.category}
+                    </span>
+                    {project.chip && <StatusChip chip={project.chip} chipType="built" />}
+                  </div>
 
                   {/* Title */}
                   {project.url ? (
