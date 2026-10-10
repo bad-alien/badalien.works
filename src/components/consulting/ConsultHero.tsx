@@ -48,12 +48,14 @@ export default function ConsultHero() {
 
         {/* Subheadline */}
         <motion.p
-          className="text-xl sm:text-2xl md:text-3xl text-text-heading mb-12 max-w-3xl mx-auto leading-relaxed"
+          className="text-lg sm:text-xl md:text-2xl text-text-body mb-12 max-w-3xl mx-auto leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
-          Discovery-first engagements. Transparent pricing. Systems that actually work.
+          Too much of this market overcharges, over-promises, and profits from the gap between
+          people who know how to build with AI and people who don&apos;t. My goal is to help you
+          close that gap and operate independently.
         </motion.p>
 
         {/* CTAs */}

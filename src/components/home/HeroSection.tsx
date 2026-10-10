@@ -7,7 +7,7 @@ import { useLogoCycle } from '@/hooks/useLogoCycle';
 import HeroInteractive from './HeroInteractive';
 
 interface HeroSectionProps {
-  onChatActivated: () => void;
+  onChatActivated: (prompt: string) => void;
   onLearnMore?: () => void;
 }
 
@@ -64,10 +64,10 @@ export default function HeroSection({ onChatActivated, onLearnMore }: HeroSectio
     await animate('.logo-container', { scale: 0.28, opacity: 0 }, { duration: 0.4, ease: 'easeInOut' });
   }, [animate, stopCycling]);
 
-  const runChatSequence = useCallback(async () => {
+  const runChatSequence = useCallback(async (prompt: string) => {
     if (isExitingRef.current) return;
     await exitOverlay();
-    onChatActivated();
+    onChatActivated(prompt);
     await animate(scope.current!, { opacity: 0 }, { duration: 0.3, ease: 'easeIn' });
     sessionStorage.setItem(SEEN_KEY, 'true');
     setPhase('complete');

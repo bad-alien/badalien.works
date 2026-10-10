@@ -110,10 +110,9 @@ export default function ContactPage() {
 
   const serviceOptions = [
     { value: '', label: 'Select a service...' },
-    { value: 'ai-adoption', label: 'AI Adoption & Enablement' },
-    { value: 'custom-software', label: 'Custom Software & Automation' },
-    { value: 'design-growth', label: 'Design & Growth' },
-    { value: 'infrastructure', label: 'Infrastructure' },
+    { value: 'ai-enablement', label: 'AI Enablement' },
+    { value: 'ai-strategy', label: 'AI Strategy' },
+    { value: 'ai-deployment', label: 'AI Deployment' },
     { value: 'other', label: 'Other / Not Sure' }
   ];
 

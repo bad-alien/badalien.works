@@ -90,7 +90,11 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
     setPostAuditTurnCount,
     lastCtaInsertTurn,
     setLastCtaInsertTurn,
+    draft,
+    setDraft,
   } = useChat();
+
+  const clearDraft = useCallback(() => setDraft(null), [setDraft]);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const isRunningRef = useRef(false); // guards async callbacks against stale closures
@@ -564,6 +568,8 @@ export default function BusinessChatInterface({ compact = false }: BusinessChatI
             onSend={handleSendMessage}
             disabled={auditStep === 'running' || isRunning}
             placeholder={inputPlaceholder}
+            prefill={draft}
+            onPrefillConsumed={clearDraft}
           />
         </div>
       </div>

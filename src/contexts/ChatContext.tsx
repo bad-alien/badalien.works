@@ -27,6 +27,9 @@ type ChatContextType = {
   closeChat: () => void;
   entryPoint: EntryPoint;
   setEntryPoint: (entryPoint: EntryPoint) => void;
+  // Text to place in the chat input on open (the hero prompt); cleared once used
+  draft: string | null;
+  setDraft: (draft: string | null) => void;
   branch: ChatBranch;
   setBranch: (branch: ChatBranch) => void;
   auditStep: AuditStep;
@@ -59,6 +62,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   ]);
   const [chatView, setChatView] = useState<ChatView>('minimized');
   const [entryPoint, setEntryPoint] = useState<EntryPoint>('page');
+  const [draft, setDraft] = useState<string | null>(null);
   const [branch, setBranch] = useState<ChatBranch>('intro');
   const [auditStep, setAuditStep] = useState<AuditStep>('awaiting_url');
   const [sessionId, setSessionId] = useState<string | null>(null);
@@ -92,6 +96,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         closeChat,
         entryPoint,
         setEntryPoint,
+        draft,
+        setDraft,
         branch,
         setBranch,
         auditStep,

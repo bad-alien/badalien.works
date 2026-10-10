@@ -2,12 +2,11 @@
 
 import { motion } from 'framer-motion';
 import DualCta from '@/components/shared/DualCta';
+import { useChat } from '@/contexts/ChatContext';
 
-interface CtaSectionProps {
-  scrollToChat?: () => void;
-}
+export default function CtaSection() {
+  const { openChat, setEntryPoint } = useChat();
 
-export default function CtaSection({ scrollToChat }: CtaSectionProps) {
   return (
     <section className="py-32 px-4 bg-base relative overflow-hidden">
       {/* Background gradient accent */}
@@ -30,7 +29,14 @@ export default function CtaSection({ scrollToChat }: CtaSectionProps) {
 
         <DualCta
           primary={{ type: 'link', label: 'Book a Call', href: '/contact' }}
-          secondary={{ type: 'button', label: 'Or Ask My AI', onClick: scrollToChat ?? (() => {}) }}
+          secondary={{
+            type: 'button',
+            label: 'Or Ask My AI',
+            onClick: () => {
+              setEntryPoint('page');
+              openChat();
+            },
+          }}
           size="large"
         />
       </motion.div>

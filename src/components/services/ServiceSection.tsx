@@ -58,7 +58,7 @@ export default function ServiceSection({ service }: ServiceSectionProps) {
             variants={itemVariants}
             className="text-4xl md:text-6xl font-display font-light tracking-tight text-text-heading mb-8 leading-[1.1]"
           >
-            {service.title}
+            {service.shortTitle}
           </motion.h2>
 
           {/* Description */}

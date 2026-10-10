@@ -30,7 +30,6 @@ export interface Project {
 }
 
 // Service types
-export type ServiceCategory = 'AI' | 'Automation' | 'Design';
 export type ServiceStatus = 'Active' | 'Completed' | 'In Progress' | 'Planned';
 
 export interface ServiceDemo {
@@ -42,10 +41,12 @@ export interface ServiceDemo {
 export interface Service {
   id: string;
   number: string;
+  // Full name for schema, llms.txt, the chat prompt and accessible labels
   title: string;
+  // Card and section heading, where the AI context is already clear
+  shortTitle: string;
   description: string;
   status: ServiceStatus;
-  categories: ServiceCategory[];
   techStack: string[];
   demo: ServiceDemo;
   ctaLabel?: string;

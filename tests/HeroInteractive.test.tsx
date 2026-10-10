@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, fireEvent } from '@testing-library/react'
-import HeroInteractive from '@/components/home/HeroInteractive'
+import { render, screen, fireEvent, act } from '@testing-library/react'
+import HeroInteractive, { PROMPTS } from '@/components/home/HeroInteractive'
 
 // Mock next/link as a plain anchor
 vi.mock('next/link', () => ({
@@ -42,6 +42,31 @@ describe('HeroInteractive', () => {
     fireEvent.keyDown(input, { key: ' ' })
 
     expect(onActivateChat).toHaveBeenCalledTimes(3)
+    expect(onActivateChat).toHaveBeenCalledWith(PROMPTS[0])
+  })
+
+  it('hands the chat whichever prompt is on screen', () => {
+    vi.useFakeTimers()
+    try {
+      const onActivateChat = vi.fn()
+      render(<HeroInteractive onActivateChat={onActivateChat} onLearnMore={vi.fn()} />)
+
+      // Start delay, the first prompt typed out, the hold, then the second prompt starts
+      act(() => {
+        vi.advanceTimersByTime(600 + (PROMPTS[0].length + 1) * 30 + 1200 + 200 + 100)
+      })
+      fireEvent.click(screen.getByRole('button', { name: 'Start a chat' }))
+
+      expect(onActivateChat).toHaveBeenCalledWith(PROMPTS[1])
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('shows no tagline above the controls', () => {
+    render(<HeroInteractive onActivateChat={vi.fn()} onLearnMore={vi.fn()} />)
+
+    expect(screen.queryByText(/curiosity to capability/i)).not.toBeInTheDocument()
   })
 
   it('does not open chat when a key is typed anywhere on the page', () => {

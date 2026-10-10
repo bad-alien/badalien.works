@@ -1,12 +1,10 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { services } from '@/data/services';
+import { services, SERVICES_INTRO } from '@/data/services';
 import Link from 'next/link';
 
 export default function ServicesPreview() {
-  const displayServices = services.slice(0, 4);
-
   return (
     <section className="pt-36 pb-24 px-4 bg-base">
       <div className="max-w-6xl mx-auto">
@@ -21,12 +19,12 @@ export default function ServicesPreview() {
             What I Do
           </h2>
           <p className="text-xl text-text-secondary mb-16 max-w-2xl">
-            Whether I&apos;m teaching your team, cutting your costs, or building your system — transparency is fundamental, and my focus is making you capable of navigating AI on your own
+            {SERVICES_INTRO}
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {displayServices.map((service, index) => (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {services.map((service, index) => (
             <motion.div
               key={service.id}
               initial={{ opacity: 0, y: 40 }}
@@ -43,7 +41,7 @@ export default function ServicesPreview() {
                   {service.number}
                 </span>
                 <h3 className="text-2xl md:text-3xl font-bold text-text-heading mt-4 mb-4">
-                  {service.title}
+                  {service.shortTitle}
                 </h3>
                 <p className="text-text-body text-base md:text-lg leading-relaxed">
                   {service.description}
